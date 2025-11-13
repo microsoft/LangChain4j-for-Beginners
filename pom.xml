@@ -22,7 +22,7 @@
     <!-- Use Java 21 by default.  Override by setting the
          JAVA_HOME environment variable or the `java.version` property -->
     <java.version>21</java.version>
-    <spring.boot.version>3.3.4</spring.boot.version>
+    <spring.boot.version>3.5.7</spring.boot.version>
     <!-- Set the LangChain4j version to a recent stable release -->
     <langchain4j.version>1.8.0</langchain4j.version>
     <!-- MCP support requires beta version -->

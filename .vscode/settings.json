@@ -2,5 +2,6 @@
     "java.server.launchMode": "Standard",
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.import.maven.enabled": true,
-    "spring-boot.ls.checkJVM": false
+    "spring-boot.ls.checkJVM": false,
+    "java.compile.nullAnalysis.mode": "automatic"
 }

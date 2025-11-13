@@ -8,7 +8,7 @@ import com.example.langchain4j.rag.service.RagService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,23 +33,22 @@ class RagControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private RagService ragService;
 
     @Test
     void testAskWithValidQuestion() throws Exception {
         // Given
         RagRequest request = new RagRequest("What is Azure OpenAI?", "conv-123", 5);
-        
+
         List<SourceReference> sources = new ArrayList<>();
         sources.add(new SourceReference("doc.pdf", "Azure OpenAI provides...", 0.95));
-        
+
         RagResponse response = new RagResponse(
-            "Azure OpenAI is a cloud service...",
-            "conv-123",
-            sources
-        );
-        
+                "Azure OpenAI is a cloud service...",
+                "conv-123",
+                sources);
+
         when(ragService.ask(any(RagRequest.class))).thenReturn(response);
 
         // When & Then
@@ -68,7 +67,8 @@ class RagControllerTest {
         // Given - Using JSON directly to bypass record validation
         String requestJson = "{\"question\":\"\",\"conversationId\":\"conv-123\",\"maxResults\":5}";
 
-        // When & Then - The controller should return 400 with no body (Spring validation error)
+        // When & Then - The controller should return 400 with no body (Spring
+        // validation error)
         mockMvc.perform(post("/api/rag/ask")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
@@ -92,7 +92,7 @@ class RagControllerTest {
         // Given
         RagRequest request = new RagRequest("What is Azure OpenAI?", "conv-123", 5);
         when(ragService.ask(any(RagRequest.class)))
-            .thenThrow(new RuntimeException("Service error"));
+                .thenThrow(new RuntimeException("Service error"));
 
         // When & Then
         mockMvc.perform(post("/api/rag/ask")
