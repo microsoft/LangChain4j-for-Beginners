@@ -78,28 +78,21 @@ public class RagService {
             // 1. Embed the question
             Embedding questionEmbedding = embeddingModel.embed(request.question()).content();
             
-            // 2. Find relevant document segments using search (no minScore to see all results)
+            // 2. Find relevant document segments using search with minScore
             EmbeddingSearchRequest searchRequest = EmbeddingSearchRequest.builder()
                 .queryEmbedding(questionEmbedding)
                 .maxResults(MAX_RESULTS)
+                .minScore(MIN_SCORE)
                 .build();
             
             EmbeddingSearchResult<TextSegment> searchResult = embeddingStore.search(searchRequest);
             List<EmbeddingMatch<TextSegment>> matches = searchResult.matches();
             
-            log.info("Found {} total matches for question", matches.size());
-            matches.forEach(match -> log.info("Match score: {:.4f}", match.score()));
+            log.info("Found {} matches above MIN_SCORE {} for question", matches.size(), MIN_SCORE);
+            matches.forEach(match -> log.info("Match score: {}", String.format("%.4f", match.score())));
             
-            // Filter by minimum score manually
-            List<EmbeddingMatch<TextSegment>> filteredMatches = matches.stream()
-                .filter(match -> match.score() >= MIN_SCORE)
-                .toList();
-            
-            log.info("After filtering with MIN_SCORE {}: {} matches", MIN_SCORE, filteredMatches.size());
-            
-            if (filteredMatches.isEmpty()) {
-                log.warn("No relevant documents found for question: '{}' (tried {} total results)", 
-                    request.question(), matches.size());
+            if (matches.isEmpty()) {
+                log.warn("No relevant documents found for question: '{}'", request.question());
                 return new RagResponse(
                     "I cannot answer this question based on the provided documents. " +
                     "Please try asking something related to the uploaded content.",
@@ -109,7 +102,7 @@ public class RagService {
             }
             
             // 3. Build context from retrieved segments
-            String context = filteredMatches.stream()
+            String context = matches.stream()
                 .map(match -> match.embedded().text())
                 .collect(Collectors.joining("\n\n"));
             
@@ -129,7 +122,7 @@ public class RagService {
             String answer = chatModel.chat(prompt);
             
             // 6. Build source references
-            List<SourceReference> sources = filteredMatches.stream()
+            List<SourceReference> sources = matches.stream()
                 .map(match -> {
                     TextSegment segment = match.embedded();
                     String filename = segment.metadata().getString("filename");

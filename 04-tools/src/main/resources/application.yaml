@@ -9,16 +9,12 @@ server:
   error:
     include-message: always
 
-# Azure OpenAI and Agent configuration
+# Azure OpenAI configuration
 azure:
   openai:
     endpoint: ${AZURE_OPENAI_ENDPOINT:}
     api-key: ${AZURE_OPENAI_API_KEY:}
     deployment: ${AZURE_OPENAI_DEPLOYMENT:}
-  ai:
-    agent:
-      tools:
-        base-url: ${TOOLS_BASE_URL:http://localhost:8084}
 
 # Spring Boot Actuator
 management:

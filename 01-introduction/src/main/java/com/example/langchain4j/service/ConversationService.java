@@ -80,24 +80,13 @@ public class ConversationService {
         // Get all messages for context
         List<ChatMessage> messages = memory.messages();
 
-        // Build context from conversation history
-        StringBuilder context = new StringBuilder();
-        for (ChatMessage msg : messages) {
-            if (msg instanceof UserMessage userMessage1) {
-                context.append("User: ").append(userMessage1.singleText()).append("\n");
-            } else if (msg instanceof AiMessage aiMessage) {
-                context.append("Assistant: ").append(aiMessage.text()).append("\n");
-            }
-        }
-
-        // Generate response using chat method
-        String response = chatModel.chat(context.toString());
+        // Generate response using chat method with message list
+        AiMessage aiMessage = chatModel.chat(messages).aiMessage();
 
         // Add AI response to memory
-        AiMessage aiMessage = AiMessage.from(response);
         memory.add(aiMessage);
 
-        return response;
+        return aiMessage.text();
     }
 
     /**

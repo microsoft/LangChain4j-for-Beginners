@@ -47,7 +47,7 @@ This module demonstrates advanced prompting patterns using the same LangChain4j 
 
 *How LangChain4j connects your prompts to Azure OpenAI GPT-5*
 
-**Dependencies** - Same core libraries as Module 01:
+**Dependencies** - Module 02 uses the following langchain4j dependencies defined in `pom.xml`:
 ```xml
 <dependency>
     <groupId>dev.langchain4j</groupId>

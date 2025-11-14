@@ -5,15 +5,17 @@ spring:
   application:
     name: langchain4j-getting-started
 
-# Azure OpenAI Configuration
-# These values can be overridden by environment variables
-azure:
-  openai:
-    endpoint: ${AZURE_OPENAI_ENDPOINT:}
-    api-key: ${AZURE_OPENAI_API_KEY:}
-    deployment: ${AZURE_OPENAI_DEPLOYMENT:}
-    reasoning-effort: medium  # low, medium, high (for GPT-5)
-    max-tokens: 1000
+# LangChain4j Azure OpenAI Spring Boot Starter Configuration
+# The starter auto-configures AzureOpenAiChatModel based on these properties
+langchain4j:
+  azure-open-ai:
+    chat-model:
+      endpoint: ${AZURE_OPENAI_ENDPOINT:}
+      api-key: ${AZURE_OPENAI_API_KEY:}
+      deployment-name: ${AZURE_OPENAI_DEPLOYMENT:}
+      max-completion-tokens: 1000
+      log-requests-and-responses: false
+      max-retries: 3
 
 # Spring Boot Actuator
 management:

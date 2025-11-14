@@ -78,7 +78,7 @@ interface Assistant {
 }
 
 Assistant assistant = AiServices.builder(Assistant.class)
-    .chatLanguageModel(model)
+    .chatModel(model)
     .tools(new WeatherTool())
     .build();
 ```
@@ -94,7 +94,7 @@ When a user asks "What's the weather in Seattle?", the model recognizes it needs
 
 **Execution** - [AgentService.java](src/main/java/com/example/langchain4j/agents/service/AgentService.java)
 
-Your code intercepts the function call, executes the actual weather lookup (via API or database), and returns the result to the model.
+LangChain4j intercepts the function call, executes the Java method directly, and returns the result to the model automatically.
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`AgentService.java`](src/main/java/com/example/langchain4j/agents/service/AgentService.java) and ask:
 > - "How does the ReAct pattern work and why is it effective for AI agents?"
@@ -104,6 +104,25 @@ Your code intercepts the function call, executes the actual weather lookup (via 
 **Response Generation**
 
 The model receives the weather data and formats it into a natural language response for the user.
+
+### Why Use AiServices with Tools?
+
+LangChain4j's `AiServices` framework handles all the complexity of tool calling:
+
+- **Automatic schema generation** - Tool descriptions are converted to function schemas
+- **Type-safe execution** - Java methods called directly with type conversion
+- **Multi-turn orchestration** - Handles tool chaining automatically
+- **Error handling** - Propagates exceptions cleanly
+- **Zero boilerplate** - No manual parsing, HTTP calls, or result formatting
+
+The alternative (manual implementation) requires:
+- Writing tool schemas as strings
+- Parsing LLM responses with regex
+- Manual parameter extraction and type conversion
+- Implementing ReAct loop with iteration limits
+- Error handling at each step
+
+With `AiServices.builder().tools()`, all of this is automatic.
 
 ## Tool Chaining
 
@@ -186,23 +205,13 @@ Start with a straightforward request: "Convert 100 degrees Fahrenheit to Celsius
 
 Now try something more complex: "What's the weather in Seattle and convert it to Fahrenheit?" Watch the agent work through this in steps. It first gets the weather (which returns Celsius), recognizes it needs to convert to Fahrenheit, calls the conversion tool, and combines both results into one response.
 
-<a href="images/tools-chaining-demo.png"><img src="images/tools-chaining-demo.png" alt="Tool Chaining in Action" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
-
-*Agent using multiple tools - weather lookup followed by temperature conversion*
-
 **See Conversation Flow**
 
-<a href="images/tools-chaining-demo.png"><img src="images/tools-chaining-demo.png" alt="Tool Chaining in Action" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
-
-*Agent using multiple tools - weather lookup followed by temperature conversion*
-
-**Observe the Reasoning**
-
-The interface shows you which tools were called. This visibility into the agent's decision-making helps you understand how it breaks down complex requests into tool executions.
+The chat interface maintains conversation history, allowing you to have multi-turn interactions. You can see all previous queries and responses, making it easy to track the conversation and understand how the agent builds context over multiple exchanges.
 
 <a href="images/tools-conversation-demo.png"><img src="images/tools-conversation-demo.png" alt="Conversation with Multiple Tool Calls" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*Multi-turn conversation showing both single tool usage and tool chaining*
+*Multi-turn conversation showing simple conversions, weather lookups, and tool chaining*
 
 **Experiment with Different Requests**
 

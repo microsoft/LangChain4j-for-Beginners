@@ -1,7 +1,9 @@
 package com.example.langchain4j.service;
 
+import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.model.azure.AzureOpenAiChatModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,8 @@ import org.mockito.quality.Strictness;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -41,7 +44,10 @@ class SimpleConversationTest {
     @BeforeEach
     void setUp() {
         // Set up default mock behavior - return a simple response
-        when(mockChatModel.chat(anyString())).thenReturn("This is a test response");
+        AiMessage defaultMessage = AiMessage.from("This is a test response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(defaultMessage);
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
         
         conversationService = new ConversationService(mockChatModel);
     }
@@ -77,10 +83,17 @@ class SimpleConversationTest {
         String conversationId = conversationService.startConversation();
         
         // Configure mock to return different responses
-        when(mockChatModel.chat(anyString()))
-            .thenReturn("Response 1")
-            .thenReturn("Response 2")
-            .thenReturn("Response 3");
+        ChatResponse mockResponse1 = mock(ChatResponse.class);
+        when(mockResponse1.aiMessage()).thenReturn(AiMessage.from("Response 1"));
+        ChatResponse mockResponse2 = mock(ChatResponse.class);
+        when(mockResponse2.aiMessage()).thenReturn(AiMessage.from("Response 2"));
+        ChatResponse mockResponse3 = mock(ChatResponse.class);
+        when(mockResponse3.aiMessage()).thenReturn(AiMessage.from("Response 3"));
+        
+        when(mockChatModel.chat(anyList()))
+            .thenReturn(mockResponse1)
+            .thenReturn(mockResponse2)
+            .thenReturn(mockResponse3);
 
         // When
         conversationService.chat(conversationId, "First message");
@@ -98,7 +111,9 @@ class SimpleConversationTest {
         // Given
         String conversationId = conversationService.startConversation();
         
-        when(mockChatModel.chat(anyString())).thenReturn("Response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(AiMessage.from("Response"));
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
 
         // When
         conversationService.chat(conversationId, "Tell me about Java");
@@ -117,7 +132,9 @@ class SimpleConversationTest {
         String conv1 = conversationService.startConversation();
         String conv2 = conversationService.startConversation();
         
-        when(mockChatModel.chat(anyString())).thenReturn("Response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(AiMessage.from("Response"));
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
 
         // When
         conversationService.chat(conv1, "Message for conversation 1");
@@ -137,7 +154,9 @@ class SimpleConversationTest {
     void shouldClearConversation() {
         // Given
         String conversationId = conversationService.startConversation();
-        when(mockChatModel.chat(anyString())).thenReturn("Response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(AiMessage.from("Response"));
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
         conversationService.chat(conversationId, "Test message");
 
         // When
@@ -152,7 +171,9 @@ class SimpleConversationTest {
     void shouldAutoCreateConversationIfNotExists() {
         // Given
         String nonExistentId = "non-existent-conversation-id";
-        when(mockChatModel.chat(anyString())).thenReturn("Response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(AiMessage.from("Response"));
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
 
         // When
         String response = conversationService.chat(nonExistentId, "Test message");
@@ -167,7 +188,9 @@ class SimpleConversationTest {
     void shouldRespectMaxMessageWindow() {
         // Given
         String conversationId = conversationService.startConversation();
-        when(mockChatModel.chat(anyString())).thenReturn("Response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(AiMessage.from("Response"));
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
 
         // When - Send 12 messages (6 exchanges = 6 user + 6 AI messages = 12 total)
         for (int i = 1; i <= 6; i++) {

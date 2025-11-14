@@ -78,29 +78,30 @@ This module builds on the quick start by adding Spring Boot and conversation mem
 </dependency>
 <dependency>
     <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-azure-open-ai</artifactId> <!-- Inherited from BOM in root pom.xml -->
+    <artifactId>langchain4j-azure-open-ai-spring-boot-starter</artifactId> <!-- Inherited from BOM in root pom.xml -->
 </dependency>
 ```
 
-**AzureOpenAiChatModel** - [LangChainConfig.java](src/main/java/com/example/langchain4j/config/LangChainConfig.java)
+**AzureOpenAiChatModel** - Auto-configured by Spring Boot Starter
 
-Instead of the generic `OpenAiChatModel` from the quick start, we use `AzureOpenAiChatModel` which connects directly to Azure OpenAI. Spring Boot configures it as a bean using your Azure credentials (endpoint, API key, deployment name).
+Instead of the generic `OpenAiChatModel` from the quick start, we use `AzureOpenAiChatModel` which connects directly to Azure OpenAI. The `langchain4j-azure-open-ai-spring-boot-starter` automatically configures it as a Spring bean using properties from `application.yaml`.
 
-```java
-@Bean
-public AzureOpenAiChatModel chatModel() {
-    return AzureOpenAiChatModel.builder()
-        .endpoint(azureOpenAiEndpoint)
-        .apiKey(azureOpenAiKey)
-        .deploymentName(azureOpenAiDeploymentName)
-        .build();
-}
+```yaml
+langchain4j:
+  azure-open-ai:
+    chat-model:
+      endpoint: ${AZURE_OPENAI_ENDPOINT:}
+      api-key: ${AZURE_OPENAI_API_KEY:}
+      deployment-name: ${AZURE_OPENAI_DEPLOYMENT:}
+      max-completion-tokens: 1000
 ```
 
-> **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`LangChainConfig.java`](src/main/java/com/example/langchain4j/config/LangChainConfig.java) and ask:
-> - "What's the difference between AzureOpenAiChatModel and OpenAiChatModel?"
-> - "Why does GPT-5 use maxCompletionTokens instead of maxTokens?"
-> - "How can I configure different timeout values or retry policies?"
+The starter eliminates the need for manual configuration code - just add the dependency and set the properties, and Spring Boot creates the `AzureOpenAiChatModel` bean automatically.
+
+> **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`application.yaml`](src/main/resources/application.yaml) and ask:
+> - "What other Azure OpenAI properties can I configure with the Spring Boot starter?"
+> - "How does the Spring Boot starter auto-configuration work?"
+> - "Can I customize the AzureOpenAiChatModel bean if needed?"
 
 **MessageWindowChatMemory & Message Types** - [ConversationService.java](src/main/java/com/example/langchain4j/service/ConversationService.java)
 
@@ -122,7 +123,7 @@ memory.add(AiMessage.from(response));
 > - "Can I implement custom memory storage using a database instead of in-memory?"
 > - "How would I add summarization to compress old conversation history?"
 
-The stateless chat endpoint skips memory entirely - just `chatModel.chat(prompt)` like the quick start. The stateful endpoint adds messages to memory, retrieves history, and includes that context with each request. Same model, different patterns.
+The stateless chat endpoint skips memory entirely - just `chatModel.chat(prompt)` like the quick start. The stateful endpoint adds messages to memory, retrieves history, and includes that context with each request. Same auto-configured model, different patterns.
 
 ## Deploy Azure OpenAI Infrastructure
 

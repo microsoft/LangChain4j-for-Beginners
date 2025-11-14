@@ -108,12 +108,18 @@ When testing conversation logic, use Mockito to create fake models that return p
 @ExtendWith(MockitoExtension.class)
 class SimpleConversationTest {
     
+    private ConversationService conversationService;
+    
     @Mock
     private AzureOpenAiChatModel mockChatModel;
     
     @BeforeEach
     void setUp() {
-        when(mockChatModel.chat(anyString())).thenReturn("Test response");
+        AiMessage defaultMessage = AiMessage.from("This is a test response");
+        ChatResponse mockResponse = mock(ChatResponse.class);
+        when(mockResponse.aiMessage()).thenReturn(defaultMessage);
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
+        
         conversationService = new ConversationService(mockChatModel);
     }
     
@@ -121,10 +127,17 @@ class SimpleConversationTest {
     void shouldMaintainConversationHistory() {
         String conversationId = conversationService.startConversation();
         
-        when(mockChatModel.chat(anyString()))
-            .thenReturn("Response 1")
-            .thenReturn("Response 2")
-            .thenReturn("Response 3");
+        ChatResponse mockResponse1 = mock(ChatResponse.class);
+        when(mockResponse1.aiMessage()).thenReturn(AiMessage.from("Response 1"));
+        ChatResponse mockResponse2 = mock(ChatResponse.class);
+        when(mockResponse2.aiMessage()).thenReturn(AiMessage.from("Response 2"));
+        ChatResponse mockResponse3 = mock(ChatResponse.class);
+        when(mockResponse3.aiMessage()).thenReturn(AiMessage.from("Response 3"));
+        
+        when(mockChatModel.chat(anyList()))
+            .thenReturn(mockResponse1)
+            .thenReturn(mockResponse2)
+            .thenReturn(mockResponse3);
 
         conversationService.chat(conversationId, "First message");
         conversationService.chat(conversationId, "Second message");
@@ -152,7 +165,9 @@ void shouldIsolateConversationsByid() {
     String conv1 = conversationService.startConversation();
     String conv2 = conversationService.startConversation();
     
-    when(mockChatModel.chat(anyString())).thenReturn("Response");
+    ChatResponse mockResponse = mock(ChatResponse.class);
+    when(mockResponse.aiMessage()).thenReturn(AiMessage.from("Response"));
+    when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
 
     conversationService.chat(conv1, "Message for conversation 1");
     conversationService.chat(conv2, "Message for conversation 2");

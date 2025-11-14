@@ -22,7 +22,7 @@ public class ChatController {
 
   /**
    * Constructor injection of the chat model bean.
-   * Model is configured via LangChainConfig or environment variables.
+   * Model is auto-configured by langchain4j-azure-open-ai-spring-boot-starter.
    *
    * @param model configured Azure OpenAI chat model
    */
