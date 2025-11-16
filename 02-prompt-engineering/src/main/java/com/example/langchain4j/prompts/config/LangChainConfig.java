@@ -11,8 +11,10 @@ import java.time.Duration;
 /**
  * Configuration for LangChain4j with GPT-5 support.
  * 
- * GPT-5 uses reasoning effort levels (low, medium, high) instead of temperature.
- * This controls the depth of reasoning the model applies to responses.
+ * Note: For GPT-5 reasoning effort is controlled through prompt engineering
+ * rather than model configuration parameters. See Gpt5PromptService for examples of how to
+ * use prompts like "<reasoning_effort>low</reasoning_effort>" to control model behavior.
+ * 
  */
 @Configuration
 public class LangChainConfig {
@@ -26,12 +28,12 @@ public class LangChainConfig {
     @Value("${azure.openai.deployment:gpt-5}")
     private String deploymentName;
 
-    @Value("${azure.openai.reasoning-effort:medium}")
-    private String reasoningEffort;
-
     @Value("${azure.openai.max-completion-tokens:2000}")
     private Integer maxCompletionTokens;
 
+    /**
+     * Primary chat model for general use.
+     */
     @Bean
     @Primary
     public AzureOpenAiChatModel chatLanguageModel() {
@@ -41,38 +43,6 @@ public class LangChainConfig {
                 .deploymentName(deploymentName)
                 .maxCompletionTokens(maxCompletionTokens)
                 .timeout(Duration.ofMinutes(5))  // GPT-5 reasoning can take time
-                .logRequestsAndResponses(true)
-                .build();
-    }
-
-    /**
-     * Optional: Bean for low reasoning effort (faster, less thorough)
-     * Use this for simple tasks requiring quick responses
-     */
-    @Bean("quickModel")
-    public AzureOpenAiChatModel quickChatModel() {
-        return AzureOpenAiChatModel.builder()
-                .endpoint(azureEndpoint)
-                .apiKey(azureApiKey)
-                .deploymentName(deploymentName)
-                .maxCompletionTokens(maxCompletionTokens)
-                .timeout(Duration.ofMinutes(5))
-                .logRequestsAndResponses(true)
-                .build();
-    }
-
-    /**
-     * Optional: Bean for high reasoning effort (slower, more thorough)
-     * Use this for complex tasks requiring deep reasoning
-     */
-    @Bean("thoroughModel")
-    public AzureOpenAiChatModel thoroughChatModel() {
-        return AzureOpenAiChatModel.builder()
-                .endpoint(azureEndpoint)
-                .apiKey(azureApiKey)
-                .deploymentName(deploymentName)
-                .maxCompletionTokens(maxCompletionTokens)
-                .timeout(Duration.ofMinutes(5))
                 .logRequestsAndResponses(true)
                 .build();
     }

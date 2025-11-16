@@ -114,8 +114,8 @@ memory.add(UserMessage.from("My name is John"));
 memory.add(AiMessage.from("Nice to meet you, John!"));
 
 memory.add(UserMessage.from("What's my name?"));
-String response = chatModel.chat(memory.messages());
-memory.add(AiMessage.from(response));
+AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
+memory.add(aiMessage);
 ```
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`ConversationService.java`](src/main/java/com/example/langchain4j/service/ConversationService.java) and ask:

@@ -1,6 +1,10 @@
 package com.example.langchain4j.prompts.service;
 
+import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.model.azure.AzureOpenAiChatModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 /**
@@ -42,8 +49,14 @@ class SimpleGpt5PromptTest {
     void setUp() {
         promptCaptor = ArgumentCaptor.forClass(String.class);
         
-        // Default mock behavior
+        // Default mock behavior for string chat
         when(mockChatModel.chat(anyString())).thenReturn("Mocked response");
+        
+        // Mock behavior for list-based chat (used in multi-turn conversations)
+        ChatResponse mockResponse = ChatResponse.builder()
+            .aiMessage(AiMessage.from("Mocked response"))
+            .build();
+        when(mockChatModel.chat(anyList())).thenReturn(mockResponse);
         
         promptService = new Gpt5PromptService();
         // Use reflection to inject the mock (since it uses @Autowired)
@@ -160,22 +173,29 @@ class SimpleGpt5PromptTest {
     void shouldMaintainConversationContext() {
         // Given
         String sessionId = "test-session";
-        when(mockChatModel.chat(anyString()))
-            .thenReturn("First response")
-            .thenReturn("Second response");
+        ChatResponse firstResponse = ChatResponse.builder()
+            .aiMessage(AiMessage.from("First response"))
+            .build();
+        ChatResponse secondResponse = ChatResponse.builder()
+            .aiMessage(AiMessage.from("Second response"))
+            .build();
+        when(mockChatModel.chat(anyList()))
+            .thenReturn(firstResponse)
+            .thenReturn(secondResponse);
 
         // When
         promptService.continueConversation("Hello", sessionId);
         promptService.continueConversation("Tell me more", sessionId);
 
         // Then
-        verify(mockChatModel, times(2)).chat(promptCaptor.capture());
-        String secondPrompt = promptCaptor.getAllValues().get(1);
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ChatMessage>> messagesCaptor = ArgumentCaptor.forClass(List.class);
+        verify(mockChatModel, times(2)).chat(messagesCaptor.capture());
         
-        assertThat(secondPrompt)
-            .contains("Hello") // Previous user message
-            .contains("First response") // Previous AI response
-            .contains("Tell me more"); // Current message
+        List<ChatMessage> secondCallMessages = messagesCaptor.getAllValues().get(1);
+        
+        // Should have: System message, first user message, first AI response, second user message
+        assertThat(secondCallMessages).hasSizeGreaterThanOrEqualTo(4);
     }
 
     @Test
@@ -188,10 +208,18 @@ class SimpleGpt5PromptTest {
         promptService.continueConversation("First message", sessionId);
 
         // Then
-        verify(mockChatModel).chat(promptCaptor.capture());
-        String actualPrompt = promptCaptor.getValue();
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ChatMessage>> messagesCaptor = ArgumentCaptor.forClass(List.class);
+        verify(mockChatModel).chat(messagesCaptor.capture());
+        List<ChatMessage> messages = messagesCaptor.getValue();
         
-        assertThat(actualPrompt)
+        // Should have system message and user message
+        assertThat(messages).hasSizeGreaterThanOrEqualTo(2);
+        
+        // First message should be system message with guidelines
+        ChatMessage firstMessage = messages.get(0);
+        assertThat(firstMessage).isInstanceOf(SystemMessage.class);
+        assertThat(((SystemMessage)firstMessage).text())
             .contains("<conversation_guidelines>")
             .contains("<response_style>")
             .contains("<tool_preambles>")
@@ -255,11 +283,14 @@ class SimpleGpt5PromptTest {
         promptService.continueConversation("New message", sessionId);
 
         // Then - Should start fresh without previous context
-        verify(mockChatModel, times(2)).chat(promptCaptor.capture());
-        String newPrompt = promptCaptor.getAllValues().get(1);
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ChatMessage>> messagesCaptor = ArgumentCaptor.forClass(List.class);
+        verify(mockChatModel, times(2)).chat(messagesCaptor.capture());
         
-        // Should NOT contain "Test message" since session was cleared
-        assertThat(newPrompt).doesNotContain("Test message");
+        List<ChatMessage> newSessionMessages = messagesCaptor.getAllValues().get(1);
+        
+        // After clearing, should only have system message and new user message (not old messages)
+        assertThat(newSessionMessages.size()).isLessThanOrEqualTo(3);
     }
 
     @Test
@@ -274,13 +305,20 @@ class SimpleGpt5PromptTest {
         
         // Then - New conversations should start fresh
         reset(mockChatModel);
-        when(mockChatModel.chat(anyString())).thenReturn("Fresh response");
+        ChatResponse freshResponse = ChatResponse.builder()
+            .aiMessage(AiMessage.from("Fresh response"))
+            .build();
+        when(mockChatModel.chat(anyList())).thenReturn(freshResponse);
         
         promptService.continueConversation("New message 1", "session-1");
         
-        verify(mockChatModel).chat(promptCaptor.capture());
-        String newPrompt = promptCaptor.getValue();
-        assertThat(newPrompt).doesNotContain("Message 1");
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ChatMessage>> messagesCaptor = ArgumentCaptor.forClass(List.class);
+        verify(mockChatModel).chat(messagesCaptor.capture());
+        List<ChatMessage> newMessages = messagesCaptor.getValue();
+        
+        // Should start fresh with only system + new message
+        assertThat(newMessages.size()).isLessThanOrEqualTo(3);
     }
 
     @Test

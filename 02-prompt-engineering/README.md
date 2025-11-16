@@ -216,12 +216,12 @@ String response = chatModel.chat(prompt);
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
 
 memory.add(UserMessage.from("What is Spring Boot?"));
-String response1 = chatModel.chat(memory.messages());
-memory.add(AiMessage.from(response1));
+AiMessage aiMessage1 = chatModel.chat(memory.messages()).aiMessage();
+memory.add(aiMessage1);
 
 memory.add(UserMessage.from("Show me an example"));
-String response2 = chatModel.chat(memory.messages());
-memory.add(AiMessage.from(response2));
+AiMessage aiMessage2 = chatModel.chat(memory.messages()).aiMessage();
+memory.add(aiMessage2);
 ```
 
 <img src="images/context-memory.png" alt="Context Memory" width="800"/>

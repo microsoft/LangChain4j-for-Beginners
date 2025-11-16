@@ -12,7 +12,10 @@ azure:
     endpoint: ${AZURE_OPENAI_ENDPOINT:}
     api-key: ${AZURE_OPENAI_API_KEY:}
     deployment: ${AZURE_OPENAI_DEPLOYMENT:}
-    reasoning-effort: low  # low = faster demo responses, medium/high = deeper reasoning
+    # Note: GPT-5 reasoning effort is controlled via prompt engineering, not model configuration.
+    # See Gpt5PromptService.java for examples of low/high eagerness prompting patterns.
+    # This property exists but is not currently used by the model beans.
+    reasoning-effort: medium  # Default value (not currently used in model configuration)
     max-completion-tokens: 8000  # Balanced for GPT-5: reasoning + output
 
 # Spring Boot Actuator

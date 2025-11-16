@@ -227,30 +227,13 @@ public class Gpt5PromptService {
         // Add user message
         chatMemory.add(UserMessage.from(userMessage));
 
-        // Generate response using chat() for string list
-        String response = chatModel.chat(buildContextString(chatMemory));
+        // Generate response using LangChain4j's proper message handling
+        AiMessage aiMessage = chatModel.chat(chatMemory.messages()).aiMessage();
         
-        // Store assistant's response
-        chatMemory.add(AiMessage.from(response));
+        // Store assistant's response in memory
+        chatMemory.add(aiMessage);
 
-        return response;
-    }
-    
-    /**
-     * Helper method to build context string from chat memory
-     */
-    private String buildContextString(ChatMemory chatMemory) {
-        StringBuilder context = new StringBuilder();
-        chatMemory.messages().forEach(msg -> {
-            if (msg instanceof SystemMessage) {
-                context.append("System: ").append(((SystemMessage)msg).text()).append("\n\n");
-            } else if (msg instanceof UserMessage) {
-                context.append("User: ").append(((UserMessage)msg).singleText()).append("\n\n");
-            } else if (msg instanceof AiMessage) {
-                context.append("Assistant: ").append(((AiMessage)msg).text()).append("\n\n");
-            }
-        });
-        return context.toString();
+        return aiMessage.text();
     }
 
     /**
