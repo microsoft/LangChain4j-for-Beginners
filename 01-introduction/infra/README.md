@@ -39,9 +39,9 @@ The infrastructure deploys the following Azure resources:
 ### Local Development
 All Spring Boot applications run locally on your machine:
 - 01-introduction (port 8080)
-- 02-prompt-engineering (port 8080)
+- 02-prompt-engineering (port 8083)
 - 03-rag (port 8081)
-- 04-tools (port 8082)
+- 04-tools (port 8084)
 
 ## Resources Created
 

@@ -198,7 +198,9 @@ The application spawns a filesystem MCP server automatically and reads a local f
 
 This demonstrates containerized tool servers.
 
-**⚠️ Prerequisite:** You need to build the Docker image first (see Terminal 1 below).
+**⚠️ Prerequisites:** 
+1. **Docker Desktop must be RUNNING** (not just installed). Verify with: `docker ps`
+2. Build the Docker image first (see Terminal 1 below)
 
 **Terminal 1 - Build the Docker image:**
 ```bash

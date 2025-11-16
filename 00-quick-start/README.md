@@ -152,7 +152,7 @@ Start here to see LangChain4j at its simplest. You'll create an `OpenAiChatModel
 ChatLanguageModel model = OpenAiChatModel.builder()
     .baseUrl("https://models.github.ai/inference")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4o-mini")
+    .modelName("gpt-4.1-nano")
     .build();
 
 String response = model.chat("What is LangChain4j?");
@@ -226,6 +226,78 @@ String response = model.chat(prompt);
 > - "What's the difference between this simple approach and using vector embeddings for retrieval?"
 > - "How would I scale this to handle multiple documents or larger knowledge bases?"
 > - "What are best practices for structuring the prompt to ensure the AI uses only the provided context?"
+
+## Troubleshooting
+
+### Error: "GITHUB_TOKEN not found"
+
+**Problem:** Environment variable not set or not accessible.
+
+**Solutions:**
+
+1. **VS Code users:**
+   - Ensure `.env` file is in the project **root directory** (`LangChain4j-for-Beginners/.env`), not in the module folder
+   - Restart VS Code after creating the `.env` file
+   - Check file contents: `GITHUB_TOKEN=your_token_without_quotes`
+
+2. **Terminal users:**
+   - Verify the variable is set: `echo $GITHUB_TOKEN` (macOS/Linux) or `echo $env:GITHUB_TOKEN` (Windows PowerShell)
+   - If empty, re-run the export/set command in your current shell session
+   - Note: Environment variables are session-specific - you'll need to set them again in new terminal windows
+
+### Error: Maven command fails on Windows PowerShell
+
+**Problem:** PowerShell interprets `-Dexec.mainClass` parameter incorrectly.
+
+**Solution:** Use quotes around the Maven parameter:
+```powershell
+mvn compile exec:java "-Dexec.mainClass=com.example.langchain4j.quickstart.BasicChatDemo"
+```
+
+### Error: "Cannot find file document.txt"
+
+**Problem:** Running the demo from the wrong directory.
+
+**Solution:** Make sure you're in the `00-quick-start` directory:
+```bash
+cd 00-quick-start
+mvn compile exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderDemo"
+```
+
+### Error: "Unauthorized" or "Invalid authentication credentials"
+
+**Problem:** GitHub token is invalid, expired, or doesn't have correct permissions.
+
+**Solutions:**
+1. Verify your token has the **Models (Read-only)** permission
+2. Check if the token has expired
+3. Generate a new token and update your `.env` file or environment variable
+4. Make sure there are no extra spaces or quotes around the token value
+
+### Error: Rate limiting or "Too many requests"
+
+**Problem:** GitHub Models has rate limits for free tier usage.
+
+**Solution:**
+- Wait a few minutes before trying again
+- The models use `gpt-4.1-nano` which has generous limits for learning
+- If persistent, consider using Azure OpenAI (covered in Module 01)
+
+### Maven dependency download is slow or failing
+
+**Problem:** Network issues or Maven repository connectivity.
+
+**Solutions:**
+1. Check your internet connection
+2. Try running `mvn clean compile` again - Maven will resume downloads
+3. If using a corporate network, you may need proxy settings in `~/.m2/settings.xml`
+4. Try a different Maven mirror if downloads are consistently slow
+
+### Need More Help?
+
+- Check the comprehensive [SETUP.md](../SETUP.md) guide in the project root
+- Join the [Azure AI Foundry Discord](https://aka.ms/foundry/discord)
+- Visit the [Azure AI Foundry Developer Forum](https://aka.ms/foundry/forum)
 
 ## Next Steps
 
