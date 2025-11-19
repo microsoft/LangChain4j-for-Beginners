@@ -241,3 +241,5 @@ The examples include `.logRequests(true)` and `.logResponses(true)` to show API 
 ---
 
 **Navigation:** [← Back to Main](../README.md) | [Next: Module 01 - Introduction →](../01-introduction/README.md)
+
+Test: Clone working fine.
