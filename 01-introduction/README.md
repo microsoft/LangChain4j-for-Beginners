@@ -234,4 +234,44 @@ Both panels use the same GPT-5 model. The only difference is memory. This makes 
 
 **Navigation:** [← Previous: Module 00 - Quick Start](../00-quick-start/README.md) | [Back to Main](../README.md) | [Next: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
 
+## ⚠️ Port Conflict Warning (Windows & macOS)
+
+**Modules 01 and 04 both use Spring Boot on port `8080`.  
+Running them simultaneously will cause:**
+
+
+
+Web server failed to start. Port 8080 was already in use.
+
+
+### How to Fix
+
+#### Option 1 — Stop the existing process
+
+```sh
+netstat -ano | findstr :8080
+taskkill /PID <PID> /F
+```
+
+#### Option 2 — Run Module 04 on a different port
+
+```sh
+mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=8084"
+```
+
+#### Option 3 — Configure a permanent port for Module 04
+
+Edit:
+
+04-tools/src/main/resources/application.properties
+
+Add:
+
+server.port=8084
+
+Why This Happens
+
+Spring Boot defaults to port 8080, and both modules assume they will run independently.
+Running them together without modifying a port causes the bind conflict.
+
 Test: Clone working fine.

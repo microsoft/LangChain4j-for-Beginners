@@ -33,6 +33,8 @@ public class BasicChatDemo {
         }
 
         printHeader("Basic Chat Demo");
+        System.out.println("Emoji test: 🤖🚀🔥😊");
+
 
         // Initialize the chat model with GitHub Models endpoint
         // This uses GPT-4.1-nano through GitHub's inference API
