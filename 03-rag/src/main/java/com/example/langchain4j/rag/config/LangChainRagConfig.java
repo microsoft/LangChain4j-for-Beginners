@@ -1,8 +1,8 @@
 package com.example.langchain4j.rag.config;
 
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
-import dev.langchain4j.model.azure.AzureOpenAiEmbeddingModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialEmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,36 +36,34 @@ public class LangChainRagConfig {
     private Integer maxCompletionTokens;
 
     /**
-     * Creates the Azure OpenAI Chat Model for answer generation.
+     * Creates the OpenAI Official Chat Model for answer generation.
      * GPT-5 uses reasoning effort levels instead of temperature.
      *
-     * @return configured AzureOpenAiChatModel
+     * @return configured OpenAiOfficialChatModel
      */
     @Bean
-    public AzureOpenAiChatModel chatModel() {
-        return AzureOpenAiChatModel.builder()
-            .endpoint(endpoint)
+    public OpenAiOfficialChatModel chatModel() {
+        return OpenAiOfficialChatModel.builder()
+            .baseUrl(endpoint)
             .apiKey(apiKey)
-            .deploymentName(deployment)
+            .modelName(deployment)
             .maxCompletionTokens(maxCompletionTokens)
             .maxRetries(3)
-            .logRequestsAndResponses(false)
             .build();
     }
 
     /**
-     * Creates the Azure OpenAI Embedding Model for document vectorization.
+     * Creates the OpenAI Official Embedding Model for document vectorization.
      *
-     * @return configured AzureOpenAiEmbeddingModel
+     * @return configured OpenAiOfficialEmbeddingModel
      */
     @Bean
-    public AzureOpenAiEmbeddingModel embeddingModel() {
-        return AzureOpenAiEmbeddingModel.builder()
-            .endpoint(endpoint)
+    public OpenAiOfficialEmbeddingModel embeddingModel() {
+        return OpenAiOfficialEmbeddingModel.builder()
+            .baseUrl(endpoint)
             .apiKey(apiKey)
-            .deploymentName(embeddingDeployment)
+            .modelName(embeddingDeployment)
             .maxRetries(3)
-            .logRequestsAndResponses(false)
             .build();
     }
 

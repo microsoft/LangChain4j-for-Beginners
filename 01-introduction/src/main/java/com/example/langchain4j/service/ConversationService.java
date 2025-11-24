@@ -5,7 +5,8 @@ import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,11 +40,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ConversationService {
 
-    private final AzureOpenAiChatModel chatModel;
+    private final OpenAiOfficialChatModel chatModel;
     private final Map<String, ChatMemory> conversationMemories;
     private static final int MAX_MESSAGES = 10;
 
-    public ConversationService(AzureOpenAiChatModel chatModel) {
+    public ConversationService(OpenAiOfficialChatModel chatModel) {
         this.chatModel = chatModel;
         this.conversationMemories = new ConcurrentHashMap<>();
     }

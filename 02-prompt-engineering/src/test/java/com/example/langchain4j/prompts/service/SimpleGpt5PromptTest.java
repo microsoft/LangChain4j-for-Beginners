@@ -3,7 +3,7 @@ package com.example.langchain4j.prompts.service;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.SystemMessage;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
  * These tests validate that prompts are structured correctly according to best practices.
  * 
  * Testing Philosophy for Beginners:
- * - Uses Mockito to mock AzureOpenAiChatModel
+ * - Uses Mockito to mock OpenAiOfficialChatModel
  * - ArgumentCaptor captures the actual prompt sent to the model
  * - Tests verify prompt structure contains expected GPT-5 patterns
  * - Doesn't require real LLM - keeps tests fast and deterministic
@@ -41,7 +41,7 @@ class SimpleGpt5PromptTest {
     private Gpt5PromptService promptService;
     
     @Mock
-    private AzureOpenAiChatModel mockChatModel;
+    private OpenAiOfficialChatModel mockChatModel;
     
     private ArgumentCaptor<String> promptCaptor;
 

@@ -1,0 +1,17 @@
+<configuration>
+    <!-- Console appender with minimal output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Suppress MCP client debug logs -->
+    <logger name="dev.langchain4j.mcp" level="WARN"/>
+    <logger name="MCP" level="WARN"/>
+    
+    <!-- Root logger at INFO level -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

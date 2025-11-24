@@ -5,17 +5,9 @@ spring:
   application:
     name: langchain4j-getting-started
 
-# LangChain4j Azure OpenAI Spring Boot Starter Configuration
-# The starter auto-configures AzureOpenAiChatModel based on these properties
-langchain4j:
-  azure-open-ai:
-    chat-model:
-      endpoint: ${AZURE_OPENAI_ENDPOINT:}
-      api-key: ${AZURE_OPENAI_API_KEY:}
-      deployment-name: ${AZURE_OPENAI_DEPLOYMENT:}
-      max-completion-tokens: 1000
-      log-requests-and-responses: false
-      max-retries: 3
+# Azure OpenAI configuration
+# These environment variables are set by 'azd up' deployment
+# Values are read from environment variables and injected into the LangChainConfig bean
 
 # Spring Boot Actuator
 management:

@@ -2,8 +2,9 @@ package com.example.langchain4j.service;
 
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.when;
  * These tests validate conversation lifecycle, memory management, and context preservation.
  * 
  * Testing Philosophy for Beginners:
- * - Uses Mockito to mock AzureOpenAiChatModel (simplest way!)
+ * - Uses Mockito to mock OpenAiOfficialChatModel (simplest way!)
  * - @Mock annotation creates a mock instance
  * - when().thenReturn() defines the mock behavior
  * - Tests the conversation management logic without real LLM calls
@@ -38,7 +39,7 @@ class SimpleConversationTest {
     private ConversationService conversationService;
     
     @Mock
-    private AzureOpenAiChatModel mockChatModel;
+    private OpenAiOfficialChatModel mockChatModel;
 
     @BeforeEach
     void setUp() {

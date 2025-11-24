@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Entry point for the Getting Started module.  This simple Spring Boot
- * application exposes a chat endpoint backed by Azure OpenAI via
+ * application exposes a chat endpoint backed by Azure OpenAI via OpenAI Official client.
  * LangChain4j.
  */
 @SpringBootApplication

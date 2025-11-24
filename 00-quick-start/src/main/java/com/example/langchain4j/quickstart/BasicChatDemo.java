@@ -1,6 +1,6 @@
 package com.example.langchain4j.quickstart;
 
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 
 /**
  * BasicChatDemo - Introduction to LangChain4j Chat Capabilities
@@ -16,10 +16,10 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
  * - Environment-based authentication
  * 
  * 💡 Ask GitHub Copilot:
- * - "How would I switch from GitHub Models to Azure OpenAI in this code?"
- * - "What other parameters can I configure in OpenAiChatModel.builder()?"
+ * - "How would I switch from GitHub Models to Azure OpenAI using OpenAI Official client in this code?"
+ * - "What other parameters can I configure in OpenAiOfficialChatModel.builder()?"
  * - "How do I add streaming responses instead of waiting for the complete response?"
- * - "What's the difference between logRequests and logResponses, and when should I use them?"
+ * - "What builder methods are available for configuring the OpenAI Official client?"
  */
 public class BasicChatDemo {
 
@@ -36,12 +36,10 @@ public class BasicChatDemo {
 
         // Initialize the chat model with GitHub Models endpoint
         // This uses GPT-4.1-nano through GitHub's inference API
-        OpenAiChatModel model = OpenAiChatModel.builder()
+        OpenAiOfficialChatModel model = OpenAiOfficialChatModel.builder()
                 .baseUrl("https://models.github.ai/inference")
                 .apiKey(githubToken)
                 .modelName("gpt-4.1-nano")
-                .logRequests(true)  // Enable request logging for debugging
-                .logResponses(true) // Enable response logging for debugging
                 .build();
 
         // Prepare our query

@@ -39,9 +39,9 @@ The infrastructure deploys the following Azure resources:
 ### Local Development
 All Spring Boot applications run locally on your machine:
 - 01-introduction (port 8080)
-- 02-prompt-engineering (port 8080)
+- 02-prompt-engineering (port 8083)
 - 03-rag (port 8081)
-- 04-tools (port 8082)
+- 04-tools (port 8084)
 
 ## Resources Created
 
@@ -56,7 +56,14 @@ All Spring Boot applications run locally on your machine:
 
 ### 1. Deploy Azure OpenAI
 
+**Bash:**
 ```bash
+cd 01-introduction
+azd up
+```
+
+**PowerShell:**
+```powershell
 cd 01-introduction
 azd up
 ```
@@ -70,11 +77,15 @@ This will create:
 - Azure OpenAI resource with GPT-5 and text-embedding-3-small
 - Output connection details
 
-> **Note:** On first deployment, you may encounter a "RequestConflict" or "provisioning state is not terminal" error. This is a known Azure timing issue. Simply run `azd up` again and it will complete successfully.
-
 ### 2. Get Connection Details
 
+**Bash:**
 ```bash
+azd env get-values
+```
+
+**PowerShell:**
+```powershell
 azd env get-values
 ```
 
@@ -90,18 +101,34 @@ The `azd up` command automatically creates a `.env` file in the root directory w
 
 **Recommended:** Start all web applications:
 
+**Bash:**
 ```bash
 # From the root directory
 cd ../..
 ./start-all.sh
 ```
 
+**PowerShell:**
+```powershell
+# From the root directory
+cd ../..
+.\start-all.ps1
+```
+
 Or start a single module:
 
+**Bash:**
 ```bash
 # Example: Start just the introduction module
 cd ../01-introduction
 ./start.sh
+```
+
+**PowerShell:**
+```powershell
+# Example: Start just the introduction module
+cd ../01-introduction
+.\start.ps1
 ```
 
 Both scripts automatically load environment variables from the root `.env` file created by `azd up`.
@@ -144,7 +171,20 @@ Check GPT-5 availability: https://learn.microsoft.com/azure/ai-services/openai/c
 
 To update the infrastructure after making changes to Bicep files:
 
+**Bash:**
 ```bash
+# Rebuild the ARM template
+az bicep build --file infra/main.bicep
+
+# Preview changes
+azd provision --preview
+
+# Apply changes
+azd provision
+```
+
+**PowerShell:**
+```powershell
 # Rebuild the ARM template
 az bicep build --file infra/main.bicep
 
@@ -159,7 +199,17 @@ azd provision
 
 To delete all resources:
 
+**Bash:**
 ```bash
+# Delete all resources
+azd down
+
+# Delete everything including the environment
+azd down --purge
+```
+
+**PowerShell:**
+```powershell
 # Delete all resources
 azd down
 
@@ -204,21 +254,63 @@ Go to Azure Portal → Your OpenAI resource → Metrics:
 
 ## Troubleshooting
 
+### Issue: Azure OpenAI subdomain name conflict
+
+**Error Message:**
+```
+ERROR CODE: CustomDomainInUse
+message: "Please pick a different name. The subdomain name 'aoai-xxxxx' 
+is not available as it's already used by a resource."
+```
+
+**Cause:**
+The subdomain name generated from your subscription/environment is already in use, possibly from a previous deployment that wasn't fully purged.
+
+**Solution:**
+1. **Option 1 - Use a different environment name:**
+   
+   **Bash:**
+   ```bash
+   azd env new my-unique-env-name
+   azd up
+   ```
+   
+   **PowerShell:**
+   ```powershell
+   azd env new my-unique-env-name
+   azd up
+   ```
+
+2. **Option 2 - Manual deployment via Azure Portal:**
+   - Go to Azure Portal → Create a resource → Azure OpenAI
+   - Choose a unique name for your resource
+   - Deploy the following models:
+     - **GPT-5**
+     - **text-embedding-3-small** (for RAG modules)
+   - **Important:** Note your deployment names - they must match `.env` configuration
+   - After deployment, get your endpoint and API key from "Keys and Endpoint"
+   - Create a `.env` file in the project root with:
+     
+     **Example `.env` file:**
+     ```bash
+     AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com
+     AZURE_OPENAI_API_KEY=your-api-key-here
+     AZURE_OPENAI_DEPLOYMENT=gpt-5
+     AZURE_OPENAI_EMBEDDING_DEPLOYMENT=text-embedding-3-small
+     ```
+
+**Model Deployment Naming Guidelines:**
+- Use simple, consistent names: `gpt-5`, `gpt-4o`, `text-embedding-3-small`
+- Deployment names must match exactly what you configure in `.env`
+- Common mistake: Creating model with one name but referencing different name in code
+
 ### Issue: GPT-5 not available in selected region
 
 **Solution:**
 - Choose a region with GPT-5 access (e.g., eastus, swedencentral)
 - Check availability: https://learn.microsoft.com/azure/ai-services/openai/concepts/models
 
-### Issue: "RequestConflict" or "provisioning state is not terminal" on first deployment
 
-**Error Message:**
-```
-Cannot modify resource... because the resource entity provisioning state is not terminal
-```
-
-**Solution:**
-This is a known Azure race condition when deploying OpenAI resources. Simply **run `azd up` again** - it will succeed on the second attempt after the initial resource provisioning completes.
 
 ### Issue: Insufficient quota for deployment
 
@@ -247,7 +339,14 @@ This is a known Azure race condition when deploying OpenAI resources. Simply **r
 **Solution**: 
 1. Try a different region - See [Changing Azure Regions](#changing-azure-regions) section for how to configure regions
 2. Check your subscription has Azure OpenAI quota:
+   
+   **Bash:**
    ```bash
+   az cognitiveservices account list-skus --location <your-region>
+   ```
+   
+   **PowerShell:**
+   ```powershell
    az cognitiveservices account list-skus --location <your-region>
    ```
 
@@ -257,10 +356,19 @@ This is a known Azure race condition when deploying OpenAI resources. Simply **r
 
 **Solution**:
 1. Verify environment variables are exported:
+   
+   **Bash:**
    ```bash
    echo $AZURE_OPENAI_ENDPOINT
    echo $AZURE_OPENAI_API_KEY
    ```
+   
+   **PowerShell:**
+   ```powershell
+   Write-Host $env:AZURE_OPENAI_ENDPOINT
+   Write-Host $env:AZURE_OPENAI_API_KEY
+   ```
+
 2. Check endpoint format is correct (should be `https://xxx.openai.azure.com`)
 3. Verify API key is the primary or secondary key from Azure Portal
 
@@ -307,7 +415,7 @@ infra/
 - [GPT-5 Model Documentation](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-5)
 - [Azure Developer CLI Documentation](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
 - [Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
-- [LangChain4j Azure OpenAI Integration](https://docs.langchain4j.dev/integrations/language-models/azure-open-ai)
+- [LangChain4j OpenAI Official Integration](https://docs.langchain4j.dev/integrations/language-models/open-ai)
 
 ## Support
 

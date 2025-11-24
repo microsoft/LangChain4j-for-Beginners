@@ -6,17 +6,10 @@ spring:
     name: prompt-engineering
 
 # Azure OpenAI Configuration
-# These values can be overridden by environment variables
-azure:
-  openai:
-    endpoint: ${AZURE_OPENAI_ENDPOINT:}
-    api-key: ${AZURE_OPENAI_API_KEY:}
-    deployment: ${AZURE_OPENAI_DEPLOYMENT:}
-    # Note: GPT-5 reasoning effort is controlled via prompt engineering, not model configuration.
-    # See Gpt5PromptService.java for examples of low/high eagerness prompting patterns.
-    # This property exists but is not currently used by the model beans.
-    reasoning-effort: medium  # Default value (not currently used in model configuration)
-    max-completion-tokens: 8000  # Balanced for GPT-5: reasoning + output
+# These environment variables are set by 'azd up' deployment
+# Values are read from environment variables and injected into the LangChainConfig bean
+# Note: GPT-5 reasoning effort is controlled via prompt engineering, not model configuration.
+# See Gpt5PromptService.java for examples of low/high eagerness prompting patterns.
 
 # Spring Boot Actuator
 management:

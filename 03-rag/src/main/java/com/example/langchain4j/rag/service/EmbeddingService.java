@@ -2,7 +2,7 @@ package com.example.langchain4j.rag.service;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.azure.AzureOpenAiEmbeddingModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialEmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import org.slf4j.Logger;
@@ -19,11 +19,11 @@ public class EmbeddingService {
 
     private static final Logger log = LoggerFactory.getLogger(EmbeddingService.class);
 
-    private final AzureOpenAiEmbeddingModel embeddingModel;
+    private final OpenAiOfficialEmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
 
     public EmbeddingService(
-            AzureOpenAiEmbeddingModel embeddingModel,
+            OpenAiOfficialEmbeddingModel embeddingModel,
             EmbeddingStore<TextSegment> embeddingStore) {
         this.embeddingModel = embeddingModel;
         this.embeddingStore = embeddingStore;

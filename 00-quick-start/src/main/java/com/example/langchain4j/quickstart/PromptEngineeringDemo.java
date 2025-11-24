@@ -1,6 +1,6 @@
 package com.example.langchain4j.quickstart;
 
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 
 /**
  * PromptEngineeringDemo - Basic Prompt Engineering Patterns
@@ -41,7 +41,7 @@ public class PromptEngineeringDemo {
         displayHeader("Prompt Engineering Patterns Demo");
 
         // Build non-streaming model for simpler, rate-limit friendly requests
-        OpenAiChatModel model = OpenAiChatModel.builder()
+        OpenAiOfficialChatModel model = OpenAiOfficialChatModel.builder()
                 .baseUrl("https://models.github.ai/inference")
                 .apiKey(githubToken)
                 .modelName("gpt-4.1-nano")
@@ -65,7 +65,7 @@ public class PromptEngineeringDemo {
      * Pattern 1: Zero-shot Prompting
      * Direct task instruction without examples
      */
-    private static void demonstrateZeroShot(OpenAiChatModel model) {
+    private static void demonstrateZeroShot(OpenAiOfficialChatModel model) {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("PATTERN 1: Zero-Shot Prompting");
         System.out.println("=".repeat(60));
@@ -84,7 +84,7 @@ public class PromptEngineeringDemo {
      * Pattern 2: Few-Shot Prompting
      * Provide examples to guide the model's behavior
      */
-    private static void demonstrateFewShot(OpenAiChatModel model) {
+    private static void demonstrateFewShot(OpenAiOfficialChatModel model) {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("PATTERN 2: Few-Shot Prompting");
         System.out.println("=".repeat(60));
@@ -114,7 +114,7 @@ public class PromptEngineeringDemo {
      * Pattern 3: Chain of Thought
      * Ask the model to explain its reasoning step-by-step
      */
-    private static void demonstrateChainOfThought(OpenAiChatModel model) {
+    private static void demonstrateChainOfThought(OpenAiOfficialChatModel model) {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("PATTERN 3: Chain of Thought");
         System.out.println("=".repeat(60));
@@ -138,7 +138,7 @@ public class PromptEngineeringDemo {
      * Pattern 4: Role-Based Prompting
      * Set a specific persona/context for the AI
      */
-    private static void demonstrateRoleBased(OpenAiChatModel model) {
+    private static void demonstrateRoleBased(OpenAiOfficialChatModel model) {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("PATTERN 4: Role-Based Prompting");
         System.out.println("=".repeat(60));

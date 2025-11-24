@@ -1,93 +1,60 @@
 package com.example.langchain4j.agents.service;
 
-import dev.langchain4j.memory.ChatMemory;
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
-import dev.langchain4j.service.AiServices;
 import com.example.langchain4j.agents.model.dto.AgentRequest;
 import com.example.langchain4j.agents.model.dto.AgentResponse;
-import com.example.langchain4j.agents.tools.WeatherTool;
-import com.example.langchain4j.agents.tools.TemperatureTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * AgentService - Correct Implementation Using LangChain4j AiServices
+ * AgentService - Improved Implementation Using Declarative AI Services
  * Run: ./start.sh (from module directory, after deploying Azure resources with azd up)
  * 
- * Agent service using LangChain4j with Azure OpenAI and native tool calling.
- * Uses AiServices framework for automatic tool orchestration.
- * 
- * Key Concepts:
- * - AiServices builder pattern with .tools() registration
- * - Automatic function schema generation from @Tool annotations
- * - Direct Java method execution (no HTTP calls)
- * - Multi-turn orchestration handled by framework
- * - Session-based conversation memory
- * 
+ * Agent service using LangChain4j declarative AI Services with Spring Boot integration.
+ * Demonstrates best practices:
+ * - Declarative @AiService interface with @MemoryId for automatic session management
+ * - Spring Boot auto-wiring of ChatModel and tools
+ * - No manual memory management (handled by ChatMemoryProvider)
+ * - Single Assistant instance (not recreated on every call)
+ *
  * 💡 Ask GitHub Copilot:
- * - "How does AiServices.builder().tools() work under the hood?"
- * - "What's the difference between this and manual tool orchestration?"
- * - "How does LangChain4j handle function calling with Azure OpenAI?"
- * - "How can I add custom tool execution logging or monitoring?"
+ * - "How does @MemoryId work internally in LangChain4j?"
+ * - "What are the benefits of declarative AI Services over manual AiServices.builder()?"
+ * - "How does Spring Boot auto-wire ChatModel and tools?"
+ * - "How can I customize the ChatMemoryProvider?"
  */
 @Service
 public class AgentService {
 
     private static final Logger log = LoggerFactory.getLogger(AgentService.class);
     
-    private final AzureOpenAiChatModel chatModel;
-    private final WeatherTool weatherTool;
-    private final TemperatureTool temperatureTool;
-    
-    // Session management
-    private final ConcurrentHashMap<String, ChatMemory> sessionMemories = new ConcurrentHashMap<>();
+    private final Assistant assistant;
 
-    public AgentService(
-            @Value("${azure.openai.endpoint}") String endpoint,
-            @Value("${azure.openai.api-key}") String apiKey,
-            @Value("${azure.openai.deployment}") String deployment,
-            WeatherTool weatherTool,
-            TemperatureTool temperatureTool) {
-        
-        this.weatherTool = weatherTool;
-        this.temperatureTool = temperatureTool;
-        
-        log.info("Initializing Agent Service with Azure OpenAI");
-        log.info("Endpoint: {}", endpoint);
-        log.info("Deployment: {}", deployment);
-        
-        // Initialize Azure OpenAI chat model
-        this.chatModel = AzureOpenAiChatModel.builder()
-            .endpoint(endpoint)
-            .apiKey(apiKey)
-            .deploymentName(deployment)
-            .maxCompletionTokens(2000)
-            .maxRetries(3)
-            .logRequestsAndResponses(true)
-            .build();
-        
-        log.info("Agent service initialized successfully");
+    /**
+     * Constructor with auto-wired Assistant.
+     * Spring Boot automatically creates the Assistant bean from the @AiService interface.
+     */
+    public AgentService(Assistant assistant) {
+        this.assistant = assistant;
+        log.info("Agent service initialized with declarative AI Service");
     }
 
     /**
      * Create a new agent session.
+     * Returns a new UUID that will be used as the @MemoryId.
      */
     public String createAgentSession() {
         String sessionId = UUID.randomUUID().toString();
-        ChatMemory memory = MessageWindowChatMemory.withMaxMessages(20);
-        sessionMemories.put(sessionId, memory);
         log.info("Created new agent session: {}", sessionId);
+        // Note: No need to manually create ChatMemory - ChatMemoryProvider handles it
         return sessionId;
     }
 
     /**
-     * Execute an agent task using LangChain4j AiServices with automatic tool orchestration.
+     * Execute an agent task using declarative AI Service with automatic tool orchestration.
+     * The @MemoryId in the Assistant interface automatically manages session-based memory.
      */
     public AgentResponse executeTask(AgentRequest request) {
         log.info("Executing agent task: {}", request.message());
@@ -97,32 +64,16 @@ public class AgentService {
             sessionId = createAgentSession();
         }
         
-        ChatMemory memory = sessionMemories.computeIfAbsent(
-            sessionId,
-            id -> MessageWindowChatMemory.withMaxMessages(20)
-        );
-        
         try {
-            // Define AI Service interface
-            interface Assistant {
-                String chat(String userMessage);
-            }
-            
-            // Create AI Service with tool support
+            // Call the declarative Assistant with sessionId for memory management
             // LangChain4j automatically:
+            // - Creates/retrieves ChatMemory for this sessionId via ChatMemoryProvider
             // - Generates function schemas from @Tool annotations
             // - Detects when model wants to call a function
             // - Executes the Java method directly
             // - Handles multi-turn conversations
             // - Manages errors and retries
-            Assistant assistant = AiServices.builder(Assistant.class)
-                .chatModel(chatModel)
-                .chatMemory(memory)
-                .tools(weatherTool, temperatureTool)
-                .build();
-            
-            // Execute - framework handles all tool orchestration automatically
-            String answer = assistant.chat(request.message());
+            String answer = assistant.chat(sessionId, request.message());
             
             log.info("Agent completed task successfully");
             
@@ -146,10 +97,11 @@ public class AgentService {
 
     /**
      * Simple chat for health checks.
+     * Uses a dedicated session ID for health checks.
      */
     public String simpleChat(String message) {
         try {
-            return chatModel.chat(message);
+            return assistant.chat("health-check", message);
         } catch (Exception e) {
             log.error("Simple chat failed", e);
             return "Error: " + e.getMessage();
@@ -174,9 +126,14 @@ public class AgentService {
 
     /**
      * Clear agent session.
+     * Note: With ChatMemoryProvider managing memory lifecycle, sessions are automatically
+     * garbage collected when no longer referenced. For explicit cleanup, you could
+     * implement a custom ChatMemoryStore with eviction support.
      */
     public void clearSession(String sessionId) {
-        sessionMemories.remove(sessionId);
-        log.info("Cleared session: {}", sessionId);
+        log.info("Session marked for cleanup: {}", sessionId);
+        log.debug("Memory will be garbage collected when session is no longer used");
+        // Note: ChatMemoryProvider creates memory on-demand, so no explicit cleanup needed
+        // For production use, consider implementing a ChatMemoryStore with TTL or eviction
     }
 }

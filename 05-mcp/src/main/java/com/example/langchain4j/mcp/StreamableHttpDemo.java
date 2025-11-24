@@ -6,7 +6,7 @@ import dev.langchain4j.mcp.client.McpClient;
 import dev.langchain4j.mcp.client.transport.McpTransport;
 import dev.langchain4j.mcp.client.transport.http.StreamableHttpMcpTransport;
 import dev.langchain4j.model.chat.ChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.tool.ToolProvider;
 
@@ -84,12 +84,10 @@ public class StreamableHttpDemo {
     }
 
     private static ChatModel buildChatModel() {
-        return OpenAiChatModel.builder()
+        return OpenAiOfficialChatModel.builder()
                 .baseUrl(GITHUB_MODELS_URL)
                 .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName(MODEL_NAME)
-                .logRequests(true)
-                .logResponses(true)
                 .build();
     }
 

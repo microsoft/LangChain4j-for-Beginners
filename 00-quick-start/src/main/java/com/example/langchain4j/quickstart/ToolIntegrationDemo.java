@@ -2,7 +2,7 @@ package com.example.langchain4j.quickstart;
 
 import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 import dev.langchain4j.service.AiServices;
 
 /**
@@ -93,7 +93,7 @@ public class ToolIntegrationDemo {
         showHeader("AI Tool Integration Demo");
 
         // Configure the underlying chat model
-        OpenAiChatModel model = OpenAiChatModel.builder()
+        OpenAiOfficialChatModel model = OpenAiOfficialChatModel.builder()
                 .baseUrl("https://models.github.ai/inference")
                 .apiKey(githubToken)
                 .modelName("gpt-4.1-nano")

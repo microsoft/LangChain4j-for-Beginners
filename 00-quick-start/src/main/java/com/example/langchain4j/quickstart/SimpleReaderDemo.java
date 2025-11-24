@@ -1,11 +1,11 @@
 package com.example.langchain4j.quickstart;
 
-import dev.langchain4j.model.openai.OpenAiChatModel;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
+
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 
 /**
  * SimpleReaderDemo - Introduction to RAG (Retrieval-Augmented Generation)
@@ -94,12 +94,10 @@ public class SimpleReaderDemo {
             }
 
             // Create the LangChain4j chat model using OpenAI-compatible endpoint
-            OpenAiChatModel chatModel = OpenAiChatModel.builder()
+            OpenAiOfficialChatModel chatModel = OpenAiOfficialChatModel.builder()
                     .baseUrl(endpoint)
                     .apiKey(apiKey)
                     .modelName("gpt-4.1-nano")
-                    .logRequests(true)
-                    .logResponses(true)
                     .build();
 
             // GENERATION STEP: Construct the prompt with both context and question

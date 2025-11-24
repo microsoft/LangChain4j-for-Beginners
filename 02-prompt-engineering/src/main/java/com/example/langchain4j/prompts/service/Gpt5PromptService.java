@@ -5,7 +5,7 @@ import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ import java.util.Map;
 public class Gpt5PromptService {
 
     @Autowired
-    private AzureOpenAiChatModel chatModel;
+    private OpenAiOfficialChatModel chatModel;
 
     private final Map<String, ChatMemory> sessionMemories = new HashMap<>();
 

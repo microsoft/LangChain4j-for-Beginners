@@ -38,10 +38,10 @@ Getting Started
 To use LangChain4j in your Maven project, add the following dependencies:
 
 langchain4j-core provides the core abstractions
-langchain4j-azure-open-ai adds Azure OpenAI support
+langchain4j-open-ai-official adds unified OpenAI/Azure OpenAI support
 langchain4j-embeddings-all-minilm-l6-v2 provides local embedding models
 
-Create a chat model by configuring AzureOpenAiChatModel with your endpoint, API key, and deployment name. For RAG, add an EmbeddingModel and EmbeddingStore, then use ContentRetriever to find relevant chunks.
+Create a chat model by configuring OpenAiOfficialChatModel with your baseUrl, API key, and model name. For RAG, add an OpenAiOfficialEmbeddingModel and EmbeddingStore, then use ContentRetriever to find relevant chunks.
 
 Best Practices
 

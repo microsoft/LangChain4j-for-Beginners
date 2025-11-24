@@ -1,20 +1,17 @@
-package com.example.langchain4j.prompts.config;
+package com.example.langchain4j.config;
 
 import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import java.time.Duration;
 
 /**
- * Configuration for LangChain4j with GPT-5 support.
+ * Configuration for LangChain4j with Azure OpenAI using the OpenAI Official client.
  * 
- * Note: For GPT-5 reasoning effort is controlled through prompt engineering
- * rather than model configuration parameters. See Gpt5PromptService for examples of how to
- * use prompts like "<reasoning_effort>low</reasoning_effort>" to control model behavior.
- * 
+ * The OpenAI Official client supports Azure OpenAI endpoints, providing a unified
+ * interface for both OpenAI and Azure OpenAI services.
  */
 @Configuration
 public class LangChainConfig {
@@ -29,16 +26,17 @@ public class LangChainConfig {
     private String deploymentName; // Azure deployment name, used as modelName
 
     /**
-     * Primary chat model for general use.
+     * Creates the OpenAI Official chat model configured for Azure OpenAI.
+     * 
+     * @return configured OpenAiOfficialChatModel
      */
     @Bean
-    @Primary
-    public OpenAiOfficialChatModel chatLanguageModel() {
+    public OpenAiOfficialChatModel openAiOfficialChatModel() {
         return OpenAiOfficialChatModel.builder()
                 .baseUrl(azureEndpoint)
                 .apiKey(azureApiKey)
                 .modelName(deploymentName)
-                .timeout(Duration.ofMinutes(5))  // GPT-5 reasoning can take time
+                .timeout(Duration.ofMinutes(5))
                 .maxRetries(3)
                 .build();
     }

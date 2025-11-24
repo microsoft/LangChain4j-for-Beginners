@@ -6,7 +6,7 @@ import dev.langchain4j.mcp.client.McpClient;
 import dev.langchain4j.mcp.client.transport.McpTransport;
 import dev.langchain4j.mcp.client.transport.stdio.StdioMcpTransport;
 import dev.langchain4j.model.chat.ChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.tool.ToolProvider;
 
@@ -82,7 +82,7 @@ public class StdioTransportDemo {
     }
 
     private static ChatModel buildChatModel() {
-        return OpenAiChatModel.builder()
+        return OpenAiOfficialChatModel.builder()
                 .baseUrl(GITHUB_MODELS_URL)
                 .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName(MODEL_NAME)
@@ -97,8 +97,18 @@ public class StdioTransportDemo {
         String npmCmd = isWindows ? "npm.cmd" : "npm";
 
         // Get absolute path to resources directory
-        String resourcesDir = new File("src/main/resources")
-                .getAbsolutePath();
+        File resourcesFile = new File("src/main/resources");
+        if (!resourcesFile.exists()) {
+            throw new RuntimeException(
+                "Resources directory not found. Current working directory: " + 
+                new File(".").getAbsolutePath() + 
+                ". Please run from the 05-mcp directory."
+            );
+        }
+        
+        // Normalize path for Node.js (use forward slashes even on Windows)
+        String resourcesDir = resourcesFile.getAbsolutePath()
+                .replace("\\", "/");
 
         return new StdioMcpTransport.Builder()
                 .command(List.of(
@@ -106,7 +116,7 @@ public class StdioTransportDemo {
                     "@modelcontextprotocol/server-filesystem@0.6.2",
                     resourcesDir
                 ))
-                .logEvents(true)
+                .logEvents(false)
                 .build();
     }
 

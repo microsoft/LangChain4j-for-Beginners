@@ -66,6 +66,10 @@ Thumbs.db
 !**/.azure/{environment-name}/.env.example
 azd-*.json
 
+# Bicep compiled outputs (auto-generated from .bicep files)
+**/infra/**/*.json
+!**/infra/**/*.bicepparam
+
 # Node (for any frontend tools)
 node_modules/
 npm-debug.log*

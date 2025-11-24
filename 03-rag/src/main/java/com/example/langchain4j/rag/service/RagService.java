@@ -2,8 +2,8 @@ package com.example.langchain4j.rag.service;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
-import dev.langchain4j.model.azure.AzureOpenAiEmbeddingModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialEmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingSearchResult;
@@ -52,13 +52,13 @@ public class RagService {
     private static final int MAX_RESULTS = 5;
     private static final double MIN_SCORE = 0.5;
 
-    private final AzureOpenAiChatModel chatModel;
-    private final AzureOpenAiEmbeddingModel embeddingModel;
+    private final OpenAiOfficialChatModel chatModel;
+    private final OpenAiOfficialEmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
 
     public RagService(
-            AzureOpenAiChatModel chatModel,
-            AzureOpenAiEmbeddingModel embeddingModel,
+            OpenAiOfficialChatModel chatModel,
+            OpenAiOfficialEmbeddingModel embeddingModel,
             EmbeddingStore<TextSegment> embeddingStore) {
         this.chatModel = chatModel;
         this.embeddingModel = embeddingModel;

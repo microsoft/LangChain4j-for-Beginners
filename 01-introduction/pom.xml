@@ -30,10 +30,10 @@
       <artifactId>langchain4j</artifactId>
     </dependency>
 
-    <!-- Azure OpenAI Spring Boot Starter - Provides auto-configuration for AzureOpenAiChatModel -->
+    <!-- OpenAI Official Integration - Provides auto-configuration for OpenAiOfficialChatModel -->
     <dependency>
       <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-azure-open-ai-spring-boot-starter</artifactId>
+      <artifactId>langchain4j-open-ai-official</artifactId>
     </dependency>
 
     <!-- JSON binding (optional, helps with mapping) -->

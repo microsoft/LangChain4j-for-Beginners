@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 
  * 💡 Ask GitHub Copilot:
  * - "How can I test my AI application logic without making expensive API calls?"
- * - "What's the best way to mock OpenAiChatModel for unit testing?"
+ * - "What's the best way to mock OpenAiOfficialChatModel for unit testing?"
  * - "How do I test that my prompt templates are correctly formatted before sending to the API?"
  * - "What are best practices for testing AI agents with tool integrations?"
  */

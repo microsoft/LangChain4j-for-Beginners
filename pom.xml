@@ -30,7 +30,7 @@
     <!-- Test dependency versions -->
     <junit.version>5.10.0</junit.version>
     <assertj.version>3.25.3</assertj.version>
-    <testcontainers.version>1.19.3</testcontainers.version>
+    <testcontainers.version>2.0.2</testcontainers.version>
     <!-- Logging versions -->
     <slf4j.version>2.0.9</slf4j.version>
     <logback.version>1.5.20</logback.version>
@@ -92,7 +92,7 @@
       </dependency>
       <dependency>
         <groupId>org.testcontainers</groupId>
-        <artifactId>junit-jupiter</artifactId>
+        <artifactId>testcontainers-junit-jupiter</artifactId>
         <version>${testcontainers.version}</version>
         <scope>test</scope>
       </dependency>

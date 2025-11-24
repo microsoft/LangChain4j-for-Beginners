@@ -16,6 +16,7 @@
   - [4. Document Q&A (RAG)](#4-document-qa-rag)
 - [What Each Example Shows](#what-each-example-shows)
 - [Next Steps](#next-steps)
+- [Troubleshooting](#troubleshooting)
 
 ## Introduction
 
@@ -33,7 +34,7 @@ The "chain" in LangChain refers to chaining together multiple components - you m
 
 We'll use three core components:
 
-**ChatLanguageModel** - The interface for AI model interactions. Call `model.chat("prompt")` and get a response string. We use `OpenAiChatModel` which works with OpenAI-compatible endpoints like GitHub Models.
+**ChatLanguageModel** - The interface for AI model interactions. Call `model.chat("prompt")` and get a response string. We use `OpenAiOfficialChatModel` which works with OpenAI-compatible endpoints like GitHub Models.
 
 **AiServices** - Creates type-safe AI service interfaces. Define methods, annotate them with `@Tool`, and LangChain4j handles the orchestration. The AI automatically calls your Java methods when needed.
 
@@ -57,11 +58,11 @@ This quick start uses two Maven dependencies in the [`pom.xml`](pom.xml):
 <!-- OpenAI integration (works with GitHub Models) -->
 <dependency>
     <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-open-ai</artifactId> <!-- Inherited from BOM in root pom.xml -->
+    <artifactId>langchain4j-open-ai-official</artifactId> <!-- Inherited from BOM in root pom.xml -->
 </dependency>
 ```
 
-The `langchain4j-open-ai` module provides the `OpenAiChatModel` class that connects to OpenAI-compatible APIs. GitHub Models uses the same API format, so no special adapter is needed - just point the base URL to `https://models.github.ai/inference`.
+The `langchain4j-open-ai-official` module provides the `OpenAiOfficialChatModel` class that connects to OpenAI-compatible APIs. GitHub Models uses the same API format, so no special adapter is needed - just point the base URL to `https://models.github.ai/inference`.
 
 ## Prerequisites
 
@@ -70,6 +71,8 @@ The `langchain4j-open-ai` module provides the `OpenAiChatModel` class that conne
 **Local Development:**
 - Java 21+, Maven 3.9+
 - GitHub Personal Access Token (instructions below)
+
+> **Note:** This module uses `gpt-4.1-nano` from GitHub Models. Do not modify the model name in the code - it's configured to work with GitHub's available models.
 
 ## Setup
 
@@ -90,6 +93,8 @@ The `langchain4j-open-ai` module provides the `OpenAiChatModel` class that conne
 If you're using VS Code, add your token to the `.env` file in the project root:
 
 If the `.env` file does not exist, copy `.env.example` to `.env` or create a new `.env` file in the project root.
+
+**Example `.env` file:**
 ```bash
 # In /workspaces/LangChain4j-for-Beginners/.env
 GITHUB_TOKEN=your_token_here
@@ -101,9 +106,14 @@ Then you can simply right-click on any demo file (e.g., `BasicChatDemo.java`) in
 
 Set the token as an environment variable:
 
+**Bash:**
 ```bash
-export GITHUB_TOKEN="your_token_here"  # macOS/Linux
-$env:GITHUB_TOKEN="your_token_here"    # Windows PowerShell
+export GITHUB_TOKEN=your_token_here
+```
+
+**PowerShell:**
+```powershell
+$env:GITHUB_TOKEN=your_token_here
 ```
 
 ## Run the Examples
@@ -114,30 +124,54 @@ $env:GITHUB_TOKEN="your_token_here"    # Windows PowerShell
 
 ### 1. Basic Chat
 
+**Bash:**
 ```bash
-mvn compile exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.BasicChatDemo"
+mvn compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.BasicChatDemo
+```
+
+**PowerShell:**
+```powershell
+mvn --% compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.BasicChatDemo
 ```
 
 ### 2. Prompt Patterns
 
+**Bash:**
 ```bash
-mvn compile exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.PromptEngineeringDemo"
+mvn compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.PromptEngineeringDemo
+```
+
+**PowerShell:**
+```powershell
+mvn --% compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.PromptEngineeringDemo
 ```
 
 Shows zero-shot, few-shot, chain-of-thought, and role-based prompting.
 
 ### 3. Function Calling
 
+**Bash:**
 ```bash
-mvn compile exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ToolIntegrationDemo"
+mvn compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.ToolIntegrationDemo
+```
+
+**PowerShell:**
+```powershell
+mvn --% compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.ToolIntegrationDemo
 ```
 
 AI automatically calls your Java methods when needed.
 
 ### 4. Document Q&A (RAG)
 
+**Bash:**
 ```bash
-mvn compile exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderDemo"
+mvn compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.SimpleReaderDemo
+```
+
+**PowerShell:**
+```powershell
+mvn --% compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.SimpleReaderDemo
 ```
 
 Ask questions about content in `document.txt`.
@@ -146,13 +180,13 @@ Ask questions about content in `document.txt`.
 
 **Basic Chat** - [BasicChatDemo.java](src/main/java/com/example/langchain4j/quickstart/BasicChatDemo.java)
 
-Start here to see LangChain4j at its simplest. You'll create an `OpenAiChatModel`, send a prompt with `.chat()`, and get back a response. This demonstrates the foundation: how to initialize models with custom endpoints and API keys. Once you understand this pattern, everything else builds on it.
+Start here to see LangChain4j at its simplest. You'll create an `OpenAiOfficialChatModel`, send a prompt with `.chat()`, and get back a response. This demonstrates the foundation: how to initialize models with custom endpoints and API keys. Once you understand this pattern, everything else builds on it.
 
 ```java
-ChatLanguageModel model = OpenAiChatModel.builder()
+ChatLanguageModel model = OpenAiOfficialChatModel.builder()
     .baseUrl("https://models.github.ai/inference")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4o-mini")
+    .modelName("gpt-4.1-nano")
     .build();
 
 String response = model.chat("What is LangChain4j?");
@@ -161,9 +195,8 @@ System.out.println(response);
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`BasicChatDemo.java`](src/main/java/com/example/langchain4j/quickstart/BasicChatDemo.java) and ask:
 > - "How would I switch from GitHub Models to Azure OpenAI in this code?"
-> - "What other parameters can I configure in OpenAiChatModel.builder()?"
+> - "What other parameters can I configure in OpenAiOfficialChatModel.builder()?"
 > - "How do I add streaming responses instead of waiting for the complete response?"
-> - "What's the difference between logRequests and logResponses, and when should I use them?"
 
 **Prompt Engineering** - [PromptEngineeringDemo.java](src/main/java/com/example/langchain4j/quickstart/PromptEngineeringDemo.java)
 
@@ -221,11 +254,17 @@ String prompt = "Based on this document: " + content +
 String response = model.chat(prompt);
 ```
 
+> **Note:** This simple approach loads the entire document into the prompt. For large files (>10KB), you'll exceed context limits. Module 03 covers chunking and vector search for production RAG systems.
+
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`SimpleReaderDemo.java`](src/main/java/com/example/langchain4j/quickstart/SimpleReaderDemo.java) and ask:
 > - "How does RAG prevent AI hallucinations compared to using the model's training data?"
 > - "What's the difference between this simple approach and using vector embeddings for retrieval?"
 > - "How would I scale this to handle multiple documents or larger knowledge bases?"
 > - "What are best practices for structuring the prompt to ensure the AI uses only the provided context?"
+
+## Debugging
+
+The examples include `.logRequests(true)` and `.logResponses(true)` to show API calls in the console. This helps troubleshoot authentication errors, rate limits, or unexpected responses. Remove these flags in production to reduce log noise.
 
 ## Next Steps
 
@@ -234,3 +273,48 @@ String response = model.chat(prompt);
 ---
 
 **Navigation:** [← Back to Main](../README.md) | [Next: Module 01 - Introduction →](../01-introduction/README.md)
+
+---
+
+## Troubleshooting
+
+### First-Time Maven Build
+
+**Issue**: Initial `mvn clean compile` or `mvn package` takes a long time (10-15 minutes)
+
+**Cause**: Maven needs to download all project dependencies (Spring Boot, LangChain4j libraries, Azure SDKs, etc.) on the first build.
+
+**Solution**: This is normal behavior. Subsequent builds will be much faster as dependencies are cached locally. Download time depends on your network speed.
+
+### PowerShell Maven Command Syntax
+
+**Issue**: Maven commands fail with error `Unknown lifecycle phase ".mainClass=..."`
+
+**Cause**: PowerShell interprets `=` as a variable assignment operator, breaking Maven property syntax
+
+**Solution**: Use the stop-parsing operator `--%` before the Maven command:
+
+**PowerShell:**
+```powershell
+mvn --% compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.BasicChatDemo
+```
+
+**Bash:**
+```bash
+mvn compile exec:java -Dexec.mainClass=com.example.langchain4j.quickstart.BasicChatDemo
+```
+
+The `--%` operator tells PowerShell to pass all remaining arguments literally to Maven without interpretation.
+
+### Windows PowerShell Emoji Display
+
+**Issue**: AI responses show garbage characters (e.g., `????` or `â??`) instead of emojis in PowerShell
+
+**Cause**: PowerShell's default encoding doesn't support UTF-8 emojis
+
+**Solution**: Run this command before executing Java applications:
+```cmd
+chcp 65001
+```
+
+This forces UTF-8 encoding in the terminal. Alternatively, use Windows Terminal which has better Unicode support.

@@ -26,7 +26,7 @@
     <!-- OpenAI Integration (GitHub Models uses OpenAI-compatible API) -->
     <dependency>
       <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-open-ai</artifactId>
+      <artifactId>langchain4j-open-ai-official</artifactId>
     </dependency>
 
     <!-- SLF4J Simple Logger (for logging) -->

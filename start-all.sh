@@ -96,7 +96,7 @@ start_app() {
     
     # Start application in background
     cd "$SCRIPT_DIR/$module"
-    nohup java -jar "$jar_file" > "$log_file" 2>&1 &
+    java -jar "$jar_file" &
     local pid=$!
     cd "$SCRIPT_DIR"
     
@@ -107,7 +107,7 @@ start_app() {
         echo "✓ $module is running on port $port"
         return 0
     else
-        echo "✗ $module failed to start. Check $module/$module.log for details"
+        echo "✗ $module failed to start"
         return 1
     fi
 }

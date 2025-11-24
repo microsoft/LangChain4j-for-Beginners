@@ -55,13 +55,13 @@ This module demonstrates advanced prompting patterns using the same LangChain4j 
 </dependency>
 <dependency>
     <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-azure-open-ai</artifactId> <!-- Inherited from BOM in root pom.xml -->
+    <artifactId>langchain4j-open-ai-official</artifactId> <!-- Inherited from BOM in root pom.xml -->
 </dependency>
 ```
 
-**AzureOpenAiChatModel Configuration** - [LangChainConfig.java](src/main/java/com/example/langchain4j/prompts/config/LangChainConfig.java)
+**OpenAiOfficialChatModel Configuration** - [LangChainConfig.java](src/main/java/com/example/langchain4j/prompts/config/LangChainConfig.java)
 
-Spring Boot configures the chat model with GPT-5 specific settings. The key difference from Module 01 is how we structure the prompts sent to `chatModel.chat()`, not the model setup itself.
+The chat model is manually configured as a Spring bean using the OpenAI Official client, which supports Azure OpenAI endpoints. The key difference from Module 01 is how we structure the prompts sent to `chatModel.chat()`, not the model setup itself.
 
 **System and User Messages** - [Gpt5PromptService.java](src/main/java/com/example/langchain4j/prompts/service/Gpt5PromptService.java)
 
@@ -296,28 +296,66 @@ Simply click the play button next to "prompt-engineering" to start this module, 
 **Option 2: Using shell scripts**
 
 Start all web applications (modules 01-04):
+
+**Bash:**
 ```bash
 cd ..  # From root directory
 ./start-all.sh
 ```
 
+**PowerShell:**
+```powershell
+cd ..  # From root directory
+.\start-all.ps1
+```
+
 Or start just this module:
+
+**Bash:**
 ```bash
 cd 02-prompt-engineering
 ./start.sh
 ```
 
+**PowerShell:**
+```powershell
+cd 02-prompt-engineering
+.\start.ps1
+```
+
 Both scripts automatically load environment variables from the root `.env` file and will build the JARs if they don't exist.
 
 > **Note:** If you prefer to build all modules manually before starting:
+>
+> **Bash:**
 > ```bash
+> cd ..  # Go to root directory
+> mvn clean package -DskipTests
+> ```
+>
+> **PowerShell:**
+> ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
 
 Open http://localhost:8083 in your browser.
 
-**To stop:** Run `./stop.sh` (this module only) or `cd .. && ./stop-all.sh` (all modules)
+**To stop:**
+
+**Bash:**
+```bash
+./stop.sh  # This module only
+# Or
+cd .. && ./stop-all.sh  # All modules
+```
+
+**PowerShell:**
+```powershell
+.\stop.ps1  # This module only
+# Or
+cd ..; .\stop-all.ps1  # All modules
+```
 
 ## Application Screenshots
 

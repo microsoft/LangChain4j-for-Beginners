@@ -36,6 +36,8 @@ You'll build one application that demonstrates both patterns:
 
 > **Note:** Java, Maven, Azure CLI and Azure Developer CLI (azd) are pre-installed in the provided devcontainer.
 
+> **Note:** This module uses GPT-5 on Azure OpenAI. The deployment is configured automatically via `azd up` - do not modify the model name in the code.
+
 ## Understanding the Core Problem
 
 Language models are stateless. Each API call is independent. If you send "My name is John" and then ask "What's my name?", the model has no idea you just introduced yourself. It treats every request as if it's the first conversation you've ever had.
@@ -68,9 +70,10 @@ LangChain4j provides memory implementations that handle this automatically. You 
 
 ## How This Uses LangChain4j
 
-This module builds on the quick start by adding Spring Boot and conversation memory. Here's what LangChain4j brings:
+This module extends the quick start by integrating Spring Boot and adding conversation memory. Here's how the pieces fit together:
 
-**Dependencies** - Two core libraries work together:
+**Dependencies** - Add two LangChain4j libraries:
+
 ```xml
 <dependency>
     <groupId>dev.langchain4j</groupId>
@@ -78,34 +81,28 @@ This module builds on the quick start by adding Spring Boot and conversation mem
 </dependency>
 <dependency>
     <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-azure-open-ai-spring-boot-starter</artifactId> <!-- Inherited from BOM in root pom.xml -->
+    <artifactId>langchain4j-open-ai-official</artifactId> <!-- Inherited from BOM in root pom.xml -->
 </dependency>
 ```
 
-**AzureOpenAiChatModel** - Auto-configured by Spring Boot Starter
+**Chat Model** - Configure Azure OpenAI as a Spring bean ([LangChainConfig.java](src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
 
-Instead of the generic `OpenAiChatModel` from the quick start, we use `AzureOpenAiChatModel` which connects directly to Azure OpenAI. The `langchain4j-azure-open-ai-spring-boot-starter` automatically configures it as a Spring bean using properties from `application.yaml`.
-
-```yaml
-langchain4j:
-  azure-open-ai:
-    chat-model:
-      endpoint: ${AZURE_OPENAI_ENDPOINT:}
-      api-key: ${AZURE_OPENAI_API_KEY:}
-      deployment-name: ${AZURE_OPENAI_DEPLOYMENT:}
-      max-completion-tokens: 1000
+```java
+@Bean
+public OpenAiOfficialChatModel openAiOfficialChatModel() {
+    return OpenAiOfficialChatModel.builder()
+            .baseUrl(azureEndpoint)
+            .apiKey(azureApiKey)
+            .modelName(deploymentName)
+            .timeout(Duration.ofMinutes(5))
+            .maxRetries(3)
+            .build();
+}
 ```
 
-The starter eliminates the need for manual configuration code - just add the dependency and set the properties, and Spring Boot creates the `AzureOpenAiChatModel` bean automatically.
+The builder reads credentials from environment variables set by `azd up`. Setting `baseUrl` to your Azure endpoint makes the OpenAI client work with Azure OpenAI.
 
-> **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`application.yaml`](src/main/resources/application.yaml) and ask:
-> - "What other Azure OpenAI properties can I configure with the Spring Boot starter?"
-> - "How does the Spring Boot starter auto-configuration work?"
-> - "Can I customize the AzureOpenAiChatModel bean if needed?"
-
-**MessageWindowChatMemory & Message Types** - [ConversationService.java](src/main/java/com/example/langchain4j/service/ConversationService.java)
-
-The key component for stateful conversations. Create it with `MessageWindowChatMemory.withMaxMessages(10)` to retain the last 10 messages. The service stores one memory instance per conversation ID, allowing multiple users to chat simultaneously without mixing contexts. LangChain4j uses typed messages: `UserMessage.from(text)` for user input and `AiMessage.from(text)` for AI responses. Add these to memory with `memory.add(message)` and retrieve the full history with `memory.messages()`. This structure makes it easy to build conversation context before sending to the model.
+**Conversation Memory** - Track chat history with MessageWindowChatMemory ([ConversationService.java](src/main/java/com/example/langchain4j/service/ConversationService.java)):
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -118,47 +115,78 @@ AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
 
+Create memory with `withMaxMessages(10)` to keep the last 10 messages. Add user and AI messages with typed wrappers: `UserMessage.from(text)` and `AiMessage.from(text)`. Retrieve history with `memory.messages()` and send it to the model. The service stores separate memory instances per conversation ID, allowing multiple users to chat simultaneously.
+
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`ConversationService.java`](src/main/java/com/example/langchain4j/service/ConversationService.java) and ask:
 > - "How does MessageWindowChatMemory decide which messages to drop when the window is full?"
 > - "Can I implement custom memory storage using a database instead of in-memory?"
 > - "How would I add summarization to compress old conversation history?"
 
-The stateless chat endpoint skips memory entirely - just `chatModel.chat(prompt)` like the quick start. The stateful endpoint adds messages to memory, retrieves history, and includes that context with each request. Same auto-configured model, different patterns.
+The stateless chat endpoint skips memory entirely - just `chatModel.chat(prompt)` like the quick start. The stateful endpoint adds messages to memory, retrieves history, and includes that context with each request. Same model configuration, different patterns.
 
 ## Deploy Azure OpenAI Infrastructure
 
+**Bash:**
 ```bash
 cd 01-introduction
 azd up  # Select subscription and location (eastus2 recommended)
 ```
+
+**PowerShell:**
+```powershell
+cd 01-introduction
+azd up  # Select subscription and location (eastus2 recommended)
+```
+
+> **Note:** If you encounter a timeout error (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), simply run `azd up` again. Azure resources may still be provisioning in the background, and retrying allows the deployment to complete once resources reach a terminal state.
 
 This will:
 1. Deploy Azure OpenAI resource with GPT-5 and text-embedding-3-small models
 2. Automatically generate `.env` file in project root with credentials
 3. Set up all required environment variables
 
-> **Note:** On first deployment, you may encounter a "RequestConflict" error. This is a known Azure timing issue. Simply run `azd up` again and it will complete successfully.
+**Having deployment issues?** See the [Infrastructure README](infra/README.md) for detailed troubleshooting including subdomain name conflicts, manual Azure Portal deployment steps, and model configuration guidance.
 
 **Verify deployment succeeded:**
+
+**Bash:**
 ```bash
 cat ../.env  # Should show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
 ```
 
+**PowerShell:**
+```powershell
+Get-Content ..\.env  # Should show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
+```
+
 > **Note:** The `azd up` command automatically generates the `.env` file. If you need to update it later, you can either edit the `.env` file manually or regenerate it by running:
+>
+> **Bash:**
 > ```bash
 > cd ..
 > bash .azd-env.sh
 > ```
-
-For detailed infrastructure information including architecture, cost optimization, troubleshooting, and customization options, see the [Infrastructure README](infra/README.md).
+>
+> **PowerShell:**
+> ```powershell
+> cd ..
+> .\.azd-env.ps1
+> ```
 
 ## Run the Application Locally
 
 **Verify deployment:**
 
 Ensure the `.env` file exists in root directory with Azure credentials:
+
+**Bash:**
 ```bash
 cat ../.env  # Should show AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+```
+
+**PowerShell:**
+```powershell
+Get-Content ..\.env  # Should show AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
 
 **Start the applications:**
@@ -180,28 +208,66 @@ Simply click the play button next to "introduction" to start this module, or sta
 **Option 2: Using shell scripts**
 
 Start all web applications (modules 01-04):
+
+**Bash:**
 ```bash
 cd ..  # From root directory
 ./start-all.sh
 ```
 
+**PowerShell:**
+```powershell
+cd ..  # From root directory
+.\start-all.ps1
+```
+
 Or start just this module:
+
+**Bash:**
 ```bash
 cd 01-introduction
 ./start.sh
 ```
 
+**PowerShell:**
+```powershell
+cd 01-introduction
+.\start.ps1
+```
+
 Both scripts automatically load environment variables from the root `.env` file and will build the JARs if they don't exist.
 
 > **Note:** If you prefer to build all modules manually before starting:
+>
+> **Bash:**
 > ```bash
+> cd ..  # Go to root directory
+> mvn clean package -DskipTests
+> ```
+>
+> **PowerShell:**
+> ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
 
 Open http://localhost:8080 in your browser.
 
-**To stop:** Run `./stop.sh` (this module only) or `cd .. && ./stop-all.sh` (all modules)
+**To stop:**
+
+**Bash:**
+```bash
+./stop.sh  # This module only
+# Or
+cd .. && ./stop-all.sh  # All modules
+```
+
+**PowerShell:**
+```powershell
+.\stop.ps1  # This module only
+# Or
+cd ..; .\stop-all.ps1  # All modules
+```
 
 ## Using the Application
 
@@ -236,3 +302,5 @@ Both panels use the same GPT-5 model. The only difference is memory. This makes 
 ---
 
 **Navigation:** [← Previous: Module 00 - Quick Start](../00-quick-start/README.md) | [Back to Main](../README.md) | [Next: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
+
+

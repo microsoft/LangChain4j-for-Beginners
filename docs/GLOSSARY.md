@@ -42,13 +42,13 @@ Quick reference for terms and concepts used throughout the course.
 
 ## LangChain4j Components
 
-**AiServices** - Creates type-safe AI service interfaces using `@Tool` annotations.
+**AiServices** - Creates type-safe AI service interfaces.
 
-**AzureOpenAiChatModel** - Connects to Azure OpenAI models.
+**OpenAiOfficialChatModel** - Unified client for OpenAI and Azure OpenAI models.
 
-**AzureOpenAiEmbeddingModel** - Creates embeddings using Azure OpenAI.
+**OpenAiOfficialEmbeddingModel** - Creates embeddings using OpenAI Official client (supports both OpenAI and Azure OpenAI).
 
-**ChatLanguageModel** - Core interface for language models.
+**ChatModel** - Core interface for language models.
 
 **ChatMemory** - Maintains conversation history.
 
@@ -61,8 +61,6 @@ Quick reference for terms and concepts used throughout the course.
 **EmbeddingStore** - Stores and retrieves embeddings.
 
 **MessageWindowChatMemory** - Maintains sliding window of recent messages.
-
-**OpenAiChatModel** - Connects to OpenAI-compatible endpoints.
 
 **PromptTemplate** - Creates reusable prompts with `{{variable}}` placeholders.
 

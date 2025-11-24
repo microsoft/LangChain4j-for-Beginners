@@ -4,15 +4,27 @@ name: langchain4j-introduction
 metadata:
   template: langchain4j-introduction@0.0.1
 
+infra:
+  provider: bicep
+
 # No services defined - all applications run locally
 # This configuration only deploys Azure OpenAI infrastructure
 
 hooks:
   postprovision:
-    shell: sh
-    run: |
-      echo "Generating .env file from azd environment..."
-      cd ..
-      bash .azd-env.sh
-    continueOnError: false
-    interactive: false
+    windows:
+      shell: pwsh
+      run: |
+        Write-Host "Generating .env file from azd environment..."
+        Set-Location ..
+        . .\.azd-env.ps1
+      continueOnError: false
+      interactive: false
+    posix:
+      shell: sh
+      run: |
+        echo "Generating .env file from azd environment..."
+        cd ..
+        bash .azd-env.sh
+      continueOnError: false
+      interactive: false

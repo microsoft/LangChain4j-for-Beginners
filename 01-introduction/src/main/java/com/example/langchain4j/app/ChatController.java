@@ -1,15 +1,15 @@
 package com.example.langchain4j.app;
 
-import dev.langchain4j.model.azure.AzureOpenAiChatModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import dev.langchain4j.model.openaiofficial.OpenAiOfficialChatModel;
 /**
  * Simple REST controller exposing a chat endpoint.
- * Delegates requests to the AzureOpenAiChatModel provided by LangChain4j.
+ * Delegates requests to the OpenAiOfficialChatModel provided by LangChain4j.
  * 
  * This controller demonstrates basic stateless chat completion without memory.
  * For conversational chat with history, see {@link ConversationController}.
@@ -18,15 +18,15 @@ import java.util.Map;
 @RequestMapping("/api/chat")
 public class ChatController {
 
-  private final AzureOpenAiChatModel model;
+  private final OpenAiOfficialChatModel model;
 
   /**
    * Constructor injection of the chat model bean.
-   * Model is auto-configured by langchain4j-azure-open-ai-spring-boot-starter.
+   * Model is manually configured as a Spring bean (see LangChainConfig.java).
    *
-   * @param model configured Azure OpenAI chat model
+   * @param model configured OpenAI Official chat model
    */
-  public ChatController(AzureOpenAiChatModel model) {
+  public ChatController(OpenAiOfficialChatModel model) {
     this.model = model;
   }
 

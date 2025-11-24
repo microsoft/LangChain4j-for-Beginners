@@ -10,22 +10,12 @@ else
     echo "Skipping Maven installation (sudo not available)"
 fi
 
-# Configure Git - must be done BEFORE any file operations
+# Configure Git for consistent line endings
 git config --global core.autocrlf input
 git config --global core.eol lf
 git config --global core.fileMode false
 
-# Normalize line endings for all shell scripts
-echo "Normalizing line endings..."
-find . -name "*.sh" -type f -exec dos2unix {} + 2>/dev/null || \
-    find . -name "*.sh" -type f -exec sed -i 's/\r$//' {} + 2>/dev/null || true
-
-# Make all shell scripts executable
+# Make all shell scripts executable (doesn't modify file contents, so won't show in Git)
 find . -name "*.sh" -type f -exec chmod +x {} + 2>/dev/null || true
-
-# Reset Git index to pick up line ending changes
-# Note: This discards uncommitted changes, but runs only on initial container setup
-git rm --cached -r . >/dev/null 2>&1 || true
-git reset --hard >/dev/null 2>&1 || true
 
 echo "Dev container setup complete!"

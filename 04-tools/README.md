@@ -64,6 +64,7 @@ This happens automatically. You define the tools and their descriptions. The mod
 You define functions with clear descriptions and parameter specifications. The model sees these descriptions in its system prompt and understands what each tool does.
 
 ```java
+@Component
 public class WeatherTool {
     
     @Tool("Get the current weather for a location")
@@ -73,14 +74,15 @@ public class WeatherTool {
     }
 }
 
-interface Assistant {
-    String chat(String userMessage);
+@AiService
+public interface Assistant {
+    String chat(@MemoryId String sessionId, @UserMessage String message);
 }
 
-Assistant assistant = AiServices.builder(Assistant.class)
-    .chatModel(model)
-    .tools(new WeatherTool())
-    .build();
+// Assistant is automatically wired by Spring Boot with:
+// - ChatModel bean
+// - All @Tool methods from @Component classes
+// - ChatMemoryProvider for session management
 ```
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`WeatherTool.java`](src/main/java/com/example/langchain4j/agents/tools/WeatherTool.java) and ask:
@@ -94,7 +96,7 @@ When a user asks "What's the weather in Seattle?", the model recognizes it needs
 
 **Execution** - [AgentService.java](src/main/java/com/example/langchain4j/agents/service/AgentService.java)
 
-LangChain4j intercepts the function call, executes the Java method directly, and returns the result to the model automatically.
+Spring Boot auto-wires the declarative `@AiService` interface with all registered tools, and LangChain4j executes tool calls automatically.
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`AgentService.java`](src/main/java/com/example/langchain4j/agents/service/AgentService.java) and ask:
 > - "How does the ReAct pattern work and why is it effective for AI agents?"
@@ -105,24 +107,18 @@ LangChain4j intercepts the function call, executes the Java method directly, and
 
 The model receives the weather data and formats it into a natural language response for the user.
 
-### Why Use AiServices with Tools?
+### Why Use Declarative AI Services?
 
-LangChain4j's `AiServices` framework handles all the complexity of tool calling:
+This module uses LangChain4j's Spring Boot integration with declarative `@AiService` interfaces:
 
-- **Automatic schema generation** - Tool descriptions are converted to function schemas
+- **Spring Boot auto-wiring** - ChatModel and tools automatically injected
+- **@MemoryId pattern** - Automatic session-based memory management
+- **Single instance** - Assistant created once and reused for better performance
 - **Type-safe execution** - Java methods called directly with type conversion
 - **Multi-turn orchestration** - Handles tool chaining automatically
-- **Error handling** - Propagates exceptions cleanly
-- **Zero boilerplate** - No manual parsing, HTTP calls, or result formatting
+- **Zero boilerplate** - No manual AiServices.builder() calls or memory HashMap
 
-The alternative (manual implementation) requires:
-- Writing tool schemas as strings
-- Parsing LLM responses with regex
-- Manual parameter extraction and type conversion
-- Implementing ReAct loop with iteration limits
-- Error handling at each step
-
-With `AiServices.builder().tools()`, all of this is automatic.
+Alternative approaches (manual `AiServices.builder()`) require more code and miss Spring Boot integration benefits.
 
 ## Tool Chaining
 
@@ -166,28 +162,66 @@ Simply click the play button next to "tools" to start this module, or start all 
 **Option 2: Using shell scripts**
 
 Start all web applications (modules 01-04):
+
+**Bash:**
 ```bash
 cd ..  # From root directory
 ./start-all.sh
 ```
 
+**PowerShell:**
+```powershell
+cd ..  # From root directory
+.\start-all.ps1
+```
+
 Or start just this module:
+
+**Bash:**
 ```bash
 cd 04-tools
 ./start.sh
 ```
 
+**PowerShell:**
+```powershell
+cd 04-tools
+.\start.ps1
+```
+
 Both scripts automatically load environment variables from the root `.env` file and will build the JARs if they don't exist.
 
 > **Note:** If you prefer to build all modules manually before starting:
+>
+> **Bash:**
 > ```bash
+> cd ..  # Go to root directory
+> mvn clean package -DskipTests
+> ```
+>
+> **PowerShell:**
+> ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
 
 Open http://localhost:8084 in your browser.
 
-**To stop:** Run `./stop.sh` (this module only) or `cd .. && ./stop-all.sh` (all modules)
+**To stop:**
+
+**Bash:**
+```bash
+./stop.sh  # This module only
+# Or
+cd .. && ./stop-all.sh  # All modules
+```
+
+**PowerShell:**
+```powershell
+.\stop.ps1  # This module only
+# Or
+cd ..; .\stop-all.ps1  # All modules
+```
 
 ## Using the Application
 
@@ -234,7 +268,7 @@ The quality of your tool descriptions directly affects how well the agent uses t
 
 **Session Management**
 
-Like the conversation memory in Module 01, tool-based agents maintain session context. The agent remembers previous tool calls and results within a session, enabling multi-turn interactions.
+The `@MemoryId` annotation enables automatic session-based memory management. Each session ID gets its own `ChatMemory` instance managed by the `ChatMemoryProvider` bean, eliminating the need for manual memory tracking.
 
 **Error Handling**
 

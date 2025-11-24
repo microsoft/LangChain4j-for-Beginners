@@ -16,8 +16,14 @@ This guide walks you through the tests that demonstrate how to test AI applicati
 
 Run all tests with a single command:
 
+**Bash:**
 ```bash
 mvn test
+```
+
+**PowerShell:**
+```powershell
+mvn --% test
 ```
 
 <img src="images/test-results.png" alt="Successful Test Results" width="800"/>
@@ -26,11 +32,11 @@ mvn test
 
 ## What the Tests Cover
 
-This course includes tests that run locally. Each test demonstrates a specific LangChain4j concept in isolation.
+This course focuses on **unit tests** that run locally. Each test demonstrates a specific LangChain4j concept in isolation.
 
 <img src="images/testing-pyramid.png" alt="Testing Pyramid" width="800"/>
 
-*Testing pyramid showing the balance between unit tests (fast, isolated), integration tests (real components), and end-to-end tests (full system with Docker)*
+*Testing pyramid showing the balance between unit tests (fast, isolated), integration tests (real components), and end-to-end tests (full system with Docker). This training covers unit testing.*
 
 | Module | Tests | Focus | Key Files |
 |--------|-------|-------|-----------|
@@ -43,7 +49,57 @@ This course includes tests that run locally. Each test demonstrates a specific L
 
 ## Running the Tests
 
-Run all tests from the root directory with `mvn test`. For a specific module, navigate to that directory first with `cd 01-introduction && mvn test`, or run from root while targeting a specific module with `mvn test -pl 01-introduction`. To run a single test class, use `mvn test -Dtest=SimpleConversationTest`. Add a method name to run just one test with `mvn test -Dtest=SimpleConversationTest#shouldMaintainConversationHistory`.
+**Run all tests from root:**
+
+**Bash:**
+```bash
+mvn test
+```
+
+**PowerShell:**
+```powershell
+mvn --% test
+```
+
+**Run tests for a specific module:**
+
+**Bash:**
+```bash
+cd 01-introduction && mvn test
+# Or from root
+mvn test -pl 01-introduction
+```
+
+**PowerShell:**
+```powershell
+cd 01-introduction; mvn --% test
+# Or from root
+mvn --% test -pl 01-introduction
+```
+
+**Run a single test class:**
+
+**Bash:**
+```bash
+mvn test -Dtest=SimpleConversationTest
+```
+
+**PowerShell:**
+```powershell
+mvn --% test -Dtest=SimpleConversationTest
+```
+
+**Run a specific test method:**
+
+**Bash:**
+```bash
+mvn test -Dtest=SimpleConversationTest#shouldMaintainConversationHistory
+```
+
+**PowerShell:**
+```powershell
+mvn --% test -Dtest=SimpleConversationTest#shouldMaintainConversationHistory
+```
 
 ## Running Tests in VS Code
 
@@ -94,7 +150,19 @@ void testPromptTemplateFormatting() {
 }
 ```
 
-This test lives in `00-quick-start/src/test/java/com/example/langchain4j/quickstart/SimpleQuickStartTest.java`. Run it with `cd 00-quick-start && mvn test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting`.
+This test lives in `00-quick-start/src/test/java/com/example/langchain4j/quickstart/SimpleQuickStartTest.java`.
+
+**Run it:**
+
+**Bash:**
+```bash
+cd 00-quick-start && mvn test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting
+```
+
+**PowerShell:**
+```powershell
+cd 00-quick-start; mvn --% test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting
+```
 
 ### Pattern 2: Mocking Language Models
 
@@ -111,7 +179,7 @@ class SimpleConversationTest {
     private ConversationService conversationService;
     
     @Mock
-    private AzureOpenAiChatModel mockChatModel;
+    private OpenAiOfficialChatModel mockChatModel;
     
     @BeforeEach
     void setUp() {
@@ -250,7 +318,19 @@ Some features need real infrastructure. The MCP module uses Testcontainers to sp
 
 *MCP integration testing with Testcontainers showing automated container lifecycle: start, test execution, stop, and cleanup*
 
-The tests in `05-mcp/src/test/java/com/example/langchain4j/mcp/McpDockerTransportTest.java` require Docker to be running. Run them with `cd 05-mcp && mvn test`.
+The tests in `05-mcp/src/test/java/com/example/langchain4j/mcp/McpDockerTransportTest.java` require Docker to be running.
+
+**Run them:**
+
+**Bash:**
+```bash
+cd 05-mcp && mvn test
+```
+
+**PowerShell:**
+```powershell
+cd 05-mcp; mvn --% test
+```
 
 ## Testing Philosophy
 
