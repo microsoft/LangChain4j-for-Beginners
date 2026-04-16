@@ -25,6 +25,15 @@ public class LangChainConfig {
     @Value("${AZURE_OPENAI_DEPLOYMENT}")
     private String deploymentName; // Azure deployment name, used as modelName
 
+    @Value("${GITHUB_TOKEN}")
+    private String githubToken;
+
+    @Value("${GITHUB_BASE_URL}")
+    private String githubBaseUrl;
+
+    @Value("${GITHUB_MODEL}")
+    private String githubModel;
+
     /**
      * Creates the OpenAI Official chat model configured for Azure OpenAI.
      * 
@@ -33,9 +42,9 @@ public class LangChainConfig {
     @Bean
     public OpenAiOfficialChatModel openAiOfficialChatModel() {
         return OpenAiOfficialChatModel.builder()
-                .baseUrl(azureEndpoint)
-                .apiKey(azureApiKey)
-                .modelName(deploymentName)
+                .baseUrl(githubBaseUrl)
+                .apiKey(githubToken)
+                .modelName(githubModel)
                 .timeout(Duration.ofMinutes(5))
                 .maxRetries(3)
                 .build();
