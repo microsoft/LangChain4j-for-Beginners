@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Gpt5PromptService - GPT-5.2 Prompting Best Practices
@@ -54,7 +54,7 @@ public class Gpt5PromptService {
     @Autowired
     private OpenAiOfficialStreamingChatModel streamingChatModel;
 
-    private final Map<String, ChatMemory> sessionMemories = new HashMap<>();
+    private final Map<String, ChatMemory> sessionMemories = new ConcurrentHashMap<>();
 
     // ==================== STREAMING HELPER ====================
 
