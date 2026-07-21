@@ -1,232 +1,230 @@
-# LangChain4j 詞彙表
+# LangChain4j 術語表
 
 ## 目錄
 
-- [核心概念](../../../docs)
-- [LangChain4j 元件](../../../docs)
-- [AI/ML 概念](../../../docs)
-- [安全守則](../../../docs)
-- [提示工程](../../../docs)
-- [RAG（檢索增強生成）](../../../docs)
-- [代理人與工具](../../../docs)
-- [Agentic 模組](../../../docs)
-- [模型上下文協議（MCP）](../../../docs)
-- [Azure 服務](../../../docs)
-- [測試與開發](../../../docs)
+- [核心概念](#核心概念)
+- [LangChain4j 組件](#langchain4j-組件)
+- [AI/ML 概念](#aiml-概念)
+- [Guardrails](#guardrails)
+- [提示工程](#prompt-engineering---module-02)
+- [RAG（檢索增強生成）](#rag-retrieval-augmented-generation---module-03)
+- [代理與工具](#agents-and-tools---module-04)
+- [Agentic 模組](#agentic-module---module-05)
+- [模型上下文協定 (MCP)](#model-context-protocol-mcp---module-05)
+- [Azure 服務](#azure-services---module-01)
+- [測試與開發](#testing-and-development---testing-guide)
 
-快速參考課程中使用的術語與概念。
+課程中使用的術語與概念快速參考。
 
 ## 核心概念
 
-**AI 代理人** - 使用 AI 進行推理並自主行動的系統。[模組 04](../04-tools/README.md)
+**AI 代理** - 使用 AI 進行推理與自主行動的系統。[模組 04](../04-tools/README.md)
 
-**鏈（Chain）** - 輸出作為下一步輸入的操作序列。
+<strong>鏈</strong> - 輸出作為下一步輸入的操作序列。
 
-**分塊（Chunking）** - 將文件切割成較小片段。典型大小：300-500 個標記且有重疊。[模組 03](../03-rag/README.md)
+<strong>分塊</strong> - 將文件拆分成較小的部分。典型大小：300-500 個 token 並帶交疊。[模組 03](../03-rag/README.md)
 
-**上下文視窗（Context Window）** - 模型能處理的最大標記數。GPT-5.2：400K 標記（最高272K 輸入，128K 輸出）。
+<strong>上下文窗口</strong> - 模型可處理的最大 tokens 数量。GPT-5.2：400K tokens（最多 272K 輸入，128K 輸出）。
 
-**嵌入（Embeddings）** - 表示文本語意的數值向量。[模組 03](../03-rag/README.md)
+<strong>嵌入</strong> - 表示文本含義的數值向量。[模組 03](../03-rag/README.md)
 
-**函數呼叫（Function Calling）** - 模型生成結構化請求來調用外部函數。[模組 04](../04-tools/README.md)
+<strong>函式調用</strong> - 模型生成結構化請求以調用外部函式。[模組 04](../04-tools/README.md)
 
-**幻覺（Hallucination）** - 當模型生成錯誤但看似合理的資訊。
+<strong>幻覺</strong> - 模型生成錯誤但看似合理的資訊。
 
-**提示（Prompt）** - 輸入給語言模型的文本。[模組 02](../02-prompt-engineering/README.md)
+<strong>提示</strong> - 輸入給語言模型的文本。[模組 02](../02-prompt-engineering/README.md)
 
-**語意搜尋（Semantic Search）** - 透過語意嵌入而非關鍵字進行搜尋。[模組 03](../03-rag/README.md)
+<strong>語義搜尋</strong> - 以含義搜尋，使用嵌入而非關鍵字。[模組 03](../03-rag/README.md)
 
-**有狀態與無狀態（Stateful vs Stateless）** - 無狀態：無記憶。有狀態：維持對話歷史。[模組 01](../01-introduction/README.md)
+**有狀態 vs 無狀態** - 無狀態：無記憶。有狀態：維護對話歷史。[模組 01](../01-introduction/README.md)
 
-**標記（Tokens）** - 模型處理的基本文字單位。影響成本和限制。[模組 01](../01-introduction/README.md)
+**Token** - 模型處理的基本文本單位，影響成本與限制。[模組 01](../01-introduction/README.md)
 
-**工具鏈接（Tool Chaining）** - 按順序執行工具，其中輸出用於下一次呼叫。[模組 04](../04-tools/README.md)
+<strong>工具鏈</strong> - 工具按順序執行，輸出作為下一次調用依據。[模組 04](../04-tools/README.md)
 
-## LangChain4j 元件
+## LangChain4j 組件
 
-**AiServices** - 創建類型安全的 AI 服務介面。
+**AiServices** - 建立類型安全的 AI 服務介面。
 
-**OpenAiOfficialChatModel** - 統一用戶端，支援 OpenAI 和 Azure OpenAI 模型。
+**OpenAiOfficialChatModel** - 統一用戶端，支持 OpenAI 和 Azure OpenAI 模型。
 
-**OpenAiOfficialEmbeddingModel** - 使用 OpenAI 官方用戶端製作嵌入（同時支援 OpenAI 與 Azure OpenAI）。
+**OpenAiOfficialEmbeddingModel** - 使用官方 OpenAI 用戶端建立嵌入（同時支持 OpenAI 與 Azure OpenAI）。
 
-**ChatModel** - 語言模型的核心介面。
+**ChatModel** - 語言模型核心介面。
 
-**ChatMemory** - 維護對話歷史。
+**ChatMemory** - 保持對話歷史。
 
-**ContentRetriever** - 找出 RAG 相關的文件片段。
+**ContentRetriever** - 為 RAG 找到相關文件分塊。
 
-**DocumentSplitter** - 將文件拆成多個片段。
+**DocumentSplitter** - 將文件拆分成分塊。
 
-**EmbeddingModel** - 將文本轉換為數值向量。
+**EmbeddingModel** - 將文本轉換成數值向量。
 
-**EmbeddingStore** - 存取並檢索嵌入。
+**EmbeddingStore** - 存取嵌入向量。
 
-**MessageWindowChatMemory** - 維持最近消息的滑動視窗。
+**MessageWindowChatMemory** - 維護最近訊息的滑動視窗。
 
-**PromptTemplate** - 使用 `{{variable}}` 佔位符建立可重用提示。
+**PromptTemplate** - 建立帶有 `{{variable}}` 佔位符的可重用提示。
 
-**TextSegment** - 附帶元資料的文本片段。在 RAG 中使用。
+**TextSegment** - 搭配元資料的文本分塊，用於 RAG。
 
-**ToolExecutionRequest** - 工具執行請求物件。
+**ToolExecutionRequest** - 表示工具執行請求。
 
 **UserMessage / AiMessage / SystemMessage** - 對話訊息類型。
 
 ## AI/ML 概念
 
-**少量示例學習（Few-Shot Learning）** - 在提示中提供範例。[模組 02](../02-prompt-engineering/README.md)
+<strong>少量示範學習</strong> - 在提示中提供範例。[模組 02](../02-prompt-engineering/README.md)
 
-**大型語言模型（LLM）** - 以大量文本資料訓練的 AI 模型。
+**大型語言模型 (LLM)** - 以大量文本資料訓練的 AI 模型。
 
-**推理深度（Reasoning Effort）** - GPT-5.2 用以控制思考深度的參數。[模組 02](../02-prompt-engineering/README.md)
+<strong>推理深度</strong> - GPT-5.2 中控制思考深度的參數。[模組 02](../02-prompt-engineering/README.md)
 
-**溫度（Temperature）** - 控制輸出隨機性。低=確定性，高=創造性。
+<strong>溫度</strong> - 控制生成輸出的隨機性。低=決定性，高=創意。
 
-**向量資料庫（Vector Database）** - 專為嵌入設計的資料庫。[模組 03](../03-rag/README.md)
+<strong>向量資料庫</strong> - 專門存取嵌入的資料庫。[模組 03](../03-rag/README.md)
 
-**零示範學習（Zero-Shot Learning）** - 無範例執行任務。[模組 02](../02-prompt-engineering/README.md)
+<strong>零示範學習</strong> - 無範例執行任務。[模組 02](../02-prompt-engineering/README.md)
 
-## 安全守則 - [模組 00](../00-quick-start/README.md)
+## Guardrails
 
-**多重防禦（Defense in Depth）** - 多層安全策略，結合應用層守則與供應商安全過濾器。
+<strong>多層防禦</strong> - 結合應用層 Guardrails 與供應商安全過濾的多層安全策略。
 
-**硬阻擋（Hard Block）** - 嚴重內容違規時供應商回傳 HTTP 400 錯誤。
+<strong>嚴格封鎖</strong> - 供應商對嚴重違規內容回傳 HTTP 400 錯誤。
 
-**InputGuardrail** - LangChain4j 介面，用於在提示送入 LLM 前驗證用戶輸入，提早阻擋有害提示，節省成本和延遲。
+**InputGuardrail** - LangChain4j 用於在送入 LLM 前驗證用戶輸入的介面。提前阻止有害提示節省成本與延遲。
 
-**InputGuardrailResult** - 守則驗證回傳類型：`success()` 或 `fatal("原因")`。
+**InputGuardrailResult** - Guardrail 驗證回傳類型：`success()` 或 `fatal("原因")`。
 
-**OutputGuardrail** - 驗證 AI 回應介面，防止不當內容回傳給用戶。
+**OutputGuardrail** - 驗證 AI 回應是否合規的介面，回傳使用者前進行檢查。
 
-**供應商安全過濾器** - AI 供應商內建 API 層的內容過濾（例如 GitHub Models）。
+<strong>供應商安全過濾</strong> - AI 供應商（例如 Azure OpenAI）的內建內容過濾，API 級別捕獲違規。
 
-**軟拒絕（Soft Refusal）** - 模型禮貌拒絕回答，但不引發錯誤。
+<strong>委婉拒絕</strong> - 模型禮貌拒絕回答但不丟錯誤。
 
 ## 提示工程 - [模組 02](../02-prompt-engineering/README.md)
 
-**思路鏈（Chain-of-Thought）** - 逐步推理以提升準確度。
+**思維鏈 (Chain-of-Thought)** - 逐步推理以提升準確率。
 
-**約束輸出（Constrained Output）** - 強制特定格式或結構。
+<strong>限制輸出</strong> - 強制特定格式或結構。
 
-**高度求解度（High Eagerness）** - GPT-5.2 模式，重度推理。
+<strong>高度積極</strong> - GPT-5.2 中用於深入推理的模式。
 
-**低度求解度（Low Eagerness）** - GPT-5.2 模式，快速回答。
+<strong>低度積極</strong> - GPT-5.2 中用於快速回答的模式。
 
-**多輪對話（Multi-Turn Conversation）** - 保持跨輪上下文。
+<strong>多輪對話</strong> - 跨輪保持上下文。
 
-**基於角色的提示（Role-Based Prompting）** - 透過系統訊息設定模型角色。
+<strong>角色提示</strong> - 透過系統訊息設定模型人物角色。
 
-**自我反省（Self-Reflection）** - 模型評估並改進自己的輸出。
+<strong>自我反思</strong> - 模型評估並改進自己的輸出。
 
-**結構化分析（Structured Analysis）** - 固定評估框架。
+<strong>結構化分析</strong> - 固定評估框架。
 
-**任務執行模式（Task Execution Pattern）** - 計畫 → 執行 → 總結。
+<strong>任務執行模式</strong> - 計畫→執行→總結。
 
 ## RAG（檢索增強生成）- [模組 03](../03-rag/README.md)
 
-**文件處理管線** - 載入 → 分塊 → 嵌入 → 儲存。
+<strong>文件處理管線</strong> - 載入 → 分塊 → 嵌入 → 儲存。
 
-**記憶體內嵌入庫** - 非持久性儲存，用於測試。
+<strong>記憶體中嵌入庫</strong> - 用於測試的非持久化儲存。
 
-**RAG** - 結合檢索與生成，以使回應有依據。
+**RAG** - 結合檢索與生成以提供有根據的回答。
 
-**相似度分數** - 表示語意相似度的度量（0-1）。
+<strong>相似度分數</strong> - 語義相似度的量度（0-1）。
 
-**來源引用** - 檢索內容的元資料。
+<strong>來源引用</strong> - 取回內容的元資料。
 
-## 代理人與工具 - [模組 04](../04-tools/README.md)
+## 代理與工具 - [模組 04](../04-tools/README.md)
 
-**@Tool 標註** - 將 Java 方法標記為 AI 可呼叫工具。
+**@Tool 註解** - 標記 Java 方法為 AI 可調用工具。
 
-**ReAct 模式** - 推理 → 行動 → 觀察 → 重複。
+**ReAct 模式** - 推理→行動→觀察→重複。
 
-**會話管理** - 不同用戶使用分離上下文。
+<strong>會話管理</strong> - 不同用戶分離上下文。
 
-**工具（Tool）** - AI 代理人可呼叫的功能。
+<strong>工具</strong> - AI 代理可調用的函式。
 
-**工具說明** - 工具目的與參數文件。
+<strong>工具說明</strong> - 工具用途及參數文件。
 
 ## Agentic 模組 - [模組 05](../05-mcp/README.md)
 
-**@Agent 標註** - 將介面標記為 AI 代理人，使用宣告式行為定義。
+**@Agent 註解** - 標記介面為 AI 代理並宣告行為定義。
 
-**代理人監聽器（Agent Listener）** - 透過 `beforeAgentInvocation()` 和 `afterAgentInvocation()` 鉤子監控代理人執行。
+<strong>代理監聽器</strong> - 透過 `beforeAgentInvocation()` 和 `afterAgentInvocation()` 監控代理執行。
 
-**Agentic 範圍** - 代理人存放輸出供下游代理人使用的共用記憶體，使用 `outputKey` 參數指定位置。
+**Agentic Scope** - 代理使用的共享記憶，透過 `outputKey` 儲存結果以供後續代理使用。
 
-**AgenticServices** - 用於透過 `agentBuilder()` 和 `supervisorBuilder()` 創建代理人的工廠。
+**AgenticServices** - 用於創建代理的工廠，包含 `agentBuilder()` 和 `supervisorBuilder()`。
 
-**條件工作流程（Conditional Workflow）** - 根據條件導向不同專家代理人。
+<strong>條件工作流</strong> - 根據條件導向不同專家代理。
 
-**人機協作（Human-in-the-Loop）** - 增加人工審核或內容檢查節點的工作流程模式。
+**人類審核（Human-in-the-Loop）** - 加入人工審核或內容審查的工作流模式。
 
-**langchain4j-agentic** - 用於宣告式代理構建的 Maven 依賴（實驗性）。
+**langchain4j-agentic** - 用於宣告式代理構建的 Maven 依賴（實驗中）。
 
-**循環工作流程（Loop Workflow）** - 反覆執行代理人直到達成條件（例如品質分數 ≥ 0.8）。
+<strong>迴圈工作流</strong> - 重複代理執行直到達到條件（例如品質分數 ≥ 0.8）。
 
-**outputKey** - 代理人註解參數，指定結果儲存於 Agentic 範圍的位置。
+**outputKey** - 代理註解參數，指定結果在 Agentic Scope 中存儲位置。
 
-**並行工作流程（Parallel Workflow）** - 同時執行多個獨立任務代理人。
+<strong>平行工作流</strong> - 多代理同時執行獨立任務。
 
-**回應策略（Response Strategy）** - 監督者制定最終答案的方式：LAST、SUMMARY 或 SCORED。
+<strong>回應策略</strong> - 監督者組裝最終答案方式：LAST、SUMMARY 或 SCORED。
 
-**連續工作流程（Sequential Workflow）** - 按順序執行代理人，輸出流向下一步。
+<strong>串行工作流</strong> - 代理依序執行，輸出流向下一步。
 
-**監督代理人模式（Supervisor Agent Pattern）** - 進階 agentic 模式，由監督者 LLM 動態決定呼叫哪些子代理人。
+<strong>監督者代理模式</strong> - 先進的代理模式，監督者 LLM 動態決定調用哪些子代理。
 
-## 模型上下文協議（MCP）- [模組 05](../05-mcp/README.md)
+## 模型上下文協定 (MCP) - [模組 05](../05-mcp/README.md)
 
-**langchain4j-mcp** - LangChain4j 中整合 MCP 的 Maven 依賴。
+**langchain4j-mcp** - LangChain4j 中 MCP 整合的 Maven 依賴。
 
-**MCP** - 模型上下文協議：連接 AI 應用到外部工具的標準，開發一次多處使用。
+**MCP** - 模型上下文協定：連結 AI 應用與外部工具的標準。一次建造，到處使用。
 
-**MCP 用戶端** - 連接 MCP 伺服器，發現並使用工具的應用程式。
+**MCP 用戶端** - 連接 MCP 伺服器以發現及使用工具的應用。
 
-**MCP 伺服器** - 以 MCP 協議公開工具，附有清晰描述與參數模式的服務。
+**MCP 伺服器** - 透過 MCP 暴露工具，附帶明確描述與參數結構的服務。
 
-**McpToolProvider** - LangChain4j 元件，包裝 MCP 工具以供 AI 服務和代理人使用。
+**McpToolProvider** - LangChain4j 組件，封裝 MCP 工具用於 AI 服務和代理。
 
-**McpTransport** - MCP 通訊介面，實作包含 Stdio 與 HTTP。
+**McpTransport** - MCP 通訊介面。實現包括 Stdio 和 HTTP。
 
-**Stdio 傳輸** - 透過 stdin/stdout 的本地程序傳輸，適用於檔案系統存取或命令列工具。
+**Stdio 傳輸** - 透過 stdin/stdout 的本地進程傳輸。適用於檔案系統存取或命令行工具。
 
-**StdioMcpTransport** - LangChain4j 實作，將 MCP 伺服器作為子程序啟動。
+**StdioMcpTransport** - LangChain4j 實作，以子程序形式啟動 MCP 伺服器。
 
-**工具發現（Tool Discovery）** - 用戶端查詢伺服器取得可用工具的描述與模式。
+<strong>工具發現</strong> - 用戶端查詢伺服器可用工具及其描述與結構。
 
 ## Azure 服務 - [模組 01](../01-introduction/README.md)
 
-**Azure AI Search** - 具備向量能力的雲端搜尋。[模組 03](../03-rag/README.md)
+**Azure AI 搜尋** - 支援向量功能的雲端搜尋。[模組 03](../03-rag/README.md)
 
-**Azure Developer CLI (azd)** - 部署 Azure 資源。
+**Azure Developer CLI (azd)** - 部署 Azure 資源工具。
 
-**Azure OpenAI** - 微軟企業級 AI 服務。
+**Azure OpenAI** - 微軟的企業 AI 服務。
 
-**Bicep** - Azure 基礎架構即程式碼語言。[基礎架構指南](../01-introduction/infra/README.md)
+**Bicep** - Azure 基礎設施即代碼語言。[基礎設施指南](../01-introduction/infra/README.md)
 
-**部署名稱** - Azure 中模型部署的名稱。
+<strong>部署名稱</strong> - Azure 上模型部署的名稱。
 
-**GPT-5.2** - 最新 OpenAI 模型，具推理控制能力。[模組 02](../02-prompt-engineering/README.md)
+**GPT-5.2** - 最新 OpenAI 模型，具推理控制功能。[模組 02](../02-prompt-engineering/README.md)
 
 ## 測試與開發 - [測試指南](TESTING.md)
 
-**開發容器（Dev Container）** - 容器化開發環境。[設定檔](../../../.devcontainer/devcontainer.json)
+<strong>開發容器</strong> - 容器化的開發環境。[設定](../../../.devcontainer/devcontainer.json)
 
-**GitHub Models** - 免費 AI 模型試驗場。[模組 00](../00-quick-start/README.md)
+<strong>記憶體中測試</strong> - 使用記憶體中儲存進行測試。
 
-**記憶體內測試** - 使用記憶體儲存的測試。
+<strong>整合測試</strong> - 使用實際基礎設施的測試。
 
-**整合測試（Integration Testing）** - 使用真實基礎架構的測試。
+**Maven** - Java 構建自動化工具。
 
-**Maven** - Java 自動建構工具。
-
-**Mockito** - Java 模擬測試框架。
+**Mockito** - Java 模擬框架。
 
 **Spring Boot** - Java 應用框架。[模組 01](../01-introduction/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**免責聲明**：  
-本文件乃使用 AI 翻譯服務 [Co-op Translator](https://github.com/Azure/co-op-translator) 所翻譯。儘管我們致力於確保準確性，但請注意自動翻譯可能存在錯誤或不準確之處。原文應以其母語版本為權威來源。對於重要資訊，建議採用專業人工翻譯。我們不對因使用此翻譯而引起的任何誤解或誤釋負責。
+**免責聲明**：
+本文件由 AI 翻譯服務 [Co-op Translator](https://github.com/Azure/co-op-translator) 翻譯而成。雖然我們致力於確保準確性，但請注意，機器自動翻譯可能包含錯誤或不準確之處。原始文件的母語版本應被視為權威來源。對於重要資訊，建議進行專業人工翻譯。我們不對因使用本翻譯而產生的任何誤解或誤釋承擔責任。
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

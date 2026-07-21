@@ -2,7 +2,7 @@
 
 # LangChain4j pour débutants
 
-Un cours pour créer des applications IA avec LangChain4j et Azure OpenAI GPT-5.2, du chat basique aux agents IA.
+Un cours pour construire des applications d'IA avec LangChain4j et Azure OpenAI GPT-5.2, du chat basique aux agents IA.
 
 ### 🌐 Support multilingue
 
@@ -13,7 +13,7 @@ Un cours pour créer des applications IA avec LangChain4j et Azure OpenAI GPT-5.
 
 > **Préférez cloner localement ?**
 >
-> Ce dépôt inclut plus de 50 traductions linguistiques ce qui augmente considérablement la taille du téléchargement. Pour cloner sans traductions, utilisez le sparse checkout :
+> Ce dépôt comprend plus de 50 traductions de langues ce qui augmente significativement la taille du téléchargement. Pour cloner sans traductions, utilisez le sparse checkout :
 >
 > **Bash / macOS / Linux :**
 > ```bash
@@ -29,26 +29,25 @@ Un cours pour créer des applications IA avec LangChain4j et Azure OpenAI GPT-5.
 > git sparse-checkout set --no-cone "/*" "!translations" "!translated_images"
 > ```
 >
-> Cela vous donne tout ce dont vous avez besoin pour compléter le cours avec un téléchargement bien plus rapide.
+> Cela vous fournit tout ce dont vous avez besoin pour compléter le cours avec un téléchargement beaucoup plus rapide.
 <!-- CO-OP TRANSLATOR LANGUAGES TABLE END -->
 
 ## Table des matières
 
-1. [Démarrage rapide](00-quick-start/README.md) - Démarrez avec LangChain4j
-2. [Introduction](01-introduction/README.md) - Apprenez les fondamentaux de LangChain4j
-3. [Conception de prompt](02-prompt-engineering/README.md) - Maîtrisez la conception efficace de prompts
-4. [RAG (Génération augmentée par récupération)](03-rag/README.md) - Créez des systèmes intelligents basés sur la connaissance
-5. [Outils](04-tools/README.md) - Intégrez des outils externes et assistants simples
-6. [MCP (Protocole de Contexte Modèle)](05-mcp/README.md) - Travaillez avec le Protocole de Contexte Modèle (MCP) et les modules Agentiques
+1. [Introduction](01-introduction/README.md) - Apprenez les fondamentaux de LangChain4j
+2. [Ingénierie de prompt](02-prompt-engineering/README.md) - Maîtrisez la conception efficace de prompt
+3. [RAG (Récupération Augmentée par la Génération)](03-rag/README.md) - Construisez des systèmes intelligents basés sur la connaissance
+4. [Outils](04-tools/README.md) - Intégrez des outils externes et assistants simples
+5. [MCP (Protocole de Contexte de Modèle)](05-mcp/README.md) - Travaillez avec le Protocole de Contexte de Modèle (MCP) et les modules Agentic
 
 ### Vidéos explicatives
 
-Chaque module est accompagné d'une session en direct où nous parcourons les concepts et le code étape par étape.
+Chaque module a une session en direct associée où nous parcourons les concepts et le code pas à pas.
 
 | Module | Vidéo |
 |--------|-------|
-| 01 - Introduction | [Premiers pas avec LangChain4j](https://www.youtube.com/live/nl_troDm8rQ) |
-| 02 - Conception de prompt | [Conception de prompt avec LangChain4j](https://www.youtube.com/live/PJ6aBaE6bog) |
+| 01 - Introduction | [Commencer avec LangChain4j](https://www.youtube.com/live/nl_troDm8rQ) |
+| 02 - Ingénierie de prompt | [Ingénierie de prompt avec LangChain4j](https://www.youtube.com/live/PJ6aBaE6bog) |
 | 03 - RAG | [RAG avec LangChain4j](https://www.youtube.com/watch?v=_olq75ZH_eY) |
 | 04 - Outils & 05 - MCP | [Agents IA avec Outils et MCP](https://www.youtube.com/watch?v=O_J30kZc0rw) |
 
@@ -60,29 +59,30 @@ Chaque module est accompagné d'une session en direct où nous parcourons les co
 
 > **Démarrage rapide**
 
-1. Forkez ce dépôt vers votre compte GitHub
-2. Cliquez sur **Code** → onglet **Codespaces** → **...** → **Nouveau avec options...**
+1. Forkez ce dépôt sur votre compte GitHub
+2. Cliquez sur **Code** → l’onglet **Codespaces** → **...** → **Nouveau avec options...**
 3. Utilisez les paramètres par défaut – cela sélectionnera le conteneur de développement créé pour ce cours
-4. Cliquez sur **Créer codespace**
-5. Patientez 5-10 minutes que l'environnement soit prêt
-6. Allez directement à [Démarrage rapide](./00-quick-start/README.md) pour commencer !
+4. Cliquez sur **Créer un codespace**
+5. Attendez 5 à 10 minutes pour que l’environnement soit prêt
+6. Passez directement à [Introduction](./01-introduction/README.md) pour commencer !
 
 Après avoir complété les modules, explorez le [Guide de test](docs/TESTING.md) pour voir les concepts de test LangChain4j en action.
 
-> **Note :** Cette formation utilise à la fois les modèles GitHub et Azure OpenAI. Le module [Démarrage rapide](00-quick-start/README.md) utilise les modèles GitHub (abonnement Azure non requis), tandis que les modules 1 à 5 utilisent Azure OpenAI. Commencez avec un [compte Azure GRATUIT](https://aka.ms/azure-free-account) si vous n'en avez pas.
+> **Note :** Cette formation utilise Azure OpenAI. Commencez avec un [compte Azure GRATUIT](https://aka.ms/azure-free-account) si vous n’en avez pas.
+
 
 ## Apprentissage avec GitHub Copilot
 
-Pour coder rapidement, ouvrez ce projet dans un GitHub Codespace ou votre IDE local avec le devcontainer fourni. Le devcontainer utilisé dans ce cours est préconfiguré avec GitHub Copilot pour une programmation assistée IA en binôme.
+Pour démarrer rapidement votre codage, ouvrez ce projet dans un GitHub Codespace ou votre IDE local avec le devcontainer fourni. Le devcontainer utilisé dans ce cours est préconfiguré avec GitHub Copilot pour la programmation assistée par IA.
 
-Chaque exemple de code inclut des questions suggérées que vous pouvez poser à GitHub Copilot pour approfondir votre compréhension. Cherchez les invites 💡/🤖 dans :
+Chaque exemple de code inclut des questions suggérées que vous pouvez poser à GitHub Copilot pour approfondir votre compréhension. Recherchez les invites 💡/🤖 dans :
 
-- **En-têtes de fichiers Java** - Questions spécifiques à chaque exemple
-- **README des modules** - Invites d'exploration après les exemples de code
+- **En-têtes de fichiers Java** – Questions spécifiques à chaque exemple
+- **README des modules** – Invites d’exploration après les exemples de code
 
-**Comment utiliser :** Ouvrez n'importe quel fichier de code et posez à Copilot les questions suggérées. Il a le contexte complet du code et peut expliquer, étendre et suggérer des alternatives.
+**Comment utiliser :** Ouvrez n’importe quel fichier de code et posez à Copilot les questions suggérées. Il a le contexte complet du code et peut expliquer, étendre et suggérer des alternatives.
 
-Envie d'en savoir plus ? Découvrez [Copilot pour la programmation assistée IA](https://aka.ms/GitHubCopilotAI).
+Vous souhaitez en savoir plus ? Consultez [Copilot pour la programmation assistée par IA](https://aka.ms/GitHubCopilotAI).
 
 
 ## Ressources supplémentaires
@@ -110,19 +110,19 @@ Envie d'en savoir plus ? Découvrez [Copilot pour la programmation assistée IA]
 
 ---
  
-### Apprentissages fondamentaux
+### Apprentissage fondamental
 [![ML for Beginners](https://img.shields.io/badge/ML%20for%20Beginners-22C55E?style=for-the-badge&labelColor=E5E7EB&color=22C55E)](https://aka.ms/ml-beginners?WT.mc_id=academic-105485-koreyst)
 [![Data Science for Beginners](https://img.shields.io/badge/Data%20Science%20for%20Beginners-84CC16?style=for-the-badge&labelColor=E5E7EB&color=84CC16)](https://aka.ms/datascience-beginners?WT.mc_id=academic-105485-koreyst)
 [![AI for Beginners](https://img.shields.io/badge/AI%20for%20Beginners-A3E635?style=for-the-badge&labelColor=E5E7EB&color=A3E635)](https://aka.ms/ai-beginners?WT.mc_id=academic-105485-koreyst)
-[![Cybersécurité pour débutants](https://img.shields.io/badge/Cybersecurity%20for%20Beginners-F97316?style=for-the-badge&labelColor=E5E7EB&color=F97316)](https://github.com/microsoft/Security-101?WT.mc_id=academic-96948-sayoung)
-[![Développement Web pour débutants](https://img.shields.io/badge/Web%20Dev%20for%20Beginners-EC4899?style=for-the-badge&labelColor=E5E7EB&color=EC4899)](https://aka.ms/webdev-beginners?WT.mc_id=academic-105485-koreyst)
-[![IoT pour débutants](https://img.shields.io/badge/IoT%20for%20Beginners-14B8A6?style=for-the-badge&labelColor=E5E7EB&color=14B8A6)](https://aka.ms/iot-beginners?WT.mc_id=academic-105485-koreyst)
-[![Développement XR pour débutants](https://img.shields.io/badge/XR%20Development%20for%20Beginners-38BDF8?style=for-the-badge&labelColor=E5E7EB&color=38BDF8)](https://github.com/microsoft/xr-development-for-beginners?WT.mc_id=academic-105485-koreyst)
+[![Cybersecurity for Beginners](https://img.shields.io/badge/Cybersecurity%20for%20Beginners-F97316?style=for-the-badge&labelColor=E5E7EB&color=F97316)](https://github.com/microsoft/Security-101?WT.mc_id=academic-96948-sayoung)
+[![Développement Web pour Débutants](https://img.shields.io/badge/Web%20Dev%20for%20Beginners-EC4899?style=for-the-badge&labelColor=E5E7EB&color=EC4899)](https://aka.ms/webdev-beginners?WT.mc_id=academic-105485-koreyst)
+[![IoT pour Débutants](https://img.shields.io/badge/IoT%20for%20Beginners-14B8A6?style=for-the-badge&labelColor=E5E7EB&color=14B8A6)](https://aka.ms/iot-beginners?WT.mc_id=academic-105485-koreyst)
+[![Développement XR pour Débutants](https://img.shields.io/badge/XR%20Development%20for%20Beginners-38BDF8?style=for-the-badge&labelColor=E5E7EB&color=38BDF8)](https://github.com/microsoft/xr-development-for-beginners?WT.mc_id=academic-105485-koreyst)
 
 ---
  
 ### Série Copilot
-[![Copilot pour la programmation assistée par IA](https://img.shields.io/badge/Copilot%20for%20AI%20Paired%20Programming-FACC15?style=for-the-badge&labelColor=E5E7EB&color=FACC15)](https://aka.ms/GitHubCopilotAI?WT.mc_id=academic-105485-koreyst)
+[![Copilot pour Programmation Assistée par IA](https://img.shields.io/badge/Copilot%20for%20AI%20Paired%20Programming-FACC15?style=for-the-badge&labelColor=E5E7EB&color=FACC15)](https://aka.ms/GitHubCopilotAI?WT.mc_id=academic-105485-koreyst)
 [![Copilot pour C#/.NET](https://img.shields.io/badge/Copilot%20for%20C%23/.NET-FBBF24?style=for-the-badge&labelColor=E5E7EB&color=FBBF24)](https://github.com/microsoft/mastering-github-copilot-for-dotnet-csharp-developers?WT.mc_id=academic-105485-koreyst)
 [![Aventure Copilot](https://img.shields.io/badge/Copilot%20Adventure-FDE68A?style=for-the-badge&labelColor=E5E7EB&color=FDE68A)](https://github.com/microsoft/CopilotAdventures?WT.mc_id=academic-105485-koreyst)
 <!-- CO-OP TRANSLATOR OTHER COURSES END -->
@@ -133,7 +133,7 @@ Si vous êtes bloqué ou avez des questions sur la création d'applications IA, 
 
 [![Microsoft Foundry Discord](https://img.shields.io/badge/Discord-Microsoft_Foundry_Community_Discord-blue?style=for-the-badge&logo=discord&color=5865f2&logoColor=fff)](https://aka.ms/foundry/discord)
 
-Si vous avez des retours produit ou des erreurs lors de la création, visitez :
+Si vous avez des retours sur le produit ou des erreurs lors de la création, visitez :
 
 [![Microsoft Foundry Developer Forum](https://img.shields.io/badge/GitHub-Microsoft_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=000000&logoColor=fff)](https://aka.ms/foundry/forum)
 
@@ -144,6 +144,6 @@ Licence MIT - Voir le fichier [LICENSE](../../LICENSE) pour plus de détails.
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Avertissement** :  
-Ce document a été traduit à l’aide du service de traduction automatisée [Co-op Translator](https://github.com/Azure/co-op-translator). Bien que nous nous efforçions d’assurer l’exactitude, veuillez noter que les traductions automatiques peuvent contenir des erreurs ou des imprécisions. Le document original dans sa langue native doit être considéré comme la source faisant foi. Pour les informations critiques, une traduction professionnelle humaine est recommandée. Nous déclinons toute responsabilité en cas de malentendus ou de mauvaises interprétations résultant de l’utilisation de cette traduction.
+**Avertissement** :
+Ce document a été traduit à l'aide du service de traduction automatique [Co-op Translator](https://github.com/Azure/co-op-translator). Bien que nous nous efforçions d'assurer l'exactitude, veuillez noter que les traductions automatisées peuvent contenir des erreurs ou des inexactitudes. Le document original dans sa langue native doit être considéré comme la source faisant autorité. Pour les informations critiques, il est recommandé de recourir à une traduction professionnelle réalisée par un humain. Nous ne saurions être tenus responsables des malentendus ou erreurs d'interprétation découlant de l'utilisation de cette traduction.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

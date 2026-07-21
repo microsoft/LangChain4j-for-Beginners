@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-- [Quick Start](../../../docs)
-- [What the Tests Cover](../../../docs)
-- [Running the Tests](../../../docs)
-- [Running Tests in VS Code](../../../docs)
-- [Testing Patterns](../../../docs)
-- [Testing Philosophy](../../../docs)
-- [Next Steps](../../../docs)
+- [Quick Start](#quick-start)
+- [What the Tests Cover](#what-the-tests-cover)
+- [Running the Tests](#running-the-tests)
+- [Running Tests in VS Code](#running-tests-in-vs-code)
+- [Testing Patterns](#testing-patterns)
+- [Testing Philosophy](#testing-philosophy)
+- [Next Steps](#next-steps)
 
 This guide walks you through the tests that demonstrate how to test AI applications without requiring API keys or external services.
 
@@ -42,7 +42,6 @@ This course focuses on **unit tests** that run locally. Each test demonstrates a
 
 | Module | Tests | Focus | Key Files |
 |--------|-------|-------|-----------|
-| **00 - Quick Start** | 6 | Prompt templates and variable substitution | `SimpleQuickStartTest.java` |
 | **01 - Introduction** | 8 | Conversation memory and stateful chat | `SimpleConversationTest.java` |
 | **02 - Prompt Engineering** | 12 | GPT-5.2 patterns, eagerness levels, structured output | `SimpleGpt5PromptTest.java` |
 | **03 - RAG** | 10 | Document ingestion, embeddings, similarity search | `DocumentServiceTest.java` |
@@ -100,7 +99,7 @@ mvn test -Dtest=SimpleConversationTest#shouldMaintainConversationHistory
 
 **PowerShell:**
 ```powershell
-mvn --% test -Dtest=SimpleConversationTest#should maintain conversation history
+mvn --% test -Dtest=SimpleConversationTest#shouldMaintainConversationHistory
 ```
 
 ## Running Tests in VS Code
@@ -148,19 +147,7 @@ void testPromptTemplateFormatting() {
 }
 ```
 
-This test lives in `00-quick-start/src/test/java/com/example/langchain4j/quickstart/SimpleQuickStartTest.java`.
-
-**Run it:**
-
-**Bash:**
-```bash
-cd 00-quick-start && mvn test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting
-```
-
-**PowerShell:**
-```powershell
-cd 00-quick-start; mvn --% test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting
-```
+This pattern verifies that variable substitution works correctly and prompts are formatted as expected — no API key or model call required.
 
 ### Pattern 2: Mocking Language Models
 
@@ -342,7 +329,6 @@ Use descriptive names. Compare `shouldMaintainConversationHistoryAcrossMultipleM
 
 Now that you understand the testing patterns, dive deeper into each module:
 
-- **[00 - Quick Start](../00-quick-start/README.md)** - Start with prompt template basics
 - **[01 - Introduction](../01-introduction/README.md)** - Learn conversation memory management
 - **[02 - Prompt Engineering](../02-prompt-engineering/README.md)** - Master GPT-5.2 prompting patterns
 - **[03 - RAG](../03-rag/README.md)** - Build retrieval-augmented generation systems
@@ -359,5 +345,5 @@ Each module's README provides detailed explanations of the concepts tested here.
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Disclaimer**:
-This document has been translated using the AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
+This document has been translated using AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

@@ -2,231 +2,229 @@
 
 ## Sisukord
 
-- [Põhikontseptsioonid](../../../docs)
-- [LangChain4j komponendid](../../../docs)
-- [AI/ML kontseptsioonid](../../../docs)
-- [Guardrails](../../../docs)
-- [Prompt Engineering](../../../docs)
-- [RAG (Retrieval-Augmented Generation)](../../../docs)
-- [Agentid ja Tööriistad](../../../docs)
-- [Agentic Moodul](../../../docs)
-- [Mudeli Konteksti Protokoll (MCP)](../../../docs)
-- [Azure Teenused](../../../docs)
-- [Testimine ja Arendus](../../../docs)
+- [Põhikontseptsioonid](#põhikontseptsioonid)
+- [LangChain4j Komponendid](#langchain4j-komponendid)
+- [AI/ML Kontseptsioonid](#aiml-kontseptsioonid)
+- [Kaitsemehhanismid](#kaitsemehhanismid)
+- [Promptide Loomine](#prompt-engineering---module-02)
+- [RAG (Retrieval-Augmented Generation)](#rag-retrieval-augmented-generation---module-03)
+- [Agendid ja Tööriistad](#agents-and-tools---module-04)
+- [Agentne Moodul](#agentic-module---module-05)
+- [Mudeli Konteksti Protokoll (MCP)](#model-context-protocol-mcp---module-05)
+- [Azure Teenused](#azure-services---module-01)
+- [Testimine ja Arendus](#testing-and-development---testing-guide)
 
 Kiire viide kursuse jooksul kasutatud terminitele ja kontseptsioonidele.
 
 ## Põhikontseptsioonid
 
-**AI Agent** - Süsteem, mis kasutab tehisintellekti autonoomseks mõtlemiseks ja tegutsemiseks. [Moodul 04](../04-tools/README.md)
+**AI Agent** - Süsteem, mis kasutab tehisintellekti mõtlemiseks ja autonoomseks tegutsemiseks. [Moodul 04](../04-tools/README.md)
 
-**Chain** - Operatsioonide jada, kus väljund läheb järgmisse sammu.
+**Kett (Chain)** - Tegevuste jada, kus väljund läheb järgmise sammu sisendiks.
 
-**Chunking** - Dokumentide jagamine väiksemateks osadeks. Tüüpiline: 300-500 tokenit koos kattuvusega. [Moodul 03](../03-rag/README.md)
+**Tükeldamine (Chunking)** - Dokumentide jaotamine väiksemateks osadeks. Tavaliselt 300-500 märki ülekattega. [Moodul 03](../03-rag/README.md)
 
-**Context Window** - Maksimaalne tokenite arv, mida mudel suudab töödelda. GPT-5.2: 400K tokenit (kuni 272K sisend, 128K väljund).
+**Kontekstiakna suurus** - Maksimaalne märgiste arv, mida mudel saab töödelda. GPT-5.2: 400K märki (kuni 272K sisend, 128K väljund).
 
-**Embeddings** - Teksti tähendust esindavad numbrilised vektorid. [Moodul 03](../03-rag/README.md)
+**Koodvektorid (Embeddings)** - Numbrilised vektorid, mis esindavad teksti tähendust. [Moodul 03](../03-rag/README.md)
 
-**Function Calling** - Mudel genereerib struktureeritud päringuid väliste funktsioonide kutsumiseks. [Moodul 04](../04-tools/README.md)
+**Funktsiooni Kutsumine** - Mudel genereerib struktureeritud päringuid väliste funktsioonide kutsumiseks. [Moodul 04](../04-tools/README.md)
 
-**Hallucination** - Kui mudelid genereerivad vale, aga usutavat infot.
+**Hallutsinatsioon** - Kui mudelid genereerivad vale, kuid usutavat infot.
 
 **Prompt** - Tekstisisend keelemudelile. [Moodul 02](../02-prompt-engineering/README.md)
 
-**Semantic Search** - Otsing tähenduse järgi, kasutades embeddings'e, mitte märksõnu. [Moodul 03](../03-rag/README.md)
+**Semantiline Otsing** - Otsing tähenduse järgi, kasutades koodvektoreid, mitte märksõnu. [Moodul 03](../03-rag/README.md)
 
-**Stateful vs Stateless** - Stateless: mäluta. Stateful: hoiab vestluse ajalugu. [Moodul 01](../01-introduction/README.md)
+**Riigipõhine vs Riigivaba (Stateful vs Stateless)** - Riigivaba: pole mälulugu. Riigipõhine: säilitab vestluse ajaloo. [Moodul 01](../01-introduction/README.md)
 
-**Tokens** - Teksti põhiüksused, mida mudelid töötlevad. Mõjutab kulusid ja piiranguid. [Moodul 01](../01-introduction/README.md)
+**Märgid (Tokens)** - Mudelite töödeldavad põhiühikud. Mõjutab kulusid ja piiranguid. [Moodul 01](../01-introduction/README.md)
 
-**Tool Chaining** - Tööriistade järjestikune täitmine, kus väljund juhib järgmist kutset. [Moodul 04](../04-tools/README.md)
+**Tööriistade Kettimine** - Tööriistade järjestikune käivitamine, kus väljund suunab järgmist funktsioonikõnet. [Moodul 04](../04-tools/README.md)
 
-## LangChain4j komponendid
+## LangChain4j Komponendid
 
-**AiServices** - Loob tüübiturvalisi tehisintellekti teenuste liideseid.
+**AiServices** - Loob tüübikindlaid AI teenuste liideseid.
 
 **OpenAiOfficialChatModel** - Ühtne klient OpenAI ja Azure OpenAI mudelitele.
 
-**OpenAiOfficialEmbeddingModel** - Loob embeddings'e OpenAI ametliku kliendi abil (toetab nii OpenAI kui Azure OpenAI).
+**OpenAiOfficialEmbeddingModel** - Loob koodvektoreid OpenAI ametliku kliendi abil (toetab nii OpenAI kui Azure OpenAI).
 
-**ChatModel** - Keelemudelite põhiliides.
+**ChatModel** - Keelemudelite põhiline liides.
 
-**ChatMemory** - Säilitab vestluse ajaloo.
+**ChatMemory** - Hoiab vestluse ajalugu.
 
-**ContentRetriever** - Leiab RAG jaoks asjakohaseid dokumentide tükke.
+**ContentRetriever** - Leiab olulised dokumenditükid RAG jaoks.
 
 **DocumentSplitter** - Jagab dokumendid osadeks.
 
-**EmbeddingModel** - Konkreetsete võtmesõnade teisendamine numbrilisteks vektoriteks.
+**EmbeddingModel** - Muudab teksti numbrilisteks vektoriteks.
 
-**EmbeddingStore** - Salvestab ja hangib embeddings'e.
+**EmbeddingStore** - Salvestab ja hangib koodvektoreid.
 
-**MessageWindowChatMemory** - Hoiab liikuva akna hiljutiste sõnumite jaoks.
+**MessageWindowChatMemory** - Hoiab järjepidevalt viimaste sõnumite liugakent.
 
-**PromptTemplate** - Loob taaskasutatavaid prompt-malle koos `{{variable}}` kohatäiteks.
+**PromptTemplate** - Loob taaskasutatavaid prompte koos `{{variable}}` asendustega.
 
-**TextSegment** - Tekstitükk metainfoga. Kasutatakse RAG koosseisus.
+**TextSegment** - Tekstitükk koos metainfo ja kasutatakse RAGis.
 
-**ToolExecutionRequest** - Tööriista täitmise taotluse esitlus.
+**ToolExecutionRequest** - Esindab tööriista täitmise päringut.
 
-**UserMessage / AiMessage / SystemMessage** - Vestlusakna sõnumitüübid.
+**UserMessage / AiMessage / SystemMessage** - Vestluse sõnumitüübid.
 
-## AI/ML kontseptsioonid
+## AI/ML Kontseptsioonid
 
-**Few-Shot Learning** - Selgitavate näidete esitamine promptides. [Moodul 02](../02-prompt-engineering/README.md)
+**Few-Shot Learning** - Näidete pakkumine promptides. [Moodul 02](../02-prompt-engineering/README.md)
 
-**Large Language Model (LLM)** - Suurekeelne mudel, mida on treenitud tohutul hulgal tekstidel.
+**Suur Keelemudel (LLM)** - AI mudelid, mis on treenitud suurte tekstikorpuste peal.
 
-**Reasoning Effort** - GPT-5.2 parameeter, mis juhib mõtlemise sügavust. [Moodul 02](../02-prompt-engineering/README.md)
+**Loogiline Pingutus (Reasoning Effort)** - GPT-5.2 parameeter, mis kontrollib mõtlemise sügavust. [Moodul 02](../02-prompt-engineering/README.md)
 
-**Temperature** - Juhtib väljundi juhuslikkust. Madal=deterministlik, kõrge=loov.
+**Temperatuur** - Juhtib väljundi juhuslikkust. Madal=deterministlik, kõrge=loov.
 
-**Vector Database** - Spetsiaalne andmebaas embeddings'ite jaoks. [Moodul 03](../03-rag/README.md)
+**Vektorandmebaas** - Spetsiaalne andmebaas koodvektorite jaoks. [Moodul 03](../03-rag/README.md)
 
-**Zero-Shot Learning** - Ülesannete täitmine ilma näideteta. [Moodul 02](../02-prompt-engineering/README.md)
+**Zero-Shot Learning** - Ülesannete sooritamine ilma näideteta. [Moodul 02](../02-prompt-engineering/README.md)
 
-## Guardrails - [Moodul 00](../00-quick-start/README.md)
+## Kaitsemehhanismid
 
-**Defense in Depth** - Mitmetasandiline turvalahendus, mis kombineerib rakenduse tasandi piire ja pakkuja turvafiltreid.
+**Kaitsekihid (Defense in Depth)** - Turvalisuse mitmetasandiline lähenemine, mis ühendab rakenduse tasandi kaitsed pakkuja turvafiltritega.
 
-**Hard Block** - Pakkuja viskab HTTP 400 vea tõsiste sisurikete korral.
+**Tõsine Blokeerimine (Hard Block)** - Pakkuja tõstab HTTP 400 vea tõsiste sisurikkumiste korral.
 
-**InputGuardrail** - LangChain4j liides kasutaja sisendi valideerimiseks enne LLM-i jõudmist. Säästab kulusid ja viivitusi, blokeerides kahjulikud promptid varakult.
+**InputGuardrail** - LangChain4j liides kasutaja sisendi valideerimiseks enne LLMi jõudmist. Säästab kulusid ja latentsust, blokeerides kahjulikud promptid varakult.
 
-**InputGuardrailResult** - Tagastustüüp guardrali valideerimisel: `success()` või `fatal("põhjus")`.
+**InputGuardrailResult** - Tagastustüüp kaitse valideerimiseks: `success()` või `fatal("põhjus")`.
 
-**OutputGuardrail** - Liides AI-väljundi valideerimiseks enne kasutajale tagastamist.
+**OutputGuardrail** - Liides AI vastuste valideerimiseks enne kasutajale tagastamist.
 
-**Provider Safety Filters** - AI pakkujate (nt GitHub Models) sisseehitatud sisufiltrid, mis tabavad rikkumisi API tasemel.
+**Pakkuja Turvafiltrid** - AI pakkujate (nt Azure OpenAI) sisseehitatud sisufiltrid, mis tabavad rikkumisi API tasandil.
 
-**Soft Refusal** - Mudel keeldub viisakalt vastamast, ilma vea viskamata.
+**Pehme Keeldumine (Soft Refusal)** - Mudel keeldub viisakalt vastamast vigade tekitamiseta.
 
-## Prompt Engineering - [Moodul 02](../02-prompt-engineering/README.md)
+## Promptide Loomine - [Moodul 02](../02-prompt-engineering/README.md)
 
-**Chain-of-Thought** - Samm-sammuline põhjendamine parema täpsuse saavutamiseks.
+**Chain-of-Thought** - Järkjärguline loogika parema täpsuse saavutamiseks.
 
-**Constrained Output** - Spetsiifilise vormingu või struktuuri nõudmine.
+**Piiratud Väljund (Constrained Output)** - Sundida kindlat formaati või struktuuri.
 
-**High Eagerness** - GPT-5.2 muster põhjalikuks põhjendamiseks.
+**Suur Pühendumus (High Eagerness)** - GPT-5.2 muster põhjalikuks mõtlemiseks.
 
-**Low Eagerness** - GPT-5.2 muster kiireteks vastusteks.
+**Madal Pühendumus (Low Eagerness)** - GPT-5.2 muster kiireteks vastusteks.
 
-**Multi-Turn Conversation** - Konteksti hoidmine mitme vahetuse jooksul.
+**Mitme-Korra Vestlus (Multi-Turn Conversation)** - Mõtteviisi säilitamine vestluse jooksul.
 
-**Role-Based Prompting** - Mudeli isikupära seadmine süsteemisõnumite kaudu.
+**Rollipõhine Promptimine** - Mudeli persona määramine süsteemsete sõnumite kaudu.
 
-**Self-Reflection** - Mudel hindab ja parandab oma väljundit.
+**Eneseanalüüs (Self-Reflection)** - Mudel hindab ja täiustab oma väljundit.
 
-**Structured Analysis** - Fikseeritud hindamisraamistik.
+**Struktureeritud Analüüs** - Kindel hindamismeetod.
 
-**Task Execution Pattern** - Planeeri → Täida → Kokkuvõtte.
+**Ülesande Täitmise Muster** - Plaan → Täida → Kokkuvõtte tee.
 
 ## RAG (Retrieval-Augmented Generation) - [Moodul 03](../03-rag/README.md)
 
-**Document Processing Pipeline** - Lae → tükelda → embedding → salvestus.
+**Dokumenditöötlusvoog** - Lae → tükelda → kodeeri → salvesta.
 
-**In-Memory Embedding Store** - Mitte-püsiv salvestus testimiseks.
+**Mälupõhine Koodvektoripood** - Ajutine hoidla testimiseks.
 
-**RAG** - Kombineerib otsingu ja generatsiooni vastuste täpsustamiseks.
+**RAG** - Ühendab info hankimise ja genereerimise, et vastused oleksid põhjendatud.
 
-**Similarity Score** - Semantilise sarnasuse mõõt (0-1).
+**Sarnasuse Hinne** - Semantilise sarnasuse mõõt (0-1).
 
-**Source Reference** - Metainfo otsitud sisu kohta.
+**Allika Viide** - Metaandmed hangitud sisu kohta.
 
-## Agentid ja Tööriistad - [Moodul 04](../04-tools/README.md)
+## Agendid ja Tööriistad - [Moodul 04](../04-tools/README.md)
 
-**@Tool Annotation** - Märgib Java meetodid AI-ga kutsutavateks tööriistadeks.
+**@Tool Märgend** - Märgistab Java meetodid AI-kõlbulikeks tööriistadeks.
 
-**ReAct Pattern** - Mõtle → Tegutse → Vaata → Korda.
+**ReAct Muster** - Mõtle → Tegutse → Vaata → Korda.
 
-**Session Management** - Eraldab erinevate kasutajate kontekstid.
+**Sessiooni Halduse** - Erinevad kontekstid kasutajate jaoks.
 
-**Tool** - Funktsioon, mida AI agent saab kutsuda.
+**Tööriist** - Funktsioon, mida AI agent saab kutsuda.
 
-**Tool Description** - Tööriista eesmärgi ja parameetrite dokumentatsioon.
+**Tööriista Kirjeldus** - Dokumentatsioon tööriista eesmärgi ja parameetrite kohta.
 
-## Agentic Moodul - [Moodul 05](../05-mcp/README.md)
+## Agentne Moodul - [Moodul 05](../05-mcp/README.md)
 
-**@Agent Annotation** - Märgib liidesed AI agentideks koos deklaratiivse käitumise määratlusega.
+**@Agent Märgend** - Märgistab liidesed AI agentideks deklaratiivse käitumise kirjeldamiseks.
 
-**Agent Listener** - Konks agentide täitmise jälgimiseks meetodite `beforeAgentInvocation()` ja `afterAgentInvocation()` kaudu.
+**Agendi Kuulaja (Agent Listener)** - Konks agentide täitmise jälgimiseks meetoditega `beforeAgentInvocation()` ja `afterAgentInvocation()`.
 
-**Agentic Scope** - Jagatud mälu, kus agentide väljundid talletatakse ja mida järgmised agentid tarbivad.
+**Agentne Ulatus (Agentic Scope)** - Jagatud mälu, kuhu agentide tulemused salvestatakse, et teised agentid saaksid neid kasutada.
 
-**AgenticServices** - Agentide loomiseks mõeldud tehas kasutades `agentBuilder()` ja `supervisorBuilder()`.
+**AgenticServices** - Tehas agentide loomiseks kasutades `agentBuilder()` ja `supervisorBuilder()`.
 
-**Conditional Workflow** - Tingimuslik marsruutimine erinevate spetsialist-agentide juurde.
+**Tingimuslik Töövoog** - Tähtis marsruut tingimuse põhjal erinevatele spetsialistagentidele.
 
-**Human-in-the-Loop** - Töötlemismuster, mis lisab inimkontrollpunktid kinnituseks või sisukontrolliks.
+**Inimene Ahelas (Human-in-the-Loop)** - Töövoo muster, mis lisab inimsektsioonid heakskiiduks või sisukontrolliks.
 
-**langchain4j-agentic** - Maven sõltuvus deklaratiivseks agentide ehitamiseks (eksperimentaalne).
+**langchain4j-agentic** - Maven sõltuvus deklaratiivseks agentide loomiseks (katsefaasis).
 
-**Loop Workflow** - Agentide täitmine kordub, kuni tingimus on täidetud (nt kvaliteediskoor ≥ 0.8).
+**Tsükliline Töövoog (Loop Workflow)** - Iteratiivne agentide täitmine kuni tingimus täitub (nt kvaliteediskoor ≥ 0.8).
 
-**outputKey** - Agendi annotatsiooni parameeter, mis määrab, kuhu tulemused Agentic Scope'is salvestatakse.
+**outputKey** - Agendi märgendiparameeter, mis määrab, kuhu Agentse Ulatuses tulemused salvestatakse.
 
-**Parallel Workflow** - Mitme agendi samaaegne käivitamine iseseisvate ülesannete jaoks.
+**Paralleeltöövoog (Parallel Workflow)** - Mitme agendi samaaegne täitmine iseseisvate ülesannete jaoks.
 
-**Response Strategy** - Kuidas juhendaja koostab lõpliku vastuse: LAST, SUMMARY või SCORED.
+**Vastustrateegia** - Kuidas juhendaja vormistab lõpliku vastuse: VIIMANE, KOKKUVÕTE või SKOORITUD.
 
-**Sequential Workflow** - Agentide järjekordne täitmine, kus väljund voolab järgmisesse sammu.
+**Järjestikune Töövoog (Sequential Workflow)** - Agentide järjestikune täitmine, kus väljund liigub järgmisesse sammu.
 
-**Supervisor Agent Pattern** - Täiustatud agentide muster, kus juhendaja LLM otsustab dünaamiliselt, milliseid sub-agente kutsuda.
+**Juhendaja Agendi Muster (Supervisor Agent Pattern)** - Täiustatud agentne muster, kus juhendaja LLM otsustab dünaamiliselt, milliseid alamagente kutsuda.
 
 ## Mudeli Konteksti Protokoll (MCP) - [Moodul 05](../05-mcp/README.md)
 
-**langchain4j-mcp** - Maven sõltuvus MCP integreerimiseks LangChain4j'sse.
+**langchain4j-mcp** - Maven sõltuvus MCP integreerimiseks LangChain4j-s.
 
-**MCP** - Mudeli konteksti protokoll: standard AI rakenduste ühendamiseks väliste tööriistadega. Tee kord ja kasuta kõikjal.
+**MCP** - Mudeli Konteksti Protokoll: standard AI rakenduste ühendamiseks väliste tööriistadega. Ehita üks kord, kasuta kõikjal.
 
-**MCP Client** - Rakendus, mis ühendub MCP serveritega tööriistade leidmiseks ja kasutamiseks.
+**MCP Klient** - Rakendus, mis ühendub MCP serveritega tööriistade avastamiseks ja kasutamiseks.
 
-**MCP Server** - Teenus, mis eksponeerib tööriistu MCP kaudu koos selgete kirjelduste ja parameetrite skeemidega.
+**MCP Server** - Teenus, mis pakub tööriistu MCP kaudu selgete kirjelduste ja parameetrite skeemidega.
 
-**McpToolProvider** - LangChain4j komponent, mis pakib MCP tööriistad AI teenuste ja agentide kasutamiseks.
+**McpToolProvider** - LangChain4j komponent, mis pakendab MCP tööriistad kasutamiseks AI teenustes ja agentides.
 
-**McpTransport** - Liides MCP side jaoks. Rakendused: Stdio ja HTTP.
+**McpTransport** - Liides MCP kommunikatsiooni jaoks. Implementatsioonid sisaldavad Stdio ja HTTP.
 
-**Stdio Transport** - Kohalik protsessi transport läbi stdin/stdout. Kasulik failisüsteemi juurdepääsuks või käsurea tööriistadele.
+**Stdio Transport** - Kohalik protsessi transport läbi stdin/stdout. Kasulik failisüsteemi ligipääsu või käsureatööriistade jaoks.
 
-**StdioMcpTransport** - LangChain4j rakendus, mis käivitab MCP serveri alamprotsessina.
+**StdioMcpTransport** - LangChain4j implementatsioon, mis käivitab MCP serveri alamprotsessina.
 
-**Tool Discovery** - Klient küsib serverilt saadaval olevate tööriistade kirjeldusi ja skeeme.
+**Tööriistade Avastamine** - Klient pärib serverilt saadaolevad tööriistad koos kirjelduste ja skeemidega.
 
 ## Azure Teenused - [Moodul 01](../01-introduction/README.md)
 
-**Azure AI Search** - Pilvepõhine otsing koos vektorite võimetega. [Moodul 03](../03-rag/README.md)
+**Azure AI Otsing** - Pilveotsing vektorvõimalustega. [Moodul 03](../03-rag/README.md)
 
 **Azure Developer CLI (azd)** - Azure ressursside juurutamine.
 
-**Azure OpenAI** - Microsofti ettevõtete tehisintellekti teenus.
+**Azure OpenAI** - Microsofti ettevõtte AI teenus.
 
-**Bicep** - Azure infrastruktuuri koodikeel. [Infrastruktuuri juhend](../01-introduction/infra/README.md)
+**Bicep** - Azure infrastruktuuri kui koodi keel. [Infrastruktuuri juhend](../01-introduction/infra/README.md)
 
-**Deployment Name** - Nimi mudeli juurutamiseks Azure'is.
+**Juurutuse Nimi** - Mudeli juurutuse nimi Azure'is.
 
-**GPT-5.2** - Viimane OpenAI mudel mõtlemise juhtimisega. [Moodul 02](../02-prompt-engineering/README.md)
+**GPT-5.2** - Viimane OpenAI mudel mõtlemise kontrolliga. [Moodul 02](../02-prompt-engineering/README.md)
 
-## Testimine ja Arendus - [Testimise juhend](TESTING.md)
+## Testimine ja Arendus - [Testimise Juhend](TESTING.md)
 
-**Dev Container** - Konteinerpõhine arenduskeskkond. [Seadistus](../../../.devcontainer/devcontainer.json)
+**Dev Container** - Konteineriseeritud arenduskeskkond. [Konfiguratsioon](../../../.devcontainer/devcontainer.json)
 
-**GitHub Models** - Tasuta AI mudelite mänguväljak. [Moodul 00](../00-quick-start/README.md)
+**Mälupõhine Testimine** - Testimine mälusalvestusega.
 
-**In-Memory Testimine** - Testimine mälu baasil salvestusega.
+**Integreerimistestimine** - Testimine reaalse infrastruktuuriga.
 
-**Integration Testing** - Testimine päris infrastruktuuriga.
+**Maven** - Java ehitamise automatiseerimise tööriist.
 
-**Maven** - Java ehitustööriist.
+**Mockito** - Java teema jäljendamise raamistik.
 
-**Mockito** - Java testimise raamistik.
-
-**Spring Boot** - Java rakendusraamistik. [Moodul 01](../01-introduction/README.md)
+**Spring Boot** - Java rakenduse raamistik. [Moodul 01](../01-introduction/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Vastutusest loobumine**:  
-See dokument on tõlgitud kasutades tehisintellekti tõlketeenust [Co-op Translator](https://github.com/Azure/co-op-translator). Kuigi püüame täpsust, tuleb arvestada, et automatiseeritud tõlkes võivad esineda vead või ebatäpsused. Originaaldokument oma emakeeles tuleks pidada autoriteetseks allikaks. Kriitilise informatsiooni puhul soovitatakse kasutada professionaalset inimtõlget. Me ei vastuta selle tõlkega seotud arusaamatuste ega valesti tõlgendamise eest.
+**Lahtiütlus**:
+See dokument on tõlgitud kasutades AI tõlketeenust [Co-op Translator](https://github.com/Azure/co-op-translator). Kuigi me püüdleme täpsuse poole, palun pange tähele, et automatiseeritud tõlgetes võib esineda vigu või ebatäpsusi. Originaaldokument selle emakeeles tuleks pidada autoriteetseks allikaks. Olulise teabe puhul soovitatakse kasutada professionaalset inimtõlget. Me ei vastuta selle tõlkega seotud eksimustest või valesti mõistmistest.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

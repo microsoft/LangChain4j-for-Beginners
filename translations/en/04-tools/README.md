@@ -2,32 +2,32 @@
 
 ## Table of Contents
 
-- [Video Walkthrough](../../../04-tools)
-- [What You'll Learn](../../../04-tools)
-- [Prerequisites](../../../04-tools)
-- [Understanding AI Agents with Tools](../../../04-tools)
-- [How Tool Calling Works](../../../04-tools)
-  - [Tool Definitions](../../../04-tools)
-  - [Decision Making](../../../04-tools)
-  - [Execution](../../../04-tools)
-  - [Response Generation](../../../04-tools)
-  - [Architecture: Spring Boot Auto-Wiring](../../../04-tools)
-- [Tool Chaining](../../../04-tools)
-- [Run the Application](../../../04-tools)
-- [Using the Application](../../../04-tools)
-  - [Try Simple Tool Usage](../../../04-tools)
-  - [Test Tool Chaining](../../../04-tools)
-  - [See Conversation Flow](../../../04-tools)
-  - [Experiment with Different Requests](../../../04-tools)
-- [Key Concepts](../../../04-tools)
-  - [ReAct Pattern (Reasoning and Acting)](../../../04-tools)
-  - [Tool Descriptions Matter](../../../04-tools)
-  - [Session Management](../../../04-tools)
-  - [Error Handling](../../../04-tools)
-- [Available Tools](../../../04-tools)
-- [When to Use Tool-Based Agents](../../../04-tools)
-- [Tools vs RAG](../../../04-tools)
-- [Next Steps](../../../04-tools)
+- [Video Walkthrough](#video-walkthrough)
+- [What You'll Learn](#what-youll-learn)
+- [Prerequisites](#prerequisites)
+- [Understanding AI Agents with Tools](#understanding-ai-agents-with-tools)
+- [How Tool Calling Works](#how-tool-calling-works)
+  - [Tool Definitions](#tool-definitions)
+  - [Decision Making](#decision-making)
+  - [Execution](#execution)
+  - [Response Generation](#response-generation)
+  - [Architecture: Spring Boot Auto-Wiring](#architecture-spring-boot-auto-wiring)
+- [Tool Chaining](#tool-chaining)
+- [Run the Application](#run-the-application)
+- [Using the Application](#using-the-application)
+  - [Try Simple Tool Usage](#try-simple-tool-usage)
+  - [Test Tool Chaining](#test-tool-chaining)
+  - [See Conversation Flow](#see-conversation-flow)
+  - [Experiment with Different Requests](#experiment-with-different-requests)
+- [Key Concepts](#key-concepts)
+  - [ReAct Pattern (Reasoning and Acting)](#react-pattern-reasoning-and-acting)
+  - [Tool Descriptions Matter](#tool-descriptions-matter)
+  - [Session Management](#session-management)
+  - [Error Handling](#error-handling)
+- [Available Tools](#available-tools)
+- [When to Use Tool-Based Agents](#when-to-use-tool-based-agents)
+- [Tools vs RAG](#tools-vs-rag)
+- [Next Steps](#next-steps)
 
 ## Video Walkthrough
 
@@ -133,11 +133,11 @@ Spring Boot auto-wires the declarative `@AiService` interface with all registere
 
 *The end-to-end flow — the user asks a question, the model selects a tool, LangChain4j executes it, and the model weaves the result into a natural response.*
 
-If you ran the [ToolIntegrationDemo](../../../00-quick-start/src/main/java/com/example/langchain4j/quickstart/ToolIntegrationDemo.java) in Module 00, you already saw this pattern in action — the `Calculator` tools were called the same way. The sequence diagram below shows exactly what happened under the hood during that demo:
+Behind the scenes, `AiServices` runs the same tool-calling loop for any tool — here illustrated with a simple `Calculator`. The sequence diagram below shows exactly what happens under the hood:
 
 <img src="../../../translated_images/en/tool-calling-sequence.94802f406ca26278.webp" alt="Tool Calling Sequence Diagram" width="800"/>
 
-*The tool-calling loop from the Quick Start demo — `AiServices` sends your message and tool schemas to the LLM, the LLM replies with a function call like `add(42, 58)`, LangChain4j executes the `Calculator` method locally, and feeds the result back for the final answer.*
+*The tool-calling loop — `AiServices` sends your message and tool schemas to the LLM, the LLM replies with a function call like `add(42, 58)`, LangChain4j executes the `Calculator` method locally, and feeds the result back for the final answer.*
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`AgentService.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/service/AgentService.java) and ask:
 > - "How does the ReAct pattern work and why is it effective for AI agents?"
@@ -218,10 +218,10 @@ From the Spring Boot Dashboard, you can:
 - Start/stop applications with a single click
 - View application logs in real-time
 - Monitor application status
+
 Simply click the play button next to "tools" to start this module, or start all modules at once.
 
 Here's what the Spring Boot Dashboard looks like in VS Code:
-
 <img src="../../../translated_images/en/dashboard.9b519b1a1bc1b30a.webp" alt="Spring Boot Dashboard" width="400"/>
 
 *The Spring Boot Dashboard in VS Code — start, stop, and monitor all modules from one place*

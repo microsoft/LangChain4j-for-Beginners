@@ -2,29 +2,29 @@
 
 ## Table of Contents
 
-- [Video Walkthrough](../../../03-rag)
-- [What You'll Learn](../../../03-rag)
-- [Prerequisites](../../../03-rag)
-- [Understanding RAG](../../../03-rag)
-  - [Which RAG Approach Does This Tutorial Use?](../../../03-rag)
-- [How It Works](../../../03-rag)
-  - [Document Processing](../../../03-rag)
-  - [Creating Embeddings](../../../03-rag)
-  - [Semantic Search](../../../03-rag)
-  - [Answer Generation](../../../03-rag)
-- [Run the Application](../../../03-rag)
-- [Using the Application](../../../03-rag)
-  - [Upload a Document](../../../03-rag)
-  - [Ask Questions](../../../03-rag)
-  - [Check Source References](../../../03-rag)
-  - [Experiment with Questions](../../../03-rag)
-- [Key Concepts](../../../03-rag)
-  - [Chunking Strategy](../../../03-rag)
-  - [Similarity Scores](../../../03-rag)
-  - [In-Memory Storage](../../../03-rag)
-  - [Context Window Management](../../../03-rag)
-- [When RAG Matters](../../../03-rag)
-- [Next Steps](../../../03-rag)
+- [Video Walkthrough](#video-walkthrough)
+- [What You'll Learn](#what-youll-learn)
+- [Prerequisites](#prerequisites)
+- [Understanding RAG](#understanding-rag)
+  - [Which RAG Approach Does This Tutorial Use?](#which-rag-approach-does-this-tutorial-use)
+- [How It Works](#how-it-works)
+  - [Document Processing](#document-processing)
+  - [Creating Embeddings](#creating-embeddings)
+  - [Semantic Search](#semantic-search)
+  - [Answer Generation](#answer-generation)
+- [Run the Application](#run-the-application)
+- [Using the Application](#using-the-application)
+  - [Upload a Document](#upload-a-document)
+  - [Ask Questions](#ask-questions)
+  - [Check Source References](#check-source-references)
+  - [Experiment with Questions](#experiment-with-questions)
+- [Key Concepts](#key-concepts)
+  - [Chunking Strategy](#chunking-strategy)
+  - [Similarity Scores](#similarity-scores)
+  - [In-Memory Storage](#in-memory-storage)
+  - [Context Window Management](#context-window-management)
+- [When RAG Matters](#when-rag-matters)
+- [Next Steps](#next-steps)
 
 ## Video Walkthrough
 
@@ -40,18 +40,17 @@ RAG (Retrieval-Augmented Generation) solves this problem. Instead of trying to t
 
 Think of RAG as giving the model a reference library. When you ask a question, the system:
 
-1. **User Query** - You ask a question
-2. **Embedding** - Converts your question to a vector
-3. **Vector Search** - Finds similar document chunks
-4. **Context Assembly** - Adds relevant chunks to the prompt
+1. **User Query** - You ask a question  
+2. **Embedding** - Converts your question to a vector  
+3. **Vector Search** - Finds similar document chunks  
+4. **Context Assembly** - Adds relevant chunks to the prompt  
 5. **Response** - LLM generates an answer based on the context
 
 This grounds the model's responses in your actual data instead of relying on its training knowledge or making up answers.
 
 ## Prerequisites
 
-- Completed [Module 00 - Quick Start](../00-quick-start/README.md) (for the Easy RAG example referenced later in this module)
-- Completed [Module 01 - Introduction](../01-introduction/README.md) (Azure OpenAI resources deployed, including the `text-embedding-3-small` embedding model)
+- Completed [Module 01 - Introduction](../01-introduction/README.md) (Azure OpenAI resources deployed, including the `text-embedding-3-small` embedding model)  
 - `.env` file in root directory with Azure credentials (created by `azd up` in Module 01)
 
 > **Note:** If you haven't completed Module 01, follow the deployment instructions there first. The `azd up` command deploys both the GPT chat model and the embedding model used by this module.
@@ -80,21 +79,21 @@ LangChain4j offers three ways to implement RAG, each with a different level of a
 
 *This diagram compares the three LangChain4j RAG approaches — Easy, Native, and Advanced — showing their key components and when to use each one.*
 
-| Approach | What It Does | Trade-off |
-|---|---|---|
-| **Easy RAG** | Wires everything automatically through `AiServices` and `ContentRetriever`. You annotate an interface, attach a retriever, and LangChain4j handles embedding, searching, and prompt assembly behind the scenes. | Minimal code, but you don't see what's happening at each step. |
-| **Native RAG** | You call the embedding model, search the store, build the prompt, and generate the answer yourself — one explicit step at a time. | More code, but every stage is visible and modifiable. |
-| **Advanced RAG** | Uses the `RetrievalAugmentor` framework with pluggable query transformers, routers, re-rankers, and content injectors for production-grade pipelines. | Maximum flexibility, but significantly more complexity. |
+| Approach     | What It Does                                                                                                                                              | Trade-off                                                        |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| **Easy RAG** | Wires everything automatically through `AiServices` and `ContentRetriever`. You annotate an interface, attach a retriever, and LangChain4j handles embedding, searching, and prompt assembly behind the scenes. | Minimal code, but you don't see what's happening at each step.  |
+| **Native RAG** | You call the embedding model, search the store, build the prompt, and generate the answer yourself — one explicit step at a time.                      | More code, but every stage is visible and modifiable.           |
+| **Advanced RAG** | Uses the `RetrievalAugmentor` framework with pluggable query transformers, routers, re-rankers, and content injectors for production-grade pipelines. | Maximum flexibility, but significantly more complexity.         |
 
 **This tutorial uses the Native approach.** Each step of the RAG pipeline — embedding the query, searching the vector store, assembling the context, and generating the answer — is written out explicitly in [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java). This is intentional: as a learning resource, it's more important that you see and understand every stage than that the code is minimized. Once you're comfortable with how the pieces fit together, you can graduate to Easy RAG for quick prototypes or Advanced RAG for production systems.
 
-> **💡 Already seen Easy RAG in action?** The [Quick Start module](../00-quick-start/README.md) includes a Document Q&A example ([`SimpleReaderDemo.java`](../../../00-quick-start/src/main/java/com/example/langchain4j/quickstart/SimpleReaderDemo.java)) that uses the Easy RAG approach — LangChain4j handles embedding, searching, and prompt assembly automatically. This module takes the next step by breaking open that pipeline so you can see and control each stage yourself.
+> **💡 Curious about Easy RAG?** LangChain4j also offers an *Easy RAG* approach where `AiServices` and a `ContentRetriever` handle embedding, searching, and prompt assembly automatically. This module takes the more explicit path — breaking open that pipeline so you can see and control each stage yourself.
 
-The diagram below shows the Easy RAG pipeline from that Quick Start example. Notice how `AiServices` and `EmbeddingStoreContentRetriever` hide all the complexity — you load a document, attach a retriever, and get answers. The Native approach in this module breaks each of those hidden steps open:
+The diagram below shows the Easy RAG pipeline. Notice how `AiServices` and `EmbeddingStoreContentRetriever` hide all the complexity — you load a document, attach a retriever, and get answers. The Native approach in this module breaks each of those hidden steps open:
 
 <img src="../../../translated_images/en/easy-rag-pipeline.2e1602e2ad2ded42.webp" alt="Easy RAG Pipeline - LangChain4j" width="800"/>
 
-*This diagram shows the Easy RAG pipeline from `SimpleReaderDemo.java`. Compare this with the Native approach used in this module: Easy RAG hides the embedding, retrieval, and prompt assembly behind `AiServices` and `ContentRetriever` — you load a document, attach a retriever, and get answers. The Native approach in this module breaks that pipeline open so you call each stage (embed, search, assemble context, generate) yourself, giving you full visibility and control.*
+*This diagram shows the Easy RAG pipeline. Compare this with the Native approach used in this module: Easy RAG hides the embedding, retrieval, and prompt assembly behind `AiServices` and `ContentRetriever` — you load a document, attach a retriever, and get answers. The Native approach in this module breaks that pipeline open so you call each stage (embed, search, assemble context, generate) yourself, giving you full visibility and control.*
 
 ## How It Works
 
@@ -123,9 +122,9 @@ The diagram below shows how this works visually. Notice how each chunk shares so
 
 *This diagram shows a document being split into 300-token chunks with 30-token overlap, preserving context at chunk boundaries.*
 
-> **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`DocumentService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java) and ask:
-> - "How does LangChain4j split documents into chunks and why is overlap important?"
-> - "What's the optimal chunk size for different document types and why?"
+> **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`DocumentService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java) and ask:  
+> - "How does LangChain4j split documents into chunks and why is overlap important?"  
+> - "What's the optimal chunk size for different document types and why?"  
 > - "How do I handle documents in multiple languages or with special formatting?"
 
 ### Creating Embeddings
@@ -201,10 +200,10 @@ The diagram below contrasts semantic search with traditional keyword search. A k
 <img src="../../../translated_images/en/semantic-search.6b790f21c86b849d.webp" alt="Semantic Search" width="800"/>
 
 *This diagram compares keyword-based search with semantic search, showing how semantic search retrieves conceptually related content even when exact keywords differ.*
+
 Under the hood, similarity is measured using cosine similarity — essentially asking "are these two arrows pointing in the same direction?" Two chunks can use completely different words, but if they mean the same thing their vectors point the same way and score close to 1.0:
 
 <img src="../../../translated_images/en/cosine-similarity.9baeaf3fc3336abb.webp" alt="Cosine Similarity" width="800"/>
-
 *This diagram illustrates cosine similarity as the angle between embedding vectors — more aligned vectors score closer to 1.0, indicating higher semantic similarity.*
 
 > **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java) and ask:
@@ -433,5 +432,5 @@ RAG isn't always the right approach. The decision guide below helps you determin
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Disclaimer**:
-This document has been translated using the AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
+This document has been translated using AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

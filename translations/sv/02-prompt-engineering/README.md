@@ -2,84 +2,84 @@
 
 ## Innehållsförteckning
 
-- [Video Walkthrough](../../../02-prompt-engineering)
-- [Vad du kommer att lära dig](../../../02-prompt-engineering)
-- [Förutsättningar](../../../02-prompt-engineering)
-- [Förstå Prompt Engineering](../../../02-prompt-engineering)
-- [Grunderna i Prompt Engineering](../../../02-prompt-engineering)
-  - [Zero-Shot Prompting](../../../02-prompt-engineering)
-  - [Few-Shot Prompting](../../../02-prompt-engineering)
-  - [Chain of Thought](../../../02-prompt-engineering)
-  - [Rollbaserad Prompting](../../../02-prompt-engineering)
-  - [Promptmallar](../../../02-prompt-engineering)
-- [Avancerade mönster](../../../02-prompt-engineering)
-- [Kör applikationen](../../../02-prompt-engineering)
-- [Skärmdumpar från applikationen](../../../02-prompt-engineering)
-- [Utforska mönstren](../../../02-prompt-engineering)
-  - [Låg vs Hög Iver](../../../02-prompt-engineering)
-  - [Uppgiftshantering (Verktygspreambler)](../../../02-prompt-engineering)
-  - [Självreflekterande kod](../../../02-prompt-engineering)
-  - [Strukturerad analys](../../../02-prompt-engineering)
-  - [Flerstegs-chatt](../../../02-prompt-engineering)
-  - [Steg-för-steg-resonemang](../../../02-prompt-engineering)
-  - [Begränsad output](../../../02-prompt-engineering)
-- [Vad du egentligen lär dig](../../../02-prompt-engineering)
-- [Nästa steg](../../../02-prompt-engineering)
+- [Videogenomgång](#videogenomgång)
+- [Det du kommer lära dig](#det-du-kommer-lära-dig)
+- [Förkunskaper](#förkunskaper)
+- [Förstå prompt engineering](#förstå-prompt-engineering)
+- [Grundläggande om prompt engineering](#grundläggande-om-prompt-engineering)
+  - [Zero-Shot Prompting](#zero-shot-prompting)
+  - [Few-Shot Prompting](#few-shot-prompting)
+  - [Chain of Thought](#chain-of-thought)
+  - [Role-Based Prompting](#role-based-prompting)
+  - [Promptmallar](#promptmallar)
+- [Avancerade mönster](#avancerade-mönster)
+- [Kör applikationen](#kör-applikationen)
+- [Skärmdumpar från applikationen](#applikationsskärmbilder)
+- [Utforska mönstren](#utforska-mönstren)
+  - [Låg vs hög iver](#low-vs-high-eagerness)
+  - [Uppgiftsutförande (verktygspreambler)](#utförande-av-uppgifter-verktygspreamblar)
+  - [Självreflekterande kod](#självreflekterande-kod)
+  - [Strukturerad analys](#strukturerad-analys)
+  - [Flergångs-chatt](#flerstegs-chatt)
+  - [Steg-för-steg-resonemang](#steg-för-steg-resonemang)
+  - [Begränsat utdata](#begränsad-utdatan)
+- [Vad du verkligen lär dig](#vad-du-verkligen-lär-dig)
+- [Nästa steg](#nästa-steg)
 
-## Video Walkthrough
+## Videogenomgång
 
-Titta på denna livesession som förklarar hur du kommer igång med denna modul:
+Titta på denna direktsända session som förklarar hur du kommer igång med denna modul:
 
 <a href="https://www.youtube.com/live/PJ6aBaE6bog?si=LDshyBrTRodP-wke"><img src="https://img.youtube.com/vi/PJ6aBaE6bog/maxresdefault.jpg" alt="Prompt Engineering with LangChain4j - Live Session" width="800"/></a>
 
-## Vad du kommer att lära dig
+## Det du kommer lära dig
 
-Följande diagram ger en översikt över de viktigaste ämnena och färdigheterna du kommer att utveckla i denna modul — från tekniker för förfining av prompts till det steg-för-steg-arbetsflöde du kommer följa.
+Följande diagram ger en översikt över de viktigaste ämnena och färdigheterna du kommer utveckla i denna modul — från tekniker för förbättring av prompts till det steg-för-steg-arbetsflöde du kommer följa.
 
 <img src="../../../translated_images/sv/what-youll-learn.c68269ac048503b2.webp" alt="What You'll Learn" width="800"/>
 
-I tidigare moduler har du utforskat grundläggande LangChain4j-interaktioner med GitHub Models och sett hur minne möjliggör konversations-AI med Azure OpenAI. Nu ska vi fokusera på hur du ställer frågor — själva prompterna — med Azure OpenAI:s GPT-5.2. Sättet du strukturerar dina prompts påverkar dramatiskt kvaliteten på svaren du får. Vi börjar med en översikt över grundläggande prompttekniker, sedan går vi vidare till åtta avancerade mönster som utnyttjar GPT-5.2:s kapabiliteter fullt ut.
+I den föregående modulen såg du hur minne möjliggör konversations-AI med Azure OpenAI. Nu fokuserar vi på hur du ställer frågor — själva promptsen — med hjälp av Azure OpenAI:s GPT-5.2. Sättet du strukturerar dina prompts påverkar dramatiskt kvaliteten på svaren du får. Vi börjar med en översyn av de grundläggande prompting-teknikerna, och går sedan vidare till åtta avancerade mönster som utnyttjar GPT-5.2:s kapaciteter fullt ut.
 
-Vi använder GPT-5.2 eftersom det introducerar resonemangskontroll – du kan berätta för modellen hur mycket tänkande den ska göra innan den svarar. Detta gör olika prompting-strategier tydligare och hjälper dig förstå när du ska använda varje metod. Vi drar också nytta av Azures färre begränsningar för GPT-5.2 jämfört med GitHub Models.
+Vi använder GPT-5.2 eftersom den introducerar styrning av resonemang - du kan ange för modellen hur mycket tänkande den ska göra innan den svarar. Detta gör olika prompting-strategier tydligare och hjälper dig förstå när du ska använda varje tillvägagångssätt.
 
-## Förutsättningar
+## Förkunskaper
 
-- Genomförd Modul 01 (Azure OpenAI-resurser utplacerade)
-- `.env`-fil i rotkatalogen med Azure-uppgifter (skapad av `azd up` i Modul 01)
+- Avslutad modul 01 (Azure OpenAI-resurser distribuerade)
+- `.env`-fil i rotkatalogen med Azure-referenser (skapad av `azd up` i modul 01)
 
-> **Obs:** Om du inte har genomfört Modul 01, följ först installationsinstruktionerna där.
+> **Notera:** Om du inte har slutfört modul 01, följ installationsanvisningarna där först.
 
-## Förstå Prompt Engineering
+## Förstå prompt engineering
 
 I grunden handlar prompt engineering om skillnaden mellan vaga instruktioner och precisa sådana, som jämförelsen nedan illustrerar.
 
 <img src="../../../translated_images/sv/what-is-prompt-engineering.5c392a228a1f5823.webp" alt="What is Prompt Engineering?" width="800"/>
 
-Prompt engineering handlar om att designa inmatad text som konsekvent ger dig de resultat du behöver. Det är inte bara att ställa frågor – det handlar om att strukturera begäran så att modellen exakt förstår vad du vill ha och hur det ska levereras.
+Prompt engineering handlar om att designa inmatningstext som konsekvent ger dig de resultat du behöver. Det handlar inte bara om att ställa frågor - det handlar om att strukturera förfrågningar så att modellen exakt förstår vad du vill ha och hur det ska levereras.
 
-Tänk på det som att ge instruktioner till en kollega. "Fix the bug" är vagt. "Fix the null pointer exception in UserService.java line 45 by adding a null check" är specifikt. Språkmodeller fungerar på samma sätt – precision och struktur spelar roll.
+Tänk på det som att ge instruktioner till en kollega. "Fix the bug" är vagt. "Fix the null pointer exception in UserService.java line 45 by adding a null check" är specifikt. Språkmodeller fungerar på samma sätt - specificitet och struktur är viktiga.
 
-Diagrammet nedan visar hur LangChain4j passar in i bilden — kopplar dina promptmönster till modellen via byggstenarna SystemMessage och UserMessage.
+Diagrammet nedan visar hur LangChain4j passar in i denna bild — genom att koppla dina promptmönster till modellen via byggstenarna SystemMessage och UserMessage.
 
 <img src="../../../translated_images/sv/how-langchain4j-fits.dfff4b0aa5f7812d.webp" alt="How LangChain4j Fits" width="800"/>
 
-LangChain4j tillhandahåller infrastrukturen — modellanslutningar, minne och meddelandetyper — medan promptmönster är bara noggrant strukturerad text som du skickar genom den infrastrukturen. De viktiga byggstenarna är `SystemMessage` (som ställer in AI:ns beteende och roll) och `UserMessage` (som bär din faktiska begäran).
+LangChain4j tillhandahåller infrastrukturen — modellkopplingar, minne och meddelandetyper — medan promptmönster bara är noggrant strukturerad text som du skickar genom denna infrastruktur. Nyckelbyggstenarna är `SystemMessage` (som sätter AI:ns beteende och roll) och `UserMessage` (som förmedlar din faktiska förfrågan).
 
-## Grunderna i Prompt Engineering
+## Grundläggande om prompt engineering
 
-De fem kärnteknikerna nedan utgör grunden för effektiv prompt engineering. Var och en tar upp en annan aspekt av hur du kommunicerar med språkmodeller.
+De fem kärntekniker som visas nedan utgör grunden för effektiv prompt engineering. Var och en adresserar en annan aspekt av hur du kommunicerar med språkmodeller.
 
 <img src="../../../translated_images/sv/five-patterns-overview.160f35045ffd2a94.webp" alt="Five Prompt Engineering Patterns Overview" width="800"/>
 
-Innan vi dyker in i de avancerade mönstren i denna modul, låt oss gå igenom fem grundläggande prompting-tekniker. Dessa är byggstenarna som varje promptingenjör bör känna till. Om du redan har arbetat igenom [Quick Start-modulen](../00-quick-start/README.md#2-prompt-patterns) har du sett dessa i praktiken – här är det konceptuella ramverket bakom dem.
+Innan vi dyker in i de avancerade mönstren i denna modul, låt oss gå igenom fem grundläggande prompting-tekniker. Dessa är byggstenarna som varje promptingenjör bör känna till.
 
 ### Zero-Shot Prompting
 
-Det enklaste tillvägagångssättet: ge modellen en direkt instruktion utan exempel. Modellen förlitar sig helt på sin träning för att förstå och utföra uppgiften. Detta fungerar bra för enkla begäranden där förväntat beteende är uppenbart.
+Det enklaste tillvägagångssättet: ge modellen en direkt instruktion utan exempel. Modellen förlitar sig helt på sin träning för att förstå och utföra uppgiften. Detta fungerar bra för okomplicerade förfrågningar där förväntat beteende är uppenbart.
 
 <img src="../../../translated_images/sv/zero-shot-prompting.7abc24228be84e6c.webp" alt="Zero-Shot Prompting" width="800"/>
 
-*Direkt instruktion utan exempel – modellen härleder uppgiften endast från instruktionen*
+*Direkt instruktion utan exempel — modellen härleder uppgiften utifrån instruktionen*
 
 ```java
 String prompt = "Classify this sentiment: 'I absolutely loved the movie!'";
@@ -87,15 +87,15 @@ String response = model.chat(prompt);
 // Svar: "Positiv"
 ```
 
-**När man ska använda:** Enkla klassificeringar, direkta frågor, översättningar eller uppgifter som modellen kan hantera utan ytterligare vägledning.
+**När du ska använda det:** Enkla klassificeringar, direkta frågor, översättningar eller alla uppgifter som modellen kan hantera utan extra vägledning.
 
 ### Few-Shot Prompting
 
-Ge exempel som visar mönstret du vill att modellen ska följa. Modellen lär sig det förväntade indata-utdata-formatet från dina exempel och tillämpar det på nya indata. Detta förbättrar dramatiskt konsekvensen för uppgifter där önskat format eller beteende inte är uppenbart.
+Ge exempel som demonstrerar mönstret du vill att modellen ska följa. Modellen lär sig det förväntade inmatnings- och utdataformatet från dina exempel och tillämpar det på nya indata. Detta förbättrar drastiskt konsekvensen för uppgifter där det önskade formatet eller beteendet inte är självklart.
 
 <img src="../../../translated_images/sv/few-shot-prompting.9d9eace1da88989a.webp" alt="Few-Shot Prompting" width="800"/>
 
-*Lär sig från exempel – modellen identifierar mönstret och tillämpar det på nya indata*
+*Lära av exempel — modellen identifierar mönstret och tillämpar det på nya indata*
 
 ```java
 String prompt = """
@@ -112,15 +112,15 @@ String prompt = """
 String response = model.chat(prompt);
 ```
 
-**När man ska använda:** Anpassade klassificeringar, konsekvent formattering, domänspecifika uppgifter eller när zero-shot-resultat är inkonsekventa.
+**När du ska använda det:** Anpassade klassificeringar, konsekvent formatering, domänspecifika uppgifter eller när zero-shot-resultat är inkonsekventa.
 
 ### Chain of Thought
 
-Be modellen visa sitt resonemang steg för steg. Istället för att hoppa direkt till ett svar bryter modellen ner problemet och arbetar igenom varje del explicit. Detta förbättrar noggrannheten i matematik, logik och flerstegsresonemangsuppgifter.
+Be modellen visa sitt resonemang steg-för-steg. Istället för att hoppa direkt till ett svar delar modellen upp problemet och arbetar igenom varje del explicit. Detta förbättrar noggrannheten vid matematiska, logiska och flerstegsresonerande uppgifter.
 
 <img src="../../../translated_images/sv/chain-of-thought.5cff6630e2657e2a.webp" alt="Chain of Thought Prompting" width="800"/>
 
-*Steg-för-steg-resonemang – bryter ner komplexa problem i explicita logiska steg*
+*Steg-för-steg-resonemang — dela upp komplexa problem i tydliga logiska steg*
 
 ```java
 String prompt = """
@@ -133,15 +133,15 @@ String response = model.chat(prompt);
 // Modellen visar: 15 - 8 = 7, sedan 7 + 12 = 19 äpplen
 ```
 
-**När man ska använda:** Matematikproblem, logikpussel, felsökning eller andra uppgifter där att visa resonemangsprocessen förbättrar noggrannhet och förtroende.
+**När du ska använda det:** Matteproblem, logiska pussel, felsökning eller alla uppgifter där att visa resonemangsprocessen förbättrar noggrannheten och förtroendet.
 
-### Rollbaserad Prompting
+### Role-Based Prompting
 
-Sätt en persona eller roll för AI:n innan du ställer din fråga. Detta ger kontext som formar tonen, djupet och fokus i svaret. En "software architect" ger annan rådgivning än en "junior developer" eller en "security auditor".
+Sätt en persona eller roll för AI:n innan du ställer din fråga. Detta ger kontext som formar tonen, djupet och fokus i svaret. En "software architect" ger andra råd än en "junior developer" eller en "security auditor".
 
 <img src="../../../translated_images/sv/role-based-prompting.a806e1a73de6e3a4.webp" alt="Role-Based Prompting" width="800"/>
 
-*Sätta kontext och persona – samma fråga får olika svar beroende på tilldelad roll*
+*Ställa in kontext och persona — samma fråga får olika svar beroende på tilldelad roll*
 
 ```java
 String prompt = """
@@ -157,15 +157,15 @@ String prompt = """
 String response = model.chat(prompt);
 ```
 
-**När man ska använda:** Kodgranskningar, handledning, domänspecifik analys eller när du behöver svar anpassade till en särskild expertisnivå eller perspektiv.
+**När du ska använda det:** Kodgranskningar, handledning, domänspecifik analys eller när du behöver svar anpassade efter en viss expertisnivå eller perspektiv.
 
 ### Promptmallar
 
-Skapa återanvändbara prompts med variabla platshållare. Istället för att skriva en ny prompt varje gång, definiera en mall en gång och fyll i olika värden. LangChain4js `PromptTemplate`-klass gör detta enkelt med `{{variable}}`-syntakt.
+Skapa återanvändbara prompts med variabla platshållare. Istället för att skriva en ny prompt varje gång, definiera en mall en gång och fyll i olika värden. LangChain4j:s `PromptTemplate`-klass gör detta enkelt med `{{variable}}`-syntaxen.
 
 <img src="../../../translated_images/sv/prompt-templates.14bfc37d45f1a933.webp" alt="Prompt Templates" width="800"/>
 
-*Återanvändbara prompts med variabla platshållare – en mall, många användningar*
+*Återanvändbara prompts med variabla platshållare — en mall, många användningar*
 
 ```java
 PromptTemplate template = PromptTemplate.from(
@@ -180,27 +180,27 @@ Prompt prompt = template.apply(Map.of(
 String response = model.chat(prompt.text());
 ```
 
-**När man ska använda:** Upprepade frågor med olika indata, batchbearbetning, bygga återanvändbara AI-arbetsflöden eller i situationer där promptens struktur förblir densamma men data ändras.
+**När du ska använda det:** Upprepade frågor med olika indata, batchbearbetning, bygga återanvändbara AI-arbetsflöden eller alla scenarier där promptstrukturen är konstant men datat förändras.
 
 ---
 
-Dessa fem grunder ger dig en robust verktygslåda för de flesta prompting-uppgifter. Resten av denna modul bygger vidare på dem med **åtta avancerade mönster** som utnyttjar GPT-5.2:s resonemangskontroll, självvärdering och strukturerade output-funktioner.
+Dessa fem grundläggande tekniker ger dig en stabil verktygslåda för de flesta prompting-uppgifter. Resten av denna modul bygger vidare på dem med **åtta avancerade mönster** som utnyttjar GPT-5.2:s styrning av resonemang, självvärdering och strukturerad utdata.
 
 ## Avancerade mönster
 
-Med grunderna på plats går vi vidare till de åtta avancerade mönster som gör denna modul unik. Inte alla problem behöver samma tillvägagångssätt. Vissa frågor kräver snabba svar, andra kräver djup eftertanke. Vissa behöver synligt resonemang, andra bara resultat. Varje mönster nedan är optimerat för ett specifikt scenario — och GPT-5.2:s resonemangskontroll förstärker skillnaderna ytterligare.
+Med grunderna täckta, låt oss gå vidare till de åtta avancerade mönstren som gör denna modul unik. Inte alla problem kräver samma tillvägagångssätt. Vissa frågor behöver snabba svar, andra kräver djupt tänkande. Vissa behöver synligt resonemang, andra bara resultat. Varje mönster nedan är optimerat för ett annat scenario — och GPT-5.2:s resonemangsstyrning gör skillnaderna ännu tydligare.
 
 <img src="../../../translated_images/sv/eight-patterns.fa1ebfdf16f71e9a.webp" alt="Eight Prompting Patterns" width="800"/>
 
 *Översikt över de åtta prompt engineering-mönstren och deras användningsområden*
 
-GPT-5.2 tillför en dimension till dessa mönster: *resonemangskontroll*. Reglaget nedan visar hur du kan justera modellens tänkande – från snabba, direkta svar till djup, grundlig analys.
+GPT-5.2 lägger till en ny dimension till dessa mönster: *resonemangsstyrning*. Reglaget nedan visar hur du kan justera modellens tänkande — från snabba, direkta svar till djuplodande, grundlig analys.
 
 <img src="../../../translated_images/sv/reasoning-control.5cf85f0fc1d0c1f3.webp" alt="Reasoning Control with GPT-5.2" width="800"/>
 
-*GPT-5.2:s resonemangskontroll låter dig specificera hur mycket modellen ska tänka – från snabba, direkta svar till djupgående utforskning*
+*GPT-5.2:s resonemangsstyrning låter dig specificera hur mycket tänkande modellen ska göra — från snabba direkta svar till djup utforskning*
 
-**Låg iver (Snabb & Fokuserad)** - För enkla frågor där du vill ha snabba, direkta svar. Modellen gör minimalt resonemang - max 2 steg. Använd detta för beräkningar, uppslag eller enkla frågor.
+**Låg iver (Snabbt & Fokuserat)** - För enkla frågor där du vill ha snabba, direkta svar. Modellen gör minimalt resonemang - max 2 steg. Använd detta för beräkningar, uppslagningar eller enkla frågor.
 
 ```java
 String prompt = """
@@ -221,10 +221,10 @@ String response = chatModel.chat(prompt);
 
 > 💡 **Utforska med GitHub Copilot:** Öppna [`Gpt5PromptService.java`](../../../02-prompt-engineering/src/main/java/com/example/langchain4j/prompts/service/Gpt5PromptService.java) och fråga:
 > - "Vad är skillnaden mellan låga och höga iver-promptmönster?"
-> - "Hur hjälper XML-taggarna i prompts att strukturera AI:ns svar?"
+> - "Hur hjälper XML-taggar i prompts att strukturera AI:ns svar?"
 > - "När ska jag använda självreflektionsmönster kontra direkt instruktion?"
 
-**Hög iver (Djup & Grundlig)** - För komplexa problem där du vill ha en omfattande analys. Modellen undersöker noggrant och visar detaljerat resonemang. Använd detta för systemdesign, arkitekturval eller komplex forskning.
+**Hög iver (Djupt & Grundligt)** - För komplexa problem där du vill ha en omfattande analys. Modellen undersöker grundligt och visar detaljerat resonemang. Använd detta för systemdesign, arkitekturval eller komplex forskning.
 
 ```java
 String prompt = """
@@ -238,7 +238,7 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-**Uppgiftshantering (Steg-för-steg-framsteg)** - För arbetsflöden med flera steg. Modellen presenterar en plan i förväg, berättar om varje steg medan den arbetar, och avslutar med en sammanfattning. Använd detta för migrationer, implementeringar eller andra flerstegsprocesser.
+**Uppgiftsutförande (Steg-för-steg-framsteg)** - För flerstegsarbetsflöden. Modellen ger en plan i förväg, berättar om varje steg under arbetets gång och avslutar med en sammanfattning. Använd detta för migrationer, implementationer eller alla flerstegsprocesser.
 
 ```java
 String prompt = """
@@ -276,20 +276,20 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Chain-of-Thought prompting ber uttryckligen modellen att visa sitt resonemang, vilket förbättrar noggrannheten vid komplexa uppgifter. Steg-för-steg-nedbrytningen hjälper både människor och AI att förstå logiken.
+Chain-of-Thought-prompting ber modellen visa sitt resonemang, vilket förbättrar noggrannheten för komplexa uppgifter. Genom att bryta ned processen steg-för-steg hjälper det både människor och AI att förstå logiken.
 
 > **🤖 Prova med [GitHub Copilot](https://github.com/features/copilot) Chat:** Fråga om detta mönster:
-> - "Hur skulle jag anpassa uppgiftshanteringsmönstret för långvariga operationer?"
+> - "Hur kan jag anpassa mönstret för uppgiftsutförande för långvariga operationer?"
 > - "Vilka är bästa praxis för att strukturera verktygspreambler i produktionsapplikationer?"
-> - "Hur kan jag fånga och visa uppdateringar om mellanliggande framsteg i ett UI?"
+> - "Hur kan jag fånga och visa mellanliggande uppdateringar i en användargränssnitt?"
 
-Diagrammet nedan illustrerar detta Planera → Utföra → Sammanfatta arbetsflöde.
+Diagrammet nedan illustrerar detta Planera → Utföra → Sammanfatta-arbetsflöde.
 
 <img src="../../../translated_images/sv/task-execution-pattern.9da3967750ab5c1e.webp" alt="Task Execution Pattern" width="800"/>
 
-*Arbetsflöde Planera → Utföra → Sammanfatta för flerstegsuppgifter*
+*Planera → Utföra → Sammanfatta-arbetsflöde för flerstegsuppgifter*
 
-**Självreflekterande kod** - För att generera produktionskvalitativ kod. Modellen genererar kod enligt produktionsstandarder med korrekt felhantering. Använd detta när du bygger nya funktioner eller tjänster.
+**Självreflekterande kod** - För att generera produktionsklar kod. Modellen genererar kod som följer produktionsstandarder med korrekt felhantering. Använd detta när du bygger nya funktioner eller tjänster.
 
 ```java
 String prompt = """
@@ -300,13 +300,13 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Diagrammet nedan visar denna iterativa förbättringscykel – generera, utvärdera, identifiera svagheter och förbättra tills koden uppfyller produktionsstandarder.
+Diagrammet nedan visar denna iterativa förbättringscykel — generera, utvärdera, identifiera svagheter och förfina tills koden uppfyller produktionsstandarder.
 
 <img src="../../../translated_images/sv/self-reflection-cycle.6f71101ca0bd28cc.webp" alt="Self-Reflection Cycle" width="800"/>
 
-*Iterativ förbättringscykel – generera, utvärdera, upptäcka problem, förbättra, upprepa*
+*Iterativ förbättringscykel - generera, utvärdera, identifiera problem, förbättra, upprepa*
 
-**Strukturerad analys** - För konsekvent utvärdering. Modellen granskar kod med ett fast ramverk (korrekthet, praxis, prestanda, säkerhet, underhållbarhet). Använd detta för kodgranskningar eller kvalitetsbedömningar.
+**Strukturerad analys** - För konsekvent utvärdering. Modellen granskar kod med en fast ram (korrekthet, praxis, prestanda, säkerhet, underhållbarhet). Använd detta för kodgranskningar eller kvalitetsbedömningar.
 
 ```java
 String prompt = """
@@ -356,16 +356,16 @@ String response = chatModel.chat(prompt);
 
 > **🤖 Prova med [GitHub Copilot](https://github.com/features/copilot) Chat:** Fråga om strukturerad analys:
 > - "Hur kan jag anpassa analysramverket för olika typer av kodgranskningar?"
-> - "Vad är bästa sättet att programmässigt tolka och agera på strukturerad output?"
-> - "Hur säkerställer jag konsekventa allvarlighetsnivåer mellan olika granskningssessioner?"
+> - "Vad är bästa sättet att parsa och agera på strukturerad utdata programmässigt?"
+> - "Hur säkerställer jag konsekventa allvarlighetsnivåer över olika granskningssessioner?"
 
-Diagrammet nedan visar hur detta strukturerade ramverk organiserar en kodgranskning i konsekventa kategorier med allvarlighetsnivåer.
+Följande diagram visar hur detta strukturerade ramverk organiserar en kodgranskning i konsekventa kategorier med allvarlighetsnivåer.
 
 <img src="../../../translated_images/sv/structured-analysis-pattern.0af3b690b60cf2d6.webp" alt="Structured Analysis Pattern" width="800"/>
 
 *Ramverk för konsekventa kodgranskningar med allvarlighetsnivåer*
 
-**Flerstegs-chatt** - För konversationer som behöver kontext. Modellen kommer ihåg tidigare meddelanden och bygger vidare på dem. Använd detta för interaktiva hjälpsessioner eller komplexa frågor och svar.
+**Flergångs-chatt** - För konversationer som behöver kontext. Modellen minns tidigare meddelanden och bygger vidare på dem. Använd detta för interaktiva hjälpsessioner eller komplexa frågor och svar.
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -379,12 +379,13 @@ AiMessage aiMessage2 = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage2);
 ```
 
-Diagrammet nedan visualiserar hur kontexten i samtalet ackumuleras med varje tur och hur det förhåller sig till modellens tokenbegränsning.
+Diagrammet nedan visualiserar hur konversationskontext ackumuleras med varje vändning och hur det relaterar till modellens token-gräns.
 
 <img src="../../../translated_images/sv/context-memory.dff30ad9fa78832a.webp" alt="Context Memory" width="800"/>
 
-*Hur samtalskontext ackumuleras över flera turer tills tokenbegränsningen nås*
-**Steg-för-steg-resonemang** – För problem som kräver synlig logik. Modellen visar tydlig resonemang för varje steg. Använd detta för matematiska problem, logikpussel eller när du behöver förstå tankegången.
+*Hur konversationskontext ackumuleras över flera vändningar tills token-gränsen nås*
+
+**Steg-för-steg-resonemang** - För problem som kräver synlig logik. Modellen visar explicit resonemang för varje steg. Använd detta för matteproblem, logiska pussel eller när du behöver förstå tänkandeprocessen.
 
 ```java
 String prompt = """
@@ -398,13 +399,12 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Diagrammet nedan illustrerar hur modellen delar upp problem i explicita, numrerade logiska steg.
+Diagrammet nedan illustrerar hur modellen delar upp problem i tydliga, numrerade logiska steg.
 
 <img src="../../../translated_images/sv/step-by-step-pattern.a99ea4ca1c48578c.webp" alt="Step-by-Step Pattern" width="800"/>
+*Nedbrytning av problem i tydliga logiska steg*
 
-*Att bryta ned problem i explicita logiska steg*
-
-**Begränsad Output** – För svar med specifika formatkrav. Modellen följer strikt format- och längdregler. Använd detta för sammanfattningar eller när du behöver exakt outputstruktur.
+**Begränsad utdata** – För svar med specifika formatkrav. Modellen följer strikt format- och längdregler. Använd detta för sammanfattningar eller när du behöver exakt utdata.
 
 ```java
 String prompt = """
@@ -420,17 +420,17 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Följande diagram visar hur begränsningar styr modellen att producera output som strikt följer dina format- och längdkrav.
+Följande diagram visar hur begränsningar styr modellen att producera utdata som strikt följer dina format- och längdkrav.
 
-<img src="../../../translated_images/sv/constrained-output-pattern.0ce39a682a6795c2.webp" alt="Constrained Output Pattern" width="800"/>
+<img src="../../../translated_images/sv/constrained-output-pattern.0ce39a682a6795c2.webp" alt="Begränsad utdata-mönster" width="800"/>
 
-*Att tillämpa specifika format-, längd- och strukturkrav*
+*Upprätthålla specifika format-, längd- och strukturkrav*
 
 ## Kör applikationen
 
-**Verifiera distribution:**
+**Verifiera distributionen:**
 
-Säkerställ att filen `.env` finns i rotkatalogen med Azure-behörigheter (skapades under Modul 01). Kör detta från modulkatalogen (`02-prompt-engineering/`):
+Säkerställ att filen `.env` finns i rotkatalogen med Azure-uppgifter (skapad under Modul 01). Kör detta från modulkatalogen (`02-prompt-engineering/`):
 
 **Bash:**
 ```bash
@@ -439,16 +439,16 @@ cat ../.env  # Bör visa AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 
 **PowerShell:**
 ```powershell
-Get-Content ..\.env  # Bör visa AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+Get-Content ..\.env  # Ska visa AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
 
 **Starta applikationen:**
 
-> **Notera:** Om du redan startade alla applikationer med `./start-all.sh` från rotkatalogen (som beskrivs i Modul 01) kör denna modul redan på port 8083. Du kan hoppa över startkommandona nedan och gå direkt till http://localhost:8083.
+> **Notera:** Om du redan startat alla applikationer med `./start-all.sh` från rotkatalogen (som beskrivs i Modul 01) kör denna modul redan på port 8083. Du kan då hoppa över startkommandona nedan och gå direkt till http://localhost:8083.
 
 **Alternativ 1: Använd Spring Boot Dashboard (Rekommenderas för VS Code-användare)**
 
-Dev-containern inkluderar Spring Boot Dashboard-tillägget, som ger ett visuellt gränssnitt för att hantera alla Spring Boot-applikationer. Du hittar det i aktivitetsfältet till vänster i VS Code (leta efter Spring Boot-ikonen).
+Dev-containern inkluderar Spring Boot Dashboard-tillägget, som ger ett visuellt gränssnitt för att hantera alla Spring Boot-applikationer. Du hittar det i aktivitetsfältet till vänster i VS Code (letar efter Spring Boot-ikonen).
 
 Från Spring Boot Dashboard kan du:
 - Se alla tillgängliga Spring Boot-applikationer i arbetsytan
@@ -456,7 +456,7 @@ Från Spring Boot Dashboard kan du:
 - Visa applikationsloggar i realtid
 - Övervaka applikationens status
 
-Klicka bara på play-knappen bredvid "prompt-engineering" för att starta denna modul, eller starta alla moduler samtidigt.
+Klicka helt enkelt på play-knappen bredvid "prompt-engineering" för att starta denna modul, eller starta alla moduler samtidigt.
 
 <img src="../../../translated_images/sv/dashboard.da2c2130c904aaf0.webp" alt="Spring Boot Dashboard" width="400"/>
 
@@ -478,7 +478,7 @@ cd ..  # Från rotkatalogen
 .\start-all.ps1
 ```
 
-Eller starta enbart denna modul:
+Eller starta bara denna modul:
 
 **Bash:**
 ```bash
@@ -492,9 +492,9 @@ cd 02-prompt-engineering
 .\start.ps1
 ```
 
-Båda skripten laddar automatiskt miljövariabler från roten `.env`-filen och bygger JAR-filerna om de inte finns.
+Båda skripten laddar automatiskt miljövariabler från rotens `.env`-fil och bygger JAR-filerna om de inte finns.
 
-> **Notera:** Om du föredrar att manuellt bygga alla moduler innan start:
+> **Notera:** Om du föredrar att bygga alla moduler manuellt innan start:
 >
 > **Bash:**
 > ```bash
@@ -526,71 +526,71 @@ cd .. && ./stop-all.sh  # Alla moduler
 cd ..; .\stop-all.ps1  # Alla moduler
 ```
 
-## Applikationsskärmdumpar
+## Applikationsskärmbilder
 
 Här är huvudgränssnittet för prompt engineering-modulen, där du kan experimentera med alla åtta mönster sida vid sida.
 
-<img src="../../../translated_images/sv/dashboard-home.5444dbda4bc1f79d.webp" alt="Dashboard Home" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
+<img src="../../../translated_images/sv/dashboard-home.5444dbda4bc1f79d.webp" alt="Dashboard Hem" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
 
-*Huvuddashboard som visar alla 8 prompt engineering-mönster med deras egenskaper och användningsområden*
+*Huvuddashboard som visar alla 8 prompt engineering-mönster med deras egenskaper och användningsfall*
 
 ## Utforska mönstren
 
-Webbgränssnittet låter dig experimentera med olika promptingstrategier. Varje mönster löser olika problem – prova dem för att se när varje metod passar bäst.
+Webbgränssnittet låter dig experimentera med olika promptstrategier. Varje mönster löser olika problem – testa dem för att se när varje metod lyser.
 
-> **Notera: Streaming vs Icke-streaming** — Varje mönstersida erbjuder två knappar: **🔴 Stream Response (Live)** och ett **Icke-streaming** alternativ. Streaming använder Server-Sent Events (SSE) för att visa tokens i realtid medan modellen genererar dem, så du ser framsteg direkt. Icke-streaming väntar på hela svaret innan det visas. För prompts som triggar djup resonemang (t.ex. High Eagerness, Self-Reflecting Code) kan icke-streaming-anrop ta väldigt lång tid — ibland flera minuter — utan synlig återkoppling. **Använd streaming när du experimenterar med komplexa prompts** så kan du se modellen arbeta och undvika intrycket att förfrågan har hängt sig.
+> **Notera: Strömmande vs Icke-strömmande** — Varje mönstersida erbjuder två knappar: **🔴 Stream Response (Live)** och ett **icke-strömmande** alternativ. Strömning använder Server-Sent Events (SSE) för att visa token i realtid när modellen genererar dem, så du ser framstegen direkt. Det icke-strömmande alternativet väntar tills hela svaret är färdigt innan det visas. För prompts som kräver djup resonemang (t.ex. High Eagerness, Self-Reflecting Code) kan icke-strömmande anrop ta mycket lång tid – ibland minuter – utan synlig återkoppling. **Använd strömning när du experimenterar med komplexa prompts** så du kan se modellen arbeta och undvika intrycket att förfrågan har tidsutgått.
 >
-> **Notera: Webbläsarkrav** — Streamingfunktionen använder Fetch Streams API (`response.body.getReader()`) som kräver en fullständig webbläsare (Chrome, Edge, Firefox, Safari). Det fungerar **inte** i VS Codes inbyggda Simple Browser, eftersom dess webvy inte stödjer ReadableStream API. Om du använder Simple Browser fungerar icke-streaming-knapparna normalt — det är bara streaming-knapparna som påverkas. Öppna `http://localhost:8083` i en extern webbläsare för full upplevelse.
+> **Notera: Webbläsarkrav** — Strömfunktionaliteten använder Fetch Streams API (`response.body.getReader()`) som kräver en full webbläsare (Chrome, Edge, Firefox, Safari). Det fungerar **inte** i VS Codes inbyggda Simple Browser, eftersom dess webview inte stödjer ReadableStream API. Om du använder Simple Browser fungerar de icke-strömmande knapparna fortfarande normalt – endast strömknapparna är påverkade. Öppna `http://localhost:8083` i en extern webbläsare för full upplevelse.
 
-### Låg vs Hög Eagerness
+### Low vs High Eagerness
 
-Ställ en enkel fråga som "Vad är 15% av 200?" med låg eagerness. Du får ett omedelbart, direkt svar. Ställ sedan en komplex fråga som "Designa en caching-strategi för ett högtrafikerat API" med hög eagerness. Klicka på **🔴 Stream Response (Live)** och se modellens detaljerade resonemang dyka upp token för token. Samma modell, samma frågestruktur – men prompten berättar hur mycket tänkande som ska göras.
+Ställ en enkel fråga som "Vad är 15% av 200?" med Low Eagerness. Du får ett omedelbart, direkt svar. Ställ sedan något komplext som "Designa en caching-strategi för en högtrafikerad API" med High Eagerness. Klicka på **🔴 Stream Response (Live)** och se modellens detaljerade resonemang visas token-för-token. Samma modell, samma frågestruktur – men prompten talar om hur mycket tänkande som ska göras.
 
-### Uppgiftsutförande (Verktygs-Preamblar)
+### Utförande av uppgifter (Verktygspreamblar)
 
-Flerstegsrutiner vinner på att planera och berätta om framsteg i förväg. Modellen beskriver vad den kommer att göra, kommenterar varje steg och sammanfattar sedan resultaten.
+Flerstegsarbetsflöden gynnas av förhandsplanering och progressiv berättande. Modellen beskriver vad den ska göra, berättar om varje steg och sammanfattar sedan resultaten.
 
 ### Självreflekterande kod
 
-Prova "Skapa en e-postvalideringstjänst". Istället för att bara generera kod och sluta, genererar modellen, utvärderar mot kvalitetskriterier, identifierar svagheter och förbättrar. Du ser den iterera tills koden uppfyller produktionsstandard.
+Prova "Skapa en tjänst för e-postvalidering". Istället för att bara generera kod och sluta så genererar modellen, utvärderar mot kvalitetskriterier, identifierar svagheter och förbättrar. Du ser den iterera tills koden håller produktionsstandard.
 
 ### Strukturerad analys
 
-Kodgranskningar behöver konsekventa utvärderingsramverk. Modellen analyserar kod med fasta kategorier (riktighet, praxis, prestanda, säkerhet) med allvarlighetsnivåer.
+Kodgranskningar behöver konsekventa utvärderingsramverk. Modellen analyserar kod utifrån fasta kategorier (korrekthet, metoder, prestanda, säkerhet) med allvarlighetsnivåer.
 
 ### Flerstegs-chatt
 
-Fråga "Vad är Spring Boot?" och följ sedan omedelbart upp med "Visa mig ett exempel". Modellen minns din första fråga och ger dig ett specifikt Spring Boot-exempel. Utan minne hade den andra frågan varit för vag.
+Fråga "Vad är Spring Boot?" och följ direkt upp med "Visa ett exempel". Modellen minns din första fråga och ger dig ett specifikt Spring Boot-exempel. Utan minne hade den andra frågan varit för vag.
 
 ### Steg-för-steg-resonemang
 
-Välj ett matteproblem och prova det både med Steg-för-steg-resonemang och Låg Eagerness. Låg eagerness ger bara svaret – snabbt men ointuitivt. Steg-för-steg visar varje beräkning och beslut.
+Välj ett mattetal och prova med både Steg-för-steg-resonemang och Low Eagerness. Low eagerness ger bara svaret – snabbt men otydligt. Steg-för-steg visar varje beräkning och beslut.
 
-### Begränsad output
+### Begränsad utdatan
 
-När du behöver specifika format eller antal ord, ser detta mönster till att formatet följs strikt. Prova att generera en sammanfattning med exakt 100 ord i punktform.
+När du behöver specifika format eller ordantal, upprätthåller detta mönster strikt efterlevnad. Försök generera en sammanfattning med exakt 100 ord i punktlista.
 
 ## Vad du verkligen lär dig
 
-**Resonerande ansträngning förändrar allt**
+**Resoneringsinsats förändrar allt**
 
-GPT-5.2 låter dig styra beräkningsinsatsen genom dina prompts. Låg ansträngning betyder snabba svar med minimal utforskning. Hög ansträngning betyder att modellen tar tid att tänka djupt. Du lär dig att matcha ansträngning efter uppgiftens komplexitet – slösa inte tid på enkla frågor, men skynda inte komplexa beslut.
+GPT-5.2 låter dig kontrollera beräkningsinsats genom dina prompts. Låg insats ger snabba svar med minimal utforskning. Hög insats innebär att modellen tar tid på sig att tänka djupt. Du lär dig anpassa insats efter uppgiftskomplexitet – slösa inte tid på enkla frågor, men stressa inte komplexa beslut heller.
 
 **Struktur styr beteende**
 
-Lägg märke till XML-taggarna i promptarna? De är inte dekorativa. Modeller följer strukturerade instruktioner mer pålitligt än fri form text. När du behöver flerstegsprocesser eller komplex logik hjälper strukturen modellen att hålla reda på var den är och vad som kommer härnäst. Diagrammet nedan bryter ner en välstrukturerad prompt och visar hur taggar som `<system>`, `<instructions>`, `<context>`, `<user-input>`, och `<constraints>` organiserar dina instruktioner i tydliga sektioner.
+Ser du XML-taggarna i prompts? De är inte bara dekorativa. Modeller följer strukturerade instruktioner mer pålitligt än fri text. När du behöver flerstegsprocesser eller komplex logik, hjälper struktur modellen att hålla koll på var den är och vad som kommer härnäst. Diagrammet nedan bryter ner en välstrukturerad prompt och visar hur taggar som `<system>`, `<instructions>`, `<context>`, `<user-input>` och `<constraints>` organiserar dina instruktioner i tydliga sektioner.
 
-<img src="../../../translated_images/sv/prompt-structure.a77763d63f4e2f89.webp" alt="Prompt Structure" width="800"/>
+<img src="../../../translated_images/sv/prompt-structure.a77763d63f4e2f89.webp" alt="Promptstruktur" width="800"/>
 
 *Anatomi av en välstrukturerad prompt med tydliga sektioner och XML-liknande organisation*
 
 **Kvalitet genom självvärdering**
 
-De självreflekterande mönstren fungerar genom att göra kvalitetskriterier explicita. Istället för att hoppas att modellen "gör rätt", berättar du exakt vad "rätt" betyder: korrekt logik, felhantering, prestanda, säkerhet. Modellen kan sedan värdera sin egen output och förbättra sig. Detta förvandlar kodgenerering från ett lotteri till en process.
+De självreflekterande mönstren fungerar genom att göra kvalitetskriterier explicit. Istället för att hoppas att modellen "gör rätt", berättar du exakt vad "rätt" betyder: korrekt logik, felhantering, prestanda, säkerhet. Modellen kan sedan utvärdera sin egen output och förbättra sig. Detta förvandlar kodgenerering från ett lotteri till en process.
 
 **Kontext är ändlig**
 
-Flerstegs-konversationer fungerar genom att inkludera meddelandehistorik med varje förfrågan. Men det finns en gräns — varje modell har ett maximalt tokenantal. När konversationer växer behöver du strategier för att behålla relevant kontext utan att nå taket. Denna modul visar hur minnet fungerar; senare lär du dig när du ska sammanfatta, när du ska glömma och när du ska hämta.
+Flerstegs-samtal fungerar genom att inkludera meddelandehistorik i varje förfrågan. Men det finns en gräns – varje modell har ett max antal tokens. När samtal växer behöver du strategier för att behålla relevant kontext utan att nå taket. Denna modul visar hur minnet fungerar; senare lär du dig när du ska sammanfatta, när du ska glömma och när du ska hämta.
 
 ## Nästa steg
 
@@ -598,11 +598,11 @@ Flerstegs-konversationer fungerar genom att inkludera meddelandehistorik med var
 
 ---
 
-**Navigering:** [← Föregående: Modul 01 - Introduktion](../01-introduction/README.md) | [Tillbaka till huvud](../README.md) | [Nästa: Modul 03 - RAG →](../03-rag/README.md)
+**Navigering:** [← Föregående: Modul 01 - Introduktion](../01-introduction/README.md) | [Tillbaka till huvudmeny](../README.md) | [Nästa: Modul 03 - RAG →](../03-rag/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Ansvarsfriskrivning**:
-Detta dokument har översatts med hjälp av AI-översättningstjänsten [Co-op Translator](https://github.com/Azure/co-op-translator). Även om vi strävar efter noggrannhet, vänligen observera att automatiska översättningar kan innehålla fel eller brister. Det ursprungliga dokumentet på dess modersmål ska anses vara den auktoritativa källan. För kritisk information rekommenderas professionell mänsklig översättning. Vi ansvarar inte för missförstånd eller feltolkningar som uppstår från användningen av denna översättning.
+Detta dokument har översatts med hjälp av AI-översättningstjänsten [Co-op Translator](https://github.com/Azure/co-op-translator). Även om vi strävar efter noggrannhet, var vänlig notera att automatiska översättningar kan innehålla fel eller brister. Det ursprungliga dokumentet på dess modersmål bör betraktas som den auktoritativa källan. För kritisk information rekommenderas professionell mänsklig översättning. Vi ansvarar inte för några missförstånd eller feltolkningar som uppstår till följd av användningen av denna översättning.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

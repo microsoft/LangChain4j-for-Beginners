@@ -1,144 +1,143 @@
-# Modul 03: RAG (Retrieval-Augmented Generation)
+# Modul 03: RAG (Generovanie s podporou vyhľadávania)
 
 ## Obsah
 
-- [Video Prehľad](../../../03-rag)
-- [Čo sa Naučíte](../../../03-rag)
-- [Predpoklady](../../../03-rag)
-- [Pochopenie RAG](../../../03-rag)
-  - [Ktorý RAG Prístup Tento Tutoriál Používa?](../../../03-rag)
-- [Ako To Funguje](../../../03-rag)
-  - [Spracovanie Dokumentov](../../../03-rag)
-  - [Vytváranie Embeddingov](../../../03-rag)
-  - [Sémantické Vyhľadávanie](../../../03-rag)
-  - [Generovanie Odpovedí](../../../03-rag)
-- [Spustenie Aplikácie](../../../03-rag)
-- [Používanie Aplikácie](../../../03-rag)
-  - [Nahranie Dokumentu](../../../03-rag)
-  - [Kladenie Otázok](../../../03-rag)
-  - [Kontrola Zdrojových Referencií](../../../03-rag)
-  - [Experimentovanie s Otázkami](../../../03-rag)
-- [Kľúčové Koncepty](../../../03-rag)
-  - [Stratégia Členenia](../../../03-rag)
-  - [Skóre Podobnosti](../../../03-rag)
-  - [Ukladanie v Pamäti](../../../03-rag)
-  - [Správa Kontextového Okna](../../../03-rag)
-- [Kedy RAG Záleží](../../../03-rag)
-- [Ďalšie Kroky](../../../03-rag)
+- [Video Prezentácia](#video-prezentácia)
+- [Čo sa naučíte](#čo-sa-naučíte)
+- [Predpoklady](#predpoklady)
+- [Pochopenie RAG](#pochopenie-rag)
+  - [Ktorý RAG prístup tento tutoriál používa?](#ktorý-rag-prístup-tento-tutoriál-používa)
+- [Ako to funguje](#ako-to-funguje)
+  - [Spracovanie dokumentov](#spracovanie-dokumentov)
+  - [Vytváranie embedov](#vytváranie-embedov)
+  - [Sémantické vyhľadávanie](#sémantické-vyhľadávanie)
+  - [Generovanie odpovedí](#generovanie-odpovedí)
+- [Spustenie aplikácie](#spustenie-aplikácie)
+- [Používanie aplikácie](#používanie-aplikácie)
+  - [Nahratie dokumentu](#nahranie-dokumentu)
+  - [Kladenie otázok](#kladenie-otázok)
+  - [Skontrolovať zdrojové odkazy](#skontrolujte-referencie-zdrojov)
+  - [Experimentovanie s otázkami](#experimentujte-s-otázkami)
+- [Kľúčové koncepty](#kľúčové-koncepty)
+  - [Stratégia rozdelenia na časti](#stratégia-delenia-na-segmenty)
+  - [Skóre podobnosti](#hodnotenia-podobnosti)
+  - [Ukladanie v pamäti](#ukladanie-v-pamäti)
+  - [Správa kontextového okna](#správa-kontextového-okna)
+- [Kedy je RAG dôležitý](#kedy-je-rag-dôležité)
+- [Ďalšie kroky](#ďalšie-kroky)
 
-## Video Prehľad
+## Video Prezentácia
 
-Pozrite si túto živú reláciu, ktorá vysvetľuje, ako začať s týmto modulom:
+Pozrite si toto živé vysielanie, ktoré vysvetľuje, ako začať s týmto modulom:
 
-<a href="https://www.youtube.com/watch?v=_olq75ZH_eY"><img src="https://img.youtube.com/vi/_olq75ZH_eY/maxresdefault.jpg" alt="RAG s LangChain4j - Živá relácia" width="800"/></a>
+<a href="https://www.youtube.com/watch?v=_olq75ZH_eY"><img src="https://img.youtube.com/vi/_olq75ZH_eY/maxresdefault.jpg" alt="RAG with LangChain4j - Live Session" width="800"/></a>
 
-## Čo sa Naučíte
+## Čo sa naučíte
 
-V predchádzajúcich moduloch ste sa naučili viesť konverzácie s AI a efektívne štruktúrovať svoje prompt-y. Ale existuje základné obmedzenie: jazykové modely vedia len to, čo sa naučili počas tréningu. Nevedia odpovedať na otázky o politikách vašej firmy, dokumentácii projektov alebo informáciách, ktoré neboli súčasťou ich tréningu.
+V predchádzajúcich moduloch ste sa naučili viesť rozhovory s AI a efektívne štruktúrovať svoje prompt-y. Ale je tu zásadné obmedzenie: jazykové modely vedia len to, čo sa naučili počas trénovania. Nevedia odpovedať na otázky o firemných politikách, dokumentácii vašich projektov alebo o informáciách, na ktorých neboli trénované.
 
-RAG (Retrieval-Augmented Generation) tento problém rieši. Namiesto toho, aby ste model učili vaše informácie (čo je nákladné a nepraktické), dáte mu možnosť prehľadávať vaše dokumenty. Keď niekto položí otázku, systém nájde relevantné informácie a zahrnie ich do promptu. Model potom odpovie na základe tohto získaného kontextu.
+RAG (Generovanie s podporou vyhľadávania) tento problém rieši. Namiesto toho, aby ste model učili vaše informácie (čo je nákladné a nepraktické), dáte mu možnosť vyhľadávať vo vašich dokumentoch. Keď niekto položí otázku, systém nájde relevantné informácie a zahrnie ich do promptu. Model potom odpovie na základe tohto získaného kontextu.
 
-Predstavte si RAG ako poskytnutie referenčnej knižnice modelu. Keď sa opýtate otázku, systém:
+Predstavte si RAG ako referenčnú knižnicu pre model. Keď položíte otázku, systém:
 
-1. **Používateľský Dotaz** – Položíte otázku  
-2. **Embedding** – Prevedie vašu otázku na vektor  
-3. **Vektorové Vyhľadávanie** – Nájde podobné časti dokumentu  
-4. **Zostavenie Kontextu** – Pridá relevantné časti do promptu  
-5. **Odpoveď** – LLM generuje odpoveď na základe kontextu
+1. **Používateľská otázka** - Položíte otázku  
+2. **Embedovanie** - Premení vašu otázku na vektor  
+3. **Vyhľadávanie vo vektoroch** - Nájde podobné časti dokumentu  
+4. **Sestavenie kontextu** - Pridá relevantné časti k promptu  
+5. **Odpoveď** - LLM vytvorí odpoveď založenú na kontexte  
 
-Týmto spôsobom sú odpovede modelu zakotvené vo vašich skutočných dátach namiesto spoliehania sa na znalosti z tréningu alebo vymýšľania odpovedí.
+Týmto sa odpovede modelu zakladajú na vašich reálnych dátach namiesto toho, aby sa spoliehali len na vedomosti zo školenia či vymýšľali odpovede.
 
 ## Predpoklady
 
-- Dokončený [Modul 00 - Rýchly Začiatok](../00-quick-start/README.md) (pre príklad Easy RAG, na ktorý sa neskôr v tomto module odkazuje)
-- Dokončený [Modul 01 - Úvod](../01-introduction/README.md) (nasadené Azure OpenAI zdroje vrátane embedding modelu `text-embedding-3-small`)
-- Súbor `.env` v koreňovom adresári s Azure povereniami (vytvorený príkazom `azd up` v Module 01)
+- Dokončené [Modul 01 - Úvod](../01-introduction/README.md) (nasadené Azure OpenAI zdroje vrátane embedding modelu `text-embedding-3-small`)  
+- `.env` súbor v koreňovom adresári so Azure povereniami (vytvorený príkazom `azd up` v Module 01)  
 
-> **Poznámka:** Ak ste nedokončili Modul 01, najprv postupujte podľa tam uvedených inštrukcií na nasadenie. Príkaz `azd up` nasadí chatovací GPT model aj embedding model používaný v tomto module.
+> **Poznámka:** Ak ste Modulu 01 nedokončili, najskôr postupujte podľa jeho inštrukcií. Príkaz `azd up` nasadzuje ako GPT chat model, tak embedding model používaný v tomto module.
 
 ## Pochopenie RAG
 
-Nižšie uvedený diagram ilustruje základný koncept: namiesto spoléhaniu sa len na tréningové dáta modelu, RAG mu poskytuje referenčnú knižnicu vašich dokumentov, do ktorej môže nazrieť pred generovaním každej odpovede.
+Nasledujúci diagram ilustruje základný koncept: namiesto spoliehania sa len na tréningové dáta modelu, RAG mu poskytuje referenčnú knižnicu vašich dokumentov, ktoré môže konzultovať pred generovaním každej odpovede.
 
 <img src="../../../translated_images/sk/what-is-rag.1f9005d44b07f2d8.webp" alt="Čo je RAG" width="800"/>
 
-*Tento diagram ukazuje rozdiel medzi štandardným LLM (ktorý tipuje na základe tréningových dát) a LLM obohateným o RAG (ktorý sa najprv obracia na vaše dokumenty).*
+*Tento diagram ukazuje rozdiel medzi štandardným LLM (ktorý háda z tréningových dát) a RAG vylepšeným LLM (ktorý najskôr konzultuje vaše dokumenty).*
 
-Tu je, ako sú kusy prepojené od začiatku do konca. Otázka používateľa prechádza štyrmi fázami — embedding, vektorové vyhľadávanie, zostavenie kontextu a generovanie odpovede — pričom každá nadväzuje na predchádzajúcu:
+Tu je, ako sú jednotlivé časti prepojené koniec-koncov. Otázka používateľa prechádza štyrmi fázami — embedovaním, vyhľadávaním vo vektore, zostavením kontextu a generovaním odpovede — pričom každá fáza nadväzuje na predchádzajúcu:
 
-<img src="../../../translated_images/sk/rag-architecture.ccb53b71a6ce407f.webp" alt="Architektúra RAG" width="800"/>
+<img src="../../../translated_images/sk/rag-architecture.ccb53b71a6ce407f.webp" alt="RAG Architektúra" width="800"/>
 
-*Tento diagram ukazuje kompletný RAG proces — používateľský dotaz prechádza embeddingom, vektorovým vyhľadávaním, zostavením kontextu a generovaním odpovede.*
+*Diagram ukazuje end-to-end RAG pipeline — používateľská otázka prechádza embedovaním, vyhľadávaním, zostavením kontextu a generovaním odpovedí.*
 
-Zvyšok tohto modulu podrobne prechádza každú etapu s kódom, ktorý môžete spustiť a upraviť.
+Zvyšok tohto modulu podrobne prechádza každou fázou s ukážkovým kódom, ktorý si môžete spustiť a upravovať.
 
-### Ktorý RAG Prístup Tento Tutoriál Používa?
+### Ktorý RAG prístup tento tutoriál používa?
 
-LangChain4j ponúka tri spôsoby implementácie RAG, každý s inou úrovňou abstrakcie. Nižšie uvedený diagram ich porovnáva vedľa seba:
+LangChain4j ponúka tri spôsoby implementácie RAG, každý s inou úrovňou abstrakcie. Nasledujúci diagram ich porovnáva vedľa seba:
 
-<img src="../../../translated_images/sk/rag-approaches.5b97fdcc626f1447.webp" alt="Tri RAG Prístupy v LangChain4j" width="800"/>
+<img src="../../../translated_images/sk/rag-approaches.5b97fdcc626f1447.webp" alt="Tri RAG prístupy v LangChain4j" width="800"/>
 
-*Tento diagram porovnáva tri LangChain4j RAG prístupy — Easy, Native a Advanced — ukazujúc ich kľúčové komponenty a kedy ich použiť.*
+*Diagram porovnáva tri LangChain4j RAG prístupy — Easy, Native a Advanced — zobrazujúc ich kľúčové komponenty a situácie, kedy ich použiť.*
 
 | Prístup | Čo robí | Kompromis |
 |---|---|---|
-| **Easy RAG** | Automaticky prepája všetko cez `AiServices` a `ContentRetriever`. Vy označíte rozhranie, pripojíte retriever a LangChain4j sa za vás stará o embedding, vyhľadávanie a zostavenie promptu. | Minimálny kód, ale nevidíte každý krok. |
-| **Native RAG** | Voláte embedding model, vyhľadávate v úložisku, staviate prompt a generujete odpoveď sami, krok po kroku. | Viac kódu, ale každá fáza je viditeľná a upraviteľná. |
-| **Advanced RAG** | Používa framework `RetrievalAugmentor` s rozšíriteľnými transformátormi dotazov, routermi, re-rankermi a injektormi obsahu pre produkčné pipeline. | Maximálna flexibilita, ale výrazne zložitejšie. |
+| **Easy RAG** | Všetko automaticky prepája cez `AiServices` a `ContentRetriever`. Anotovanie rozhrania, pripojenie retrievera a LangChain4j za vás spracuje embedovanie, vyhľadávanie a zostavenie promptu. | Minimálny kód, ale nevidíte, čo sa deje v každom kroku. |
+| **Native RAG** | Vyvolávate embedding model, vyhľadávate v store, budujete prompt a generujete odpoveď sami — po jednom explicitnom kroku. | Viac kódu, ale každá fáza je viditeľná a modifikovateľná. |
+| **Advanced RAG** | Používa framework `RetrievalAugmentor` s pluggable transformátormi, routermi, re-rankerami a content injectormi pre produkčné pipeline. | Maximálna flexibilita, ale výrazne zložitejšie. |
 
-**Tento tutoriál používa prístup Native.** Každý krok RAG pipeline — embedding dotazu, vyhľadávanie vo vektorovom úložisku, zostavenie kontextu a generovanie odpovede — je explicitne napísaný v [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java). Je to zámerné: ako zdroj učenia je dôležitejšie, aby ste videli a pochopili každý krok, než aby bol kód minimalizovaný. Keď sa s tým cítite komfortne, môžete prejsť na Easy RAG pre rýchle prototypy alebo Advanced RAG pre produkčné systémy.
+**Tento tutoriál používa Native prístup.** Každý krok RAG pipeline — embedovanie otázky, vyhľadávanie vo vektorovom úložisku, zostavenie kontextu a generovanie odpovede — je explicitne napísaný v [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java). Toto je zámerné: ako vzdelávací materiál je dôležitejšie, aby ste videli a pochopili každý krok, než aby bol kód minimalizovaný. Keď si osvojíte, ako to všetko zapadá, môžete prejsť na Easy RAG pre rýchle prototypy alebo Advanced RAG pre produkčné systémy.
 
-> **💡 Už ste videli Easy RAG v praxi?** Modul [Rýchly Začiatok](../00-quick-start/README.md) obsahuje príklad Document Q&A ([`SimpleReaderDemo.java`](../../../00-quick-start/src/main/java/com/example/langchain4j/quickstart/SimpleReaderDemo.java)) používajúci Easy RAG — LangChain4j automaticky zabezpečuje embedding, vyhľadávanie a zostavenie promptu. Tento modul ide ďalej a rozoberá túto pipeline tak, aby ste každý krok videli a mohli ovládať sami.
+> **💡 Zaujíma vás Easy RAG?** LangChain4j tiež ponúka *Easy RAG* prístup, kde `AiServices` a `ContentRetriever` automaticky riešia embedovanie, vyhľadávanie a zostavenie promptu. Tento modul ide explicitnejšou cestou — rozbíja pipeline, aby ste mohli každý krok vidieť a riadiť sami.
 
-Nižšie uvedený diagram zobrazuje pipeline Easy RAG z príkladu Rýchleho Začiatku. Všimnite si, ako `AiServices` a `EmbeddingStoreContentRetriever` skrývajú všetku zložitosť — načítate dokument, pripojíte retriever a dostanete odpovede. Native prístup v tomto module rozoberá každý z týchto skrytých krokov:
+Nasledujúci diagram ukazuje Easy RAG pipeline. Všimnite si, ako `AiServices` a `EmbeddingStoreContentRetriever` skrývajú celú komplexnosť — načítate dokument, pripojíte retriever, a dostanete odpovede. Native prístup v tomto module jednotlivé kroky odhaľuje:
 
-<img src="../../../translated_images/sk/easy-rag-pipeline.2e1602e2ad2ded42.webp" alt="Pipeline Easy RAG - LangChain4j" width="800"/>
+<img src="../../../translated_images/sk/easy-rag-pipeline.2e1602e2ad2ded42.webp" alt="Easy RAG Pipeline - LangChain4j" width="800"/>
 
-*Tento diagram ukazuje pipeline Easy RAG z `SimpleReaderDemo.java`. Porovnajte to s Native prístupom použitým v tomto module: Easy RAG skrýva embedding, vyhľadávanie a zostavenie promptu za `AiServices` a `ContentRetriever` — načítate dokument, pripojíte retriever a dostanete odpovede. Native prístup rozoberá túto pipeline, takže voláte každý krok (embed, vyhľadanie, zostavenie kontextu, generovanie) sami, čo vám dáva plnú viditeľnosť a kontrolu.*
+*Diagram ukazuje Easy RAG pipeline. Porovnajte to s Native prístupom použitým v tomto module: Easy RAG skrýva embedovanie, vyhľadávanie a zostavenie promptu za `AiServices` a `ContentRetriever` — načítate dokument, pripojíte retriever a dostanete odpovede. Native prístup jednotlivé kroky otvára, takže ich voláte sami (embedovať, vyhľadávať, zostaviť kontext, generovať), čím máte plnú viditeľnosť a kontrolu.*
 
-## Ako To Funguje
+## Ako to funguje
 
-RAG pipeline v tomto module sa skladá zo štyroch fáz, ktoré sa spúšťajú po sebe vždy, keď používateľ položí otázku. Najskôr je nahratý dokument **parsovaný a rozdelený na časti** vhodnej veľkosti. Tieto časti sa následne prevedú na **vektorové embeddingy** a uložia sa for matematickú porovnateľnosť. Keď príde dopyt, systém vykoná **sémantické vyhľadávanie**, aby našiel najrelevantnejšie časti, a nakoniec ich odovzdá ako kontext do LLM pre **generovanie odpovede**. Nižšie si prejdeme každú fázu s reálnym kódom a diagramami. Pozrime sa najskôr na prvý krok.
+RAG pipeline v tomto module sa skladá zo štyroch fáz, ktoré sa vykonávajú za sebou vždy, keď používateľ položí otázku. Najprv sa nahraný dokument **analyzuje a rozdelí** na zvládnuteľné časti. Tieto časti sa potom prevedú na **vektorové embedy** a uloží sa ich reprezentácia, aby sa dali matematicky porovnávať. Keď príde dopyt, systém vykoná **sémantické vyhľadávanie** na nájdenie najrelevantnejších častí a nakoniec ich odovzdá ako kontext LLM pre **generovanie odpovede**. Nižšie prejdeme každú fázu s reálnym kódom a diagramami. Pozrime sa na prvý krok.
 
-### Spracovanie Dokumentov
+### Spracovanie dokumentov
 
 [DocumentService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java)
 
-Keď nahráte dokument, systém ho spracuje (PDF alebo čistý text), pripojí metadata ako názov súboru a potom ho rozdelí na časti — menšie kúsky, ktoré sa pohodlne zmestia do kontextového okna modelu. Tieto časti sa čiastočne prekrývajú, aby sa nezmizol kontext na hraniciach.
+Keď nahráte dokument, systém ho analyzuje (PDF alebo čistý text), pripojí metaúdaje ako názov súboru a rozdelí ho na časti — menšie kúsky, ktoré pohodlne vojdú do kontextového okna modelu. Tieto časti sa mierne prekrývajú, aby sa nezstratil kontext na hraniciach.
 
 ```java
 // Analyzujte nahraný súbor a zabaľte ho do dokumentu LangChain4j
 Document document = Document.from(content, metadata);
 
-// Rozdeľte na 300-tokenové časti s 30-tokenovým prekrytím
+// Rozdeľte na kúsky po 300 tokenoch s 30-tokenovým prekrytím
 DocumentSplitter splitter = DocumentSplitters
     .recursive(300, 30);
 
 List<TextSegment> segments = splitter.split(document);
 ```
+  
+Nasledujúci diagram vizualizuje tento proces. Všimnite si, že každá časť si s susedmi zdieľa niekoľko tokenov — 30-tokenové prekrytie zabezpečuje, že žiadny dôležitý kontext nepadne medzi praskliny:
 
-Nižšie uvedený diagram vizuálne ukazuje, ako to funguje. Všimnite si, že každá časť zdieľa niektoré tokeny so susedmi — prekrytie 30 tokenov zabezpečuje, že sa nestratí žiadny dôležitý kontext medzi časťami:
+<img src="../../../translated_images/sk/document-chunking.a5df1dd1383431ed.webp" alt="Rozdelenie dokumentu na časti" width="800"/>
 
-<img src="../../../translated_images/sk/document-chunking.a5df1dd1383431ed.webp" alt="Členenie Dokumentu" width="800"/>
+*Diagram ukazuje, ako je dokument rozdelený do 300-tokenových častí s 30-tokenovým prekrytím, čím sa zachováva kontext na hraniciach častí.*
 
-*Tento diagram ukazuje rozdelenie dokumentu na 300-tokenové časti s prekrytím 30 tokenov, čím sa zachováva kontext na hraniciach častí.*
+> **🤖 Vyskúšajte s [GitHub Copilot](https://github.com/features/copilot) Chat:** Otvorte [`DocumentService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java) a spýtajte sa:  
+> - "Ako LangChain4j rozdeľuje dokumenty na časti a prečo je prekrytie dôležité?"  
+> - "Aká je optimálna veľkosť častí pre rôzne typy dokumentov a prečo?"  
+> - "Ako spracovať dokumenty v viacerých jazykoch alebo so špeciálnym formátovaním?"
 
-> **🤖 Vyskúšajte chat s [GitHub Copilot](https://github.com/features/copilot):** Otvorte [`DocumentService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java) a opýtajte sa:
-> - "Ako LangChain4j rozdeľuje dokumenty na časti a prečo je prekrytie dôležité?"
-> - "Aká je optimálna veľkosť častí pre rôzne typy dokumentov a prečo?"
-> - "Ako spracovať dokumenty v rôznych jazykoch alebo so špeciálnym formátovaním?"
-
-### Vytváranie Embeddingov
+### Vytváranie embedov
 
 [LangChainRagConfig.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/config/LangChainRagConfig.java)
 
-Každá časť sa prevedie na číselné vyjadrenie nazývané embedding — v podstate prevodník významu na čísla. Embedding model nie je „inteligentný“ ako chat model; nedokáže nasledovať inštrukcie, argumentovať ani odpovedať na otázky. Vie však premietnuť text do matematického priestoru, kde podobné významy ležia blízko seba — „auto“ blízko „automobil“, „refundácia“ blízko „vrátenie peňazí“. Predstavte si chat model ako osobu, s ktorou môžete hovoriť; embedding model je ultra dobrý systém na usporiadanie súborov.
+Každá časť sa prevedie na číselnú reprezentáciu nazývanú embedding — v podstate prevodník významu na čísla. Embedding model nie je "inteligentný" ako chat model; nedokáže dodržiavať inštrukcie, dedukovať ani odpovedať na otázky. Čo dokáže, je premapovať text do matematického priestoru, kde sa podobné významy nachádzajú blízko seba — napríklad "auto" blízko "automobil," "politika vrátenia" blízko "vráť mi peniaze." Predstavte si chat model ako osobu, s ktorou môžete hovoriť; embedding model ako špičkový systém na triedenie.
 
-Nižšie uvedený diagram vizualizuje tento koncept — text vstupuje, vychádzajú číselné vektory a podobné významy produkujú vektory blízko seba:
+Nasledujúci diagram znázorňuje tento koncept — text ide dovnútra, vychádzajú numerické vektory, a podobné významy produkujú vektory vedľa seba:
 
 <img src="../../../translated_images/sk/embedding-model-concept.90760790c336a705.webp" alt="Koncept embedding modelu" width="800"/>
 
-*Tento diagram ukazuje, ako embedding model prevádza text na číselné vektory, pričom podobné významy — ako "auto" a "automobil" — sú blízko seba vo vektorovom priestore.*
+*Diagram ukazuje, ako embedding model prevádza text na číselné vektory, pričom podobné významy — ako "auto" a "automobil" — sú umiestnené blízko seba vo vektorovom priestore.*
 
 ```java
 @Bean
@@ -154,29 +153,29 @@ EmbeddingStore<TextSegment> embeddingStore =
     new InMemoryEmbeddingStore<>();
 ```
   
-Nižšie uvedený diagram tried ukazuje dva samostatné toky v RAG pipeleine a LangChain4j triedy, ktoré ich implementujú. **Tok ingestie** (beží raz pri nahrávaní) rozdeľuje dokument, vytvára embeddingy častí a ukladá ich cez `.addAll()`. **Tok dotazu** (beží vždy, keď používateľ položí otázku) vytvára embedding otázky, vyhľadáva v úložisku cez `.search()` a odovzdáva nájdený kontext do chat modelu. Obidva toky sa spájajú v zdieľanom rozhraní `EmbeddingStore<TextSegment>`:
+Nižšie uvedený diagram tried ukazuje dva samostatné toky v RAG pipeline a LangChain4j triedy ich realizujúce. **Ingestný tok** (spustí sa raz pri nahrávaní) rozdeľuje dokument, embeduje časti a ukladá cez `.addAll()`. **Dopytový tok** (beží pri každom dopyte používateľa) embeduje otázku, vyhľadáva v store cez `.search()` a odovzdáva nájdený kontext chat modelu. Oba toky sa prepájajú cez zdieľané rozhranie `EmbeddingStore<TextSegment>`:
 
-<img src="../../../translated_images/sk/rag-langchain4j-classes.bbf3aa9077ab443d.webp" alt="LangChain4j RAG Triedy" width="800"/>
+<img src="../../../translated_images/sk/rag-langchain4j-classes.bbf3aa9077ab443d.webp" alt="Triedy LangChain4j pre RAG" width="800"/>
 
-*Tento diagram ukazuje dva toky v RAG pipeline — ingestiu a dotaz — a ich prepojenie cez zdieľané EmbeddingStore.*
+*Diagram zobrazuje dva toky v RAG pipeline — ingestný a dopytový — a ich prepojenie cez zdieľané EmbeddingStore.*
 
-Keď sú embeddingy uložené, podobný obsah sa prirodzene zhlukuje vo vektorovom priestore. Nižšie uvedená vizualizácia ukazuje, ako dokumenty o súvisiacich témach končia blízko seba, čo umožňuje sémantické vyhľadávanie:
+Keď sú embedy uložené, podobný obsah sa prirodzene zoskupuje vektorovo priestorovo. Vizualizácia nižšie ukazuje, ako dokumenty o súvisiacich témach vytvárajú blízke body, čo umožňuje sémantické vyhľadávanie:
 
 <img src="../../../translated_images/sk/vector-embeddings.2ef7bdddac79a327.webp" alt="Priestor vektorových embeddingov" width="800"/>
 
-*Táto vizualizácia ukazuje, ako sa súvisiace dokumenty zhlukujú v 3D vektorovom priestore, pričom témy ako Technická dokumentácia, Firemné pravidlá a Často kladené otázky tvorí samostatné skupiny.*
+*Vizualizácia ukazuje, ako sa dokumenty s podobnou tématikou zoskupujú v 3D vektorovom priestore do samostatných zhlukov, ako sú Technická dokumentácia, Obchodné pravidlá a FAQ.*
 
-Keď používateľ vyhľadáva, systém vykonáva štyri kroky: embeduje dokumenty raz, embeduje dotaz pri každom vyhľadávaní, porovnáva dotazový vektor so všetkými uloženými vektormi pomocou kosínusovej podobnosti a vracia top-K najlepšie hodnotené časti. Nižšie uvedený diagram prechádza každým krokom a zúčastnenými LangChain4j triedami:
+Keď používateľ vyhľadáva, systém nasleduje štyri kroky: embedovanie dokumentov raz, embedovanie otázky pri každom vyhľadávaní, porovnanie otázkového vektora so všetkými uloženými vektormi pomocou kosínovej podobnosti a vrátenie top-K najlepších častí. Diagram nižšie prechádza každý krok a zúčastnené LangChain4j triedy:
 
-<img src="../../../translated_images/sk/embedding-search-steps.f54c907b3c5b4332.webp" alt="Kroky vyhľadávania embeddingov" width="800"/>
+<img src="../../../translated_images/sk/embedding-search-steps.f54c907b3c5b4332.webp" alt="Kroky embedding vyhľadávania" width="800"/>
 
-*Tento diagram ukazuje štvorkrokový proces vyhľadávania embeddingov: embedovanie dokumentov, embedovanie dotazu, porovnávanie vektorov s kosínusovou podobnosťou a vrátenie top-K výsledkov.*
+*Diagram ukazuje štvorkrokový proces embedding vyhľadávania: embedovať dokumenty, embedovať otázku, porovnať vektory pomocou kosínovej podobnosti a vrátiť top-K výsledkov.*
 
-### Sémantické Vyhľadávanie
+### Sémantické vyhľadávanie
 
 [RagService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java)
 
-Keď položíte otázku, vaša otázka sa tiež prevedie na embedding. Systém porovná embedding vašej otázky so všetkými embeddingmi častí dokumentu. Nájde časti s najpodobnejšími významami — nie len kľúčové slová, ale reálnu sémantickú podobnosť.
+Keď položíte otázku, táto otázka sa tiež prevedie na embedding. Systém porovná embedding vašej otázky so všetkými embeddingami častí dokumentu. Nájde časti s najpodobnejším významom — nielen zhodu kľúčových slov, ale skutočnú sémantickú podobnosť.
 
 ```java
 Embedding queryEmbedding = embeddingModel.embed(question).content();
@@ -196,27 +195,27 @@ for (EmbeddingMatch<TextSegment> match : matches) {
 }
 ```
   
-Nižšie uvedený diagram kontrastuje sémantické vyhľadávanie s tradičným vyhľadávaním podľa kľúčových slov. Vyhľadávanie podľa kľúčového slova „vozidlo“ prehliadne časť o „autách a nákladiakoch“, ale sémantické vyhľadávanie chápe, že znamenajú to isté a vráti ju ako najlepšie hodnotenú zhodu:
+Nasledujúci diagram porovnáva sémantické vyhľadávanie s tradičným vyhľadávaním podľa kľúčových slov. Vyhľadávanie podľa kľúčového slova „vozidlo“ prehliadne časť o „autách a nákladiakoch,“ ale sémantické vyhľadávanie chápe, že ide o to isté a vráti ju ako vysoko hodnotený výsledok:
 
 <img src="../../../translated_images/sk/semantic-search.6b790f21c86b849d.webp" alt="Sémantické vyhľadávanie" width="800"/>
 
-*Tento diagram porovnáva vyhľadávanie založené na kľúčových slovách so sémantickým vyhľadávaním, ukazujúc, ako sémantické vyhľadávanie získava obsah konceptuálne príbuzný, aj keď sa kľúčové slová líšia.*
-Pod kapotou sa podobnosť meria pomocou kosínovej podobnosti — v podstate sa pýta "ukazujú tieto dve šípky rovnakým smerom?" Dve časti môžu používať úplne odlišné slová, ale ak znamenajú to isté, ich vektory smerujú rovnako a skóre je blízke 1.0:
+*Diagram porovnáva vyhľadávanie podľa kľúčových slov so sémantickým vyhľadávaním, ktoré vracia obsah konceptuálne príbuzný, aj keď sa kľúčové slová líšia.*
+
+V základe sa podobnosť meria pomocou kosínovej podobnosti — v podstate otázkou „ukazujú tieto dva šípy rovnakým smerom?“ Dve časti môžu použiť úplne odlišné slová, ale ak majú rovnaký význam, vektory smerujú podobne a skóre je blízke 1.0:
 
 <img src="../../../translated_images/sk/cosine-similarity.9baeaf3fc3336abb.webp" alt="Kosínová podobnosť" width="800"/>
-
-*Táto schéma znázorňuje kosínovú podobnosť ako uhol medzi vektormi embeddingov — čím sú vektory zosúladené, tým bližšie je skóre k 1.0, čo naznačuje vyššiu sémantickú podobnosť.*
+*Táto schéma znázorňuje kosínusovú podobnosť ako uhol medzi vektormi embedingov — viac zladené vektory majú skóre bližšie k 1,0, čo naznačuje vyššiu sémantickú podobnosť.*
 
 > **🤖 Vyskúšajte s [GitHub Copilot](https://github.com/features/copilot) Chat:** Otvorte [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java) a opýtajte sa:
-> - "Ako funguje vyhľadávanie podobnosti pomocou embeddingov a čo určuje skóre?"
-> - "Aký prah podobnosti mám použiť a ako to ovplyvňuje výsledky?"
-> - "Ako riešiť prípady, keď sa nenájdu žiadne relevantné dokumenty?"
+> - "Ako funguje vyhľadávanie podobnosti s embeddingami a čo určuje skóre?"
+> - "Akú prahovú hodnotu podobnosti by som mal použiť a ako ovplyvňuje výsledky?"
+> - "Ako riešim prípady, keď nie sú nájdené relevantné dokumenty?"
 
 ### Generovanie odpovedí
 
 [RagService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java)
 
-Najrelevantnejšie časti sa zostavujú do štruktúrovaného promptu, ktorý obsahuje explicitné inštrukcie, získaný kontext a otázku používateľa. Model číta tieto konkrétne časti a odpovedá na základe týchto informácií — môže použiť iba to, čo má pred sebou, čím sa zabraňuje halucináciám.
+Najrelevantnejšie segmenty sú zostavené do štruktúrovaného promptu, ktorý obsahuje explicitné inštrukcie, získaný kontext a otázku používateľa. Model číta tieto konkrétne segmenty a odpovedá na základe týchto informácií — môže použiť iba to, čo má pred sebou, čo zabraňuje halucináciám.
 
 ```java
 String context = matches.stream()
@@ -237,17 +236,17 @@ String prompt = String.format("""
 String answer = chatModel.chat(prompt);
 ```
 
-Nižšie uvedená schéma ukazuje tento proces zostavovania v akcii — časti s najvyšším skóre z vyhľadávacieho kroku sa vložia do promptu a `OpenAiOfficialChatModel` vytvorí podloženú odpoveď:
+Nižšie znázorňuje táto schéma tento proces zostavenia — najvyššie skórujúce segmenty zo skúšobného kroku sú vložené do šablóny promptu a `OpenAiOfficialChatModel` generuje podloženú odpoveď:
 
-<img src="../../../translated_images/sk/context-assembly.7e6dd60c31f95978.webp" alt="Zostavenie kontextu" width="800"/>
+<img src="../../../translated_images/sk/context-assembly.7e6dd60c31f95978.webp" alt="Context Assembly" width="800"/>
 
-*Táto schéma ukazuje, ako sa najlepšie časti zostavujú do štruktúrovaného promptu, čo umožňuje modelu generovať podloženú odpoveď z vašich dát.*
+*Táto schéma ukazuje, ako sú najlepšie skórujúce segmenty zostavené do štruktúrovaného promptu, čo modelu umožňuje generovať podloženú odpoveď z vašich dát.*
 
 ## Spustenie aplikácie
 
 **Overenie nasadenia:**
 
-Uistite sa, že súbor `.env` existuje v koreňovom adresári s Azure povereniami (vytvorené počas modulu 01). Spustite to z adresára modulu (`03-rag/`):
+Uistite sa, že v koreňovom adresári existuje súbor `.env` s Azure povereniami (vytvorený počas Modulu 01). Spustite toto z adresára modulu (`03-rag/`):
 
 **Bash:**
 ```bash
@@ -261,27 +260,27 @@ Get-Content ..\.env  # Malo by zobraziť AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYM
 
 **Spustenie aplikácie:**
 
-> **Poznámka:** Ak ste už spustili všetky aplikácie pomocou `./start-all.sh` z koreňového adresára (ako je popísané v Module 01), tento modul už beží na porte 8081. Môžete preskočiť spúšťacie príkazy nižšie a ísť priamo na http://localhost:8081.
+> **Poznámka:** Ak ste už všetky aplikácie spustili pomocou `./start-all.sh` z koreňového adresára (ako je popísané v Module 01), tento modul už beží na porte 8081. Môžete preskočiť príkazy na spustenie nižšie a prejsť priamo na http://localhost:8081.
 
 **Možnosť 1: Použitie Spring Boot Dashboard (Odporúčané pre používateľov VS Code)**
 
-Vývojársky kontajner obsahuje rozšírenie Spring Boot Dashboard, ktoré poskytuje vizuálne rozhranie na správu všetkých Spring Boot aplikácií. Nájdete ho v paneli aktivít na ľavej strane VS Code (hľadajte ikonu Spring Boot).
+Vývojové kontajner obsahuje rozšírenie Spring Boot Dashboard, ktoré poskytuje vizuálne rozhranie na správu všetkých Spring Boot aplikácií. Nájdete ho v Activity Bar na ľavej strane VS Code (ikona Spring Boot).
 
-Zo Spring Boot Dashboard môžete:
+Z Spring Boot Dashboard môžete:
 - Vidieť všetky dostupné Spring Boot aplikácie v pracovnom priestore
-- Spustiť/zastaviť aplikácie jedným kliknutím
-- Zobraziť denníky aplikácie v reálnom čase
-- Monitorovať stav aplikácie
+- Jedným kliknutím spúšťať alebo zastavovať aplikácie
+- Pozerať logy aplikácií v reálnom čase
+- Monitorovať stav aplikácií
 
-Jednoducho kliknite na tlačidlo play vedľa "rag" pre spustenie tohto modulu, alebo spustite všetky moduly naraz.
+Jednoducho kliknite na tlačidlo prehrávania vedľa „rag“ na spustenie tohto modulu, alebo spustite všetky moduly naraz.
 
 <img src="../../../translated_images/sk/dashboard.fbe6e28bf4267ffe.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*Tento snímok obrazovky zobrazuje Spring Boot Dashboard vo VS Code, kde môžete vizuálne spúšťať, zastavovať a monitorovať aplikácie.*
+*Táto snímka obrazovky zobrazuje Spring Boot Dashboard v VS Code, kde môžete vizuálne spúšťať, zastavovať a monitorovať aplikácie.*
 
 **Možnosť 2: Použitie shell skriptov**
 
-Spustite všetky webové aplikácie (moduly 01-04):
+Spustiť všetky webové aplikácie (moduly 01-04):
 
 **Bash:**
 ```bash
@@ -295,7 +294,7 @@ cd ..  # Z koreňového adresára
 .\start-all.ps1
 ```
 
-Alebo spustite iba tento modul:
+Alebo spustiť len tento modul:
 
 **Bash:**
 ```bash
@@ -309,9 +308,9 @@ cd 03-rag
 .\start.ps1
 ```
 
-Obidva skripty automaticky načítajú premenné prostredia zo súboru `.env` v koreňovom adresári a zostavia JAR, ak ešte neexistuje.
+Obidva skripty automaticky načítajú premenné prostredia zo súboru `.env` v koreňovom adresári a postavia JAR súbory, ak ešte neexistujú.
 
-> **Poznámka:** Ak chcete pred spustením manuálne zostaviť všetky moduly:
+> **Poznámka:** Ak preferujete najprv manuálne zostaviť všetky moduly pred spustením:
 >
 > **Bash:**
 > ```bash
@@ -325,13 +324,13 @@ Obidva skripty automaticky načítajú premenné prostredia zo súboru `.env` v 
 > mvn clean package -DskipTests
 > ```
 
-Otvorte http://localhost:8081 vo vašom prehliadači.
+Otvorte v prehliadači http://localhost:8081.
 
-**Pre zastavenie:**
+**Na zastavenie:**
 
 **Bash:**
 ```bash
-./stop.sh  # Len tento modul
+./stop.sh  # Iba tento modul
 # Alebo
 cd .. && ./stop-all.sh  # Všetky moduly
 ```
@@ -347,91 +346,91 @@ cd ..; .\stop-all.ps1  # Všetky moduly
 
 Aplikácia poskytuje webové rozhranie na nahrávanie dokumentov a kladenie otázok.
 
-<a href="images/rag-homepage.png"><img src="../../../translated_images/sk/rag-homepage.d90eb5ce1b3caa94.webp" alt="Rozhranie aplikácie RAG" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/rag-homepage.png"><img src="../../../translated_images/sk/rag-homepage.d90eb5ce1b3caa94.webp" alt="RAG Application Interface" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*Tento snímok obrazovky zobrazuje rozhranie aplikácie RAG, kde môžete nahrávať dokumenty a klásť otázky.*
+*Táto snímka obrazovky zobrazuje rozhranie RAG aplikácie, kde nahrávate dokumenty a kladiete otázky.*
 
 ### Nahranie dokumentu
 
-Začnite nahraním dokumentu — na testovanie najlepšie fungujú TXT súbory. V tomto adresári je poskytovaný súbor `sample-document.txt`, ktorý obsahuje informácie o funkciách LangChain4j, implementácii RAG a najlepších postupoch — ideálne pre testovanie systému.
+Začnite nahraním dokumentu — na testovanie najlepšie fungujú TXT súbory. V tomto adresári je k dispozícii `sample-document.txt`, ktorý obsahuje informácie o funkciách LangChain4j, implementácii RAG a osvedčených postupoch — ideálny na testovanie systému.
 
-Systém spracuje váš dokument, rozdelí ho na časti a vytvorí embeddingy pre každú časť. To sa deje automaticky po nahraní.
+Systém spracuje váš dokument, rozdelí ho na časti a vytvorí embeddingy pre každú časť. Toto prebieha automaticky pri nahraní.
 
 ### Kladenie otázok
 
-Teraz položte konkrétne otázky o obsahu dokumentu. Skúste niečo faktické, čo je jasne uvedené v dokumente. Systém vyhľadá relevantné časti, zahrnie ich do promptu a vygeneruje odpoveď.
+Teraz sa môžete pýtať konkrétne otázky o obsahu dokumentu. Skúste niečo faktické, čo je jasne uvedené v dokumente. Systém vyhľadá relevantné segmenty, zahrnie ich do promptu a vygeneruje odpoveď.
 
-### Kontrola zdrojových odkazov
+### Skontrolujte referencie zdrojov
 
-Všimnite si, že každá odpoveď obsahuje zdrojové odkazy s hodnotami podobnosti. Tieto skóre (od 0 do 1) ukazujú, ako relevantná bola každá časť voči vašej otázke. Vyššie skóre znamená lepšie zhody. To vám umožní overiť odpoveď voči zdrojovému materiálu.
+Všimnite si, že každá odpoveď obsahuje referencie na zdroje spolu s hodnoteniami podobnosti. Tieto skóre (0 až 1) ukazujú, ako relevantný každý segment bol pre vašu otázku. Vyššie skóre znamená lepšiu zhody. Toto vám umožňuje overiť odpoveď s pôvodným materiálom.
 
-<a href="images/rag-query-results.png"><img src="../../../translated_images/sk/rag-query-results.6d69fcec5397f355.webp" alt="Výsledky dotazu RAG" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/rag-query-results.png"><img src="../../../translated_images/sk/rag-query-results.6d69fcec5397f355.webp" alt="RAG Query Results" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*Tento snímok obrazovky zobrazuje výsledky dotazu s vygenerovanou odpoveďou, zdrojovými odkazmi a skóre relevantnosti pre každú získanú časť.*
+*Táto snímka obrazovky zobrazuje výsledky dotazu s vygenerovanou odpoveďou, referenciami na zdroje a skóre relevantnosti pre každý získaný segment.*
 
 ### Experimentujte s otázkami
 
-Vyskúšajte rôzne typy otázok:
+Vyskúšajte rôzne druhy otázok:
 - Konkrétne fakty: "Aká je hlavná téma?"
-- Porovnania: "Aký je rozdiel medzi X a Y?"
+- Porovnania: "V čom sa líši X od Y?"
 - Zhrnutia: "Zhrňte kľúčové body o Z"
 
-Sledujte, ako sa skóre relevantnosti mení na základe toho, ako dobre vaša otázka zodpovedá obsahu dokumentu.
+Sledujte, ako sa skóre relevantnosti mení podľa toho, ako dobre vaša otázka zodpovedá obsahu dokumentu.
 
 ## Kľúčové koncepty
 
-### Stratégia delenia na časti (Chunking)
+### Stratégia delenia na segmenty
 
-Dokumenty sa rozdeľujú na časti po 300 tokenoch s prekrytím 30 tokenov. Tento kompromis zabezpečuje, že každá časť má dostatok kontextu na zmysluplnosť, pritom je dostatočne malá, aby sa mohlo zahrnúť viac častí do promptu.
+Dokumenty sa rozdeľujú na segmenty po 300 tokenoch s prekrytím 30 tokenov. Tento kompromis zabezpečuje, že každý segment má dostatok kontextu na zmysluplné chápanie, zároveň je dosť malý na to, aby sa v promptu zmestilo viac segmentov.
 
-### Skóre podobnosti
+### Hodnotenia podobnosti
 
-Každá získaná časť prichádza so skóre podobnosti od 0 do 1, ktoré ukazuje, ako veľmi zodpovedá otázke používateľa. Nižšie uvedená schéma vizualizuje rozsahy skóre a ako ich systém používa na filtrovanie výsledkov:
+Každý získaný segment má skóre podobnosti medzi 0 a 1, ktoré indikuje, ako veľmi sa zhoduje s otázkou používateľa. Nižšie uvedená schéma vizualizuje rozsahy skóre a spôsob, akým systém filtruje výsledky:
 
-<img src="../../../translated_images/sk/similarity-scores.b0716aa911abf7f0.webp" alt="Skóre podobnosti" width="800"/>
+<img src="../../../translated_images/sk/similarity-scores.b0716aa911abf7f0.webp" alt="Similarity Scores" width="800"/>
 
-*Táto schéma zobrazuje rozsahy skóre od 0 do 1, s minimálnym prahom 0,5, ktorý filtruje irelevantné časti.*
+*Táto schéma zobrazuje rozsahy skóre od 0 do 1, s minimálnym prahom 0,5, ktorý filtruje irelevantné segmenty.*
 
-Skóre sa pohybujú od 0 do 1:
+Skóre sa pohybuje od 0 do 1:
 - 0,7-1,0: Vysoko relevantné, presná zhoda
 - 0,5-0,7: Relevantné, dobrý kontext
-- Pod 0,5: Filtrované, príliš odlišné
+- Pod 0,5: Vylúčené, príliš nezhodné
 
-Systém získava iba časti nad minimálnym prahom, aby zaistil kvalitu.
+Systém vyhľadáva iba segmenty nad minimálnym prahom, aby zabezpečil kvalitu.
 
-Embeddingy dobre fungujú, keď sa význam zreteľne zoskupuje, ale majú slabiny. Nižšie uvedená schéma ukazuje bežné chyby — príliš veľké časti produkujú nejasné vektory, príliš malé časti postrádajú kontext, dvojsmyselné termíny vedú do viacerých klastrov a presné vyhľadávanie (ID, čísla dielov) s embeddingmi vôbec nefunguje:
+Embeddingy dobre fungujú, keď sa významy jasne zhlukujú, ale majú aj slabé miesta. Nižšie uvedená schéma zobrazuje bežné chyby — príliš veľké segmenty produkujú nejasné vektory, príliš malé segmenty nemajú kontext, nejednoznačné pojmy ukazujú na viacero zhlukov a presné vyhľadávanie zhodných hodnôt (ID, dielenské čísla) embeddingy vôbec nepodporujú:
 
-<img src="../../../translated_images/sk/embedding-failure-modes.b2bcb901d8970fc0.webp" alt="Režimy zlyhania embeddingov" width="800"/>
+<img src="../../../translated_images/sk/embedding-failure-modes.b2bcb901d8970fc0.webp" alt="Embedding Failure Modes" width="800"/>
 
-*Táto schéma znázorňuje bežné režimy zlyhania embeddingov: príliš veľké časti, príliš malé časti, dvojsmyselné výrazy vedúce k viacerým klastrom a presné vyhľadávanie ako ID.*
+*Táto schéma ukazuje bežné chyby embeddingov: príliš veľké segmenty, príliš malé segmenty, nejednoznačné pojmy, ktoré ukazujú na viacero zhlukov, a presné vyhľadávanie ako ID.*
 
-### Ukladanie v pamäti (In-Memory Storage)
+### Ukladanie v pamäti
 
-Tento modul používa pre jednoduchosť ukladanie v pamäti. Po reštarte aplikácie sa nahrané dokumenty stratia. Produkčné systémy používajú perzistentné úložiská vektorov ako Qdrant alebo Azure AI Search.
+Tento modul používa pre jednoduchosť ukladanie v pamäti. Po reštarte aplikácie sa nahraté dokumenty stratia. Produkčné systémy používajú perzistentné vektorové databázy ako Qdrant alebo Azure AI Search.
 
 ### Správa kontextového okna
 
-Každý model má maximálnu veľkosť kontextového okna. Nie je možné zahrnúť všetky časti veľkého dokumentu. Systém načíta najrelevantnejších N častí (predvolene 5), aby sa zmestil do limitov a poskytol dostatok kontextu na presné odpovede.
+Každý model má maximálnu veľkosť kontextového okna. Nemôžete zahrnúť každý segment z veľkého dokumentu. Systém získava top N najrelevantnejších segmentov (štandardne 5), aby zostal v limitách a zároveň poskytol dostatok kontextu na presné odpovede.
 
-## Kedy je RAG dôležitý
+## Kedy je RAG dôležité
 
-RAG nie je vždy správny prístup. Nižšie uvedený rozhodovací diagram vám pomôže určiť, kedy RAG prináša hodnotu a kedy sú jednoduchšie prístupy — ako zahrnutie obsahu priamo do promptu alebo spoliehanie sa na zabudované vedomosti modelu — postačujúce:
+RAG nie je vždy správny prístup. Nižšie uvedený rozhodovací návod vám pomôže určiť, kedy RAG prináša hodnotu a kedy sú jednoduchšie prístupy — ako zahrnutie obsahu priamo do promptu alebo spoliehanie sa na vstavané znalosti modelu — postačujúce:
 
-<img src="../../../translated_images/sk/when-to-use-rag.1016223f6fea26bc.webp" alt="Kedy použiť RAG" width="800"/>
+<img src="../../../translated_images/sk/when-to-use-rag.1016223f6fea26bc.webp" alt="When to Use RAG" width="800"/>
 
-*Táto schéma ukazuje rozhodovací diagram, kedy RAG pridáva hodnotu a kedy sú postačujúce jednoduchšie prístupy.*
+*Táto schéma zobrazuje rozhodovací návod, kedy RAG prináša hodnotu oproti jednoduchším prístupom.*
 
 ## Ďalšie kroky
 
-**Ďalší modul:** [04-tools - AI agenti s nástrojmi](../04-tools/README.md)
+**Ďalší modul:** [04-tools - AI Agenti s nástrojmi](../04-tools/README.md)
 
 ---
 
-**Navigácia:** [← Predchádzajúci: Modul 02 - Prompt Engineering](../02-prompt-engineering/README.md) | [Späť na hlavné](../README.md) | [Ďalší: Modul 04 - Nástroje →](../04-tools/README.md)
+**Navigácia:** [← Predchádzajúci: Modul 02 - Prompt Engineering](../02-prompt-engineering/README.md) | [Späť na hlavnú stránku](../README.md) | [Ďalší: Modul 04 - Tools →](../04-tools/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Vyhlásenie**:  
-Tento dokument bol preložený pomocou AI prekladateľskej služby [Co-op Translator](https://github.com/Azure/co-op-translator). Aj keď sa snažíme o presnosť, vezmite prosím na vedomie, že automatické preklady môžu obsahovať chyby alebo nepresnosti. Pôvodný dokument v jeho rodnom jazyku by mal byť považovaný za autoritatívny zdroj. Pre kritické informácie sa odporúča profesionálny ľudský preklad. Nie sme zodpovední za akékoľvek nedorozumenia alebo nesprávne výklady vyplývajúce z použitia tohto prekladu.
+**Vyhlásenie o zodpovednosti**:
+Tento dokument bol preložený pomocou AI prekladateľskej služby [Co-op Translator](https://github.com/Azure/co-op-translator). Hoci sa snažíme o presnosť, vezmite prosím na vedomie, že automatické preklady môžu obsahovať chyby alebo nepresnosti. Pôvodný dokument v jeho natívnom jazyku by mal byť považovaný za autoritatívny zdroj. Pre kritické informácie sa odporúča profesionálny ľudský preklad. Nie sme zodpovední za žiadne nedorozumenia alebo nesprávne interpretácie vyplývajúce z použitia tohto prekladu.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

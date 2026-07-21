@@ -2,29 +2,29 @@
 
 ## Table of Contents
 
-- [Video Walkthrough](../../../02-prompt-engineering)
-- [What You'll Learn](../../../02-prompt-engineering)
-- [Prerequisites](../../../02-prompt-engineering)
-- [Understanding Prompt Engineering](../../../02-prompt-engineering)
-- [Prompt Engineering Fundamentals](../../../02-prompt-engineering)
-  - [Zero-Shot Prompting](../../../02-prompt-engineering)
-  - [Few-Shot Prompting](../../../02-prompt-engineering)
-  - [Chain of Thought](../../../02-prompt-engineering)
-  - [Role-Based Prompting](../../../02-prompt-engineering)
-  - [Prompt Templates](../../../02-prompt-engineering)
-- [Advanced Patterns](../../../02-prompt-engineering)
-- [Run the Application](../../../02-prompt-engineering)
-- [Application Screenshots](../../../02-prompt-engineering)
-- [Exploring the Patterns](../../../02-prompt-engineering)
-  - [Low vs High Eagerness](../../../02-prompt-engineering)
-  - [Task Execution (Tool Preambles)](../../../02-prompt-engineering)
-  - [Self-Reflecting Code](../../../02-prompt-engineering)
-  - [Structured Analysis](../../../02-prompt-engineering)
-  - [Multi-Turn Chat](../../../02-prompt-engineering)
-  - [Step-by-Step Reasoning](../../../02-prompt-engineering)
-  - [Constrained Output](../../../02-prompt-engineering)
-- [What You're Really Learning](../../../02-prompt-engineering)
-- [Next Steps](../../../02-prompt-engineering)
+- [Video Walkthrough](#video-walkthrough)
+- [What You'll Learn](#what-youll-learn)
+- [Prerequisites](#prerequisites)
+- [Understanding Prompt Engineering](#understanding-prompt-engineering)
+- [Prompt Engineering Fundamentals](#prompt-engineering-fundamentals)
+  - [Zero-Shot Prompting](#zero-shot-prompting)
+  - [Few-Shot Prompting](#few-shot-prompting)
+  - [Chain of Thought](#chain-of-thought)
+  - [Role-Based Prompting](#role-based-prompting)
+  - [Prompt Templates](#prompt-templates)
+- [Advanced Patterns](#advanced-patterns)
+- [Run the Application](#run-the-application)
+- [Application Screenshots](#application-screenshots)
+- [Exploring the Patterns](#exploring-the-patterns)
+  - [Low vs High Eagerness](#low-vs-high-eagerness)
+  - [Task Execution (Tool Preambles)](#task-execution-tool-preambles)
+  - [Self-Reflecting Code](#self-reflecting-code)
+  - [Structured Analysis](#structured-analysis)
+  - [Multi-Turn Chat](#multi-turn-chat)
+  - [Step-by-Step Reasoning](#step-by-step-reasoning)
+  - [Constrained Output](#constrained-output)
+- [What You're Really Learning](#what-youre-really-learning)
+- [Next Steps](#next-steps)
 
 ## Video Walkthrough
 
@@ -38,9 +38,9 @@ The following diagram provides an overview of the key topics and skills you'll d
 
 <img src="../../../translated_images/en/what-youll-learn.c68269ac048503b2.webp" alt="What You'll Learn" width="800"/>
 
-In the previous modules, you explored basic LangChain4j interactions with GitHub Models and saw how memory enables conversational AI with Azure OpenAI. Now we'll focus on how you ask questions — the prompts themselves — using Azure OpenAI's GPT-5.2. The way you structure your prompts dramatically affects the quality of responses you get. We start with a review of the fundamental prompting techniques, then move into eight advanced patterns that take full advantage of GPT-5.2's capabilities.
+In the previous module, you saw how memory enables conversational AI with Azure OpenAI. Now we'll focus on how you ask questions — the prompts themselves — using Azure OpenAI's GPT-5.2. The way you structure your prompts dramatically affects the quality of responses you get. We start with a review of the fundamental prompting techniques, then move into eight advanced patterns that take full advantage of GPT-5.2's capabilities.
 
-We'll use GPT-5.2 because it introduces reasoning control - you can tell the model how much thinking to do before answering. This makes different prompting strategies more apparent and helps you understand when to use each approach. We'll also benefit from Azure's fewer rate limits for GPT-5.2 compared to GitHub Models.
+We'll use GPT-5.2 because it introduces reasoning control - you can tell the model how much thinking to do before answering. This makes different prompting strategies more apparent and helps you understand when to use each approach.
 
 ## Prerequisites
 
@@ -71,7 +71,7 @@ The five core techniques shown below form the foundation of effective prompt eng
 
 <img src="../../../translated_images/en/five-patterns-overview.160f35045ffd2a94.webp" alt="Five Prompt Engineering Patterns Overview" width="800"/>
 
-Before diving into the advanced patterns in this module, let's review five foundational prompting techniques. These are the building blocks that every prompt engineer should know. If you've already worked through the [Quick Start module](../00-quick-start/README.md#2-prompt-patterns), you've seen these in action — here's the conceptual framework behind them.
+Before diving into the advanced patterns in this module, let's review five foundational prompting techniques. These are the building blocks that every prompt engineer should know.
 
 ### Zero-Shot Prompting
 
@@ -384,6 +384,7 @@ The diagram below visualizes how conversation context accumulates with each turn
 <img src="../../../translated_images/en/context-memory.dff30ad9fa78832a.webp" alt="Context Memory" width="800"/>
 
 *How conversation context accumulates over multiple turns until reaching the token limit*
+
 **Step-by-Step Reasoning** - For problems requiring visible logic. The model shows explicit reasoning for each step. Use this for math problems, logic puzzles, or when you need to understand the thinking process.
 
 ```java
@@ -401,7 +402,6 @@ String response = chatModel.chat(prompt);
 The diagram below illustrates how the model breaks problems into explicit, numbered logical steps.
 
 <img src="../../../translated_images/en/step-by-step-pattern.a99ea4ca1c48578c.webp" alt="Step-by-Step Pattern" width="800"/>
-
 *Breaking down problems into explicit logical steps*
 
 **Constrained Output** - For responses with specific format requirements. The model strictly follows format and length rules. Use this for summaries or when you need precise output structure.
@@ -604,5 +604,5 @@ Multi-turn conversations work by including message history with each request. Bu
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Disclaimer**:
-This document has been translated using the AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
+This document has been translated using AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

@@ -1,10 +1,4 @@
 {
-  "00-tool-integration.3f573138c2fa4eb2.webp": {
-    "original_hash": "4e132d8f4b1c5d7d67511ebb718784a6",
-    "translation_date": "2026-03-03T16:18:33+00:00",
-    "source_file": "diagrams/00-tool-integration.png",
-    "language_code": "pa"
-  },
   "04-tools-spring-boot.a1bd8ae23cd098e1.webp": {
     "original_hash": "79a86ab27b38d69feb8b17f94af99288",
     "translation_date": "2026-03-03T16:18:08+00:00",
@@ -33,12 +27,6 @@
     "original_hash": "0f4ca84195eff59cce95e04dbd42a082",
     "translation_date": "2026-02-27T20:10:02+00:00",
     "source_file": "05-mcp/images/agentic-scope.png",
-    "language_code": "pa"
-  },
-  "architecture.eedc993a1c576839.webp": {
-    "original_hash": "add139926cd5d568e3ba2c38eb32312b",
-    "translation_date": "2026-01-16T09:53:32+00:00",
-    "source_file": "00-quick-start/images/architecture.png",
     "language_code": "pa"
   },
   "chain-of-thought.5cff6630e2657e2a.webp": {
@@ -201,12 +189,6 @@
     "original_hash": "11814aa66f7cdfb2863ebd289d95c3b4",
     "translation_date": "2026-02-16T13:11:41+00:00",
     "source_file": "02-prompt-engineering/images/how-langchain4j-fits.png",
-    "language_code": "pa"
-  },
-  "langchain-concept.ad1fe6cf063515e1.webp": {
-    "original_hash": "7b421aa8262309aaf85a573fa7940b20",
-    "translation_date": "2026-01-16T09:53:37+00:00",
-    "source_file": "00-quick-start/images/langchain-concept.png",
     "language_code": "pa"
   },
   "mcp-architecture.b3156d787a4ceac9.webp": {

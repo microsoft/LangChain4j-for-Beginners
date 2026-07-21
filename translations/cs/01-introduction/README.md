@@ -2,84 +2,84 @@
 
 ## Obsah
 
-- [Video průvodce](../../../01-introduction)
-- [Co se naučíte](../../../01-introduction)
-- [Požadavky](../../../01-introduction)
-- [Pochopení základního problému](../../../01-introduction)
-- [Pochopení tokenů](../../../01-introduction)
-- [Jak funguje paměť](../../../01-introduction)
-- [Jak to používá LangChain4j](../../../01-introduction)
-- [Nasazení infrastruktury Azure OpenAI](../../../01-introduction)
-- [Spuštění aplikace lokálně](../../../01-introduction)
-- [Používání aplikace](../../../01-introduction)
-  - [Bezstavový chat (levý panel)](../../../01-introduction)
-  - [Stavový chat (pravý panel)](../../../01-introduction)
-- [Další kroky](../../../01-introduction)
+- [Video průvodce](#video-průvodce)
+- [Co se naučíte](#co-se-naučíte)
+- [Předpoklady](#předpoklady)
+- [Porozumění hlavnímu problému](#porozumění-hlavnímu-problému)
+- [Porozumění tokenům](#porozumění-tokenům)
+- [Jak funguje paměť](#jak-funguje-paměť)
+- [Jak to používá LangChain4j](#jak-to-používá-langchain4j)
+- [Nasazení infrastruktury Azure OpenAI](#nasazení-infrastruktury-azure-openai)
+- [Spuštění aplikace lokálně](#spuštění-aplikace-lokálně)
+- [Použití aplikace](#použití-aplikace)
+  - [Bezstavový chat (levý panel)](#bezstavový-chat-levý-panel)
+  - [Stavový chat (pravý panel)](#stavový-chat-pravý-panel)
+- [Další kroky](#další-kroky)
 
 ## Video průvodce
 
-Podívejte se na tuto živou relaci, která vysvětluje, jak začít s tímto modulem:
+Sledujte tuto živou session, která vysvětluje, jak začít s tímto modulem:
 
 <a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Getting Started with LangChain4j - Live Session" width="800"/></a>
 
 ## Co se naučíte
 
-V rychlém startu jste použili GitHub Modely k odesílání promptů, volání nástrojů, sestavení RAG pipeline a testování ochranných mechanismů. Tyto ukázky předvedly, co je možné — nyní přecházíme k Azure OpenAI a GPT-5.2 a začínáme stavět aplikace pro produkční použití. Tento modul se zaměřuje na konverzační AI, která si pamatuje kontext a udržuje stav — koncepty, které ty rychlé starty používaly za scénou, ale nevysvětlily.
+Toto je váš výchozí bod s LangChain4j a Azure OpenAI. Začínáme se základy a postupně stavíme produkční aplikace. Tento modul se soustředí na konverzační AI, která si pamatuje kontext a udržuje stav — základní koncepty, na kterých staví všechny následující moduly.
 
-Budeme používat Azure OpenAI GPT-5.2 po celou dobu tohoto průvodce, protože jeho pokročilé schopnosti rozumění umožňují lépe vidět rozdíly v chování různých vzorů. Když přidáte paměť, jasně uvidíte rozdíl. To usnadňuje pochopení toho, co každá komponenta přináší do vaší aplikace.
+Použijeme Azure OpenAI GPT-5.2 během celé této příručky, protože jeho pokročilé schopnosti dedukce činí chování různých vzorů jasněji viditelným. Když přidáte paměť, uvidíte rozdíl jasně. To usnadňuje porozumění tomu, co každý komponent přináší vaší aplikaci.
 
-Postavíte jednu aplikaci, která demonstruje oba vzory:
+Vytvoříte jednu aplikaci, která ukazuje oba vzory:
 
-**Bezstavový chat** - Každý požadavek je nezávislý. Model si nepamatuje předchozí zprávy. Toto je vzor použitý v rychlém startu.
+**Bezstavový chat** - Každý požadavek je nezávislý. Model si nepamatuje předchozí zprávy. Je to nejjednodušší výchozí bod.
 
-**Stavová konverzace** - Každý požadavek zahrnuje historii konverzace. Model udržuje kontext napříč více koly komunikace. Toto vyžadují produkční aplikace.
+**Stavová konverzace** - Každý požadavek obsahuje historii konverzace. Model udržuje kontext přes více zpráv. To je požadavek v produkčních aplikacích.
 
-## Požadavky
+## Předpoklady
 
 - Azure předplatné s přístupem k Azure OpenAI
-- Java 21, Maven 3.9+ 
+- Java 21, Maven 3.9+
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **Poznámka:** Java, Maven, Azure CLI a Azure Developer CLI (azd) jsou předinstalované v dodaném devcontaineru.
+> **Poznámka:** Java, Maven, Azure CLI a Azure Developer CLI (azd) jsou předinstalované v poskytnutém devcontaineru.
 
-> **Poznámka:** Tento modul používá GPT-5.2 na Azure OpenAI. Nasazení je automaticky nakonfigurováno pomocí `azd up` - neupravujte název modelu v kódu.
+> **Poznámka:** Tento modul používá GPT-5.2 na Azure OpenAI. Nasazení je automaticky nakonfigurováno pomocí `azd up` - neměňte název modelu v kódu.
 
-## Pochopení základního problému
+## Porozumění hlavnímu problému
 
-Jazykové modely jsou bezstavové. Každé API volání je nezávislé. Pokud pošlete "Jmenuji se John" a pak se zeptáte "Jak se jmenuji?", model nemá ponětí, že jste se právě představili. Zachází s každým požadavkem, jako by to byla první konverzace, kterou jste s ním kdy měli.
+Jazykové modely jsou bezstavové. Každé API volání je nezávislé. Pokud pošlete "Jmenuji se John" a pak se zeptáte "Jak se jmenuji?", model nemá tušení, že jste se právě představil. Každý požadavek považuje za první konverzaci, kterou jste kdy vedli.
 
-To je v pořádku pro jednoduché otázky a odpovědi, ale k ničemu pro skutečné aplikace. Chatboti zákaznické podpory si musí pamatovat, co jste jim řekli. Osobní asistenti potřebují kontext. Každá vícekroková konverzace vyžaduje paměť.
+To je v pořádku pro jednoduché otázky a odpovědi, ale pro skutečné aplikace to je k ničemu. Chatboti zákaznické podpory si musí pamatovat, co jste jim řekli. Osobní asistenti potřebují kontext. Každá konverzace s více zprávami vyžaduje paměť.
 
-Následující diagram kontrastuje oba přístupy — vlevo bezstavové volání, které zapomíná vaše jméno; vpravo stavové volání podporované ChatMemory, která si jméno pamatuje.
+Následující diagram kontrastuje dva přístupy — vlevo bezstavové volání, které zapomene vaše jméno; vpravo stavové volání podporované ChatMemory, které si jméno pamatuje.
 
 <img src="../../../translated_images/cs/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Stateless vs Stateful Conversations" width="800"/>
 
-*Rozdíl mezi bezstavovými (nezávislými voláními) a stavovými (uvědomělými o kontextu) konverzacemi*
+*Rozdíl mezi bezstavovými (nezávislými voláními) a stavovými (kontextově uvědomělými) konverzacemi*
 
-## Pochopení tokenů
+## Porozumění tokenům
 
-Než se ponoříme do konverzací, je důležité pochopit tokeny - základní jednotky textu, které jazykové modely zpracovávají:
+Než se pustíte do konverzací, je důležité pochopit tokeny - základní jednotky textu, které jazykové modely zpracovávají:
 
 <img src="../../../translated_images/cs/token-explanation.c39760d8ec650181.webp" alt="Token Explanation" width="800"/>
 
-*Příklad jak je text rozdělen do tokenů - "Miluji AI!" se stává 4 samostatné jednotky zpracování*
+*Příklad, jak se text rozdělí na tokeny - "I love AI!" se stane 4 samostatnými jednotkami pro zpracování*
 
-Tokeny jsou měřítkem a jednotkami zpracování u AI modelů. Slova, interpunkce a dokonce mezery mohou být tokeny. Váš model má limit, kolik tokenů může zpracovat najednou (400 000 u GPT-5.2, s až 272 000 vstupními a 128 000 výstupními tokeny). Pochopení tokenů pomáhá řídit délku konverzace a náklady.
+Tokeny jsou způsob, jakým AI modely měří a zpracovávají text. Slova, interpunkce a dokonce i mezery mohou být tokeny. Váš model má limit, kolik tokenů může zpracovat najednou (400 000 pro GPT-5.2, se až 272 000 vstupními tokeny a 128 000 výstupními tokeny). Porozumění tokenům vám pomůže řídit délku konverzace a náklady.
 
 ## Jak funguje paměť
 
-Paměť chatu řeší bezstavový problém tím, že udržuje historii konverzace. Před odesláním vašeho požadavku modelu framework předřadí relevantní předchozí zprávy. Když se zeptáte "Jak se jmenuji?", systém ve skutečnosti pošle celou historii konverzace, což umožní modelu vidět, že jste dříve řekli "Jmenuji se John."
+Paměť chatu řeší problém bezstavovosti tím, že uchovává historii konverzace. Před odesláním požadavku modelu framework přidá relevantní předchozí zprávy. Když se zeptáte "Jak se jmenuji?", systém ve skutečnosti pošle celou historii konverzace, což umožní modelu vidět, že jste předtím řekl "Jmenuji se John."
 
-LangChain4j poskytuje implementace paměti, které toto automaticky zvládají. Vy si vyberete, kolik zpráv chcete uchovat, a framework spravuje kontextové okno. Níže je diagram, který ukazuje, jak MessageWindowChatMemory udržuje posuvné okno posledních zpráv.
+LangChain4j poskytuje implementace paměti, které to automaticky řeší. Vy si vyberete, kolik zpráv chcete uchovat, a framework spravuje kontextové okno. Níže uvedený diagram ukazuje, jak MessageWindowChatMemory udržuje posuvné okno nedávných zpráv.
 
 <img src="../../../translated_images/cs/memory-window.bbe67f597eadabb3.webp" alt="Memory Window Concept" width="800"/>
 
-*MessageWindowChatMemory udržuje posuvné okno posledních zpráv, automaticky odhazuje staré*
+*MessageWindowChatMemory udržuje posuvné okno nedávných zpráv a automaticky odstraňuje staré*
 
 ## Jak to používá LangChain4j
 
-Tento modul rozšiřuje rychlý start integrací Spring Boot a přidáním paměti konverzace. Tady je, jak k sobě části zapadají:
+Tento modul integruje Spring Boot a přidává paměť konverzace. Takto do sebe části zapadají:
 
 **Závislosti** - Přidejte dvě knihovny LangChain4j:
 
@@ -94,7 +94,7 @@ Tento modul rozšiřuje rychlý start integrací Spring Boot a přidáním pamě
 </dependency>
 ```
 
-**Chatovací model** - Nakonfigurujte Azure OpenAI jako Spring bean ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
+**Chat model** - Nakonfigurujte Azure OpenAI jako Spring bean ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
 
 ```java
 @Bean
@@ -109,7 +109,7 @@ public OpenAiOfficialChatModel openAiOfficialChatModel() {
 }
 ```
 
-Builder načítá přihlašovací údaje z proměnných prostředí nastavených `azd up`. Nastavení `baseUrl` na váš Azure endpoint umožňuje klientu OpenAI pracovat s Azure OpenAI.
+Builder čte přihlašovací údaje z proměnných prostředí nastavených pomocí `azd up`. Nastavení `baseUrl` na váš Azure endpoint umožňuje klientovi OpenAI fungovat s Azure OpenAI.
 
 **Paměť konverzace** - Sledujte historii chatu s MessageWindowChatMemory ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)):
 
@@ -124,14 +124,14 @@ AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
 
-Vytvořte paměť pomocí `withMaxMessages(10)` pro uchování posledních 10 zpráv. Přidejte uživatelské a AI zprávy s typovanými wrappery: `UserMessage.from(text)` a `AiMessage.from(text)`. Historii získáte voláním `memory.messages()` a tu pošlete modelu. Servis uchovává oddělené instance paměti podle ID konverzace, což umožňuje více uživatelům simultánně chatovat.
+Vytvořte paměť s `withMaxMessages(10)`, aby se uchovalo posledních 10 zpráv. Přidejte uživatelské a AI zprávy s typovými obaly: `UserMessage.from(text)` a `AiMessage.from(text)`. Získejte historii s `memory.messages()` a pošlete ji modelu. Služba uchovává samostatné instance paměti pro každý ID konverzace, což umožňuje více uživatelům chatovat současně.
 
-> **🤖 Vyzkoušejte s [GitHub Copilot](https://github.com/features/copilot) Chatem:** Otevřete [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) a zeptejte se:
+> **🤖 Vyzkoušejte s [GitHub Copilot](https://github.com/features/copilot) Chat:** Otevřete [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) a zeptejte se:
 > - "Jak MessageWindowChatMemory rozhoduje, které zprávy zahodit, když je okno plné?"
 > - "Mohu implementovat vlastní úložiště paměti pomocí databáze místo paměti v RAM?"
-> - "Jak bych přidal shrnutí (sumarizaci) pro kompresi staré historie konverzace?"
+> - "Jak bych přidal shrnutí pro kompresi staré historie konverzace?"
 
-Bezstavový chat endpoint paměť zcela přeskočí - pouze `chatModel.chat(prompt)`, jako v rychlém startu. Stavový endpoint přidává zprávy do paměti, získává historii a zahrnuje tento kontext do každého požadavku. Stejné nastavení modelu, různé vzory.
+Bezstavový chat endpoint paměť zcela vynechává - pouze `chatModel.chat(prompt)` jako rychlý start. Stavový endpoint přidává zprávy do paměti, získává historii a zahrnuje tento kontext s každým požadavkem. Stejná konfigurace modelu, různé vzory.
 
 ## Nasazení infrastruktury Azure OpenAI
 
@@ -147,16 +147,16 @@ cd 01-introduction
 azd up  # Vyberte předplatné a umístění (doporučeno eastus2)
 ```
 
-> **Poznámka:** Pokud narazíte na chybu timeoutu (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), jednoduše spusťte `azd up` znovu. Azure zdroje mohou být stále v procesu provisioning na pozadí a opakování umožní dokončení nasazení, jakmile dosáhnou konečného stavu.
+> **Poznámka:** Pokud narazíte na chybu timeoutu (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), jednoduše spusťte znovu `azd up`. Azure zdroje mohou stále probíhat na pozadí a opakování umožní dokončení nasazení, jakmile zdroje dosáhnou konečného stavu.
 
 Toto provede:
-1. Nasazení Azure OpenAI s GPT-5.2 a modely text-embedding-3-small
-2. Automatické vytvoření `.env` souboru v kořenu projektu s přihlašovacími údaji
-3. Nastavení všech požadovaných proměnných prostředí
+1. Nasazení zdroje Azure OpenAI s GPT-5.2 a modely text-embedding-3-small
+2. Automatické vygenerování souboru `.env` v kořenovém adresáři projektu s přihlašovacími údaji
+3. Nastavení všech potřebných proměnných prostředí
 
-**Máte problémy s nasazením?** Podívejte se do [Infrastructure README](infra/README.md) na podrobné řešení problémů, včetně konfliktů názvů poddomén, manuálních kroků nasazení přes Azure Portal a návodu na konfiguraci modelů.
+**Máte problémy s nasazením?** Viz [Infrastructure README](infra/README.md) pro podrobné návody k řešení problémů včetně konfliktů názvů subdomén, ručního nasazení přes Azure Portal a návodů k konfiguraci modelu.
 
-**Ověřte úspěšnost nasazení:**
+**Ověření úspěšnosti nasazení:**
 
 **Bash:**
 ```bash
@@ -168,7 +168,7 @@ cat ../.env  # Mělo by zobrazit AZURE_OPENAI_ENDPOINT, API_KEY atd.
 Get-Content ..\.env  # Mělo by zobrazit AZURE_OPENAI_ENDPOINT, API_KEY, atd.
 ```
 
-> **Poznámka:** Příkaz `azd up` automaticky generuje `.env` soubor. Pokud ho budete chtít později upravit, můžete buď `.env` soubor editovat ručně, nebo jej znovu vygenerovat spuštěním:
+> **Poznámka:** Příkaz `azd up` automaticky generuje `.env` soubor. Pokud ho budete potřebovat později aktualizovat, můžete buď upravit `.env` soubor ručně, nebo ho znovu vygenerovat spuštěním:
 >
 > **Bash:**
 > ```bash
@@ -182,12 +182,11 @@ Get-Content ..\.env  # Mělo by zobrazit AZURE_OPENAI_ENDPOINT, API_KEY, atd.
 > .\.azd-env.ps1
 > ```
 
-
 ## Spuštění aplikace lokálně
 
-**Ověřte nasazení:**
+**Ověření nasazení:**
 
-Ujistěte se, že `.env` soubor existuje v kořenovém adresáři s Azure přihlašovacími údaji. Spusťte to z adresáře modulu (`01-introduction/`):
+Ujistěte se, že soubor `.env` existuje v kořenovém adresáři s údaji pro Azure. Spusťte to z adresáře modulu (`01-introduction/`):
 
 **Bash:**
 ```bash
@@ -201,21 +200,21 @@ Get-Content ..\.env  # Mělo by zobrazit AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYM
 
 **Spuštění aplikací:**
 
-**Možnost 1: Použití Spring Boot Dashboard (doporučeno pro uživatele VS Code)**  
+**Možnost 1: Použití Spring Boot Dashboard (doporučeno pro uživatele VS Code)**
 
-Dev kontejner obsahuje rozšíření Spring Boot Dashboard, které poskytuje vizuální rozhraní pro správu všech Spring Boot aplikací. Najdete ho v liště aktivit vlevo ve VS Code (ikona Spring Boot).
+Dev container obsahuje rozšíření Spring Boot Dashboard, které poskytuje vizuální rozhraní pro správu všech Spring Boot aplikací. Najdete ho v Activity Bar na levé straně VS Code (ikona Spring Boot).
 
-Ve Spring Boot Dashboard můžete:
-- Vidět všechny dostupné Spring Boot aplikace v workspace
-- Spouštět/ukončovat aplikace jedním kliknutím
-- Sledovat logy aplikací v reálném čase
-- Monitorovat stav aplikací
+Ze Spring Boot Dashboard můžete:
+- Vidět všechny dostupné Spring Boot aplikace v pracovním prostoru
+- Spustit/zastavit aplikace jedním kliknutím
+- Zobrazit logy aplikací v reálném čase
+- Monitorovat stav aplikace
 
-Jednoduše klikněte na tlačítko přehrávání vedle „introduction“ pro spuštění tohoto modulu, nebo spusťte všechny moduly najednou.
+Stačí kliknout na tlačítko play vedle "introduction" pro spuštění tohoto modulu, nebo spustit všechny moduly najednou.
 
 <img src="../../../translated_images/cs/dashboard.69c7479aef09ff6b.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*Spring Boot Dashboard ve VS Code — spouštějte, ukončujte a sledujte všechny moduly na jednom místě*
+*Spring Boot Dashboard ve VS Code — spusťte, zastavte a monitorujte všechny moduly z jednoho místa*
 
 **Možnost 2: Použití shell skriptů**
 
@@ -223,7 +222,7 @@ Spusťte všechny webové aplikace (moduly 01-04):
 
 **Bash:**
 ```bash
-cd ..  # Ze kořenového adresáře
+cd ..  # Z kořenového adresáře
 ./start-all.sh
 ```
 
@@ -233,7 +232,7 @@ cd ..  # Z kořenového adresáře
 .\start-all.ps1
 ```
 
-Nebo spusťte jen tento modul:
+Nebo spusťte pouze tento modul:
 
 **Bash:**
 ```bash
@@ -247,9 +246,9 @@ cd 01-introduction
 .\start.ps1
 ```
 
-Oba skripty automaticky načtou proměnné prostředí z kořenového `.env` souboru a vytvoří JARy, pokud neexistují.
+Oba skripty automaticky načtou proměnné prostředí ze souboru `.env` v kořenovém adresáři a postaví JARy, pokud neexistují.
 
-> **Poznámka:** Pokud chcete všechny moduly nejdříve sestavit ručně před spuštěním:
+> **Poznámka:** Pokud chcete nejprve ručně postavit všechny moduly před spuštěním:
 >
 > **Bash:**
 > ```bash
@@ -263,13 +262,13 @@ Oba skripty automaticky načtou proměnné prostředí z kořenového `.env` sou
 > mvn clean package -DskipTests
 > ```
 
-Otevřete ve svém prohlížeči http://localhost:8080.
+Otevřete v prohlížeči http://localhost:8080.
 
-**Pro zastavení:**
+**Zastavení aplikace:**
 
 **Bash:**
 ```bash
-./stop.sh  # Tento modul pouze
+./stop.sh  # Pouze tento modul
 # Nebo
 cd .. && ./stop-all.sh  # Všechny moduly
 ```
@@ -281,18 +280,17 @@ cd .. && ./stop-all.sh  # Všechny moduly
 cd ..; .\stop-all.ps1  # Všechny moduly
 ```
 
-
-## Používání aplikace
+## Použití aplikace
 
 Aplikace poskytuje webové rozhraní se dvěma implementacemi chatu vedle sebe.
 
 <img src="../../../translated_images/cs/home-screen.121a03206ab910c0.webp" alt="Application Home Screen" width="800"/>
 
-*Přehledová obrazovka ukazující jak Jednoduchý chat (bezstavový), tak Konverzační chat (stavový)*
+*Dashboard zobrazuje možnosti Simple Chat (bezstavový) a Conversational Chat (stavový)*
 
 ### Bezstavový chat (levý panel)
 
-Vyzkoušejte nejdříve toto. Řekněte „Jmenuji se John“ a hned poté „Jak se jmenuji?“ Model si nebude pamatovat, protože každá zpráva je nezávislá. To demonstruje základní problém integrace jazykového modelu – žádný kontext konverzace.
+Vyzkoušejte to jako první. Zeptejte se "Jmenuji se John" a pak okamžitě "Jak se jmenuji?". Model si to nepamatuje, protože každá zpráva je nezávislá. To ukazuje hlavní problém základní integrace jazykového modelu - žádný kontext konverzace.
 
 <img src="../../../translated_images/cs/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Stateless Chat Demo" width="800"/>
 
@@ -300,25 +298,25 @@ Vyzkoušejte nejdříve toto. Řekněte „Jmenuji se John“ a hned poté „Ja
 
 ### Stavový chat (pravý panel)
 
-Nyní vyzkoušejte stejnou sekvenci zde. Řekněte „Jmenuji se John“ a pak „Jak se jmenuji?“ Tentokrát si to pamatuje. Rozdíl je MessageWindowChatMemory - udržuje historii konverzace a zahrnuje ji v každém požadavku. Takto funguje produkční konverzační AI.
+Nyní vyzkoušejte stejnou sekvenci zde. Zeptejte se "Jmenuji se John" a pak "Jak se jmenuji?". Tentokrát si to pamatuje. Rozdíl je v MessageWindowChatMemory - udržuje historii konverzace a zahrnuje ji s každým požadavkem. Takto funguje produkční konverzační AI.
 
 <img src="../../../translated_images/cs/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Stateful Chat Demo" width="800"/>
 
-*AI si pamatuje vaše jméno z dřívější konverzace*
+*AI si pamatuje vaše jméno z předchozí části konverzace*
 
-Oba panely používají stejný GPT-5.2 model. Jediný rozdíl je paměť. To jasně ukazuje, co paměť přináší vaší aplikaci a proč je nezbytná pro skutečné užití.
+Oba panely používají stejný model GPT-5.2. Jediný rozdíl je paměť. To jasně ukazuje, co paměť přináší vaší aplikaci a proč je nezbytná pro skutečné použití.
 
 ## Další kroky
 
-**Další modul:** [02-prompt-engineering - Návrh promptů s GPT-5.2](../02-prompt-engineering/README.md)
+**Další modul:** [02-prompt-engineering - Prompt Engineering s GPT-5.2](../02-prompt-engineering/README.md)
 
 ---
 
-**Navigace:** [← Předcházející: Modul 00 - Rychlý start](../00-quick-start/README.md) | [Zpět na hlavní stránku](../README.md) | [Další: Modul 02 - Návrh promptů →](../02-prompt-engineering/README.md)
+**Navigace:** [← Zpět na hlavní](../README.md) | [Další: Modul 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Prohlášení o vyloučení odpovědnosti**:  
-Tento dokument byl přeložen pomocí AI překladatelské služby [Co-op Translator](https://github.com/Azure/co-op-translator). Přestože usilujeme o přesnost, mějte prosím na paměti, že automatizované překlady mohou obsahovat chyby nebo nepřesnosti. Původní dokument v jeho rodném jazyce by měl být považován za závazný zdroj. Pro důležité informace se doporučuje profesionální lidský překlad. Nejsme odpovědni za jakékoli nedorozumění nebo mylné výklady vyplývající z použití tohoto překladu.
+**Prohlášení o omezení odpovědnosti**:
+Tento dokument byl přeložen pomocí AI překladatelské služby [Co-op Translator](https://github.com/Azure/co-op-translator). Přestože usilujeme o co největší přesnost, mějte prosím na paměti, že automatizované překlady mohou obsahovat chyby nebo nepřesnosti. Originální dokument v jeho mateřském jazyce by měl být považován za autoritativní zdroj. Pro kritické informace se doporučuje profesionální lidský překlad. Nejsme odpovědní za jakékoli nedorozumění nebo nesprávné interpretace vzniklé použitím tohoto překladu.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

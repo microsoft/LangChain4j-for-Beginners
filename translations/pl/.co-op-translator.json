@@ -6,8 +6,8 @@
     "language_code": "pl"
   },
   "01-introduction/README.md": {
-    "original_hash": "9973acb599099b6ebad23063fcfc5739",
-    "translation_date": "2026-03-02T21:38:13+00:00",
+    "original_hash": "693678a589b4c81f3441a13ae1dcaf47",
+    "translation_date": "2026-07-03T10:40:12+00:00",
     "source_file": "01-introduction/README.md",
     "language_code": "pl"
   },
@@ -18,20 +18,20 @@
     "language_code": "pl"
   },
   "02-prompt-engineering/README.md": {
-    "original_hash": "7dc83a7a5b158f7e34adcc04042d370d",
-    "translation_date": "2026-03-02T21:40:44+00:00",
+    "original_hash": "0f0dc6973a544dc44279aeecbb2a0ae6",
+    "translation_date": "2026-07-03T10:35:17+00:00",
     "source_file": "02-prompt-engineering/README.md",
     "language_code": "pl"
   },
   "03-rag/README.md": {
-    "original_hash": "a965d4e6009b5bbce2033e9618b6a896",
-    "translation_date": "2026-03-02T21:42:20+00:00",
+    "original_hash": "68de4eff7477b1a18165d07baefc89b8",
+    "translation_date": "2026-07-03T10:39:17+00:00",
     "source_file": "03-rag/README.md",
     "language_code": "pl"
   },
   "04-tools/README.md": {
-    "original_hash": "2f3bcf70da63b0b57951b4928df23b4a",
-    "translation_date": "2026-03-10T11:53:33+00:00",
+    "original_hash": "7bfea11bf2e891d2347bc92495f73550",
+    "translation_date": "2026-07-03T10:37:51+00:00",
     "source_file": "04-tools/README.md",
     "language_code": "pl"
   },
@@ -54,8 +54,8 @@
     "language_code": "pl"
   },
   "README.md": {
-    "original_hash": "017a029136d87b82b4f9b9d821dad1f3",
-    "translation_date": "2026-04-06T16:04:29+00:00",
+    "original_hash": "bdb3cb8ff72e607754f65b3e6bb7ba23",
+    "translation_date": "2026-07-03T10:33:45+00:00",
     "source_file": "README.md",
     "language_code": "pl"
   },
@@ -72,14 +72,14 @@
     "language_code": "pl"
   },
   "docs/GLOSSARY.md": {
-    "original_hash": "f8fbe9fb0f3adc92eb3cd3835d140a4a",
-    "translation_date": "2026-03-02T21:46:05+00:00",
+    "original_hash": "d7b72d50668bfc542725e8fa4053eb58",
+    "translation_date": "2026-07-03T10:35:51+00:00",
     "source_file": "docs/GLOSSARY.md",
     "language_code": "pl"
   },
   "docs/TESTING.md": {
-    "original_hash": "608e564906adcffddb1033c48d76934e",
-    "translation_date": "2026-03-02T21:46:53+00:00",
+    "original_hash": "e1b03b752e8570c3d21edf76c9384527",
+    "translation_date": "2026-07-03T10:36:32+00:00",
     "source_file": "docs/TESTING.md",
     "language_code": "pl"
   }

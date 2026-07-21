@@ -1,85 +1,85 @@
 # Moduli 01: Kuanzia na LangChain4j
 
-## Jedwali la Yaliyomo
+## Jedwali la Maudhui
 
-- [Video ya Maelezo](../../../01-introduction)
-- [Utajifunza Nini](../../../01-introduction)
-- [Mambo ya Kuandaa](../../../01-introduction)
-- [Kuelewa Tatizo Kuu](../../../01-introduction)
-- [Kuelewa Vitoa-Kumbukumbu](../../../01-introduction)
-- [Jinsi Kumbukumbu Inavyofanya Kazi](../../../01-introduction)
-- [Jinsi Hii Inavyotumia LangChain4j](../../../01-introduction)
-- [Tangaza Miundombinu ya Azure OpenAI](../../../01-introduction)
-- [Endesha Programu Hapa Mkononi](../../../01-introduction)
-- [Kutumia Programu](../../../01-introduction)
-  - [Mazungumzo Yasiyo na Hali (Paneli ya Kushoto)](../../../01-introduction)
-  - [Mazungumzo Yenye Hali (Paneli ya Kulia)](../../../01-introduction)
-- [Hatua Zifuatazo](../../../01-introduction)
+- [Video ya Mwongozo](#video-ya-mwongozo)
+- [Utajifunza Nini](#utajifunza-nini)
+- [Mahitaji ya Awali](#mahitaji-ya-awali)
+- [Kuelewa Shida Kuu](#kuelewa-shida-kuu)
+- [Kuelewa Vitambulisho (Tokens)](#kuelewa-vitambulisho-tokens)
+- [Jinsi Kumbukumbu Inavyofanya Kazi](#jinsi-kumbukumbu-inavyofanya-kazi)
+- [Jinsi Hii Inavyotumia LangChain4j](#jinsi-hii-inavyotumia-langchain4j)
+- [Weka Miundombinu ya Azure OpenAI](#weka-miundombinu-ya-azure-openai)
+- [Endesha Programu Kwanza Mitaa](#endesha-programu-kwanza-mitaa)
+- [Kutumia Programu](#kutumia-programu)
+  - [Mazungumzo Yasiyohifadhi Hali (Paneli ya Kushoto)](#mazungumzo-yasiyohifadhi-hali-paneli-ya-kushoto)
+  - [Mazungumzo Yanayohifadhi Hali (Paneli ya Kulia)](#mazungumzo-yanayohifadhi-hali-paneli-ya-kulia)
+- [Hatua Zifuatazo](#hatua-zifuatazo)
 
-## Video ya Maelezo
+## Video ya Mwongozo
 
-Angalia kikao hiki cha moja kwa moja kinachoelezea jinsi ya kuanza na moduli hii:
+Tazama kikao hiki cha moja kwa moja kinachoelezea jinsi ya kuanza na moduli hii:
 
 <a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Kuanzia na LangChain4j - Kikao cha Moja kwa Moja" width="800"/></a>
 
 ## Utajifunza Nini
 
-Katika kuanza haraka, ulitumia Modeli za GitHub kutuma maelekezo, kutumia zana, kujenga bomba la RAG, na kupima mipaka ya usalama. Mionyesho hiyo ilionyesha nini kinawezekana — sasa tunabadilisha kuwa Azure OpenAI na GPT-5.2 na kuanza kujenga programu za mtindo wa uzalishaji. Moduli hii inazingatia AI ya mazungumzo inayokumbuka muktadha na kudumisha hali — dhana ambazo maonyesho ya kuanza haraka yalitumia nyuma ya pazia lakini hazikueleza.
+Hii ni mwanzo wako na LangChain4j na Azure OpenAI. Tunaanza na misingi na kuanza kujenga programu za aina ya uzalishaji. Moduli hii inalenga AI ya mazungumzo inayokumbuka muktadha na kudumisha hali — dhana za msingi ambazo kila moduli inayofuata hujengwa juu yake.
 
-Tutatumia GPT-5.2 ya Azure OpenAI katika mwongozo huu wote kwa sababu uwezo wake wa uelewa wa hali ya juu huifanya tabia za mifumo tofauti ionekane wazi zaidi. Utakapoongeza kumbukumbu, utaona tofauti kwa uwazi. Hii inafanya iwe rahisi kuelewa kile kila kipengele kinachochangia kwa programu yako.
+Tutatumia GPT-5.2 ya Azure OpenAI katika mwongozo huu wote kwa sababu uwezo wake wa hali ya juu wa fikra huonyesha kwa uwazi tabia za mifumo tofauti. Unapoongeza kumbukumbu, utaona tofauti kwa wazi. Hii hufanya kuwa rahisi kuelewa kile kila kipengele kinachoongeza kwenye programu yako.
 
-Utajenga programu moja inayothibitisha mifumo yote miwili:
+Utajenga programu moja inayoonyesha mifumo yote miwili:
 
-**Mazungumzo Yasiyo na Hali** - Kila ombi ni huru. Mfano huna kumbukumbu ya ujumbe wa awali. Huu ndio mfumo uliotumia katika kuanza haraka.
+**Mazungumzo Yasiyohifadhi Hali** - Kila ombi ni huru. Mfano huna kumbukumbu ya ujumbe wa awali. Huu ni msingi rahisi wa kuanzia.
 
-**Mazungumzo Yenye Hali** - Kila ombi linajumuisha historia ya mazungumzo. Mfano hudumisha muktadha katika mizunguko mingi. Hii ndio inahitajika kwa programu za uzalishaji.
+**Mazungumzo Yanayohifadhi Hali** - Kila ombi linajumuisha historia ya mazungumzo. Mfano hudumisha muktadha kati ya mizunguko mingi. Hii ndiyo inahitajika katika programu za uzalishaji.
 
-## Mambo ya Kuandaa
+## Mahitaji ya Awali
 
 - Usajili wa Azure wenye ufikiaji wa Azure OpenAI
-- Java 21, Maven 3.9+ 
+- Java 21, Maven 3.9+
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **Kumbuka:** Java, Maven, Azure CLI na Azure Developer CLI (azd) vimeshatanguliwa katika devcontainer iliyotolewa.
+> **Kumbuka:** Java, Maven, Azure CLI na Azure Developer CLI (azd) vimeshatanguliwa kusanidiwa kwenye devcontainer uliotolewa.
 
-> **Kumbuka:** Moduli hii inatumia GPT-5.2 kwenye Azure OpenAI. Uenezi umewekwa moja kwa moja kwa kutumia `azd up` - usibadilishe jina la mfano katika msimbo.
+> **Kumbuka:** Moduli hii inatumia GPT-5.2 kwenye Azure OpenAI. Usanidi umewekwa moja kwa moja kupitia `azd up` - usibadilishe jina la mfano katika msimbo.
 
-## Kuelewa Tatizo Kuu
+## Kuelewa Shida Kuu
 
-Modeli za lugha hazina hali. Kila simu ya API ni huru. Ukiwatumia "Jina langu ni John" kisha ukauliza "Jina langu ni nani?", mfano hauna wazo kwamba umejitambulisha. Hutendea kila ombi kana kwamba ndio mazungumzo yako ya kwanza kabisa.
+Mifano ya lugha haina hali. Kila simu ya API ni huru. Ikiwa umetuma "Jina langu ni John" kisha ukauliza "Jina langu ni nani?", mfano haujui kuwa umejijulisha tu. Hutumia kila ombi kama vile ni mazungumzo yako ya kwanza kabisa.
 
-Hii ni sawa kwa maswali rahisi na majibu lakini haifai kwa programu halisi. Bot za huduma kwa wateja zinahitaji kukumbuka ulichosema. Msaidizi wa kibinafsi anahitaji muktadha. Mazungumzo yoyote yenye mizunguko mingi yanahitaji kumbukumbu.
+Hii ni sawa kwa maswali na majibu rahisi lakini haifai kwa programu halisi. Viboreshaji huduma kwa wateja vinahitaji kukumbuka ulicho walisema. Msaidizi wa binafsi unahitaji muktadha. Mazungumzo yenye mizunguko mingi yanahitaji kumbukumbu.
 
-Dijagramu ifuatayo inaonyesha tofauti za mbinu hizo mbili — upande wa kushoto, simu huru inayosahau jina lako; upande wa kulia, simu yenye hali iliyo supported na ChatMemory inayokumbuka.
+Mchoro ufuatao unaonyesha tofauti za mbinu mbili — kushoto, simu isiyo na hali inayosahau jina lako; kulia, simu yenye hali iliyojengwa na ChatMemory inayolikumbuka.
 
-<img src="../../../translated_images/sw/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Mazungumzo Yasiyo na Hali dhidi ya Yenye Hali" width="800"/>
+<img src="../../../translated_images/sw/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Mazungumzo Yasiyo na Hali dhidi ya Mazungumzo Yanayohifadhi Hali" width="800"/>
 
-*Tofauti kati ya mazungumzo yasiyo na hali (simu huru) na yenye hali (yanayojua muktadha)*
+*Tofauti kati ya mazungumzo yasiyo na hali (simu huru) na mazungumzo yanayohifadhi hali (yanaifahamu muktadha)*
 
-## Kuelewa Vitoa-Kumbukumbu
+## Kuelewa Vitambulisho (Tokens)
 
-Kabla ya kuingia kwenye mazungumzo, ni muhimu kuelewa vitoa-kumbukumbu - vitengo vya msingi vya maandishi vinavyosindikwa na modeli za lugha:
+Kabla ya kuingia katika mazungumzo, ni muhimu kuelewa vitambulisho - vitengo msingi vya maandishi ambavyo mifano ya lugha hufanya kazi navyo:
 
-<img src="../../../translated_images/sw/token-explanation.c39760d8ec650181.webp" alt="Maelezo ya Kitoa-Kumbukumbu" width="800"/>
+<img src="../../../translated_images/sw/token-explanation.c39760d8ec650181.webp" alt="Maelezo ya Kitambulisho" width="800"/>
 
-*Mfano wa jinsi maandishi yanavyogawanywa kuwa vitoa-kumbukumbu - "Napenda AI!" kuwa vitengo 4 tofauti vya usindikaji*
+*Mfano wa jinsi maandishi yanavyogawanywa katika vitambulisho - "Napenda AI!" zinazidi kuwa vitengo 4 tofauti vinavyotumika*
 
-Vitoa-kumbukumbu ndio njia modeli za AI hupima na kusindika maandishi. Maneno, alama za uandishi, hata nafasi zinaweza kuwa vitoa-kumbukumbu. Mfano wako una kikomo cha vitoa-kumbukumbu ambacho kinaweza kusindika kwa wakati mmoja (400,000 kwa GPT-5.2, kwa vitoa-kumbukumbu hadi 272,000 kwa ingizo na 128,000 kwa matokeo). Kuelewa vitoa-kumbukumbu kunakusaidia kusimamia urefu wa mazungumzo na gharama.
+Vitambulisho ni jinsi mifano ya AI inavyopima na kushughulikia maandishi. Maneno, alama za uandishi, na hata nafasi zinaweza kuwa vitambulisho. Mfano wako una kikomo cha idadi ya vitambulisho kinachoweza kushughulikiwa mara moja (400,000 kwa GPT-5.2, ambapo hadi vitambulisho 272,000 ni vya ingizo na 128,000 ni vya matokeo). Kuelewa vitambulisho kunasaidia kudhibiti urefu wa mazungumzo na gharama.
 
 ## Jinsi Kumbukumbu Inavyofanya Kazi
 
-Kumbukumbu ya mazungumzo inatatua tatizo la kutokuwepo hali kwa kudumisha historia ya mazungumzo. Kabla ya kutuma ombi lako kwa mfano, mfumo huongeza ujumbe wa awali muhimu. Unapouliza "Jina langu ni nani?", mfumo hukutumia historia yote ya mazungumzo, ikiruhusu mfano kuona kwamba ulisema "Jina langu ni John" hapo awali.
+Kumbukumbu ya mazungumzo hutatua shida ya kutokuwa na hali kwa kudumisha historia ya mazungumzo. Kabla ya kutuma ombi lako kwa mfano, mfumo huongeza ujumbe wa awali unaofaa. Ukimuuliza "Jina langu ni nani?", mfumo kwa kweli hutuma historia yote ya mazungumzo, kuruhusu mfano kuona ulisema awali "Jina langu ni John."
 
-LangChain4j hutoa utekelezaji wa kumbukumbu unaofanya hili moja kwa moja. Unaamua ni jumbe ngapi kuzihifadhi na mfumo hushughulikia dirisha la muktadha. Dijagramu hapa chini inaonyesha jinsi MessageWindowChatMemory inavyodumisha dirisha linalopita la jumbe za hivi karibuni.
+LangChain4j hutoa utekelezaji wa kumbukumbu unaoshughulikia hili moja kwa moja. Unachagua ni ujumbe wangapi kuhifadhi na mfumo hushughulikia dirisha la muktadha. Mchoro hapo chini unaonesha jinsi MessageWindowChatMemory hudumisha dirisha la ujazo wa ujumbe wa hivi karibuni.
 
 <img src="../../../translated_images/sw/memory-window.bbe67f597eadabb3.webp" alt="Dhana ya Dirisha la Kumbukumbu" width="800"/>
 
-*MessageWindowChatMemory inadumisha dirisha linalopita la jumbe za hivi karibuni, ikiachia zile za zamani kwa otomati*
+*MessageWindowChatMemory hudumisha dirisha la kumpiga la ujumbe wa hivi karibuni, kwa moja kwa moja hutupa ujumbe wa zamani*
 
 ## Jinsi Hii Inavyotumia LangChain4j
 
-Moduli hii inaendeleza kuanza haraka kwa kuunganisha Spring Boot na kuongeza kumbukumbu ya mazungumzo. Hapa ni jinsi vipengele vinaungana:
+Moduli hii inaunganisha Spring Boot na kuongeza kumbukumbu ya mazungumzo. Hapa ni jinsi vipande vinavyounganika pamoja:
 
 **Mategemeo** - Ongeza maktaba mbili za LangChain4j:
 
@@ -109,9 +109,9 @@ public OpenAiOfficialChatModel openAiOfficialChatModel() {
 }
 ```
 
-Mjenzi husoma sifa za kuingia kutoka kwa mazingira yaliyowekwa na `azd up`. Kuweka `baseUrl` kwa mwisho wa Azure kunafanya mteja wa OpenAI afanye kazi na Azure OpenAI.
+Muundaji husoma vyeti kutoka kwa mabadiliko ya mazingira yaliyowekwa na `azd up`. Kuweka `baseUrl` kwenye endpoint yako ya Azure hufanya mteja wa OpenAI afanye kazi na Azure OpenAI.
 
-**Kumbukumbu ya Mazungumzo** - Fuatilia historia ya mazungumzo kwa MessageWindowChatMemory ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)):
+**Kumbukumbu ya Mazungumzo** - Fuata historia ya mazungumzo na MessageWindowChatMemory ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)):
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -124,21 +124,21 @@ AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
 
-Unda kumbukumbu na `withMaxMessages(10)` kuhifadhi jumbe 10 za mwisho. Ongeza jumbe za mtumiaji na AI kwa vifuniko vilivyoandikwa: `UserMessage.from(text)` na `AiMessage.from(text)`. Pata historia na `memory.messages()` na uitume kwa mfano. Huduma huhifadhi kumbukumbu tofauti kwa kila mazungumzo kwa ID yake, kuruhusu watumiaji wengi kuongea kwa wakati mmoja.
+Tengeneza kumbukumbu na `withMaxMessages(10)` kuhifadhi ujumbe 10 za mwisho. Ongeza jumbe za mtumiaji na AI kwa vifunguo vilivyotambulika: `UserMessage.from(text)` na `AiMessage.from(text)`. Pata historia kwa `memory.messages()` na uitumie kwa mfano. Huduma huhifadhi kumbukumbu tofauti kwa kila kitambulisho cha mazungumzo, kuruhusu watumiaji wengi kuongea kwa wakati mmoja.
 
 > **🤖 Jaribu na [GitHub Copilot](https://github.com/features/copilot) Chat:** Fungua [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) na uliza:
-> - "Jinsi gani MessageWindowChatMemory huchagua jumbe gani kuondoa wakati dirisha limejaa?"
-> - "Je, naweza kutekeleza uhifadhi wa kumbukumbu wa kawaida kwa kutumia hifadhi ya data badala ya kumbukumbu ndani ya programu?"
-> - "Ningepaswa kuongeza muhtasari ili kupunguza historia ya zamani ya mazungumzo?"
+> - "MessageWindowChatMemory inaamua vipi ni ujumbe gani wachukue wakati dirisha limejaa?"
+> - "Je, naweza kutekeleza kuhifadhi kumbukumbu maalum kutumia hifadhidata badala ya kumbukumbu ya ndani?"
+> - "Nitafanya vipi kuongeza muhtasari kwa kushinikiza historia ya mazungumzo ya zamani?"
 
-Kipengele cha mazungumzo yasiyo na hali hakiungi kumbukumbu kabisa - ni `chatModel.chat(prompt)` kama kuanza haraka. Kipengele cha mazungumzo yenye hali kinaongeza jumbe kwenye kumbukumbu, kinapata historia, na kinajumuisha muktadha na kila ombi. Sanidi mfano ule ule, mifumo tofauti.
+Kipindi cha mazungumzo yasiyo na hali hakitumi kumbukumbu kabisa - ni `chatModel.chat(prompt)` kama ilivyo kwenye kuanza haraka. Kipindi cha hali pia kinaongeza jumbe kwenye kumbukumbu, kinapata historia, na kinajumuisha muktadha huu kwenye kila ombi. Sanidi mfano ule ule, mifumo tofauti.
 
-## Tangaza Miundombinu ya Azure OpenAI
+## Weka Miundombinu ya Azure OpenAI
 
 **Bash:**
 ```bash
 cd 01-introduction
-azd up  # Chagua usajili na eneo (eastus2 inashauriwa)
+azd up  # Chagua usajili na eneo (eastus2 inapendekezwa)
 ```
 
 **PowerShell:**
@@ -147,16 +147,16 @@ cd 01-introduction
 azd up  # Chagua usajili na eneo (eastus2 inapendekezwa)
 ```
 
-> **Kumbuka:** Ikiwa unakutana na kosa la muda kukamilika (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), tumia tena `azd up`. Rasilimali za Azure zinaweza bado kuandaliwa nyuma, na jaribio la pili huruhusu uenezi kukamilika mara rasilimali zifikie hali ya mwisho.
+> **Kumbuka:** Ikiwa unakutana na kosa la muda (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), endesha tena tu `azd up`. Rasilimali za Azure bado zinaweza kuwa zinaandaliwa nyuma, na jaribu tena huruhusu utekesaji kukamilika mara rasilimali zifikie hali ya mwisho.
 
 Hii itafanya:
-1. Kutangaza rasilimali ya Azure OpenAI pamoja na modeli za GPT-5.2 na text-embedding-3-small
-2. Kutengeneza faili `.env` moja kwa moja kwenye mizizi ya mradi na sifa
-3. Kuweka mazingira yote yanayohitajika
+1. Kuweka rasilimali ya Azure OpenAI na mifano ya GPT-5.2 na text-embedding-3-small
+2. Kuunda faili la `.env` moja kwa moja kwenye mizizi ya mradi lenye vyeti
+3. Kuweka mabadiliko yote ya mazingira yanayohitajika
 
-**Kuna shida za uenezi?** Angalia [README ya Miundombinu](infra/README.md) kwa maelezo ya kutatua matatizo ikiwa ni pamoja na migongano ya majina ya viwanja, hatua za uenezi wa mikono kwenye Azure Portal, na mwongozo wa usanidi wa modeli.
+**Kuna matatizo ya utekesaji?** Angalia [Infrastructure README](infra/README.md) kwa maelezo ya kutatua matatizo ikiwa ni pamoja na migongano ya majina ya subdomain, hatua za kuweka kwa mkono Azure Portal, na mwongozo wa usanidi wa mfano.
 
-**Thibitisha uenezi ulifanikiwa:**
+**Thibitisha utekesaji umefanikiwa:**
 
 **Bash:**
 ```bash
@@ -168,7 +168,7 @@ cat ../.env  # Inapaswa kuonyesha AZURE_OPENAI_ENDPOINT, API_KEY, n.k.
 Get-Content ..\.env  # Inapaswa kuonyesha AZURE_OPENAI_ENDPOINT, API_KEY, n.k.
 ```
 
-> **Kumbuka:** Amri `azd up` hutengeneza faili `.env` moja kwa moja. Ikiwa unahitaji kuiboresha baadaye, unaweza kuhariri faili `.env` kwa mikono au kuitengeneza upya kwa kuendesha:
+> **Kumbuka:** Amri ya `azd up` hutoa faili la `.env` moja kwa moja. Ikiwa unahitaji kuiboresha baadaye, unaweza kuhariri faili la `.env` mwenyewe au kuunda tena kwa kuendesha:
 >
 > **Bash:**
 > ```bash
@@ -182,11 +182,11 @@ Get-Content ..\.env  # Inapaswa kuonyesha AZURE_OPENAI_ENDPOINT, API_KEY, n.k.
 > .\.azd-env.ps1
 > ```
 
-## Endesha Programu Hapa Mkononi
+## Endesha Programu Kwanza Mitaa
 
-**Thibitisha uenezi:**
+**Thibitisha utekesaji:**
 
-Hakikisha faili `.env` ipo kwenye saraka ya mizizi na sifa za Azure. Endesha hii kutoka kwenye saraka ya moduli (`01-introduction/`):
+Hakiki kuwa faili la `.env` lipo kwenye saraka ya mizizi na vyeti vya Azure. Endesha hili kutoka saraka ya moduli (`01-introduction/`):
 
 **Bash:**
 ```bash
@@ -202,37 +202,37 @@ Get-Content ..\.env  # Inapaswa kuonyesha AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOY
 
 **Chaguo 1: Kutumia Spring Boot Dashboard (Inapendekezwa kwa watumiaji wa VS Code)**
 
-Dev container ina jopo la Spring Boot Dashboard, linalotoa kiolesura cha kuona kusimamia programu zote za Spring Boot. Unaweza kuipata kwenye Bar ya Shughuli upande wa kushoto wa VS Code (tafuta ikoni ya Spring Boot).
+Dev container inaongezewa ugani wa Spring Boot Dashboard, unaotoa interface ya kuona kusimamia programu zote za Spring Boot. Unaweza kuipata kwenye Bar ya Shughuli upande wa kushoto wa VS Code (tazama sakata la Spring Boot).
 
 Kutoka Spring Boot Dashboard, unaweza:
-- Kuona programu zote za Spring Boot zilizopo kwa nafasi ya kazi
-- Kuanza/kukomesha programu kwa bonyeza moja
-- Kutazama kumbukumbu za programu moja kwa moja
-- Kufuatilia hali ya programu
+- Kuona programu zote za Spring Boot zilizopo kwenye mazingira ya kazi
+- Anzisha/zuia programu kwa bonyeza moja
+- Tazama kumbukumbu za programu kwa wakati halisi
+- Angalia hali ya programu
 
-Bonyeza tu kitufe cha kuanzisha karibu na "introduction" kuanza moduli hii, au anzisha moduli zote kwa wakati mmoja.
+Bonyeza kitufe cha kuanza upande wa "introduction" kuanzisha moduli hii, au anzisha moduli zote kwa pamoja.
 
-<img src="../../../translated_images/sw/dashboard.69c7479aef09ff6b.webp" alt="Spring Boot Dashboard" width="400"/>
+<img src="../../../translated_images/sw/dashboard.69c7479aef09ff6b.webp" alt="Dashibodi ya Spring Boot" width="400"/>
 
-*Jopo la Spring Boot katika VS Code — anzisha, simamia, na fuatilia moduli zote kutoka mahali pamoja*
+*Dashibodi ya Spring Boot katika VS Code — anzisha, zuia, na fuatilia moduli zote kutoka sehemu moja*
 
 **Chaguo 2: Kutumia skiripti za shell**
 
-Anzisha programu zote za wavuti (moduli 01-04):
+Anzisha programu za wavuti zote (moduli 01-04):
 
 **Bash:**
 ```bash
-cd ..  # Kutoka kwenye saraka ya mizizi
+cd ..  # Kutoka kwenye saraka kuu
 ./start-all.sh
 ```
 
 **PowerShell:**
 ```powershell
-cd ..  # Kutoka kwa saraka kuu
+cd ..  # Kutoka kwa saraka ya mzizi
 .\start-all.ps1
 ```
 
-Au anzisha moduli hii pekee:
+Au anzisha moduli hii tu:
 
 **Bash:**
 ```bash
@@ -246,9 +246,9 @@ cd 01-introduction
 .\start.ps1
 ```
 
-Skiripti zote huchukua moja kwa moja mazingira kutoka kwenye faili `.env` ya mizizi na hutatua JARs kama hazipo.
+Zote skiripti huchukua mabadiliko ya mazingira kutoka kwenye faili la `.env` la mizizi na husanidi JARs kama hazipo.
 
-> **Kumbuka:** Ikiwa unapendelea kujenga moduli zote kwa mkono kabla ya kuanzisha:
+> **Kumbuka:** Ikiwa ungependa kujenga moduli zote mwenyewe kabla ya kuanza:
 >
 > **Bash:**
 > ```bash
@@ -264,11 +264,11 @@ Skiripti zote huchukua moja kwa moja mazingira kutoka kwenye faili `.env` ya miz
 
 Fungua http://localhost:8080 kwenye kivinjari chako.
 
-**Kusimamisha:**
+**Kusitisha:**
 
 **Bash:**
 ```bash
-./stop.sh  # Hii moduli tu
+./stop.sh  # Moduli hii tu
 # Au
 cd .. && ./stop-all.sh  # Moduli zote
 ```
@@ -282,41 +282,41 @@ cd ..; .\stop-all.ps1  # Moduli zote
 
 ## Kutumia Programu
 
-Programu inatoa kiolesura cha wavuti pamoja na utekelezaji wa mazungumzo mawili pembeni kwa pembeni.
+Programu hutoa interface ya wavuti wenye utekelezaji wa mazungumzo mawili upande kwa upande.
 
-<img src="../../../translated_images/sw/home-screen.121a03206ab910c0.webp" alt="Skrini ya Nyumbani ya Programu" width="800"/>
+<img src="../../../translated_images/sw/home-screen.121a03206ab910c0.webp" alt="Skrini ya Mbele ya Programu" width="800"/>
 
-*Jopo linavyoonyesha Chaguo la Mazungumzo Rahisi (yasiyo na hali) na Mazungumzo ya Hali (yenye hali)*
+*Dashibodi inaonyesha chaguzi za Mazungumzo Rahisi (yasiyo na hali) na Mazungumzo ya Mazungumzo (yanayohifadhi hali)*
 
-### Mazungumzo Yasiyo na Hali (Paneli ya Kushoto)
+### Mazungumzo Yasiyohifadhi Hali (Paneli ya Kushoto)
 
-Jaribu hii kwanza. Uliza "Jina langu ni John" kisha mara moja uliza "Jina langu ni nani?" Mfano hautakumbuka kwa sababu kila ujumbe ni huru. Hii inaonyesha tatizo kuu la kuunganishwa kwa modeli ya lugha ya msingi - hakuna muktadha wa mazungumzo.
+Jaribu haya kwanza. Uliza "Jina langu ni John" kisha mara moja uliza "Jina langu ni nani?" Mfano hautakumbuka kwa sababu kila ujumbe ni huru. Hii inaonyesha shida kuu ya ushirikiano wa mifano ya lugha ya msingi - hakuna muktadha wa mazungumzo.
 
-<img src="../../../translated_images/sw/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Mionyesho ya Mazungumzo Yasiyo na Hali" width="800"/>
+<img src="../../../translated_images/sw/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Onyesho la Mazungumzo Yasiyo na Hali" width="800"/>
 
 *AI haikumbuki jina lako kutoka ujumbe wa awali*
 
-### Mazungumzo Yenye Hali (Paneli ya Kulia)
+### Mazungumzo Yanayohifadhi Hali (Paneli ya Kulia)
 
-Sasa jaribu mfuatano uleule hapa. Uliza "Jina langu ni John" kisha "Jina langu ni nani?" Muda huu inakumbuka. Tofauti ni MessageWindowChatMemory - inadumisha historia ya mazungumzo na inaanzisha hilo muktadha na kila ombi. Hivi ndivyo AI za mazungumzo za uzalishaji hufanya kazi.
+Sasa jaribu mfuatano huo hapa. Uliza "Jina langu ni John" kisha "Jina langu ni nani?" Wakati huu inakumbuka. Tofauti ni MessageWindowChatMemory - hudumisha historia ya mazungumzo na kuijumuisha na kila ombi. Hii ndiyo AI ya mazungumzo ya uzalishaji inavyofanya kazi.
 
-<img src="../../../translated_images/sw/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Mionyesho ya Mazungumzo Yenye Hali" width="800"/>
+<img src="../../../translated_images/sw/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Onyesho la Mazungumzo Yanayohifadhi Hali" width="800"/>
 
-*AI inakumbuka jina lako kutoka awali katika mazungumzo*
+*AI inakumbuka jina lako kutoka mazungumzo ya awali*
 
-Paneli zote mbili zinatumia mfano ule ule wa GPT-5.2. Tofauti pekee ni kumbukumbu. Hii inaonyesha wazi kile kumbukumbu inachochangia kwa programu yako na kwanini ni muhimu kwa matumizi halisi.
+Pande zote mbili zinatumia mfano ule ule wa GPT-5.2. Tofauti pekee ni kumbukumbu. Hii inaonyesha wazi kile kumbukumbu inachoongeza kwenye programu yako na kwa nini ni muhimu kwa matumizi halisi.
 
 ## Hatua Zifuatazo
 
-**Moduli Ifuatayo:** [02-prompt-engineering - Uhandisi wa Maelekezo na GPT-5.2](../02-prompt-engineering/README.md)
+**Moduli Ifuatayo:** [02-prompt-engineering - Uhandisi wa Prompt na GPT-5.2](../02-prompt-engineering/README.md)
 
 ---
 
-**Uelekezaji:** [← Zamani: Moduli 00 - Kuanza Haraka](../00-quick-start/README.md) | [Rudi Mma](../README.md) | [Ifuatayo: Moduli 02 - Uhandisi wa Maelekezo →](../02-prompt-engineering/README.md)
+**Uelekeo:** [← Rudi Kwenye Kuu](../README.md) | [Ifuatayo: Moduli 02 - Uhandisi wa Prompt →](../02-prompt-engineering/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Tangazo la Kukataa**:
-Nyaraka hii imetafsiriwa kwa kutumia huduma ya tafsiri ya AI [Co-op Translator](https://github.com/Azure/co-op-translator). Ingawa tunajitahidi kuhakikisha usahihi, tafadhali fahamu kuwa tafsiri za moja kwa moja zinaweza kuwa na makosa au ukosefu wa usahihi. Nyaraka ya asili katika lugha yake ya asili inapaswa kuchukuliwa kama chanzo cha mamlaka. Kwa habari muhimu, tafsiri ya kitaalamu inayofanywa na binadamu inashauriwa. Hatuna lawama kwa kutokuelewana au tafsiri kubaya kutokea kutokana na matumizi ya tafsiri hii.
+**Kionyozo**:
+Hati hii imetafsiriwa kwa kutumia huduma ya tafsiri ya AI [Co-op Translator](https://github.com/Azure/co-op-translator). Ingawa tunajitahidi kupata usahihi, tafadhali fahamu kwamba tafsiri za kiotomatiki zinaweza kuwa na makosa au upungufu wa usahihi. Hati ya asili katika lugha yake halisi inapaswa kuchukuliwa kama chanzo cha mamlaka. Kwa taarifa muhimu, tafsiri ya kitaalamu inayofanywa na binadamu inapendekezwa. Hatutojibu kwa kuelewa vibaya au tafsiri potofu zinazotokea kutokana na matumizi ya tafsiri hii.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

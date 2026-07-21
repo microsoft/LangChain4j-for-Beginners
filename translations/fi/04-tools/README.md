@@ -1,84 +1,84 @@
-# Moduuli 04: AI-agentit työkaluilla
+# Moduuli 04: Tekoälyagentit työkalujen kanssa
 
 ## Sisällysluettelo
 
-- [Videoesittely](../../../04-tools)
-- [Mitä opit](../../../04-tools)
-- [Esivaatimukset](../../../04-tools)
-- [Ymmärtäminen: AI-agentit työkaluilla](../../../04-tools)
-- [Kuinka työkalukutsut toimivat](../../../04-tools)
-  - [Työkalujen määrittelyt](../../../04-tools)
-  - [Päätöksenteko](../../../04-tools)
-  - [Suoritus](../../../04-tools)
-  - [Vastauksen luominen](../../../04-tools)
-  - [Arkkitehtuuri: Spring Boot automaattijohtaminen](../../../04-tools)
-- [Työkaluketjutus](../../../04-tools)
-- [Sovelluksen käynnistäminen](../../../04-tools)
-- [Sovelluksen käyttö](../../../04-tools)
-  - [Kokeile yksinkertaista työkalun käyttöä](../../../04-tools)
-  - [Testaa työkaluketjutusta](../../../04-tools)
-  - [Katso keskustelun kulku](../../../04-tools)
-  - [Kokeile erilaisia pyyntöjä](../../../04-tools)
-- [Keskeiset käsitteet](../../../04-tools)
-  - [ReAct-malli (järjestelmällinen ajattelu ja toiminta)](../../../04-tools)
-  - [Työkalujen kuvaukset ovat tärkeitä](../../../04-tools)
-  - [Istunnon hallinta](../../../04-tools)
-  - [Virheenkäsittely](../../../04-tools)
-- [Saatavilla olevat työkalut](../../../04-tools)
-- [Milloin käyttää työkalupohjaisia agenteja](../../../04-tools)
-- [Työkalut vs RAG](../../../04-tools)
-- [Seuraavat askeleet](../../../04-tools)
+- [Videokävely](#videokävely)
+- [Mitä opit](#mitä-opit)
+- [Esivaatimukset](#esivaatimukset)
+- [Tekoälyagenttien ymmärtäminen työkaluilla](#tekoälyagenttien-ymmärtäminen-työkaluilla)
+- [Kuinka työkalukutsu toimii](#kuinka-työkalukutsu-toimii)
+  - [Työkalumääritelmät](#työkalumääritelmät)
+  - [Päätöksenteko](#päätöksenteko)
+  - [Suoritus](#suoritus)
+  - [Vastauksen generointi](#vastauksen-generointi)
+  - [Arkkitehtuuri: Spring Bootin automaattinen törmäys](#arkkitehtuuri-spring-bootin-automaattinen-törmäys)
+- [Työkaluketjutus](#työkaluketjutus)
+- [Sovelluksen suorittaminen](#sovelluksen-suorittaminen)
+- [Sovelluksen käyttäminen](#sovelluksen-käyttö)
+  - [Kokeile yksinkertaista työkalun käyttöä](#kokeile-yksinkertaista-työkalun-käyttöä)
+  - [Testaa työkaluketjutusta](#testaa-työkaluketjutusta)
+  - [Näe keskustelun kulku](#katso-keskustelun-kulkua)
+  - [Kokeile erilaisia pyyntöjä](#kokeile-erilaisia-pyyntöjä)
+- [Keskeiset käsitteet](#keskeiset-käsitteet)
+  - [ReAct-malli (Päättely ja toiminta)](#react-malli-päättely-ja-toiminta)
+  - [Työkalujen kuvaukset ovat tärkeitä](#tärkeitä-työkalukuvauksia)
+  - [Istunnon hallinta](#istunnon-hallinta)
+  - [Virheiden käsittely](#virheenkäsittely)
+- [Saatavilla olevat työkalut](#saatavilla-olevat-työkalut)
+- [Milloin käyttää työkalupohjaisia agentteja](#milloin-käyttää-työkalupohjaisia-agentteja)
+- [Työkalut vs RAG](#työkalut-vs-rag)
+- [Seuraavat askeleet](#seuraavat-askeleet)
 
-## Videoesittely
+## Videokävely
 
-Katso tämä suora sessio, joka selittää, kuinka aloittaa tämän moduulin kanssa:
+Katso tämä live-istunto, joka selittää miten aloittaa tämän moduulin kanssa:
 
-<a href="https://www.youtube.com/watch?v=O_J30kZc0rw"><img src="https://img.youtube.com/vi/O_J30kZc0rw/maxresdefault.jpg" alt="AI Agents with Tools and MCP - Live Session" width="800"/></a>
+<a href="https://www.youtube.com/watch?v=O_J30kZc0rw"><img src="https://img.youtube.com/vi/O_J30kZc0rw/maxresdefault.jpg" alt="Tekoälyagentit työkaluilla ja MCP - Live-istunto" width="800"/></a>
 
 ## Mitä opit
 
-Tähän mennessä olet oppinut käymään keskusteluja tekoälyn kanssa, rakentamaan kehotteet tehokkaasti ja perustamaan vastaukset asiakirjoihisi. Mutta on vielä yksi perustavanlaatuinen rajoitus: kielimallit pystyvät tuottamaan vain tekstiä. Ne eivät voi tarkistaa säätä, suorittaa laskelmia, hakea tietokannoista tai olla vuorovaikutuksessa ulkoisten järjestelmien kanssa.
+Tähän mennessä olet oppinut käymään keskusteluja tekoälyn kanssa, rakentamaan kehotteita tehokkaasti ja perustamaan vastauksia dokumentteihisi. Mutta on vielä yksi perusrajoitus: kielimallit voivat ainoastaan generoida tekstiä. Ne eivät voi tarkistaa säätä, suorittaa laskutoimituksia, kysyä tietokannoista tai olla vuorovaikutuksessa ulkoisten järjestelmien kanssa.
 
-Työkalut muuttavat tämän. Antamalla mallille pääsyn funktioihin, joita se voi kutsua, muutat sen tekstintuottajasta agentiksi, joka voi toimia. Malli päättää, milloin se tarvitsee työkalua, mitä työkalua käyttää ja mitä parametreja antaa. Koodisi suorittaa funktion ja palauttaa tuloksen. Malli sisällyttää tämän tuloksen vastaukseensa.
+Työkalut muuttavat tätä. Antamalla mallille pääsyn kutsuttaviin toimintoihin, muutat sen tekstigeneraattorista agentiksi, joka voi toimia. Malli päättää, milloin se tarvitsee työkalun, mitä työkalua käyttää ja mitä parametreja antaa. Koodisi suorittaa funktion ja palauttaa tuloksen. Malli sisällyttää tämän tuloksen vastaukseensa.
 
 ## Esivaatimukset
 
 - Suoritettu [Moduuli 01 - Johdanto](../01-introduction/README.md) (Azure OpenAI -resurssit otettu käyttöön)
-- Suositellaan suoritettuja aiempia moduuleja (tässä moduulissa viitataan [RAG-käsitteisiin Moduulista 03](../03-rag/README.md) vertailussa Tools vs RAG)
-- `.env`-tiedosto juurihakemistossa Azure-tunnuksilla (luotu `azd up` -komennolla Moduulissa 01)
+- Edellisten moduulien suorittaminen on suositeltavaa (tämä moduuli viittaa [RAG-konsepteihin Moduulista 03](../03-rag/README.md) Työkalut vs RAG -vertailussa)
+- `.env`-tiedosto juurihakemistossa Azure-tunnuksilla (luotu komennolla `azd up` Moduulissa 01)
 
-> **Huom:** Jos et ole suorittanut Moduulia 01, seuraa siellä annettuja käyttöönotto-ohjeita ensin.
+> **Huom:** Jos et ole suorittanut Moduulia 01, noudata ensin siellä annettuja asennusohjeita.
 
-## Ymmärtäminen: AI-agentit työkaluilla
+## Tekoälyagenttien ymmärtäminen työkaluilla
 
-> **📝 Huom:** Tässä moduulissa termi "agentit" tarkoittaa työkaluja kutsuvilla ominaisuuksilla vahvistettuja tekoälyavustajia. Tämä eroaa **Agentic AI** -malleista (autonomiset agentit, joilla on suunnittelu, muisti ja monivaiheinen päättely), joita käsittelemme [Moduulissa 05: MCP](../05-mcp/README.md).
+> **📝 Huom:** Tässä moduulissa termi "agentit" viittaa tekoälyavustajiin, jotka on parannettu työkalukutsutoiminnoilla. Tämä eroaa **Agentic AI** -malleista (autonomiset agentit, joilla on suunnittelu, muisti ja monivaiheinen päättely), joita käsittelemme [Moduulissa 05: MCP](../05-mcp/README.md).
 
-Ilman työkaluja kielimalli voi luoda tekstiä vain koulutusdatastaan. Kysy säästä ja sen täytyy arvata. Anna työkalut, niin se voi kutsua sää-API:ta, tehdä laskutoimituksia tai hakea tietokannasta — ja kutoa nämä todelliset tulokset vastaukseensa.
+Ilman työkaluja kielimalli voi ainoastaan generoida tekstiä koulutusdatastaan. Kysy siltä tämänhetkinen sää, niin sen pitää veikata. Anna sille työkaluja, niin se voi kutsua sää-API:a, suorittaa laskutoimituksia tai kysyä tietokannasta — ja kietoa nämä todelliset tulokset vastaukseensa.
 
-<img src="../../../translated_images/fi/what-are-tools.724e468fc4de64da.webp" alt="Ilman työkaluja vs työkalujen kanssa" width="800"/>
+<img src="../../../translated_images/fi/what-are-tools.724e468fc4de64da.webp" alt="Ilman työkaluja vs Työkalujen kanssa" width="800"/>
 
-*Ilman työkaluja malli vain arvaa — työkaluilla se voi kutsua API:ita, suorittaa laskelmia ja palauttaa reaaliaikaista tietoa.*
+*Ilman työkaluja malli vain veikkaa — työkaluilla se voi kutsua API:ita, suorittaa laskuja ja palauttaa reaaliaikaista dataa.*
 
-AI-agentti työkaluilla noudattaa **ReAct** (Reasoning and Acting) -mallia. Malli ei vain vastaa — se miettii, mitä tarvitsee, toimii kutsumalla työkalua, havaitsee tuloksen ja päättää sitten, toimiiko uudestaan vai antaa lopullisen vastauksen:
+Tekoälyagentti työkaluilla noudattaa **Päättely ja Toiminta (ReAct)** -mallia. Malli ei vain vastaa — se miettii, mitä se tarvitsee, toimii kutsumalla työkalua, tarkkailee tulosta ja päättää, toimiiko uudelleen vai antaa lopullisen vastauksen:
 
-1. **Päättele** — Agentti analysoi käyttäjän kysymyksen ja määrittää tarvittavat tiedot
-2. **Toimi** — Agentti valitsee oikean työkalun, luo oikeat parametrit ja kutsuu sitä
-3. **Havaitse** — Agentti vastaanottaa työkalun tuloksen ja arvioi sen
-4. **Toista tai Vastaa** — Jos tarvitaan lisää tietoa, agentti kiertää uudestaan; muuten muodostaa luonnollisen kielen vastauksen
+1. **Päättele** — Agentti analysoi käyttäjän kysymyksen ja määrittää, mitä tietoa se tarvitsee  
+2. **Toimi** — Agentti valitsee sopivan työkalun, generoi oikeat parametrit ja kutsuu sitä  
+3. **Tarkkaile** — Agentti vastaanottaa työkalun tuloksen ja arvioi sen  
+4. **Toista tai vastaa** — Jos lisätietoa tarvitaan, agentti palaa aloitukseen; muuten se kokoaa luonnollisen kielen vastauksen
 
-<img src="../../../translated_images/fi/react-pattern-detail.96a5efeeb6dd2f61.webp" alt="ReAct Pattern" width="800"/>
+<img src="../../../translated_images/fi/react-pattern-detail.96a5efeeb6dd2f61.webp" alt="ReAct-malli" width="800"/>
 
-*ReAct-sykli — agentti päättää mitä tehdä, toimii kutsumalla työkalua, havaitsee tuloksen ja toistaa kunnes voi antaa lopullisen vastauksen.*
+*ReAct-sykli — agentti päättää mitä tehdä, toimii kutsumalla työkalua, tarkkailee tulosta ja toistaa kunnes se voi antaa lopullisen vastauksen.*
 
-Tämä tapahtuu automaattisesti. Määrittelet työkalut ja niiden kuvaukset. Malli hoitaa päätöksenteon siitä, milloin ja miten niitä käyttää.
+Tämä tapahtuu automaattisesti. Määrittelet työkalut ja niiden kuvaukset. Malli huolehtii päätöksenteosta siitä, milloin ja miten työkaluja käytetään.
 
-## Kuinka työkalukutsut toimivat
+## Kuinka työkalukutsu toimii
 
-### Työkalujen määrittelyt
+### Työkalumääritelmät
 
 [WeatherTool.java](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/WeatherTool.java) | [TemperatureTool.java](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/TemperatureTool.java)
 
-Määrittelet funktiot selkeine kuvauksineen ja parametri-spesifikaatioineen. Malli näkee nämä kuvaukset järjestelmäkehotteessaan ja ymmärtää, mitä kukin työkalu tekee.
+Määrittelet funktiot selkeillä kuvauksilla ja parametrien määrittelyillä. Malli näkee nämä kuvaukset järjestelmäkehotteessaan ja ymmärtää, mitä kukin työkalu tekee.
 
 ```java
 @Component
@@ -86,7 +86,7 @@ public class WeatherTool {
     
     @Tool("Get the current weather for a location")
     public String getCurrentWeather(@P("Location name") String location) {
-        // Säähautasi logiikka
+        // Säätietojen hakulogiikkasi
         return "Weather in " + location + ": 22°C, cloudy";
     }
 }
@@ -96,149 +96,149 @@ public interface Assistant {
     String chat(@MemoryId String sessionId, @UserMessage String message);
 }
 
-// Avustaja kytketään automaattisesti Spring Bootin avulla:
-// - ChatModel-palvelu
-// - Kaikki @Tool-menetelmät @Component-luokista
+// Avustaja on automaattisesti yhteydessä Spring Bootilla seuraaviin:
+// - ChatModel bean
+// - Kaikki @Tool-metodit @Component-luokista
 // - ChatMemoryProvider istunnon hallintaan
 ```
-  
-Alla oleva kaavio purkaa jokaisen annotaation ja näyttää, miten jokainen osa auttaa tekoälyä ymmärtämään, milloin kutsua työkalua ja mitä argumentteja antaa:
 
-<img src="../../../translated_images/fi/tool-definitions-anatomy.f6468546037cf28b.webp" alt="Työkalumäärittelyn rakenne" width="800"/>
+Alla oleva kaavio purkaa jokaiseen annotaatioon ja näyttää, miten kukin osa auttaa tekoälyä ymmärtämään, milloin työkalu kutsutaan ja mitä argumentteja annetaan:
 
-*Työkalumäärittelyn rakenne — @Tool kertoo tekoälylle, milloin käyttää työkalua, @P kuvaa jokaisen parametrin ja @AiService kytkee kaiken yhteen käynnistyksen yhteydessä.*
+<img src="../../../translated_images/fi/tool-definitions-anatomy.f6468546037cf28b.webp" alt="Työkalumääritelmien anatomia" width="800"/>
+
+*Työkalumääritelmän anatomia — @Tool kertoo tekoälylle, milloin käyttää työkalua, @P kuvaa jokaisen parametrin, ja @AiService kytkee kaiken käynnistyksessä.*
 
 > **🤖 Kokeile [GitHub Copilot](https://github.com/features/copilot) Chatin kanssa:** Avaa [`WeatherTool.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/WeatherTool.java) ja kysy:  
-> - "Miten integroidaan oikea säähallinta-API, kuten OpenWeatherMap, testidatan sijaan?"  
-> - "Mikä tekee hyvästä työkalukuvauksesta, joka auttaa tekoälyä käyttämään työkalua oikein?"  
-> - "Miten käsitellään API-virheitä ja käyttörajoituksia työkalujen toteutuksissa?"
+> - "Kuinka integroisin oikean sää-API:n kuten OpenWeatherMapin sen sijaan, että käyttäisin mallinnettua dataa?"  
+> - "Mikä tekee hyvästä työkalukuvauksesta, joka auttaa tekoälyä käyttämään sitä oikein?"  
+> - "Miten käsittelen API-virheitä ja rajapintojen käyttörajoituksia työkalujen toteutuksissa?"
 
 ### Päätöksenteko
 
-Kun käyttäjä kysyy "Mikä on sää Seattlella?", malli ei valitse työkalua sattumalta. Se vertaa käyttäjän aikomusta jokaiseen käytettävissä olevaan työkalukuvauskseen, pisteyttää ne osuvuuden mukaan ja valitsee parhaan. Se luo sitten rakenteellisen funktiokutsun oikeilla parametreilla — tässä tapauksessa asettaa `location` arvoksi `"Seattle"`.
+Kun käyttäjä kysyy "Mikä on sää Seattlella?", malli ei valitse työkalua satunnaisesti. Se vertaa käyttäjän aikomusta jokaiseen työkalukuvaan, arvioi ne merkityksellisyyden mukaan ja valitsee parhaan osuman. Se generoi rakenteellisen funktiokutsun oikeilla parametreilla — tässä tapauksessa asettaa `location` arvoksi `"Seattle"`.
 
-Jos mikään työkalu ei vastaa käyttäjän pyyntöä, malli vastaa omien tietojensa perusteella. Jos useampi työkalu sopii, se valitsee tarkimman.
+Jos mikään työkalu ei sovi käyttäjän pyyntöön, malli vastaa omasta tietämyksestään. Jos useampi työkalu sopii, se valitsee spesifisemmän.
 
-<img src="../../../translated_images/fi/decision-making.409cd562e5cecc49.webp" alt="Kuinka tekoäly päättää mitä työkalua käyttää" width="800"/>
+<img src="../../../translated_images/fi/decision-making.409cd562e5cecc49.webp" alt="Kuinka tekoäly päättää käytettävän työkalun" width="800"/>
 
-*Malli arvioi jokaisen saatavilla olevan työkalun käyttäjän aikomukseen nähden ja valitsee parhaan — siksi selkeiden ja täsmällisten työkalukuvauksien kirjoittaminen on tärkeää.*
+*Malli arvioi jokaisen käytettävissä olevan työkalun käyttäjän aikomusta vasten ja valitsee parhaan — siksi selkeiden ja tarkkojen työkalukuvauksien kirjoittaminen on tärkeää.*
 
 ### Suoritus
 
 [AgentService.java](../../../04-tools/src/main/java/com/example/langchain4j/agents/service/AgentService.java)
 
-Spring Boot liittää automaattisesti `@AiService` -rajapinnan kaikkiin rekisteröityihin työkaluihin, ja LangChain4j suorittaa työkalukutsut automaattisesti. Taustalla täydellinen työkalukutsu kulkee kuuden vaiheen läpi — käyttäjän luonnollisen kielen kysymyksestä aina takaisin luonnollisen kielen vastaukseen:
+Spring Boot kytkee deklaratiivisen `@AiService`-rajapinnan kaikkiin rekisteröityihin työkaluihin, ja LangChain4j suorittaa työkalukutsut automaattisesti. Kulissien takana täydellinen työkalukutsu kulkee kuuden vaiheen läpi — käyttäjän luonnollisen kielen kysymyksestä luonnollisen kielen vastaukseen:
 
-<img src="../../../translated_images/fi/tool-calling-flow.8601941b0ca041e6.webp" alt="Työkalukutsun kulku" width="800"/>
+<img src="../../../translated_images/fi/tool-calling-flow.8601941b0ca041e6.webp" alt="Työkalukutsun suoritus" width="800"/>
 
-*Loppuun asti kulkeva prosessi — käyttäjä kysyy, malli valitsee työkalun, LangChain4j suorittaa sen ja malli kytkee tuloksen luonnolliseen vastaukseen.*
+*Loppuun asti kulkeva virtaus — käyttäjä kysyy kysymyksen, malli valitsee työkalun, LangChain4j suorittaa sen ja malli liittää tuloksen luonnolliseen vastaukseen.*
 
-Jos olet ajanut [ToolIntegrationDemo](../../../00-quick-start/src/main/java/com/example/langchain4j/quickstart/ToolIntegrationDemo.java) Moduulissa 00, olet nähnyt saman mallin toiminnassa — `Calculator`-työkaluja kutsuttiin samalla tavalla. Alla oleva sekvenssikaavio näyttää tarkalleen, mitä demon aikana tapahtui:
+Kulissien takana `AiServices` pyörittää samaa työkalukutsusilmukkaa mille tahansa työkalulle — tässä yksinkertaisen `Calculator`-esimerkin kautta. Seuraava sekvenssikaavio näyttää tarkalleen, mitä tapahtuu sisäisesti:
 
 <img src="../../../translated_images/fi/tool-calling-sequence.94802f406ca26278.webp" alt="Työkalukutsun sekvenssikaavio" width="800"/>
 
-*Työkalukutsun silmukka Quick Start -demosta — `AiServices` lähettää viestisi ja työkalujen skeemat LLM:lle, LLM vastaa funktiokutsulla kuten `add(42, 58)`, LangChain4j suorittaa `Calculator`-metodin paikallisesti ja syöttää tuloksen takaisin lopullista vastausta varten.*
+*Työkalukutsusilmukka — `AiServices` lähettää viestin ja työkaluskeemat LLM:lle, LLM vastaa funktiokutsulla kuten `add(42, 58)`, LangChain4j suorittaa `Calculator`-metodin paikallisesti ja syöttää tuloksen lopulliseen vastaukseen.*
 
 > **🤖 Kokeile [GitHub Copilot](https://github.com/features/copilot) Chatin kanssa:** Avaa [`AgentService.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/service/AgentService.java) ja kysy:  
-> - "Miten ReAct-malli toimii ja miksi se on tehokas AI-agenteille?"  
+> - "Miten ReAct-malli toimii ja miksi se on tehokas tekoälyagenteille?"  
 > - "Miten agentti päättää, mitä työkalua käyttää ja missä järjestyksessä?"  
-> - "Mitä tapahtuu, jos työkalun suoritus epäonnistuu — miten virheiden käsittely tulisi toteuttaa luotettavasti?"
+> - "Mitä tapahtuu, jos työkalun suoritus epäonnistuu - miten virheet kannattaa käsitellä luotettavasti?"
 
-### Vastauksen luominen
+### Vastauksen generointi
 
 Malli vastaanottaa säädatan ja muotoilee siitä käyttäjälle luonnollisen kielen vastauksen.
 
-### Arkkitehtuuri: Spring Boot automaattijohtaminen
+### Arkkitehtuuri: Spring Bootin automaattinen törmäys
 
-Tämä moduuli käyttää LangChain4j:n Spring Boot -integraatiota deklaratiivisten `@AiService` -rajapintojen kanssa. Käynnistyksen yhteydessä Spring Boot löytää kaikki `@Component`it, jotka sisältävät `@Tool`-metodeja, ChatModel-beanin ja ChatMemoryProviderin — ja liittää ne kaikki yhdeksi `Assistant`-rajapinnaksi ilman boilerplate-koodia.
+Tämä moduuli käyttää LangChain4j:n Spring Boot -integraatiota deklaratiivisilla `@AiService`-rajapinnoilla. Käynnistyksessä Spring Boot löytää kaikki `@Component`-luokat, jotka sisältävät `@Tool`-metodeja, ChatModel-beanin ja ChatMemoryProviderin — ja kytkee ne kaikki yhdeksi `Assistant`-rajapinnaksi ilman boilerplate-koodia.
 
-<img src="../../../translated_images/fi/spring-boot-wiring.151321795988b04e.webp" alt="Spring Boot automaattijohtamisen arkkitehtuuri" width="800"/>
+<img src="../../../translated_images/fi/spring-boot-wiring.151321795988b04e.webp" alt="Spring Bootin automaattisen törmäyksen arkkitehtuuri" width="800"/>
 
-*@AiService-rajapinta sitoo yhteen ChatModelin, työkalukomponentit ja muistinhallinnan — Spring Boot hoitaa kaiken liitännän automaattisesti.*
+*@AiService-rajapinta yhdistää ChatModelin, työkalukomponentit ja muistin tarjoajan — Spring Boot huolehtii kaikesta automaattisesti.*
 
-Tässä koko pyyntöjen elinkaari sekvenssikaaviona — HTTP-pyynnöstä ohjaimeen, palveluun, automaattijohtimeen, työkalukutsuun ja takaisin:
+Tässä on koko pyyntöelinkaari sekvenssikaaviona — HTTP-pyynnöstä kontrollerin, palvelun ja automaattisesti kytketyn proxyn kautta työkalun suorittamiseen ja takaisin:
 
-<img src="../../../translated_images/fi/spring-boot-sequence.f83e3d485aa4a3c6.webp" alt="Spring Boot työkalukutsun sekvenssi" width="800"/>
+<img src="../../../translated_images/fi/spring-boot-sequence.f83e3d485aa4a3c6.webp" alt="Spring Bootin työkalukutsun sekvenssi" width="800"/>
 
-*Koko Spring Boot -pyynnön elinkaari — HTTP-pyyntö kulkee ohjaimen ja palvelun kautta automaattijohtoisen Assistant-proxyn läpi, joka orkestroi LLM:n ja työkalukutsut automaattisesti.*
+*Kokonainen Spring Boot -pyyntöelinkaari — HTTP-pyyntö kulkee kontrollerin ja palvelun kautta Assistant-proxylle, joka orkestroi LLM:n ja työkalukutsut automaattisesti.*
 
-Tämän lähestymistavan keskeiset edut:
+Tämän lähestymistavan tärkeimmät edut:
 
-- **Spring Boot automaattijohtaminen** — ChatModel ja työkalut injektoidaan automaattisesti
-- **@MemoryId-malli** — Istuntopohjainen automaattinen muistinhallinta
-- **Yksi instanssi** — Assistant luodaan kerran ja käytetään uudestaan suorituskyvyn parantamiseksi
-- **Tyyppiturvallinen suoritus** — Java-metodit kutsutaan suoraan tyypinmuunnoksella
-- **Monivuoroinen orkestrointi** — Hallitsee työkaluketjutuksen automaattisesti
-- **Ei boilerplate-koodia** — Ei käsin tehtäviä `AiServices.builder()` -kutsuja tai muistihashtabeja
+- **Spring Boot automaattinen kytkentä** — ChatModel ja työkalut injektoidaan automaattisesti  
+- **@MemoryId-malli** — Automaattinen istuntopohjainen muistin hallinta  
+- **Yksi instanssi** — Assistant luodaan kerran ja uudelleenkäytetään paremman suorituskyvyn vuoksi  
+- **Tyyppiturvallinen suoritus** — Java-metodit kutsutaan suoraan tyypinmuunnoksella  
+- **Monivaiheinen orkestrointi** — Käsittelee työkaluketjutuksen automaattisesti  
+- **Ei boilerplatea** — Ei manuaalisia `AiServices.builder()` -kutsuja eikä muistihakemistoa
 
-Vaihtoehtoiset lähestymistavat (käsin tehtävät `AiServices.builder()` -kutsut) vaativat enemmän koodia ja eivät hyödynnä Spring Boot -integraation etuja.
+Vaihtoehtoiset käsitteet (manuaalinen `AiServices.builder()`) vaativat enemmän koodia ja jäävät ilman Spring Boot -integraation etuja.
 
 ## Työkaluketjutus
 
-**Työkaluketjutus** — Työkalupohjaisten agenttien todellinen voima näkyy, kun yksittäinen kysymys vaatii useita työkaluja. Kysy "Mikä on Seattlelän sää fahrenheit-asteina?" ja agentti ketjuttaa automaattisesti kaksi työkalua: ensin se kutsuu `getCurrentWeather` saadakseen lämpötilan celsiusasteina, sitten siirtää arvon `celsiusToFahrenheit`-työkalulle muuntamista varten — kaikki yhdessä keskusteluvuorossa.
+**Työkaluketjutus** — työkalupohjaisten agenttien todellinen voima näkyy, kun yksittäinen kysymys tarvitsee useita työkaluja. Kysy: "Mikä on sää Seattlella Fahrenheit-asteina?" ja agentti ketjuttaa automaattisesti kaksi työkalua: ensin se kutsuu `getCurrentWeather` saadakseen lämpötilan celsiusasteina, ja sitten antaa arvon `celsiusToFahrenheit`-työkalulle muuntamista varten — kaikki yhdessä keskustelukierrossa.
 
 <img src="../../../translated_images/fi/tool-chaining-example.538203e73d09dd82.webp" alt="Työkaluketjutuksen esimerkki" width="800"/>
 
-*Työkaluketjutus toiminnassa — agentti kutsuu ensin getCurrentWeather, sitten ohjaa celsius-tuloksen celsiusToFahrenheit-työkalulle ja tarjoaa yhdistetyn vastauksen.*
+*Työkaluketjutus toiminnassa — agentti kutsuu ensin getCurrentWeatherin, syöttää sitten Celsius-tuloksen celsiusToFahrenheitille ja antaa yhdistetyn vastauksen.*
 
-**Sulava virheiden käsittely** — Kysy sää jossain kaupungissa, jota ei ole testidatassa. Työkalu palauttaa virheilmoituksen ja tekoäly selittää, ettei voi auttaa sen sijaan, että kaatuisi. Työkalut käsittelevät virheensä turvallisesti. Alla oleva kaavio vertaa kahta lähestymistapaa — asianmukaisella virheenkäsittelyllä agentti sieppaa poikkeuksen ja vastaa avuliaasti, ilman sitä koko sovellus kaatuu:
+**Hallittu virhetilanteet** — Kysy sää jostain kaupungista, joka ei ole määritellyssä mallidatassa. Työkalu palauttaa virheilmoituksen, ja tekoäly selittää, ettei pysty auttamaan sen sijaan, että kaatuisi. Työkalut eivät kaadu, vaan epäonnistuvat turvallisesti. Alla oleva kaavio vertaa kahta lähestymistapaa — asianmukaisella virheenkäsittelyllä agentti nappaa poikkeuksen ja vastaa auttavasti, ilman sitä koko sovellus kaatuu:
 
-<img src="../../../translated_images/fi/error-handling-flow.9a330ffc8ee0475c.webp" alt="Virheenkäsittelyn kulku" width="800"/>
+<img src="../../../translated_images/fi/error-handling-flow.9a330ffc8ee0475c.webp" alt="Virheenkäsittelyn virtaus" width="800"/>
 
-*Kun työkalu epäonnistuu, agentti sieppaa virheen ja vastaa avuliaalla selityksellä kaatumisen sijaan.*
+*Kun työkalu epäonnistuu, agentti tarttuu virheeseen ja vastaa hyödyllisellä selityksellä kaatumisen sijaan.*
 
-Tämä tapahtuu yhdellä keskustelukierroksella. Agentti orkestroi useita työkalukutsuja itsenäisesti.
+Tämä tapahtuu yhdellä keskustelukierroksella. Agentti orkestroi useita työkaluja itsenäisesti.
 
-## Sovelluksen käynnistäminen
+## Sovelluksen suorittaminen
 
-**Tarkista käyttöönotto:**
+**Varmista käyttöönotto:**
 
-Varmista, että `.env`-tiedosto on juurihakemistossa ja sisältää Azure-tunnukset (luotu Moduulin 01 aikana). Aja komennot moduulihakemistosta (`04-tools/`):
+Varmista, että `.env`-tiedosto on juurikansiossa Azure-tunnuksilla (luotu Moduulissa 01). Suorita tämä moduulihakemistosta (`04-tools/`):
 
-**Bash:**  
+**Bash:**
 ```bash
 cat ../.env  # Tulisi näyttää AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-  
-**PowerShell:**  
+
+**PowerShell:**
 ```powershell
 Get-Content ..\.env  # Tulisi näyttää AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-  
-**Käynnistä sovellus:**
 
-> **Huom:** Jos olet jo käynnistänyt kaikki sovellukset `./start-all.sh` -skriptillä juurihakemistosta (kuten Moduulin 01 ohjeissa), tämä moduuli on jo käynnissä portissa 8084. Voit ohittaa alla olevat käynnistyskomennot ja mennä suoraan osoitteeseen http://localhost:8084.
+**Aloita sovellus:**
 
-**Vaihtoehto 1: Spring Boot Dashboardin käyttö (suositeltu VS Code -käyttäjille)**
+> **Huom:** Jos olet jo käynnistänyt kaikki sovellukset komennolla `./start-all.sh` juurihakemistosta (kuten Moduulissa 01 kuvattu), tämä moduuli on jo käynnissä portissa 8084. Voit jättää alla olevat käynnistyskomennot väliin ja mennä suoraan osoitteeseen http://localhost:8084.
 
-Kehityskontti sisältää Spring Boot Dashboard -laajennuksen, joka tarjoaa visuaalisen käyttöliittymän kaikkien Spring Boot -sovellusten hallintaan. Löydät sen VS Coden vasemman laidan Activity Bar -palkista (etsi Spring Boot -kuvake).
+**Vaihtoehto 1: Spring Boot Dashboardin käyttö (Suositeltu VS Code -käyttäjille)**
 
-Spring Boot Dashboardista voit:  
+Kehityssäilössä on mukana Spring Boot Dashboard -laajennus, joka tarjoaa visuaalisen käyttöliittymän hallita kaikkia Spring Boot -sovelluksia. Löydät sen vasemman reunan Activity Barista (etsi Spring Boot -ikonia).
+
+Spring Boot Dashboardista voit:
 - Näyttää kaikki käytettävissä olevat Spring Boot -sovellukset työtilassa  
-- Käynnistää/pysäyttää sovellukset yhdellä napsautuksella  
-- Katsoa sovelluslokeja reaaliaikaisesti  
-- Monitoroida sovelluksen tilaa  
-Aloita tämä moduuli yksinkertaisesti napsauttamalla "tools"-kohdan vieressä olevaa toistopainiketta tai käynnistä kaikki moduulit kerralla.
+- Käynnistää/pysäyttää sovelluksia yhdellä klikkauksella  
+- Tarkastella sovelluslokeja reaaliajassa  
+- Valvoa sovelluksen tilaa
+
+Napsauta yksinkertaisesti soittonappia "tools" kohdalla käynnistääksesi tämän moduulin tai käynnistä kaikki moduulit kerralla.
 
 Tältä Spring Boot Dashboard näyttää VS Codessa:
+<img src="../../../translated_images/fi/dashboard.9b519b1a1bc1b30a.webp" alt="Spring Boot -kojelauta" width="400"/>
 
-<img src="../../../translated_images/fi/dashboard.9b519b1a1bc1b30a.webp" alt="Spring Boot Dashboard" width="400"/>
+*Spring Boot -kojelauta VS Codessa — käynnistä, pysäytä ja valvo kaikkia moduuleja yhdestä paikasta*
 
-*Spring Boot Dashboard VS Codessa — käynnistä, pysäytä ja valvo kaikkia moduuleja yhdestä paikasta*
-
-**Vaihtoehto 2: Shell-komentosarjojen käyttö**
+**Vaihtoehto 2: Kuoriskriptien käyttö**
 
 Käynnistä kaikki web-sovellukset (moduulit 01-04):
 
 **Bash:**
 ```bash
-cd ..  # Juurihakemistosta
+cd ..  # Juurikansiosta
 ./start-all.sh
 ```
 
 **PowerShell:**
 ```powershell
-cd ..  # Juurihakemistosta
+cd ..  # Juurikansiosta
 .\start-all.ps1
 ```
 
@@ -256,7 +256,7 @@ cd 04-tools
 .\start.ps1
 ```
 
-Molemmat skriptit lataavat automaattisesti ympäristömuuttujat juurikansion `.env`-tiedostosta ja rakentavat JAR-tiedostot, jos ne eivät ole olemassa.
+Molemmat skriptit lataavat automaattisesti ympäristömuuttujat juuren `.env`-tiedostosta ja rakentavat JAR-tiedostot, jos niitä ei ole olemassa.
 
 > **Huom:** Jos haluat rakentaa kaikki moduulit manuaalisesti ennen käynnistämistä:
 >
@@ -265,111 +265,111 @@ Molemmat skriptit lataavat automaattisesti ympäristömuuttujat juurikansion `.e
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
-
+>
 > **PowerShell:**
 > ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
 
-Avaa selaimessa osoite http://localhost:8084.
+Avaa selaimessasi http://localhost:8084.
 
-**Pysäyttääksesi:**
+**Pysäyttämiseksi:**
 
 **Bash:**
 ```bash
-./stop.sh  # Tämä moduuli vain
+./stop.sh  # Vain tämä moduuli
 # Tai
 cd .. && ./stop-all.sh  # Kaikki moduulit
 ```
 
 **PowerShell:**
 ```powershell
-.\stop.ps1  # Tämä moduuli vain
+.\stop.ps1  # Vain tämä moduuli
 # Tai
 cd ..; .\stop-all.ps1  # Kaikki moduulit
 ```
 
 ## Sovelluksen käyttö
 
-Sovellus tarjoaa selainkäyttöliittymän, jonka kautta voit olla vuorovaikutuksessa tekoälyagentin kanssa, jolla on pääsy sää- ja lämpötilamuuntotyökaluihin. Tältä käyttöliittymä näyttää — se sisältää pikaesimerkit ja chat-paneelin pyyntöjen lähettämiseen:
+Sovellus tarjoaa web-käyttöliittymän, jossa voit olla vuorovaikutuksessa tekoälyagentin kanssa, jolla on pääsy sää- ja lämpötilamuunnostyökaluihin. Tässä miltä käyttöliittymä näyttää — se sisältää pikaesimerkkejä ja chat-paneelin pyynnöille:
 
-<a href="images/tools-homepage.png"><img src="../../../translated_images/fi/tools-homepage.4b4cd8b2717f9621.webp" alt="AI Agent Tools Interface" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/tools-homepage.png"><img src="../../../translated_images/fi/tools-homepage.4b4cd8b2717f9621.webp" alt="Tekoälyagentin työkalujen käyttöliittymä" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*AI Agent Tools -käyttöliittymä - pikaesimerkkejä ja chat-käyttöliittymä työkalujen käyttöön*
+*Tekoälyagentin työkalujen käyttöliittymä – pikaesimerkkejä ja chat-käyttöliittymä työkalujen kanssa vuorovaikutukseen*
 
 ### Kokeile yksinkertaista työkalun käyttöä
 
-Aloita suoraviivaisella pyynnöllä: "Muuta 100 astetta Fahrenheitista Celsiukseksi". Agentti tunnistaa, että tarvitsee lämpötilamuuntotyökalun, kutsuu sitä oikeilla parametreilla ja palauttaa tuloksen. Huomaa, kuinka luonnolliselta tämä tuntuu — et määritellyt, mitä työkalua käyttää tai miten sitä kutsutaan.
+Aloita suoraviivaisella pyynnöllä: "Muunna 100 astetta Fahrenheitia Celsius-asteiksi". Agentti tunnistaa, että se tarvitsee lämpötilamuunnostyökalua, kutsuu sitä oikeilla parametreilla ja palauttaa tuloksen. Huomaa miten luonnolliselta tämä tuntuu – sinun ei tarvinnut määritellä, mitä työkalua tai miten sitä käyttää.
 
-### Testaa työkalujen ketjutusta
+### Testaa työkaluketjutusta
 
-Kokeile nyt jotain monimutkaisempaa: "Mikä on sää Seattlessa ja muuta se Fahrenheit-asteiksi?" Katso, kuinka agentti toimii tämän läpi vaiheittain. Se hakee ensin sään (joka palauttaa Celsius-asteet), tunnistaa, että tarvitsee muuntaa Fahrenheitiksi, kutsuu muunnostyökalua ja yhdistää molemmat tulokset yhdeksi vastaukseksi.
+Kokeile nyt monimutkaisempaa: "Mikä on sää Seattlessa ja muunna se Fahrenheit-asteiksi?" Katso, miten agentti toimii vaiheittain. Se ensin hakee sään (joka palauttaa Celsius-asteet), tunnistaa tarpeen muuntaa Fahrenheitiksi, kutsuu muunnostyökalua ja yhdistää molemmat tulokset yhdeksi vastaukseksi.
 
-### Katso keskustelun kulku
+### Katso keskustelun kulkua
 
-Chat-käyttöliittymä säilyttää keskusteluhistorian, jolloin voit käydä monivuorovaikutteisia keskusteluja. Näet kaikki aiemmat kyselyt ja vastaukset, mikä helpottaa keskustelun seuraamista ja ymmärtämään, miten agentti rakentaa kontekstia useiden vaihdosten aikana.
+Chat-käyttöliittymä ylläpitää keskusteluhistoriaa, jolloin voit käydä monivaiheisia vuorovaikutuksia. Näet kaikki aiemmat kyselyt ja vastaukset, mikä helpottaa keskustelun seuraamista ja ymmärtämään, miten agentti rakentaa kontekstia useiden vaihdosten aikana.
 
-<a href="images/tools-conversation-demo.png"><img src="../../../translated_images/fi/tools-conversation-demo.89f2ce9676080f59.webp" alt="Conversation with Multiple Tool Calls" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/tools-conversation-demo.png"><img src="../../../translated_images/fi/tools-conversation-demo.89f2ce9676080f59.webp" alt="Keskustelu, jossa tehty useita työkalukutsuja" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*Monivuoroinen keskustelu, jossa tehdään yksinkertaisia muunnoksia, säähaut ja työkaluketjutuksia*
+*Monivaiheinen keskustelu, jossa näkyy yksinkertaisia muunnoksia, säähaut ja työkaluketjutus*
 
 ### Kokeile erilaisia pyyntöjä
 
 Kokeile erilaisia yhdistelmiä:
-- Säätiedotukset: "Mikä on sää Tokiossa?"
-- Lämpötilamuunnokset: "Mikä on 25°C Kelvineinä?"
-- Yhdistetyt kyselyt: "Tarkista sää Pariisissa ja kerro, onko lämpötila yli 20°C"
+- Säähaut: "Millainen sää on Tokiossa?"
+- Lämpötilamuunnokset: "Mikä on 25°C Kelvineissä?"
+- Yhdistelmätiedustelut: "Tarkista sään tila Pariisissa ja kerro, onko siellä yli 20°C"
 
-Huomaa, kuinka agentti tulkitsee luonnollista kieltä ja mapittaa sen sopiviksi työkalukutsuiksi.
+Huomaa, miten agentti tulkitsee luonnollista kieltä ja yhdistää sen sopiviin työkalukutsuihin.
 
 ## Keskeiset käsitteet
 
-### ReAct-malli (Päättely ja toiminta)
+### ReAct-malli (Päättely ja Toiminta)
 
-Agentti vuorottelee päättelyn (päätös, mitä tehdä) ja toimimisen (työkalujen käyttö) välillä. Tämä malli mahdollistaa autonomisen ongelmanratkaisun pelkän ohjeiden seuraamisen sijaan.
+Agentti vuorottelee päättelyn (päätösten tekemisen) ja toiminnan (työkalujen käytön) välillä. Tämä malli mahdollistaa itsenäisen ongelmanratkaisun pelkkien käskyihin vastaamisen sijaan.
 
-### Työkalujen kuvauksilla on merkitystä
+### Tärkeitä työkalukuvauksia
 
-Työkalukuvauksesi laatu vaikuttaa suoraan siihen, kuinka hyvin agentti osaa käyttää niitä. Selkeät ja täsmälliset kuvaukset auttavat mallia ymmärtämään, milloin ja miten kutakin työkalua kutsutaan.
+Työkalukuvauksiesi laatu vaikuttaa suoraan siihen, miten hyvin agentti käyttää työkaluja. Selkeät, täsmälliset kuvaukset auttavat mallia ymmärtämään, milloin ja miten kutakin työkalua kutsutaan.
 
 ### Istunnon hallinta
 
-`@MemoryId`-annotaatio mahdollistaa automaattisen istuntokohtaisen muistinhallinnan. Jokainen istuntotunnus saa oman `ChatMemory`-instanssin, jota hallinnoi `ChatMemoryProvider`-bean, joten useat käyttäjät voivat olla vuorovaikutuksessa agentin kanssa samanaikaisesti ilman, että keskustelut sekoittuvat. Seuraava kaavio näyttää, miten useat käyttäjät ohjataan erillisiin muistivarastoihin istuntotunnustensa perusteella:
+`@MemoryId`-annotaatio mahdollistaa automaattisen istuntokohtaisen muistinhallinnan. Jokainen istunto saa oman `ChatMemory`-instanssinsa, jota hallinnoi `ChatMemoryProvider`-bean, joten useat käyttäjät voivat olla vuorovaikutuksessa agentin kanssa samanaikaisesti ilman, että heidän keskustelunsa sekoittuvat. Seuraava kaavio näyttää, miten käyttäjät ohjataan eristyneisiin muistivarastoihin istunnon perusteella:
 
-<img src="../../../translated_images/fi/session-management.91ad819c6c89c400.webp" alt="Session Management with @MemoryId" width="800"/>
+<img src="../../../translated_images/fi/session-management.91ad819c6c89c400.webp" alt="Istunnon hallinta @MemoryId:n kanssa" width="800"/>
 
-*Jokainen istuntotunnus vastaa erillistä keskusteluhistoriaa — käyttäjät eivät näe toistensa viestejä.*
+*Jokainen istunto-ID ohjautuu erilliseen keskusteluhistoriaan — käyttäjät eivät näe toistensa viestejä.*
 
 ### Virheenkäsittely
 
-Työkalut voivat epäonnistua — API:t aikakatkaisevat, parametrit voivat olla virheellisiä, ulkoiset palvelut voivat olla alas. Tuotantoagentit tarvitsevat virheenkäsittelyn, jotta malli voi selittää ongelmat tai yrittää vaihtoehtoja sen sijaan, että koko sovellus kaatuu. Kun työkalu heittää poikkeuksen, LangChain4j sieppaa sen ja välittää virheilmoituksen takaisin mallille, joka voi sitten selittää ongelman luonnollisella kielellä.
+Työkalut voivat epäonnistua — API-yhteys voi aikakatketa, parametrit saattavat olla virheellisiä, ulkoiset palvelut voivat olla poissa käytöstä. Tuotantoagenttien tulee huolehtia virheistä, jotta malli voi selittää ongelmat tai kokeilla vaihtoehtoja sen sijaan, että koko sovellus kaatuisi. Kun työkalu heittää poikkeuksen, LangChain4j poimii sen ja syöttää virheilmoituksen takaisin mallille, joka osaa sitten selittää ongelman luonnollisella kielellä.
 
 ## Saatavilla olevat työkalut
 
-Alla oleva kaavio näyttää laajan työkaluekosysteemin, jonka voit rakentaa. Tämä moduuli demonstroi sää- ja lämpötilatyökaluja, mutta sama `@Tool`-malli toimii minkä tahansa Java-metodin kanssa — tietokantakyselyistä maksuliikenteeseen.
+Alla oleva kaavio esittelee laajan kokoelman työkaluja, joita voit rakentaa. Tämä moduuli esittelee sää- ja lämpötilatyökaluja, mutta sama `@Tool`-malli toimii minkä tahansa Java-metodin kanssa — oli kyse sitten tietokantakyselyistä tai maksun käsittelystä.
 
-<img src="../../../translated_images/fi/tool-ecosystem.aad3d74eaa14a44f.webp" alt="Tool Ecosystem" width="800"/>
+<img src="../../../translated_images/fi/tool-ecosystem.aad3d74eaa14a44f.webp" alt="Työkalujen ekosysteemi" width="800"/>
 
-*Mikä tahansa `@Tool`-annotaatiolla varustettu Java-metodi tulee saataville tekoälylle — malli laajenee tietokantoihin, API:ihin, sähköposteihin, tiedostotoimintoihin ja muuhun.*
+*Mikä tahansa Java-metodi, joka on merkitty @Toolilla, tulee käyttöön tekoälylle — malli laajenee tietokantoihin, rajapintoihin, sähköposteihin, tiedostotoimintoihin ja muuhun.*
 
-## Milloin käyttää työkalupohjaisia agenteja
+## Milloin käyttää työkalupohjaisia agentteja
 
-Kaikki pyynnöt eivät tarvitse työkaluja. Päätös perustuu siihen, tarvitseeko tekoäly olla vuorovaikutuksessa ulkoisten järjestelmien kanssa vai voiko se vastata omasta tiedostaan. Seuraava opas tiivistää, milloin työkalut tuovat lisäarvoa ja milloin ne ovat tarpeettomia:
+Kaikki pyynnöt eivät vaadi työkaluja. Päätös pohjautuu siihen, tarvitseeko tekoäly olla vuorovaikutuksessa ulkoisten järjestelmien kanssa vai pystyykö se vastaamaan omasta tiedostaan. Seuraava opas tiivistää, milloin työkalut tuovat lisäarvoa ja milloin ne ovat tarpeettomia:
 
-<img src="../../../translated_images/fi/when-to-use-tools.51d1592d9cbdae9c.webp" alt="When to Use Tools" width="800"/>
+<img src="../../../translated_images/fi/when-to-use-tools.51d1592d9cbdae9c.webp" alt="Milloin käyttää työkaluja" width="800"/>
 
-*Nopea päätösopas — työkalut ovat reaaliaikaisiin tietoihin, laskelmiin ja toimintoihin; yleistä tietoa ja luovia tehtäviä varten niitä ei tarvita.*
+*Nopea päätösopas — työkaluja käytetään reaaliaikaiseen dataan, laskentoihin ja toimenpiteisiin; yleinen tieto ja luovat tehtävät eivät niitä tarvitse.*
 
 ## Työkalut vs RAG
 
-Moduulit 03 ja 04 laajentavat tekoälyn kykyjä, mutta pohjimmiltaan eri tavoin. RAG antaa mallille pääsyn **tietoon** hakemalla dokumentteja. Työkalut antavat mallille kyvyn suorittaa **toimintoja** kutsumalla funktioita. Alla oleva kaavio vertaa näitä kahta lähestymistapaa rinnakkain — miten kukin työnkulku toimii ja mitkä ovat niiden kompromissit:
+Moduulit 03 ja 04 laajentavat tekoälyn kykyjä, mutta perustavanlaatuisesti eri tavalla. RAG antaa mallille pääsyn **tietoon** hakemalla dokumentteja. Työkalut antavat mallille kyvyn suorittaa **toimia** kutsumalla funktioita. Alla oleva kaavio vertaa näitä kahta lähestymistapaa rinnakkain — miten kummankin työnkulku toimii ja niiden välillä tehdyt kompromissit:
 
-<img src="../../../translated_images/fi/tools-vs-rag.ad55ce10d7e4da87.webp" alt="Tools vs RAG Comparison" width="800"/>
+<img src="../../../translated_images/fi/tools-vs-rag.ad55ce10d7e4da87.webp" alt="Työkalut vs RAG -vertailu" width="800"/>
 
-*RAG hakee tietoa staattisista dokumenteista — Työkalut suorittavat toimia ja hakevat dynaamista, reaaliaikaista dataa. Monet tuotantojärjestelmät yhdistävät molemmat.*
+*RAG hakee tietoa staattisista dokumenteista — Työkalut suorittavat toimintoja ja hakevat dynaamista, reaaliaikaista dataa. Monet tuotantojärjestelmät yhdistävät molemmat.*
 
-Käytännössä monet tuotantojärjestelmät yhdistävät molemmat lähestymistavat: RAG vahvistamaan vastaukset dokumentaatiollasi ja Työkalut live-datan hakemiseen tai operaatioiden suorittamiseen.
+Käytännössä monet tuotantojärjestelmät yhdistävät molemmat lähestymistavat: RAG vastauksille dokumentaatioon perustuen ja Työkalut live-datan hakemiseen tai toimintojen suorittamiseen.
 
 ## Seuraavat askeleet
 
@@ -383,5 +383,5 @@ Käytännössä monet tuotantojärjestelmät yhdistävät molemmat lähestymista
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Vastuuvapauslauseke**:
-Tämä asiakirja on käännetty tekoälypohjaisella käännöspalvelulla [Co-op Translator](https://github.com/Azure/co-op-translator). Pyrimme tarkkuuteen, mutta ota huomioon, että automaattiset käännökset saattavat sisältää virheitä tai epätarkkuuksia. Alkuperäinen asiakirja sen omalla kielellä tulee katsoa viralliseksi lähteeksi. Tärkeissä asioissa suositellaan ammattimaista ihmiskääntäjää. Emme ole vastuussa tämän käännöksen käytöstä johtuvista väärinymmärryksistä tai virhetulkintojen seurauksista.
+Tämä asiakirja on käännetty käyttämällä tekoälypohjaista käännöspalvelua [Co-op Translator](https://github.com/Azure/co-op-translator). Vaikka pyrimme tarkkuuteen, otathan huomioon, että automaattiset käännökset saattavat sisältää virheitä tai epätarkkuuksia. Alkuperäinen asiakirja sen alkuperäiskielellä on virallinen lähde. Tärkeissä asioissa suositellaan ammattimaista ihmiskäännöstä. Emme ole vastuussa tämän käännöksen käytöstä aiheutuvista väärinymmärryksistä tai tulkinnoista.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

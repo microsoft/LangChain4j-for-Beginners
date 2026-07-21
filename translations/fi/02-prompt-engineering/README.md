@@ -1,85 +1,85 @@
-# Moduuli 02: Prompt Engineering GPT-5.2:n kanssa
+# Moduuli 02: Prompt-suunnittelu GPT-5.2:n kanssa
 
 ## Sisällysluettelo
 
-- [Videokävely](../../../02-prompt-engineering)
-- [Mitkä asiat opit](../../../02-prompt-engineering)
-- [Esivaatimukset](../../../02-prompt-engineering)
-- [Prompt Engineeringin ymmärtäminen](../../../02-prompt-engineering)
-- [Prompt Engineering -perusteet](../../../02-prompt-engineering)
-  - [Zero-Shot Prompting](../../../02-prompt-engineering)
-  - [Few-Shot Prompting](../../../02-prompt-engineering)
-  - [Chain of Thought](../../../02-prompt-engineering)
-  - [Role-Based Prompting](../../../02-prompt-engineering)
-  - [Prompt Templates](../../../02-prompt-engineering)
-- [Edistyneet mallit](../../../02-prompt-engineering)
-- [Sovelluksen ajaminen](../../../02-prompt-engineering)
-- [Sovelluksen ruutukaappaukset](../../../02-prompt-engineering)
-- [Mallien tutkiminen](../../../02-prompt-engineering)
-  - [Matalan ja korkean innokkuuden erot](../../../02-prompt-engineering)
-  - [Tehtävän suoritus (työkalujen alkutekstit)](../../../02-prompt-engineering)
-  - [Itseään peilaava koodi](../../../02-prompt-engineering)
-  - [Rakenteellinen analyysi](../../../02-prompt-engineering)
-  - [Monivaiheinen keskustelu](../../../02-prompt-engineering)
-  - [Askel askeleelta -päättely](../../../02-prompt-engineering)
-  - [Rajoitettu tulostus](../../../02-prompt-engineering)
-- [Mitä todella opit](../../../02-prompt-engineering)
-- [Seuraavat askeleet](../../../02-prompt-engineering)
+- [Videoesittely](#videoesittely)
+- [Mitä opit](#mitä-opit)
+- [Esivaatimukset](#esivaatimukset)
+- [Ymmärtäminen prompt-suunnittelusta](#ymmärtäminen-prompt-suunnittelusta)
+- [Prompt-suunnittelun perusteet](#prompt-suunnittelun-perusteet)
+  - [Zero-Shot Prompting](#zero-shot-prompting)
+  - [Few-Shot Prompting](#few-shot-prompting)
+  - [Chain of Thought](#chain-of-thought)
+  - [Role-Based Prompting](#role-based-prompting)
+  - [Prompt Templates](#prompt-templates)
+- [Edistyneet kuviot](#edistyneet-kuviot)
+- [Sovelluksen käynnistäminen](#suorita-sovellus)
+- [Sovelluksen kuvakaappauksia](#sovelluksen-kuvakaappaukset)
+- [Kuvioiden tutkiminen](#mallien-tutkiminen)
+  - [Matala vs korkea innokkuus](#matala-vs-korkea-innokkuus)
+  - [Tehtävän suoritus (työkalujen esipuheet)](#tehtävän-suoritus-tool-preambles)
+  - [Itsereflektoiva koodi](#itsearvioiva-koodi)
+  - [Rakenteellinen analyysi](#rakenteellinen-analyysi)
+  - [Monikäyttökertakeskustelu](#monivaiheinen-keskustelu)
+  - [Askel askeleelta päättely](#vaiheittainen-päättely)
+  - [Rajoitettu tulostus](#rajoitettu-tulostus)
+- [Mitä todella opit](#mitä-todellisuudessa-opit)
+- [Seuraavat askeleet](#seuraavat-vaiheet)
 
-## Videokävely
+## Videoesittely
 
-Katso tämä live-istunto, joka selittää, kuinka pääset alkuun tämän moduulin kanssa:
+Katso tämä live-sessio, joka selittää, miten aloittaa tämän moduulin kanssa:
 
 <a href="https://www.youtube.com/live/PJ6aBaE6bog?si=LDshyBrTRodP-wke"><img src="https://img.youtube.com/vi/PJ6aBaE6bog/maxresdefault.jpg" alt="Prompt Engineering with LangChain4j - Live Session" width="800"/></a>
 
-## Mitkä asiat opit
+## Mitä opit
 
-Seuraava kaavio tarjoaa yleiskuvan keskeisistä aiheista ja taidoista, joita kehität tässä moduulissa — promptien hienosäätötekniikoista askel askeleelta -työnkulkuun, jota seuraat.
+Seuraava kaavio antaa yleiskuvan moduulin keskeisistä aiheista ja taidoista — promptin hienosäätötekniikoista askel askeleelta etenevään työnkulkuun, jota seuraat.
 
 <img src="../../../translated_images/fi/what-youll-learn.c68269ac048503b2.webp" alt="What You'll Learn" width="800"/>
 
-Edellisissä moduuleissa tutustuit perus LangChain4j -vuorovaikutuksiin GitHub-mallien kanssa ja näit, miten muisti mahdollistaa Azure OpenAI:n kanssa käydyn keskustelun tekoälyn. Nyt keskitymme siihen, miten esität kysymyksiä — itse prompteihin — käyttäen Azure OpenAI:n GPT-5.2:ta. Tapa, jolla rakentelet promptit, vaikuttaa dramaattisesti saamaasi vastauksen laatuun. Aloitamme perustekniikoiden kertaamisella, ja siirrymme sitten kahdeksaan edistyneeseen malliin, jotka hyödyntävät GPT-5.2:n ominaisuuksia täysimääräisesti.
+Edellisessä moduulissa näit, miten muisti mahdollistaa keskustelevan tekoälyn Azure OpenAI:n kanssa. Nyt keskitymme siihen, miten esität kysymykset — eli itse promptit — käyttäen Azure OpenAI:n GPT-5.2:ta. Tapa, jolla rakennat promptisi, vaikuttaa merkittävästi saamiesi vastausten laatuun. Aloitamme perustekniikoiden katsauksella ja siirrymme sitten kahdeksaan edistyneeseen kuvioon, jotka hyödyntävät GPT-5.2:n kykyjä täydellisesti.
 
-Käytämme GPT-5.2:ta, koska se tuo mukanaan päättelyohjauksen — voit kertoa mallille, kuinka paljon ajattelua sen tulisi tehdä ennen vastaamista. Tämä tekee eri promptaustaktiikoista selkeämpiä ja auttaa sinua ymmärtämään, milloin mitäkin lähestymistapaa kannattaa käyttää. Lisäksi hyödymme Azuren pienemmistä käyttörajoituksista GPT-5.2:lle verrattuna GitHub-malleihin.
+Käytämme GPT-5.2:ta, koska se tuo mukanaan päättelyn hallinnan — voit kertoa mallille, kuinka paljon sen tulee ajatella ennen vastaamista. Tämä tuo eri promptausstrategiat selkeämmin esiin ja auttaa ymmärtämään, milloin käyttää kutakin lähestymistapaa.
 
 ## Esivaatimukset
 
-- Moduuli 01 suoritettu (Azure OpenAI -resurssit otettu käyttöön)
-- `.env`-tiedosto juurihakemistossa, jossa Azure-tunnukset (luotu moduulin 01 `azd up` -komennolla)
+- Moduuli 01 suoritettuna (Azure OpenAI -resurssit otettu käyttöön)
+- `.env`-tiedosto juurihakemistossa Azure-tunnuksilla (luotu `azd up` -komennolla Moduulissa 01)
 
-> **Huom:** Jos et ole suorittanut moduulia 01, seuraa ensin siellä olevia käyttöönotto-ohjeita.
+> **Huom:** Jos et ole suorittanut Moduulia 01, noudata ensin siellä annettuja käyttöönotto-ohjeita.
 
-## Prompt Engineeringin ymmärtäminen
+## Ymmärtäminen prompt-suunnittelusta
 
-Prompt engineering on pohjimmiltaan ero epämääräisten ja tarkkojen ohjeiden välillä, kuten alla oleva vertailu havainnollistaa.
+Ytimeltään prompt-suunnittelu on ero epämääräisten ohjeiden ja täsmällisten ohjeiden välillä, kuten alla oleva vertailu havainnollistaa.
 
 <img src="../../../translated_images/fi/what-is-prompt-engineering.5c392a228a1f5823.webp" alt="What is Prompt Engineering?" width="800"/>
 
-Prompt engineering tarkoittaa syötteen suunnittelua siten, että saat johdonmukaisesti tarvitsemiasi tuloksia. Kyse ei ole vain kysymysten esittämisestä — vaan pyynnön rakentamisesta niin, että malli ymmärtää tarkalleen, mitä haluat ja miten se toimitetaan.
+Prompt-suunnittelu tarkoittaa syötteen muotoilua siten, että saat jatkuvasti tarvitsemasi tulokset. Kyse ei ole pelkästään kysymysten esittämisestä — vaan pyyntöjen rakenteistamisesta niin, että malli ymmärtää täsmälleen mitä haluat ja miten sen tulee vastata.
 
-Ajattele sitä kuin annettaisit ohjeita kollegalle. "Korjaa virhe" on epämääräinen ohje. "Korjaa null pointer exception UserService.java:n rivillä 45 lisäämällä null-tarkistus" on tarkka. Kielimallit toimivat samalla tavalla — tarkkuus ja rakenne ratkaisevat.
+Ajattele sitä kuin antaisit ohjeita kollegalle. "Korjaa bugi" on epämääräinen. "Korjaa UserService.java-tiedoston rivin 45 null-viittaus virhe lisäämällä null-tarkistus" on tarkka. Kielimallit toimivat samalla tavalla — täsmällisyys ja rakenne ovat tärkeitä.
 
-Alla oleva kaavio näyttää, miten LangChain4j liittyy tähän kuvaan — se yhdistää promptimallit malliin SystemMessage- ja UserMessage-rakenteiden kautta.
+Alla olevassa kaaviossa näkyy, miten LangChain4j liittyy tähän kuvaan — se yhdistää prompt-kuviot malliin SystemMessage- ja UserMessage-rakenteiden kautta.
 
 <img src="../../../translated_images/fi/how-langchain4j-fits.dfff4b0aa5f7812d.webp" alt="How LangChain4j Fits" width="800"/>
 
-LangChain4j tarjoaa infrastruktuurin — malliyhteydet, muistin ja viestityypit — kun taas promptimallit ovat vain huolellisesti rakennetun tekstin lähettämistä tämän infrastruktuurin läpi. Keskeiset rakennuspalikat ovat `SystemMessage` (joka määrittää tekoälyn käyttäytymisen ja roolin) ja `UserMessage` (joka kantaa varsinaisen pyynnön).
+LangChain4j tarjoaa infrastruktuurin — malliyhteydet, muistin ja viestityypit — kun taas prompt-kuviot ovat huolellisesti rakenteistettua tekstiä, jota lähetät tämän infrastruktuurin läpi. Keskeiset rakennuspalikat ovat `SystemMessage` (joka määrittää tekoälyn toiminnan ja roolin) ja `UserMessage` (joka sisältää varsinaisen pyyntösi).
 
-## Prompt Engineering -perusteet
+## Prompt-suunnittelun perusteet
 
-Alla esitetyt viisi ydintekniikkaa muodostavat tehokkaan prompt engineeringin perustan. Kukin käsittelee eri näkökulmaa siihen, miten kommunikoit kielimallien kanssa.
+Alla esitetyt viisi perusmenetelmää muodostavat tehokkaan prompt-suunnittelun perustan. Kukin käsittelee eri puolta siitä, miten kommunikoit kielimallien kanssa.
 
 <img src="../../../translated_images/fi/five-patterns-overview.160f35045ffd2a94.webp" alt="Five Prompt Engineering Patterns Overview" width="800"/>
 
-Ennen kuin sukellamme tämän moduulin edistyneisiin malleihin, kertaamme viisi perustekniikkaa. Nämä ovat rakennuspalikoita, jotka jokaisen prompt-insinöörin tulee tuntea. Jos olet jo käynyt läpi [Quick Start -moduulin](../00-quick-start/README.md#2-prompt-patterns), olet nähnyt niitä käytännössä — tässä on niiden konseptuaalinen kehys.
+Ennen kuin sukellamme moduulin edistyneisiin kuvioihin, kerrataan viisi perustekniikkaa. Nämä ovat rakennuspalikoita, jotka jokaisen prompt-suunnittelijan tulisi tuntea.
 
 ### Zero-Shot Prompting
 
-Yksinkertaisin tapa: anna mallille suora ohje ilman esimerkkejä. Malli luottaa täysin koulutukseensa ymmärtääkseen ja suorittaakseen tehtävän. Tämä toimii hyvin suoraviivaisissa pyynnöissä, joissa odotettu käyttäytyminen on ilmeistä.
+Yksinkertaisin lähestymistapa: anna mallille suora ohje ilman esimerkkejä. Malli luottaa täysin koulutukseensa tehtävän ymmärtämiseksi ja suorittamiseksi. Tämä toimii hyvin suoraviivaisissa pyynnöissä, joissa odotettu käyttäytyminen on ilmeistä.
 
 <img src="../../../translated_images/fi/zero-shot-prompting.7abc24228be84e6c.webp" alt="Zero-Shot Prompting" width="800"/>
 
-*Suora ohje ilman esimerkkejä — malli päättelee tehtävän pelkästään ohjeesta*
+*Suora ohje ilman esimerkkejä — malli päättelee tehtävän pelkästä ohjeesta*
 
 ```java
 String prompt = "Classify this sentiment: 'I absolutely loved the movie!'";
@@ -87,15 +87,15 @@ String response = model.chat(prompt);
 // Vastaus: "Positiivinen"
 ```
 
-**Milloin käyttää:** Yksinkertaiset luokitukset, suorat kysymykset, käännökset tai mikä tahansa tehtävä, jonka malli osaa hoitaa ilman lisäohjeita.
+**Milloin käyttää:** Yksinkertaiset luokittelut, suoraviivaista kyselyt, käännökset tai tehtävät, jotka malli osaa hoitaa ilman lisäohjausta.
 
 ### Few-Shot Prompting
 
-Anna esimerkkejä, jotka näyttävät mallille, mitä mallia haluat sen noudattavan. Malli oppii odotetun syöte-tuotos-muodon esimerkeistäsi ja soveltaa sitä uusiin syötteisiin. Tämä parantaa merkittävästi johdonmukaisuutta tehtävissä, joissa haluttu muoto tai käyttäytyminen ei ole ilmeistä.
+Anna esimerkkejä, jotka osoittavat mallille seurattavan kaavan. Malli oppii odotetun syöte–tuloste-muodon esimerkeistä ja soveltaa sitä uusiin syötteisiin. Tämä parantaa merkittävästi johdonmukaisuutta tehtävissä, joissa haluttu muoto tai käyttäytyminen ei ole ilmeistä.
 
 <img src="../../../translated_images/fi/few-shot-prompting.9d9eace1da88989a.webp" alt="Few-Shot Prompting" width="800"/>
 
-*Oppiminen esimerkeistä — malli tunnistaa mallin ja soveltaa sitä uusiin syötteisiin*
+*Oppii esimerkkien kautta — malli tunnistaa kaavan ja soveltaa sitä uusiin syötteisiin*
 
 ```java
 String prompt = """
@@ -112,15 +112,15 @@ String prompt = """
 String response = model.chat(prompt);
 ```
 
-**Milloin käyttää:** Räätälöidyt luokitukset, johdonmukainen muotoilu, toimialakohtaiset tehtävät tai silloin kun zero-shot-tulokset ovat epäjohdonmukaisia.
+**Milloin käyttää:** Mukautetut luokittelut, johdonmukainen muotoilu, tekemäkohtaiset tehtävät tai kun zero-shot-tulokset ovat epäjohdonmukaisia.
 
 ### Chain of Thought
 
-Pyydä mallia näyttämään päättelynsä vaihe vaiheelta. Sen sijaan, että hyppäisi suoraan vastaukseen, malli pilkkoo ongelman ja käsittelee jokaisen osan erikseen. Tämä parantaa tarkkuutta matemaattisissa, loogisissa ja monivaiheisissa päättelytehtävissä.
+Pyydä mallia näyttämään päättelynsä askel askeleelta. Sen sijaan, että se hyppääisi suoraan vastaukseen, malli hajottaa ongelman ja käsittelee jokaisen osan selkeästi. Tämä parantaa tarkkuutta matematiikassa, logiikassa ja monivaiheisessa päättelyssä.
 
 <img src="../../../translated_images/fi/chain-of-thought.5cff6630e2657e2a.webp" alt="Chain of Thought Prompting" width="800"/>
 
-*Askel askeleelta -päättely — monimutkaisten ongelmien pilkkominen eksplisiittisiin loogisiin vaiheisiin*
+*Askel askeleelta päättely — monimutkaisten ongelmien hajottaminen selkeiksi loogisiksi vaiheiksi*
 
 ```java
 String prompt = """
@@ -133,15 +133,15 @@ String response = model.chat(prompt);
 // Malli näyttää: 15 - 8 = 7, sitten 7 + 12 = 19 omenaa
 ```
 
-**Milloin käyttää:** Matematiikan ongelmat, loogiset pulmat, virheen etsintä tai mikä tahansa tehtävä, jossa päättelyprosessin näyttäminen parantaa tarkkuutta ja luottamusta.
+**Milloin käyttää:** Matematiikan ongelmat, loogiset pulmat, virheenkorjaukset tai tehtävät, joissa päättelyprosessin näyttäminen parantaa tarkkuutta ja luottamusta.
 
 ### Role-Based Prompting
 
-Aseta tekoälylle persoona tai rooli ennen kuin esität kysymyksen. Tämä antaa kontekstin, joka muokkaa vastauksen sävyä, syvyyttä ja painopistettä. "Ohjelmistoarkkitehti" antaa erilaista neuvontaa kuin "juniori-kehittäjä" tai "turvallisuustarkastaja".
+Aseta tekoälylle rooli tai persoona ennen kysymyksen esittämistä. Tämä antaa kontekstin, joka muokkaa vastauksen sävyä, syvyyttä ja painotusta. "Ohjelmistoarkkitehti" antaa erilaisia neuvoja kuin "juniori-kehittäjä" tai "turvallisuusauditoija".
 
 <img src="../../../translated_images/fi/role-based-prompting.a806e1a73de6e3a4.webp" alt="Role-Based Prompting" width="800"/>
 
-*Kontekstin ja persoonan asettaminen — samaan kysymykseen saadaan eri vastauksia roolista riippuen*
+*Kontekstin ja roolin asettaminen — sama kysymys saa eri vastauksen roolista riippuen*
 
 ```java
 String prompt = """
@@ -157,15 +157,15 @@ String prompt = """
 String response = model.chat(prompt);
 ```
 
-**Milloin käyttää:** Koodikatselmukset, opetus, toimialakohtainen analyysi tai silloin kun tarvitset vastauksia, jotka on räätälöity tietyn asiantuntemustason tai näkökulman mukaan.
+**Milloin käyttää:** Koodikatselmukset, opastus, toimialakohtaiset analyysit tai kun tarvitset vastauksia, jotka on räätälöity tietylle asiantuntemustasolle tai näkökulmalle.
 
 ### Prompt Templates
 
-Luo uudelleenkäytettäviä prompt-malleja muuttujapaikoilla. Sen sijaan, että kirjoittaisit uuden promptin joka kerta, määrittele mallipohja kerran ja täytä eri arvot. LangChain4j:n `PromptTemplate`-luokka tekee tämän helpoksi `{{variable}}`-syntaksilla.
+Luo uudelleenkäytettäviä promptteja muuttuvilla paikkamerkeillä. Sen sijaan, että kirjoittaisit uuden promptin joka kerta, määrittele malli kerran ja täytä eri arvot. LangChain4j:n `PromptTemplate`-luokka tekee tämän helpoksi `{{muuttuja}}`-syntaksilla.
 
 <img src="../../../translated_images/fi/prompt-templates.14bfc37d45f1a933.webp" alt="Prompt Templates" width="800"/>
 
-*Uudelleenkäytettävät promptit muuttujapaikoilla — yksi malli, monta käyttötarkoitusta*
+*Uudelleenkäytettävät promptit muuttuvilla paikkamerkeillä — yksi malli, monta käyttötapaa*
 
 ```java
 PromptTemplate template = PromptTemplate.from(
@@ -180,27 +180,27 @@ Prompt prompt = template.apply(Map.of(
 String response = model.chat(prompt.text());
 ```
 
-**Milloin käyttää:** Toistuvat kyselyt eri syötteillä, eräkäsittely, uudelleenkäytettävien tekoälytyönkulkujen rakentaminen tai mikä tahansa tilanne, jossa promptin rakenne pysyy samana mutta data vaihtelee.
+**Milloin käyttää:** Toistuvat kyselyt eri syötteillä, eräkäsittely, uudelleenkäytettävien tekoälytyönkulkujen rakentaminen tai kaikki tilanteet, joissa promptin rakenne pysyy samana, mutta data vaihtuu.
 
 ---
 
-Nämä viisi perustekniikkaa tarjoavat vahvan työkalupakin useimpiin promptaustehtäviin. Loput tästä moduulista rakentuvat niiden päälle käyttäen **kahtatoista edistynyttä mallia**, jotka hyödyntävät GPT-5.2:n päättelyohjausta, itsearviointia ja rakenteellista tulostusta.
+Nämä viisi perustekniikkaa antavat sinulle vahvan työkalupakin useimpiin promptaukseen liittyviin tehtäviin. Loput tästä moduulista rakentuvat niiden päälle käyttäen **kahdeksaa edistynyttä kuviota**, jotka hyödyntävät GPT-5.2:n päättelyn hallintaa, itsearviointia ja rakenteellista tulostusta.
 
-## Edistyneet mallit
+## Edistyneet kuviot
 
-Kun perusteet on käyty läpi, siirrytään kahdeksaan edistyneeseen malliin, jotka tekevät tästä moduulista ainutlaatuisen. Kaikki ongelmat eivät vaadi samaa lähestymistapaa. Jotkut kysymykset tarvitsevat nopeita vastauksia, toiset syvällistä pohdintaa. Jotkin vaativat näkyvää päättelyä, toiset vain tuloksia. Jokainen alla oleva malli on optimoitu eri tilanteeseen — ja GPT-5.2:n päättelyohjaus korostaa näiden eroja entisestään.
+Kun perustekniikat on käyty läpi, siirrytään kahdeksaan edistyneeseen kuvioon, jotka tekevät tästä moduulista ainutlaatuisen. Kaikki ongelmat eivät vaadi samaa lähestymistapaa. Jotkut kysymykset tarvitsevat nopeita vastauksia, toiset syvällistä pohdintaa. Jotkut vaativat näkyvää päättelyä, toiset pelkkää tulosta. Alla olevat kuviot on optimoitu eri tilanteisiin — ja GPT-5.2:n päättelyn hallinta tekee eroista vielä selkeämpiä.
 
 <img src="../../../translated_images/fi/eight-patterns.fa1ebfdf16f71e9a.webp" alt="Eight Prompting Patterns" width="800"/>
 
-*Yleiskatsaus kahdeksaan prompt engineering -malliin ja niiden käyttötapauksiin*
+*Yleiskuva kahdeksasta prompt-suunnittelukuvioista ja niiden käyttötapauksista*
 
-GPT-5.2 lisää näihin malleihin uuden ulottuvuuden: *päättelyohjauksen*. Liukusäädin alla näyttää, kuinka voit säätää mallin ajatteluprosessin voimakkuuden — nopeista suoriin vastauksiin ja syvälliseen, perusteelliseen analyysiin.
+GPT-5.2 tuo näihin kuvioihin uuden ulottuvuuden: *päättelyn hallinnan*. Alla oleva liukusäädin näyttää, miten voit säätää mallin ajattelun määrää — nopeista suorista vastauksista syvälliseen ja perusteelliseen analyysiin.
 
 <img src="../../../translated_images/fi/reasoning-control.5cf85f0fc1d0c1f3.webp" alt="Reasoning Control with GPT-5.2" width="800"/>
 
-*GPT-5.2:n päättelyohjaus antaa sinun määrittää, kuinka paljon mallin tulee ajatella — nopeista suorista vastauksista syvälliseen tarkasteluun*
+*GPT-5.2:n päättelyn hallinta antaa mahdollisuuden määrittää, kuinka paljon ajattelua mallin tulee tehdä — nopeista suorista vastauksista syvälliseen pohdintaan*
 
-**Matalan innokkuuden tila (Nopea & Tämänhetkinen)** - Yksinkertaisiin kysymyksiin, joissa haluat nopeita, suoria vastauksia. Malli käyttää minimaalista päättelyä – enintään 2 askelta. Käytä tätä laskuihin, hakuun tai suoraviivaisiin kysymyksiin.
+**Matala innokkuus (nopea & keskittynyt)** – Yksinkertaisiin kysymyksiin, joissa haluat nopeita ja suoria vastauksia. Malli käyttää vähäistä päättelyä — enintään 2 askelta. Käytä tätä laskuihin, hakuihin tai suoraviivaisiin kysymyksiin.
 
 ```java
 String prompt = """
@@ -219,12 +219,12 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-> 💡 **Tutki GitHub Copilotin kanssa:** Avaa [`Gpt5PromptService.java`](../../../02-prompt-engineering/src/main/java/com/example/langchain4j/prompts/service/Gpt5PromptService.java) ja kysy:
-> - "Mikä on ero matalan ja korkean innokkuuden promptausmallien välillä?"
-> - "Miten XML-tunnisteet prompteissa auttavat muotoilemaan tekoälyn vastauksen?"
-> - "Milloin käytän itsearviointimalleja verrattuna suoriin ohjeisiin?"
+> 💡 **Tutustu GitHub Copilotilla:** Avaa [`Gpt5PromptService.java`](../../../02-prompt-engineering/src/main/java/com/example/langchain4j/prompts/service/Gpt5PromptService.java) ja kysy:
+> - "Mikä on ero matalan ja korkean innokkuuden prompt-kuvioiden välillä?"
+> - "Miten XML-tunnisteet promptissa auttavat AI:n vastauksen jäsentelyssä?"
+> - "Milloin käytän itsereflektoivia kuvioita verrattuna suoriin ohjeisiin?"
 
-**Korkean innokkuuden tila (Syvällinen & Perusteellinen)** - Monimutkaisiin ongelmiin, joissa haluat kattavan analyysin. Malli tutkii aihetta perusteellisesti ja näyttää yksityiskohtaisen päättelyn. Käytä tätä järjestelmäsuunnittelussa, arkkitehtuuripäätöksissä tai monimutkaisessa tutkimuksessa.
+**Korkea innokkuus (syvällinen & perusteellinen)** – Monimutkaisiin ongelmiin, joihin haluat kattavan analyysin. Malli tutkii perusteellisesti ja näyttää yksityiskohtaista päättelyä. Käytä tätä järjestelmäsuunnittelussa, arkkitehtuuripäätöksissä tai monimutkaisessa tutkimuksessa.
 
 ```java
 String prompt = """
@@ -238,7 +238,7 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-**Tehtävän suoritus (askel askeleelta etenevä prosessi)** - Monivaiheisiin työnkulkuihin. Malli antaa etukäteen suunnitelman, kuvailee kunkin vaiheen työskentelyn aikana, ja lopuksi esittää yhteenvedon. Käytä tätä migraatioissa, toteutuksissa tai missä tahansa monivaiheisessa prosessissa.
+**Tehtävän suoritus (askel askeleelta eteneminen)** – Monivaiheisiin työnkulkuihin. Malli antaa aluksi suunnitelman, kertoo jokaisesta työvaiheesta työn edetessä ja lopuksi koosteen. Käytä tätä migraatioissa, toteutuksissa tai muissa monivaiheisissa prosesseissa.
 
 ```java
 String prompt = """
@@ -276,20 +276,20 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Chain-of-Thought -promptaus pyytää mallia erittäin selkeästi näyttämään päättelyprosessinsa, mikä parantaa tarkkuutta monimutkaisissa tehtävissä. Askel askeleelta -erittely auttaa sekä ihmisiä että tekoälyä ymmärtämään logiikan.
+Chain-of-Thought -promptaus pyytää mallia näyttämään päättelyprosessinsa eksplisiittisesti, mikä parantaa tarkkuutta monimutkaisissa tehtävissä. Askel askeleelta eteneminen auttaa sekä ihmisiä että tekoälyä ymmärtämään logiikan.
 
-> **🤖 Kokeile [GitHub Copilot](https://github.com/features/copilot) Chatin kanssa:** Kysy tästä mallista:
-> - "Miten mukauttaisin tehtävän suoritusmallin pitkäkestoisia operaatioita varten?"
-> - "Mitkä ovat parhaat käytännöt työkalujen aloitustekstien järjestämisessä tuotantosovelluksissa?"
-> - "Miten voin kaapata ja näyttää välivaiheen etenemispäivityksiä käyttöliittymässä?"
+> **🤖 Kokeile [GitHub Copilot](https://github.com/features/copilot) Chat:issa:** Kysy tästä kuviosta:
+> - "Miten muutan tehtävän suorituskuviota pitkään kestävien operaatioiden yhteydessä?"
+> - "Mitkä ovat parhaat käytännöt työkalujen esipuheiden rakenteistamiseen tuotantosovelluksissa?"
+> - "Miten voin tallentaa ja näyttää väliaikaiset etenemispäivitykset käyttöliittymässä?"
 
-Alla oleva kaavio havainnollistaa tätä Suunnittelu → Suoritus → Yhteenveto -työnkulkua.
+Alla oleva kaavio havainnollistaa tätä Suunnittele → Suorita → Yhteenveto -työnkulkua.
 
 <img src="../../../translated_images/fi/task-execution-pattern.9da3967750ab5c1e.webp" alt="Task Execution Pattern" width="800"/>
 
-*Suunnittelu → Suoritus → Yhteenveto -työnkulku monivaiheisissa tehtävissä*
+*Suunnittele → Suorita → Yhteenveto -työnkulku monivaiheisiin tehtäviin*
 
-**Itseään peilaava koodi** – Tuotantokelpoisen koodin generointiin. Malli luo koodia noudattaen tuotantostandardeja ja huolella virheenkäsittelyä. Käytä tätä rakentaessasi uusia ominaisuuksia tai palveluita.
+**Itsereflektoiva koodi** – Tuotantotasoisen koodin generointiin. Malli generoi koodia tuotantostandardien mukaan asianmukaisella virheenkäsittelyllä. Käytä tätä rakennettaessa uusia ominaisuuksia tai palveluita.
 
 ```java
 String prompt = """
@@ -300,13 +300,13 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Alla oleva kaavio näyttää tämän iteratiivisen parannuskierron — generoi, arvioi, tunnista heikkoudet ja hienosäädä kunnes koodi täyttää tuotantovaatimukset.
+Alla oleva kaavio kuvaa tämän iteratiivisen parantamisen kierteen — generoi, arvioi, tunnista heikkoudet ja hienosäädä, kunnes koodi täyttää tuotantovaatimukset.
 
 <img src="../../../translated_images/fi/self-reflection-cycle.6f71101ca0bd28cc.webp" alt="Self-Reflection Cycle" width="800"/>
 
-*Iteratiivinen parannuskierto - generointi, arviointi, ongelmien tunnistus, parannus, toisto*
+*Iteratiivinen parantamiskierre — generoi, arvioi, tunnista ongelmat, paranna, toista*
 
-**Rakenteellinen analyysi** — Johdonmukaiseen arviointiin. Malli tarkastelee koodia kiinteän kehyksen mukaisesti (oikeellisuus, käytännöt, suorituskyky, turvallisuus, ylläpidettävyys). Käytä tätä koodikatselmuksissa tai laadunarvioinneissa.
+**Rakenteellinen analyysi** – Johdonmukaiseen arviointiin. Malli tarkastaa koodin kiinteän kehyksen mukaan (oikeellisuus, käytännöt, suorituskyky, turvallisuus, ylläpidettävyys). Käytä tätä koodikatselmuksiin tai laadun arviointiin.
 
 ```java
 String prompt = """
@@ -354,18 +354,18 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-> **🤖 Kokeile [GitHub Copilot](https://github.com/features/copilot) Chatin kanssa:** Kysy rakenteellisesta analyysista:
-> - "Miten räätälöin analyysikehyksen eri tyyppisiin koodikatselmuksiin?"
-> - "Mikä on paras tapa jäsentää ja hyödyntää rakenteellista tulostetta ohjelmallisesti?"
-> - "Miten varmistan johdonmukaiset vakavuustasot eri katselmusistunnoissa?"
+> **🤖 Kokeile [GitHub Copilot](https://github.com/features/copilot) Chat:issa:** Kysy rakenteellisesta analyysistä:
+> - "Miten voin räätälöidä analyysikehystä eri tyyppisille koodikatselmuksille?"
+> - "Mikä on paras tapa jäsentää ja käsitellä rakenteellista tulostetta ohjelmallisesti?"
+> - "Miten varmistaa johdonmukaiset vakavuustasot eri katselmussessioissa?"
 
-Seuraava kaavio näyttää, miten tämä rakenne jäsentää koodikatselmuksen johdonmukaisiin kategorioihin vakavuustasojen kanssa.
+Seuraava kaavio näyttää, miten tämä rakenteellinen kehys jäsentää koodikatselmuksen johdonmukaisiin kategorioihin vakavuustasoineen.
 
 <img src="../../../translated_images/fi/structured-analysis-pattern.0af3b690b60cf2d6.webp" alt="Structured Analysis Pattern" width="800"/>
 
-*Kehys johdonmukaisiin koodikatselmuksiin vakavuustasoineen*
+*Kehys johdonmukaisiin koodikatselmuksiin vakavuustasojen kanssa*
 
-**Monivaiheinen keskustelu** — Keskusteluihin, joissa tarvitaan kontekstia. Malli muistaa aiemmat viestit ja rakentaa niistä eteenpäin. Käytä tätä vuorovaikutteisissa tukisessioissa tai monimutkaisessa kysymys-vastaus -toiminnassa.
+**Monikäyttökertakeskustelu** – Keskusteluihin, jotka tarvitsevat kontekstia. Malli muistaa aiemmat viestit ja rakentaa niiden varaan. Käytä tätä interaktiivisiin tukisessioihin tai monimutkaisiin kysymys–vastaus-tilanteisiin.
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -379,12 +379,13 @@ AiMessage aiMessage2 = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage2);
 ```
 
-Alla oleva kaavio havainnollistaa, miten keskustelukonteksti karttuu kierrosten myötä ja miten se liittyy mallin token-rajoitukseen.
+Alla oleva kaavio havainnollistaa, miten keskustelukonteksti kertyy kunkin vaiheen myötä ja miten se liittyy mallin token-rajoitukseen.
 
 <img src="../../../translated_images/fi/context-memory.dff30ad9fa78832a.webp" alt="Context Memory" width="800"/>
 
-*Kuinka keskustelukonteksti karttuu useiden vaihtojen aikana token-rajan saavuttamiseen saakka*
-**Vaiheittainen päättely** – Ongelmissa, jotka vaativat näkyvää logiikkaa. Malli näyttää selkeän päättelyn jokaiselle vaiheelle. Käytä tätä matemaattisissa ongelmissa, logiikkapähkinöissä tai kun haluat ymmärtää ajatteluprosessin.
+*Kuinka keskustelukonteksti kertyy useiden käänteiden aikana token-rajalle saakka*
+
+**Askel askeleelta päättely** – Ongelmissa, jotka vaativat näkyvää logiikkaa. Malli näyttää eksplisiittisen päättelyn jokaiselle askeleelle. Käytä tätä matematiikan ongelmiin, loogisiin pulmisiin tai kun tarvitset ymmärrystä ajatteluprosessista.
 
 ```java
 String prompt = """
@@ -398,13 +399,12 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Alla oleva kaavio havainnollistaa, miten malli jakaa ongelmat selkeiksi, numeroiduiksi loogisiksi vaiheiksi.
+Alla oleva kaavio havainnollistaa, miten malli jakaa ongelmat eksplisiittisiin, numeroituihin loogisiin vaiheisiin.
 
-<img src="../../../translated_images/fi/step-by-step-pattern.a99ea4ca1c48578c.webp" alt="Vaiheittainen malli" width="800"/>
+<img src="../../../translated_images/fi/step-by-step-pattern.a99ea4ca1c48578c.webp" alt="Step-by-Step Pattern" width="800"/>
+*Ongelmien purkaminen eksplisiittisiksi loogisiksi vaiheiksi*
 
-*Ongelmien jakaminen selkeisiin loogisiin vaiheisiin*
-
-**Rajoitettu tuloste** – Vastauksissa, joissa vaaditaan tiettyä muotoa. Malli noudattaa tiukasti muoto- ja pituussääntöjä. Käytä tätä yhteenvetoihin tai silloin, kun tarvitset tarkan tulosteen rakenteen.
+**Rajoitettu tulostus** – Vastauksissa, joissa on erityisiä formaatti- ja pituusvaatimuksia. Malli noudattaa tarkasti formaatti- ja pituussääntöjä. Käytä tätä yhteenvetoihin tai kun tarvitset täsmällistä tulosten rakennetta.
 
 ```java
 String prompt = """
@@ -419,190 +419,190 @@ String prompt = """
 
 String response = chatModel.chat(prompt);
 ```
+  
+Seuraava kaavio näyttää, kuinka rajoitukset ohjaavat mallia tuottamaan vastauksen, joka noudattaa tiukasti antamiasi formaatti- ja pituusvaatimuksia.
 
-Seuraava kaavio näyttää, miten rajoitukset ohjaavat mallia tuottamaan vastauksia, jotka noudattavat täsmällisesti vaatimuksia muodon ja pituuden suhteen.
+<img src="../../../translated_images/fi/constrained-output-pattern.0ce39a682a6795c2.webp" alt="Constrained Output Pattern" width="800"/>
 
-<img src="../../../translated_images/fi/constrained-output-pattern.0ce39a682a6795c2.webp" alt="Rajoitetun tulosteen malli" width="800"/>
-
-*Tarkasti määritettyjen muoto-, pituus- ja rakennevaatimusten noudattaminen*
+*Erityisten formaatti-, pituus- ja rakennevaatimusten noudattaminen*
 
 ## Suorita sovellus
 
-**Vahvista käyttöönotto:**
+**Varmista käyttöönotto:**
 
-Varmista, että `.env`-tiedosto on juurihakemistossa ja sisältää Azure-tunnistetiedot (luotu moduulissa 01). Aja tämä moduulihakemistosta (`02-prompt-engineering/`):
+Varmista, että `.env`-tiedosto on olemassa juurikansiossa Azure-tunnuksilla (luotu moduulin 01 aikana). Suorita tämä moduulihakemistosta (`02-prompt-engineering/`):
 
-**Bash:**
+**Bash:**  
 ```bash
 cat ../.env  # Tulisi näyttää AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
-Get-Content ..\.env  # Tulisi näyttää AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+Get-Content ..\.env  # Tulis näyttää AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-
+  
 **Käynnistä sovellus:**
 
-> **Huom:** Jos olet jo käynnistänyt kaikki sovellukset komennolla `./start-all.sh` juurihakemistosta (kuten moduulissa 01 kuvattiin), tämä moduuli on jo käynnissä portissa 8083. Voit ohittaa alla olevat käynnistyskomennot ja mennä suoraan osoitteeseen http://localhost:8083.
+> **Huom:** Jos olet jo käynnistänyt kaikki sovellukset käyttämällä `./start-all.sh` juurikansiosta (kuten kuvattiin moduulissa 01), tämä moduuli on jo käynnissä portissa 8083. Voit ohittaa käynnistyskomennot alla ja siirtyä suoraan osoitteeseen http://localhost:8083.
 
-**Vaihtoehto 1: Spring Boot Dashboardin käyttö (suositellaan VS Code -käyttäjille)**
+**Vaihtoehto 1: Spring Boot Dashboardin käyttö (suositeltava VS Code -käyttäjille)**
 
-Kehityssäilö sisältää Spring Boot Dashboard -laajennuksen, joka tarjoaa visuaalisen käyttöliittymän kaikkien Spring Boot -sovellusten hallintaan. Löydät sen VS Coden vasemmanpuoleisesta Activity Barista (etsi Spring Boot -kuvake).
+Dev-containere sisältää Spring Boot Dashboard -laajennuksen, joka tarjoaa visuaalisen käyttöliittymän kaikkien Spring Boot -sovellusten hallintaan. Löydät sen VS Code:n vasemman laidan Activity Barista (etsi Spring Boot -kuvaketta).
 
-Spring Boot Dashboardista voit:
-- Näyttää kaikki käytettävissä olevat Spring Boot -sovellukset työtilassa
-- Käynnistää/pysäyttää sovellukset yhdellä napsautuksella
-- Tarkastella sovelluksen lokeja reaaliajassa
-- Valvoa sovellusten tilannetta
+Spring Boot Dashboardista voit:  
+- Nähdä kaikki käytettävissä olevat Spring Boot -sovellukset työtilassa  
+- Käynnistää/lopettaa sovelluksia yhdellä napsautuksella  
+- Tarkastella sovelluslokeja reaaliajassa  
+- Valvoa sovellusten tilaa  
 
-Klikkaa yksinkertaisesti toistopainiketta "prompt-engineering" -kohdan vieressä käynnistääksesi tämän moduulin, tai käynnistä kaikki moduulit kerralla.
+Napsauta yksinkertaisesti toistopainiketta "prompt-engineering" -kohdan vieressä käynnistääksesi tämän moduulin, tai käynnistä kaikki moduulit kerralla.
 
 <img src="../../../translated_images/fi/dashboard.da2c2130c904aaf0.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*Spring Boot Dashboard VS Codessa – käynnistä, pysäytä ja valvo kaikki moduulit yhdestä paikasta*
+*Spring Boot Dashboard VS Code:ssa – käynnistä, pysäytä ja valvo kaikkia moduuleja yhdestä paikasta*
 
 **Vaihtoehto 2: Shell-skriptien käyttö**
 
-Käynnistä kaikki web-sovellukset (moduulit 01-04):
+Käynnistä kaikki verkkosovellukset (moduulit 01-04):
 
-**Bash:**
+**Bash:**  
 ```bash
 cd ..  # Juurihakemistosta
 ./start-all.sh
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
-cd ..  # Juurihakemistosta
+cd ..  # Juurikansiosta
 .\start-all.ps1
 ```
-
+  
 Tai käynnistä vain tämä moduuli:
 
-**Bash:**
+**Bash:**  
 ```bash
 cd 02-prompt-engineering
 ./start.sh
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 cd 02-prompt-engineering
 .\start.ps1
 ```
+  
+Molemmat skriptit lataavat automaattisesti ympäristömuuttujat juurihakemistossa olevasta `.env`-tiedostosta ja rakentavat JAR-tiedostot, jos niitä ei vielä ole.
 
-Kummatkin skriptit lataavat automaattisesti ympäristömuuttujat juurihakemiston `.env`-tiedostosta ja rakentavat JAR-tiedostot, jos niitä ei ole olemassa.
-
-> **Huom:** Jos haluat rakentaa kaikki moduulit manuaalisesti ennen käynnistystä:
->
-> **Bash:**
+> **Huom:** Jos haluat rakentaa kaikki moduulit manuaalisesti ennen käynnistystä:  
+>  
+> **Bash:**  
 > ```bash
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
->
-> **PowerShell:**
+  
+> **PowerShell:**  
 > ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
+  
+Avaa http://localhost:8083 selaimessasi.
 
-Avaa selaimessa http://localhost:8083.
+**Pysäyttääksesi:**
 
-**Pysäytä sovellus:**
-
-**Bash:**
+**Bash:**  
 ```bash
-./stop.sh  # Tämä moduuli vain
+./stop.sh  # Vain tämä moduuli
 # Tai
 cd .. && ./stop-all.sh  # Kaikki moduulit
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
-.\stop.ps1  # Tämä moduuli vain
+.\stop.ps1  # Vain tämä moduuli
 # Tai
 cd ..; .\stop-all.ps1  # Kaikki moduulit
 ```
-
+  
 ## Sovelluksen kuvakaappaukset
 
 Tässä on prompt engineering -moduulin pääkäyttöliittymä, jossa voit kokeilla kaikkia kahdeksaa mallia rinnakkain.
 
-<img src="../../../translated_images/fi/dashboard-home.5444dbda4bc1f79d.webp" alt="Hallintapaneelin etusivu" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
+<img src="../../../translated_images/fi/dashboard-home.5444dbda4bc1f79d.webp" alt="Dashboard Home" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
 
-*Päähallintapaneeli näyttää kaikki 8 prompt engineering -mallia niiden ominaisuuksineen ja käyttötapauksineen*
+*Pääkojelauta, jossa näkyy kaikki 8 prompt engineering -mallia niiden ominaisuuksineen ja käyttötapauksineen*
 
 ## Mallien tutkiminen
 
-Verkkokäyttöliittymä antaa kokeilla eri ohjausstrategioita. Jokainen malli ratkaisee eri ongelmia – kokeile niitä nähdäksesi, milloin kukin lähestymistapa toimii parhaiten.
+Verkkokäyttöliittymä mahdollistaa erilaisten ohjausstrategioiden kokeilun. Jokainen malli ratkaisee erilaisia ongelmia – kokeile niitä nähdäksesi, milloin kukin lähestymistapa toimii parhaiten.
 
-> **Huom: Virtautus vs Ei-virtautus** — Jokaisella mallisivulla on kaksi painiketta: **🔴 Virtauta vastaus (reaaliaikainen)** ja **Ei-virtautus** -vaihtoehto. Virtautus käyttää Server-Sent Events (SSE) -tekniikkaa näyttäen tokeneita reaaliajassa, kun malli tuottaa niitä, joten näet edistymisen heti. Ei-virtautus-vaihtoehto odottaa koko vastauksen valmiiksi ennen näyttämistä. Syvällistä päättelyä vaativissa kehotteissa (esim. High Eagerness, Self-Reflecting Code) ei-virtautus-kutsu voi kestää hyvin kauan – joskus minuutteja – eikä anna näkyvää palautetta. **Käytä virtausta monimutkaisissa kokeiluissa**, jotta näet mallin toiminnan ja vältät vaikutelman aikakatkaisusta.
->
-> **Huom: Selaimen vaatimukset** — Virtausominaisuus käyttää Fetch Streams -API:a (`response.body.getReader()`), joka vaatii täysimittaisen selaimen (Chrome, Edge, Firefox, Safari). Se EI toimi VS Coden sisäänrakennetussa Simple Browserissa, koska sen webview ei tue ReadableStream API:a. Jos käytät Simple Browseria, ei-virtautus-painikkeet toimivat normaalisti – virtauspainikkeet ovat ainoastaan rajoitettuja. Avaa `http://localhost:8083` ulkoisessa selaimessa saadaksesi täyden kokemuksen.
+> **Huom: Streaming vs ei-streaming** — Jokaisella mallin sivulla on kaksi painiketta: **🔴 Stream Response (Live)** ja **Ei-streamaava** vaihtoehto. Striimaus käyttää Server-Sent Events (SSE) -tekniikkaa näyttämään tokenit reaaliajassa mallin generoimisen yhteydessä, joten näet etenemisen heti. Ei-streamaava vaihtoehto odottaa koko vastauksen valmistumista ennen näyttämistä. Syvällistä päättelyä vaativissa kysymyksissä (esim. High Eagerness, Self-Reflecting Code) ei-streamaava kutsu voi kestää hyvin kauan – jopa minuutteja – ilman näkyvää palautetta. **Käytä striimausta monimutkaisten kyselyiden kanssa**, jotta näet mallin toiminnassa ja vältyt vaikutelmalta, että pyyntö aikakatkaistiin.  
+>  
+> **Huom: Selainvaatimus** — Striimausominaisuus käyttää Fetch Streams APIa (`response.body.getReader()`), joka vaatii täyden selaimen (Chrome, Edge, Firefox, Safari). Se ei toimi VS Code:n sisäänrakennetussa Simple Browserissa, koska sen webview ei tue ReadableStream APIa. Jos käytät Simple Browseria, ei-streamaavat painikkeet toimivat normaalisti – vain striimauspainikkeet eivät. Avaa `http://localhost:8083` ulkoisessa selaimessa parhaan käyttökokemuksen saamiseksi.
 
-### Matala vs Korkea innokkuus
+### Matala vs korkea innokkuus
 
-Kysy yksinkertainen kysymys kuten "Mikä on 15 % luvusta 200?" käyttäen Matala innokkuus -tapaa. Saat välittömän, suoraviivaisen vastauksen. Kysy sitten jotain monimutkaista, esimerkiksi "Suunnittele välimuististrategia suurliikenteiselle API:lle", käyttäen Korkea innokkuus -tapaa. Klikkaa **🔴 Virtauta vastaus (reaaliaikainen)** ja katso, kuinka mallin yksityiskohtainen päättely ilmestyy token tokenilta. Sama malli, sama kysymysrakenne – mutta kehotus määrää, kuinka paljon sen tulee ajatella.
+Kysy yksinkertainen kysymys kuten "Mikä on 15% luvusta 200?" käyttäen Low Eagernessia. Saat välittömän ja suoran vastauksen. Nyt kysy monimutkaisempi kysymys kuten "Suunnittele välimuististrategia korkealiikenteiselle API:lle" käyttäen High Eagernessia. Klikkaa **🔴 Stream Response (Live)** ja seuraa, kuinka mallin yksityiskohtainen päättely ilmestyy token tokenilta. Sama malli, sama kysymysrakenne – mutta pyyntö ohjaa mallia kuinka paljon ajattelua tehdä.
 
-### Tehtävän suoritus (Työkalujen esilauseet)
+### Tehtävän suoritus (Tool Preambles)
 
-Monivaiheiset työnkulut hyötyvät etukäteissuunnittelusta ja etenemisen artikkeloinnista. Malli hahmottelee, mitä se aikoo tehdä, kuvailee kunkin vaiheen ja tiivistää tulokset.
+Monivaiheiset työnkulut hyötyvät suunnittelusta ja etenemisen kerronnasta etukäteen. Malli hahmottelee, mitä aikoo tehdä, selostaa jokaisen vaiheen ja tiivistää lopputulokset.
 
 ### Itsearvioiva koodi
 
-Kokeile "Luo sähköpostin validointipalvelu". Sen sijaan, että malli vain generoi koodin ja pysähtyy, se luo, arvioi laatukriteerien mukaan, tunnistaa heikkoudet ja parantaa. Näet, kuinka se toistaa, kunnes koodi täyttää tuotantovaatimukset.
+Kokeile "Luo sähköpostin validointipalvelu". Sen sijaan, että malli vain generoisi koodin ja pysähtyisi, se luo, arvioi laatukriteerien perusteella, tunnistaa heikkoudet ja parantaa. Näet, kuinka se käy koodia läpi kunnes se täyttää tuotantostandardit.
 
-### Jäsennelty analyysi
+### Rakenteellinen analyysi
 
-Koodikatselmukset tarvitsevat yhdenmukaiset arviointikehykset. Malli analysoi koodia kiinteiden kategorioiden (oikeellisuus, käytännöt, suorituskyky, turvallisuus) mukaan vakavuustasoilla.
+Koodikatselmukset tarvitsevat johdonmukaiset arviointikehykset. Malli analysoi koodia kiinteillä kategorioilla (oikeellisuus, käytännöt, suorituskyky, turvallisuus) vakavuustasoineen.
 
 ### Monivaiheinen keskustelu
 
-Kysy "Mikä on Spring Boot?" ja seuraa heti kysymällä "Näytä esimerkki". Malli muistaa ensimmäisen kysymyksen ja antaa juuri sinulle sopivan Spring Boot -esimerkin. Ilman muistia toinen kysymys olisi liian epämääräinen.
+Kysy "Mikä on Spring Boot?" ja heti sen jälkeen "Näytä esimerkki". Malli muistaa ensimmäisen kysymyksesi ja antaa sinulle juuri Spring Boot -esimerkin. Ilman muistia tuo toinen kysymys olisi liian epämääräinen.
 
 ### Vaiheittainen päättely
 
-Valitse matemaattinen tehtävä ja kokeile sekä Vaiheittaisella päättelyllä että Matala innokkuus -tavalla. Matala innokkuus antaa vain vastauksen – nopeasti mutta läpinäkymättömästi. Vaiheittainen näyttää jokaisen laskelman ja päätöksen.
+Valitse matemaattinen tehtävä ja kokeile sitä sekä Step-by-Step Reasoningilla että Low Eagernessilla. Matala innokkuus antaa vain vastauksen – nopeasti mutta vaillinaisesti. Vaiheittainen päättely näyttää jokaisen laskelman ja päätöksen.
 
-### Rajoitettu tuloste
+### Rajoitettu tulostus
 
-Kun tarvitset tiettyjä muotoja tai sanamääriä, tämä malli varmistaa tarkkojen vaatimusten noudattamisen. Kokeile tuottaa yhteenveto, jossa on täsmälleen 100 sanaa bullet point -muodossa.
+Kun tarvitset tarkkoja formaatteja tai sanamääriä, tämä malli varmistaa tiukan noudattamisen. Kokeile luoda yhteenveto, jossa on täsmälleen 100 sanaa bullet point -muodossa.
 
-## Mitä todella opit
+## Mitä todellisuudessa opit
 
-**Päättelyn vaivannäkö muuttaa kaiken**
+**Päättelypanos muuttaa kaiken**
 
-GPT-5.2 antaa sinun hallita laskennallista vaivannäköä kehotteidesi kautta. Matala vaivannäkö tarkoittaa nopeita vastauksia vähäisellä etsinnällä. Korkea vaivannäkö tarkoittaa, että malli käyttää aikaa syvälliseen ajatteluun. Opit sovittamaan vaivannäön tehtävän monimutkaisuuteen – älä käytä aikaa yksinkertaisiin kysymyksiin, mutta älä myöskään kiirehdi monimutkaisia päätöksiä.
+GPT-5.2 antaa sinun hallita laskentatehoa pyyntöjen kautta. Matala panos tarkoittaa nopeita vastauksia, joissa on vähän tutkiskelua. Korkea panos tarkoittaa, että malli käyttää aikaa syvälliseen ajatteluun. Opit sovittamaan panoksen tehtävän monimutkaisuuteen – älä tuhlaa aikaa yksinkertaisiin kysymyksiin, mutta älä myöskään kiirehdi monimutkaisia päätöksiä.
 
-**Rakenne ohjaa käyttäytymistä**
+**Rakenne ohjaa toimintaa**
 
-Huomaatko kehotteiden XML-tunnisteet? Ne eivät ole koristeita. Mallit seuraavat rakenteellisia ohjeistuksia luotettavammin kuin vapaata tekstiä. Kun tarvitset monivaiheisia prosesseja tai monimutkaista logiikkaa, rakenne auttaa mallia seuraamaan, missä se on ja mitä seuraavaksi tehdään. Alla oleva kaavio purkaa hyvin jäsennellyn kehotteen näyttämällä, miten tunnisteet kuten `<system>`, `<instructions>`, `<context>`, `<user-input>` ja `<constraints>` järjestävät ohjeet selkeisiin osiin.
+Huomaatko XML-tunnisteet pyytämisissä? Ne eivät ole koristeita. Mallit noudattavat rakenteellisia ohjeita luotettavammin kuin vapaamuotoista tekstiä. Kun tarvitset monivaiheisia prosesseja tai monimutkaista logiikkaa, rakenne auttaa mallia seuraamaan, missä se on ja mitä seuraavaksi tapahtuu. Alla oleva kaavio purkaa hyvin rakennetun kehotteen, joka näyttää kuinka tunnisteet kuten `<system>`, `<instructions>`, `<context>`, `<user-input>` ja `<constraints>` järjestävät ohjeesi selkeisiin osioihin.
 
-<img src="../../../translated_images/fi/prompt-structure.a77763d63f4e2f89.webp" alt="Kehotteen rakenne" width="800"/>
+<img src="../../../translated_images/fi/prompt-structure.a77763d63f4e2f89.webp" alt="Prompt Structure" width="800"/>
 
-*Hyvin jäsennellyn kehotteen anatomia, jossa selkeät osiot ja XML-tyylinen järjestely*
+*Hyvin rakennetun kehotteen anatomia selkeine osioineen ja XML-tyylisine järjestelyineen*
 
-**Laatu itsearvioinnilla**
+**Laatu itsearvioinnin kautta**
 
-Itsearvioiviin malleihin sisältyy laatukriteerien selkeä määrittely. Sen sijaan, että toivoisit mallin "tekevän oikein", kerrot sille täsmälleen, mitä "oikein" tarkoittaa: oikea logiikka, virheenkäsittely, suorituskyky, turvallisuus. Malli voi sitten arvioida omaa tuotostaan ja parantaa sitä. Tämä muuttaa koodin generoinnin arpajaisista prosessiksi.
+Itsearvioivissa malleissa laatukriteerit tuodaan eksplisiittisesti esiin. Sen sijaan, että toivotaan mallin "tekevän oikein", kerrot sille tarkasti, mitä "oikein" tarkoittaa: oikea logiikka, virheenkäsittely, suorituskyky, turvallisuus. Malli voi sitten arvioida omaa tuotostaan ja parantaa sitä. Tämä muuttaa koodin generoinnin arpajaisesta hallituksi prosessiksi.
 
 **Konteksti on rajallinen**
 
-Monivaiheiset keskustelut toimivat sisällyttämällä viestihistorian jokaiseen pyyntöön. Mutta on olemassa raja – jokaisella mallilla on enimmäistokenien määrä. Kun keskustelut kasvavat, tarvitset strategioita pitää olennaiset tiedot ilman, että ylität tämän rajan. Tämä moduuli näyttää, miten muisti toimii; myöhemmin opit, milloin tiivistää, milloin unohtaa ja milloin hakea uudelleen.
+Monivaiheiset keskustelut toimivat sisällyttämällä viestihistorian jokaiseen pyyntöön. Mutta on olemassa raja – jokaisella mallilla on maksimimäärä tokeneita. Keskustelujen kasvaessa tarvitset strategioita merkityksellisen kontekstin ylläpitämiseksi ilman rajan ylittymistä. Tämä moduuli näyttää, kuinka muisti toimii; myöhemmin opit, milloin tiivistää, milloin unohtaa ja milloin hakea tietoa uudelleen.
 
-## Seuraavat askeleet
+## Seuraavat vaiheet
 
-**Seuraava moduuli:** [03-rag - RAG (Hakua täydentävä generointi)](../03-rag/README.md)
+**Seuraava moduuli:** [03-rag - RAG (Retrieval-Augmented Generation)](../03-rag/README.md)
 
 ---
 
-**Navigointi:** [← Edellinen: Moduuli 01 - Johdanto](../01-introduction/README.md) | [Takaisin pääsivulle](../README.md) | [Seuraava: Moduuli 03 - RAG →](../03-rag/README.md)
+**Navigointi:** [← Edellinen: Module 01 - Johdanto](../01-introduction/README.md) | [Takaisin pääsivulle](../README.md) | [Seuraava: Module 03 - RAG →](../03-rag/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Vastuuvapauslauseke**:
-Tämä asiakirja on käännetty käyttäen tekoälypohjaista käännöspalvelua [Co-op Translator](https://github.com/Azure/co-op-translator). Vaikka pyrimme tarkkuuteen, tulee huomioida, että automaattikäännöksissä saattaa esiintyä virheitä tai epätarkkuuksia. Alkuperäinen asiakirja omalla kielellään on virallinen lähde. Tärkeissä tiedoissa suositellaan ammattilaisen tekemää ihmiskäännöstä. Emme ole vastuussa tämän käännöksen käytöstä johtuvista väärinymmärryksistä tai tulkinnoista.
+Tämä asiakirja on käännetty käyttämällä tekoälypohjaista käännöspalvelua [Co-op Translator](https://github.com/Azure/co-op-translator). Vaikka pyrimme tarkkuuteen, otathan huomioon, että automaattiset käännökset saattavat sisältää virheitä tai epätarkkuuksia. Alkuperäinen asiakirja sen alkuperäiskielellä on virallinen lähde. Tärkeissä asioissa suositellaan ammattimaista ihmiskäännöstä. Emme ole vastuussa tämän käännöksen käytöstä aiheutuvista väärinymmärryksistä tai tulkinnoista.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

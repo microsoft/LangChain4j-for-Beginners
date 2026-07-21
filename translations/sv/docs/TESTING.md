@@ -2,15 +2,15 @@
 
 ## Innehållsförteckning
 
-- [Snabbstart](../../../docs)
-- [Vad testerna täcker](../../../docs)
-- [Köra testerna](../../../docs)
-- [Köra tester i VS Code](../../../docs)
-- [Testmönster](../../../docs)
-- [Testfilosofi](../../../docs)
-- [Nästa steg](../../../docs)
+- [Snabbstart](#snabbstart)
+- [Vad testen täcker](#vad-testen-täcker)
+- [Köra testen](#köra-testen)
+- [Köra tester i VS Code](#köra-tester-i-vs-code)
+- [Testmönster](#testmönster)
+- [Testfilosofi](#testfilosofi)
+- [Nästa steg](#nästa-steg)
 
-Den här guiden går igenom tester som visar hur man testar AI-applikationer utan att behöva API-nycklar eller externa tjänster.
+Denna guide går igenom testen som visar hur man testar AI-applikationer utan att kräva API-nycklar eller externa tjänster.
 
 ## Snabbstart
 
@@ -26,30 +26,29 @@ mvn test
 mvn --% test
 ```
 
-När alla tester lyckas bör du se en utdata som på skärmbilden nedan — tester körs utan några fel.
+När alla tester passerar bör du se output som i skärmdumpen nedan — tester körs utan några fel.
 
 <img src="../../../translated_images/sv/test-results.ea5c98d8f3642043.webp" alt="Successful Test Results" width="800"/>
 
-*Framgångsrik testkörning som visar att alla tester gick igenom utan fel*
+*Framgångsrikt testkörning som visar att alla tester passerar utan fel*
 
-## Vad testerna täcker
+## Vad testen täcker
 
-Denna kurs fokuserar på **enhetstester** som körs lokalt. Varje test demonstrerar ett specifikt LangChain4j-koncept isolerat. Testpyramiden nedan visar var enhetstester hör hemma — de utgör den snabba, pålitliga grunden som resten av din teststrategi bygger på.
+Denna kurs fokuserar på **enhetstester** som körs lokalt. Varje test demonstrerar ett specifikt LangChain4j-koncept isolerat. Testpyramiden nedan visar var enhetstester passar in — de utgör den snabba, tillförlitliga grund som resten av din teststrategi bygger på.
 
 <img src="../../../translated_images/sv/testing-pyramid.2dd1079a0481e53e.webp" alt="Testing Pyramid" width="800"/>
 
-*Testpyramid som visar balansen mellan enhetstester (snabba, isolerade), integrationstester (riktiga komponenter) och end-to-end-tester. Denna utbildning täcker enhetstestning.*
+*Testpyramid som visar balansen mellan enhetstester (snabba, isolerade), integrationstester (riktiga komponenter) och end-to-end-tester. Denna utbildning täcker enhetstester.*
 
-| Modul | Tester | Fokus | Viktiga filer |
+| Modul | Tester | Fokus | Nyckelfiler |
 |--------|-------|-------|-----------|
-| **00 - Snabbstart** | 6 | Promptmallar och variabelersättning | `SimpleQuickStartTest.java` |
-| **01 - Introduktion** | 8 | Konversationsminne och stateful chat | `SimpleConversationTest.java` |
+| **01 - Introduktion** | 8 | Konversationsminne och tillståndsbaserad chatt | `SimpleConversationTest.java` |
 | **02 - Prompt Engineering** | 12 | GPT-5.2-mönster, ivernivåer, strukturerad output | `SimpleGpt5PromptTest.java` |
-| **03 - RAG** | 10 | Dokumentintagning, embeddings, likhetssökning | `DocumentServiceTest.java` |
+| **03 - RAG** | 10 | Dokumentingestion, embeddingar, likhetssökning | `DocumentServiceTest.java` |
 | **04 - Verktyg** | 12 | Funktionsanrop och verktygskedjor | `SimpleToolsTest.java` |
 | **05 - MCP** | 8 | Model Context Protocol med Stdio-transport | `SimpleMcpTest.java` |
 
-## Köra testerna
+## Köra testen
 
 **Kör alla tester från root:**
 
@@ -95,12 +94,12 @@ mvn --% test -Dtest=SimpleConversationTest
 
 **Bash:**
 ```bash
-mvn test -Dtest=SimpleConversationTest#börBehållaSamtalshistorik
+mvn test -Dtest=SimpleConversationTest#börBehållaKonversationshistorik
 ```
 
 **PowerShell:**
 ```powershell
-mvn --% test -Dtest=SimpleConversationTest#börBibehållaSamtalshistorik
+mvn --% test -Dtest=SimpleConversationTest#börBehållaSamtalshistorik
 ```
 
 ## Köra tester i VS Code
@@ -109,27 +108,27 @@ Om du använder Visual Studio Code ger Test Explorer ett grafiskt gränssnitt f�
 
 <img src="../../../translated_images/sv/vscode-testing.f02dd5917289dced.webp" alt="VS Code Test Explorer" width="800"/>
 
-*VS Code Test Explorer som visar testträdet med alla Java-testklasser och individuella testmetoder*
+*VS Code Test Explorer som visar testträdet med alla Java testklasser och individuella testmetoder*
 
 **För att köra tester i VS Code:**
 
-1. Öppna Test Explorer genom att klicka på bägareikonen i aktivitetsfältet
+1. Öppna Test Explorer genom att klicka på provröret i aktivitetsfältet
 2. Expandera testträdet för att se alla moduler och testklasser
-3. Klicka på play-knappen bredvid valfritt test för att köra det individuellt
-4. Klicka på "Run All Tests" för att köra hela testsviten
-5. Högerklicka på ett test och välj "Debug Test" för att sätta brytpunkter och stega i koden
+3. Klicka på spelknappen bredvid ett test för att köra det individuellt
+4. Klicka på "Run All Tests" för att köra hela testuppsättningen
+5. Högerklicka på ett test och välj "Debug Test" för att sätta brytpunkter och stega igenom koden
 
-Test Explorern visar gröna bockar för godkända tester och ger detaljerade felmeddelanden när tester misslyckas.
+Test Explorer visar gröna bockar för passerade tester och ger detaljerade felmeddelanden när tester misslyckas.
 
 ## Testmönster
 
-### Mönster 1: Testa promptmallar
+### Mönster 1: Testa Prompt-mallar
 
-Det enklaste mönstret testar promptmallar utan att anropa någon AI-modell. Du verifierar att variabelersättningen fungerar korrekt och att promptar formateras som förväntat.
+Det enklaste mönstret testar promptmallar utan att anropa något AI-modell. Du verifierar att variabelersättning fungerar korrekt och att promptarna är korrekt formaterade.
 
 <img src="../../../translated_images/sv/prompt-template-testing.b902758ddccc8dee.webp" alt="Prompt Template Testing" width="800"/>
 
-*Test av promptmallar som visar flödet för variabelersättning: mall med platshållare → värden appliceras → formaterad output verifieras*
+*Test av promptmallar som visar flödet för variabelersättning: mall med platshållare → värden applicerade → formaterad output verifierad*
 
 ```java
 @Test
@@ -148,27 +147,15 @@ void testPromptTemplateFormatting() {
 }
 ```
 
-Detta test finns i `00-quick-start/src/test/java/com/example/langchain4j/quickstart/SimpleQuickStartTest.java`.
-
-**Kör det:**
-
-**Bash:**
-```bash
-cd 00-quick-start && mvn test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatering
-```
-
-**PowerShell:**
-```powershell
-cd 00-quick-start; mvn --% test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatering
-```
+Detta mönster verifierar att variabelersättning fungerar korrekt och att promptar formateras som förväntat — ingen API-nyckel eller modell-anrop krävs.
 
 ### Mönster 2: Mocka språkmodeller
 
-När du testar konversationslogik, använd Mockito för att skapa falska modeller som returnerar förutbestämda svar. Detta gör testerna snabba, gratis och deterministiska.
+När du testar konversationslogik, använd Mockito för att skapa falska modeller som returnerar förutbestämda svar. Detta gör testerna snabba, kostnadsfria och deterministiska.
 
 <img src="../../../translated_images/sv/mock-vs-real.3b8b1f85bfe6845e.webp" alt="Mock vs Real API Comparison" width="800"/>
 
-*Jämförelse som visar varför mocks är att föredra vid testning: de är snabba, gratis, deterministiska och kräver inga API-nycklar*
+*Jämförelse som visar varför mocks föredras för testning: de är snabba, gratis, deterministiska och kräver inga API-nycklar*
 
 ```java
 @ExtendWith(MockitoExtension.class)
@@ -218,15 +205,15 @@ class SimpleConversationTest {
 }
 ```
 
-Detta mönster finns i `01-introduction/src/test/java/com/example/langchain4j/service/SimpleConversationTest.java`. Mocken säkerställer konsekvent beteende så att du kan verifiera att minneshanteringen fungerar korrekt.
+Detta mönster finns i `01-introduction/src/test/java/com/example/langchain4j/service/SimpleConversationTest.java`. Mocken säkerställer konsekvent beteende så att du kan verifiera att minneshantering fungerar korrekt.
 
 ### Mönster 3: Testa konversationsisolering
 
-Konversationsminnet måste hålla flera användare åtskilda. Detta test verifierar att samtal inte blandar samman kontexter.
+Konversationsminnet måste hålla flera användare separerade. Detta test verifierar att konversationer inte blandar samman kontexter.
 
 <img src="../../../translated_images/sv/conversation-isolation.e00336cf8f7a3e3f.webp" alt="Conversation Isolation" width="800"/>
 
-*Test av konversationsisolering som visar separata minneslagringar för olika användare för att förhindra kontextblandning*
+*Test av konversationsisolering som visar separata minneslager för olika användare för att förhindra kontextblandning*
 
 ```java
 @Test
@@ -250,15 +237,15 @@ void shouldIsolateConversationsByid() {
 }
 ```
 
-Varje konversation håller sin egen oberoende historik. I produktionssystem är denna isolering avgörande för fleranvändarapplikationer.
+Varje konversation behåller sin egen oberoende historik. I produktionssystem är denna isolering kritisk för applikationer med flera användare.
 
 ### Mönster 4: Testa verktyg oberoende
 
-Verktyg är funktioner som AI kan anropa. Testa dem direkt för att säkerställa att de fungerar korrekt oavsett AI-beslut.
+Verktyg är funktioner som AI kan anropa. Testa dem direkt för att säkerställa att de fungerar korrekt oberoende av AI-beslut.
 
 <img src="../../../translated_images/sv/tools-testing.3e1706817b0b3924.webp" alt="Tools Testing" width="800"/>
 
-*Test av verktyg oberoende som visar mock-körning av verktyg utan AI-anrop för att verifiera affärslogik*
+*Test av verktyg oberoende som visar mock-körning av verktyg utan AI-anrop för att verifiera affärslogiken*
 
 ```java
 @Test
@@ -281,15 +268,15 @@ void shouldDemonstrateToolChaining() {
 }
 ```
 
-Dessa tester från `04-tools/src/test/java/com/example/langchain4j/agents/tools/SimpleToolsTest.java` validerar verktygets logik utan AI-inblandning. Kedjeexemplet visar hur ett verktygs output matas in till ett annat.
+Dessa tester från `04-tools/src/test/java/com/example/langchain4j/agents/tools/SimpleToolsTest.java` validerar verktygslogik utan AI-inblandning. Exemplet med kedjning visar hur output från ett verktyg matas som input till ett annat.
 
 ### Mönster 5: In-memory RAG-testning
 
-RAG-system kräver traditionellt vektordatabaser och embeddingstjänster. In-memory-mönstret låter dig testa hela pipelinen utan externa beroenden.
+RAG-system kräver traditionellt vektordatabaser och embeddingtjänster. In-memory-mönstret låter dig testa hela pipelinen utan externa beroenden.
 
 <img src="../../../translated_images/sv/rag-testing.ee7541b1e23934b1.webp" alt="In-Memory RAG Testing" width="800"/>
 
-*In-memory RAG-testflöde som visar dokumentparsing, embeddinglagring och likhetssökning utan att kräva databas*
+*In-memory RAG-testflöde som visar dokumentparsing, embedding lagring och likhetssökning utan krav på databas*
 
 ```java
 @Test
@@ -310,9 +297,9 @@ Detta test från `03-rag/src/test/java/com/example/langchain4j/rag/service/Docum
 
 ### Mönster 6: MCP-integrationstestning
 
-MCP-modulen testar integrationen av Model Context Protocol med stdio-transport. Dessa tester verifierar att din applikation kan skapa och kommunicera med MCP-servrar som underprocesser.
+MCP-modulen testar integrationen av Model Context Protocol med stdio-transport. Dessa tester verifierar att din applikation kan starta och kommunicera med MCP-servrar som underprocesser.
 
-Testerna i `05-mcp/src/test/java/com/example/langchain4j/mcp/SimpleMcpTest.java` validerar MCP-klientens beteende.
+Tester i `05-mcp/src/test/java/com/example/langchain4j/mcp/SimpleMcpTest.java` validerar MCP-klientbeteende.
 
 **Kör dem:**
 
@@ -328,36 +315,35 @@ cd 05-mcp; mvn --% test
 
 ## Testfilosofi
 
-Testa din kod, inte AI:n. Dina tester ska validera koden du skriver genom att kontrollera hur promptar konstrueras, hur minnet hanteras och hur verktyg körs. AI-svar varierar och ska inte vara en del av testpåståenden. Fråga dig själv om din promptmall korrekt ersätter variabler, inte om AI ger rätt svar.
+Testa din kod, inte AI:n. Dina tester bör validera koden du skriver genom att kontrollera hur prompts konstrueras, hur minne hanteras, och hur verktyg körs. AI-svar varierar och bör inte vara en del av testpåståenden. Fråga dig om din promptmall korrekt ersätter variabler, inte om AI:n ger rätt svar.
 
-Använd mocks för språkmodeller. De är externa beroenden som är långsamma, dyra och icke-deterministiska. Mockning gör tester snabba med millisekunder istället för sekunder, gratis utan API-kostnader och deterministiska med samma resultat varje gång.
+Använd mocks för språkmodeller. De är externa beroenden som är långsamma, dyra och icke-deterministiska. Mocking gör tester snabba med millisekunder istället för sekunder, gratis utan API-kostnader och deterministiska med samma resultat varje gång.
 
-Håll tester oberoende. Varje test ska skapa sin egen data, inte förlita sig på andra tester, och städa upp efter sig. Tester ska gå igenom oavsett körordning.
+Håll tester oberoende. Varje test bör sätta upp sina egna data, inte förlita sig på andra tester och städa upp efter sig. Tester ska passera oavsett körordning.
 
-Testa kantfall utöver den lyckade vägen. Prova tomma inputs, mycket stora inputs, specialtecken, ogiltiga parametrar och gränsvärden. Dessa avslöjar ofta buggar som vanlig användning inte visar.
+Testa kantfall utöver den lyckade vägen. Prova tomma indata, väldigt stora indata, specialtecken, ogiltiga parametrar och gränsvärden. Dessa avslöjar ofta buggar som vanlig användning inte gör.
 
-Använd beskrivande namn. Jämför `shouldMaintainConversationHistoryAcrossMultipleMessages()` med `test1()`. Det första berättar exakt vad som testas och gör felsökning av fel mycket enklare.
+Använd beskrivande namn. Jämför `shouldMaintainConversationHistoryAcrossMultipleMessages()` med `test1()`. Det första talar om exakt vad som testas, vilket gör felsökning av fel mycket enklare.
 
 ## Nästa steg
 
 Nu när du förstår testmönstren, fördjupa dig i varje modul:
 
-- **[00 - Snabbstart](../00-quick-start/README.md)** - Börja med grunderna för promptmallar
 - **[01 - Introduktion](../01-introduction/README.md)** - Lär dig hantera konversationsminne
-- **[02 - Prompt Engineering](../02-prompt-engineering/README.md)** - Bemästra GPT-5.2 promptingmönster
-- **[03 - RAG](../03-rag/README.md)** - Bygg system för retrieval-augmented generation
+- **[02 - Prompt Engineering](../02/prompt-engineering/README.md)** - Bemästra GPT-5.2 promptmönster
+- **[03 - RAG](../03-rag/README.md)** - Bygg retrieval-augmented generation-system
 - **[04 - Verktyg](../04-tools/README.md)** - Implementera funktionsanrop och verktygskedjor
 - **[05 - MCP](../05-mcp/README.md)** - Integrera Model Context Protocol
 
-Varje moduls README ger detaljerade förklaringar av koncepten som testas här.
+Varje moduls README ger detaljerade förklaringar av de koncept som testas här.
 
 ---
 
-**Navigation:** [← Tillbaka till Start](../README.md)
+**Navigering:** [← Tillbaka till huvudmenyn](../README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Ansvarsfriskrivning**:
-Detta dokument har översatts med hjälp av AI-översättningstjänsten [Co-op Translator](https://github.com/Azure/co-op-translator). Trots att vi strävar efter noggrannhet, vänligen observera att automatiska översättningar kan innehålla fel eller brister. Det ursprungliga dokumentet på dess modersmål ska betraktas som den auktoritativa källan. För kritisk information rekommenderas professionell mänsklig översättning. Vi ansvarar inte för eventuella missförstånd eller feltolkningar som uppstår till följd av användning av denna översättning.
+Detta dokument har översatts med hjälp av AI-översättningstjänsten [Co-op Translator](https://github.com/Azure/co-op-translator). Även om vi strävar efter noggrannhet, var vänlig notera att automatiska översättningar kan innehålla fel eller brister. Det ursprungliga dokumentet på dess modersmål bör betraktas som den auktoritativa källan. För kritisk information rekommenderas professionell mänsklig översättning. Vi ansvarar inte för några missförstånd eller feltolkningar som uppstår till följd av användningen av denna översättning.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

@@ -1,224 +1,222 @@
-# LangChain4j အဓိပ္ပာယ်ရှင်းလင်းချက်
+# LangChain4j အသုံးအနှုန်းစာအုပ်
 
-## အကြောင်းအရာဇယား
+## အကြောင်းအရာစာရင်း
 
-- [အခြေခံ အတွေးအခေါ်များ](../../../docs)
-- [LangChain4j အစိတ်အပိုင်းများ](../../../docs)
-- [AI/ML အတွေးအခေါ်များ](../../../docs)
-- [အသုံးတားရေး](../../../docs)
-- [Prompt Engineering](../../../docs)
-- [RAG (Retrieval-Augmented Generation)](../../../docs)
-- [Agents နှင့် Tools](../../../docs)
-- [Agentic Module](../../../docs)
-- [Model Context Protocol (MCP)](../../../docs)
-- [Azure ဝန်ဆောင်မှုများ](../../../docs)
-- [စမ်းသပ်ခြင်းနှင့် ဖွံ့ဖြိုးတိုးတက်မှု](../../../docs)
+- [အဓိကအယူအဆများ](#အဓိကအယူအဆများ)
+- [LangChain4j အစိတ်အပိုင်းများ](#langchain4j-အစိတ်အပိုင်းများ)
+- [AI/ML အယူအဆများ](#aiml-အယူအဆများ)
+- [လုံခြုံရေးစနစ်များ](#လုံခြုံရေးစနစ်များ)
+- [Prompt Engineering](#prompt-engineering---module-02)
+- [RAG (Retrieval-Augmented Generation)](#rag-retrieval-augmented-generation---module-03)
+- [Agents နှင့် Tools](#agents-and-tools---module-04)
+- [Agentic Module](#agentic-module---module-05)
+- [Model Context Protocol (MCP)](#model-context-protocol-mcp---module-05)
+- [Azure ဝန်ဆောင်မှုများ](#azure-services---module-01)
+- [စမ်းသပ်ခြင်းနှင့် ဖွံ့ဖြိုးတိုးတက်မှု](#testing-and-development---testing-guide)
 
-သင်ကြားမှုအားလုံးတွင် အသုံးပြုသော စကားလုံးများနှင့် အတွေးအခေါ်များအတွက် အလျင်အမြန် ရှာဖွေရန်။
+သင်တန်းအတွင်း အသုံးပြုသော အသုံးအနှုန်းများနှင့် အယူအဆများအတွက် အရှိန်အဟုန်မြန်စွာ ရှာဖွေရန်။
 
-## အခြေခံ အတွေးအခေါ်များ
+## အဓိကအယူအဆများ
 
-**AI Agent** - AI ကို အသုံးပြုကာ ကိုယ်တိုင် အတွေးထုတ်လုပ်ပြီး ရပ်တည်ဆောင်ရွက်သော စနစ်။ [Module 04](../04-tools/README.md)
+**AI Agent** - AI ကို အသုံးပြုပြီး အလိုက်သင့်စိတ်ဖြင့် စဉ်းစား၍ လုပ်ဆောင်နိုင်သော စနစ်။ [Module 04](../04-tools/README.md)
 
-**Chain** - လုပ်ဆောင်ချက်စီးရီးတစ်ခုမဟုတ်ပါက နောက်တစ်ဆင့်အဖြစ် ထွက်ရှိမှု ရသည်။
+**Chain** - အဆင့်ဆင့် လုပ်ဆောင်ချက်များစဉ်မှာ ထုတ်လွှင့်ချက်သည် နောက်တစ်ဆင့်တွင် သုံးစွဲသည်။
 
-**Chunking** - စာရွက်များကို အပိုင်းပိုင်း သို့ ခွဲခြားခြင်း။ မကြာခဏ: ၃၀၀-၅၀၀ တokens နှင့် အနှောင့်အယှက်။ [Module 03](../03-rag/README.md)
+**Chunking** - စာရွက်စာတမ်းများကို အစိတ်အပိုင်းသေးသည်အထိ ခွဲခြားခြင်း။ ပုံမှန်: ၃၀၀-၅၀၀ token အတွင်း overlap ဖြင့်။ [Module 03](../03-rag/README.md)
 
-**Context Window** - မော်ဒယ်အတွက် အမြင့်ဆုံး တokens အရေအတွက်။ GPT-5.2: 400K တokens (ဝင်ပေါက် ၂၇၂K, ထွက်ပေါက် ၁၂၈K)။
+**Context Window** - မော်ဒယ်တစ်ခု လက်ခံနိုင်သည့် အများဆုံး tokens အရေအတွက်။ GPT-5.2: ၄၀၀K tokens (အထိ ၂၇၂K input, ၁၂၈K output)။
 
-**Embeddings** - စာသား၏ အဓိပ္ပာယ်ကို ကိုယ်စားပြုပြတဲ့ နံပါတ် vectors။ [Module 03](../03-rag/README.md)
+**Embeddings** - စာသား အဓိပ္ပာယ်ကို သရုပ်ဖော်သည့် ကိန်းရေဗက်တာများ။ [Module 03](../03-rag/README.md)
 
-**Function Calling** - မော်ဒယ်က ပြင်ပ function များကို ခေါ်ရန် ဖွဲ့စည်းထားသော အကောင်အထည်တစ်ခု ဖန်တီးခြင်း။ [Module 04](../04-tools/README.md)
+**Function Calling** - မော်ဒယ်က ဂဏန်းပုံစံ အတောင်းခံချက်များဖန်တီး၍ ပြင်ပ function များကို ခေါ်ဆောင်သည်။ [Module 04](../04-tools/README.md)
 
-**Hallucination** - မော်ဒယ်များမှ မှားယွင်းသော်လည်း လူမှတ်မီနိုင်သော အချက်အလက်များ ထုတ်ပေးခြင်း။
+**Hallucination** - မော်ဒယ်မှ မှားယွင်းသည့် သို့သော် ယုံကြည်နိုင်သော အချက်အလက်ကို ဖန်တီးခြင်း။
 
-**Prompt** - ဘာသာစကားမော်ဒယ်ထံ ရိုက်ထည့်သော စာသား။ [Module 02](../02-prompt-engineering/README.md)
+**Prompt** - ဘာသာစကားမော်ဒယ်ထံစာသားထည့်သွင်းချက်။ [Module 02](../02-prompt-engineering/README.md)
 
-**Semantic Search** - keywords မဟုတ်ပဲ embedding ကို အသုံးပြု၍ အဓိပ္ပာယ် အလိုက် ရှာဖွေခြင်း။ [Module 03](../03-rag/README.md)
+**Semantic Search** - keywords မဟုတ်ဘဲ အဓိပ္ပာယ်အရ ရှာဖွေမှု။ [Module 03](../03-rag/README.md)
 
-**Stateful vs Stateless** - Stateless: မှတ်ဉာဏ်မရှိ။ Stateful: ပြောဆိုမှု သမိုင်းကို ထိန်းသိမ်းထားသည်။ [Module 01](../01-introduction/README.md)
+**Stateful vs Stateless** - Stateless: မှတ်ဉာဏ်မရှိပါ။ Stateful: စကားပြောဆိုမှုပြီးခဲ့သည်များကို ထိန်းသိမ်းသည်။ [Module 01](../01-introduction/README.md)
 
-**Tokens** - မော်ဒယ်များ အလုပ်လုပ်ရာတွင် အခြေခံ စာသားအပိုင်းများ။ ကုန်ကျစရိတ်နှင့် ကန့်သတ်ချက်များကို ထိခိုက်စေသည်။ [Module 01](../01-introduction/README.md)
+**Tokens** - မော်ဒယ်များက လုပ်ဆောင်သော အခြေခံစာသားအချက်များ။ ကုန်ကျစရိတ်နှင့် ကန့်သတ်ချက်များကို သက်ရောက်စေသည်။ [Module 01](../01-introduction/README.md)
 
-**Tool Chaining** - အသုံးပြုရန် သတ်မှတ်ထားသော tools များကို တစ်ခုချင်းဆက်တိုက် အသုံးပြုခြင်း။ [Module 04](../04-tools/README.md)
+**Tool Chaining** - တစ်ခုချင်းစီ တိုးတက်အောင်သုံးသည့် tools များကို စဉ်ဆက်မပြတ် ချိတ်ဆက်အသုံးပြုခြင်း။ [Module 04](../04-tools/README.md)
 
 ## LangChain4j အစိတ်အပိုင်းများ
 
-**AiServices** - အမျိုးအစားလုံခြုံသော AI ဝန်ဆောင်မှု အင်တာဖေ့စ်များ ဖန်တီးသော အစိတ်အပိုင်း။
+**AiServices** - Type-safe AI ဝန်ဆောင်မှု အင်တာဖေ့စ်များ ဖန်တီးသည်။
 
-**OpenAiOfficialChatModel** - OpenAI နှင့် Azure OpenAI မော်ဒယ်များ အတွက် စုပေါင်း ဖောက်သည်။
+**OpenAiOfficialChatModel** - OpenAI နှင့် Azure OpenAI မော်ဒယ်များအတွက် အမျိုးသား client တစ်ခု။
 
-**OpenAiOfficialEmbeddingModel** - OpenAI Official client ကို အသုံးပြုကာ embedding များ ဖန်တီးခြင်း (OpenAI နှင့် Azure OpenAI နှစ်ခုလုံး ပံ့ပိုးသည့်)။
+**OpenAiOfficialEmbeddingModel** - OpenAI Official client ဖြင့် embeddings ဖန်တီးသည် (OpenAI နှင့် Azure OpenAI နှစ်မျိုးလုံးကို ထောက်ပံ့သည်)။
 
 **ChatModel** - ဘာသာစကားမော်ဒယ်များအတွက် အဓိက အင်တာဖေ့စ်။
 
-**ChatMemory** - ပြောဆိုမှု သမိုင်းကို ထိန်းသိမ်းထားသည်။
+**ChatMemory** - စကားပြောဆိုမှုမှတ်တမ်း ထိန်းသိမ်းသည်။
 
-**ContentRetriever** - RAG အတွက် သက်ဆိုင်ရာ စာရွက် အပိုင်းများ ရှာဖွေသွားသော ကိရိယာ။
+**ContentRetriever** - RAG အတွက် သက်ဆိုင်ရာ စာရွက်စာတမ်း အစိတ်အပိုင်းများ ရှာဖွေသည်။
 
-**DocumentSplitter** - စာရွက်များကို အပိုင်းသိုက်သိုက် ခွဲခြားမှု။
+**DocumentSplitter** - စာရွက်စာတမ်းများကို ခွဲခြားသည်။
 
-**EmbeddingModel** - စာသားကို နံပါတ် vectors သို့ ပြောင်းလဲခြင်း။
+**EmbeddingModel** - စာသားကို ကိန်းရေဗက်တာများသို့ ပြောင်းလဲသည်။
 
-**EmbeddingStore** - Embeddings များကို သိမ်းဆည်းနှင့် ရယူခြင်း။
+**EmbeddingStore** - Embeddings များကို သိမ်းဆည်းပြီး ပြန်လည် ရယူနိုင်သည်။
 
-**MessageWindowChatMemory** - နောက်ဆုံးစာသေးများ မှ တစ်ဆင့် Sliding Window ကို ထိန်းသိမ်းခြင်း။
+**MessageWindowChatMemory** - နောက်ဆုံးပို့သော စာတိုများကို စိမ့်ကပ်ထားသော အပြေးအစီအစဉ်။
 
-**PromptTemplate** - `{{variable}}` နေရာမှတ်တမ်းများဖြင့် ထပ်မံအသုံးပြုနိုင်သော prompt များ ဖန်တီးခြင်း။
+**PromptTemplate** - `{{variable}}` ထည့်သွင်းထားသော ပြန်လည်အသုံးပြုနိုင်သော prompt များ ဖန်တီးသည်။
 
-**TextSegment** - RAG တွင် အသုံးပြုသော စာသား အပိုင်းနှင့် မီတာဒေတာ။
+**TextSegment** - metadata ပါသော စာသားအစိတ်အပိုင်း။ RAG တွင် အသုံးပြုသည်။
 
-**ToolExecutionRequest** - Tool အကောင်အထည်ဖော်ရန် တောင်းဆိုမှု ကို ကိုယ်စားပြုမှု။
+**ToolExecutionRequest** - tool အသုံးပြုမှု အတွက် တင်သွင်းချက်ကို ဖော်ပြသည်။
 
-**UserMessage / AiMessage / SystemMessage** - ပြောဆိုစကားသွားအမျိုးအစားများ။
+**UserMessage / AiMessage / SystemMessage** - စကားပြောဆိုမှု သတင်းပို့အစုံ။
 
-## AI/ML အတွေးအခေါ်များ
+## AI/ML အယူအဆများ
 
-**Few-Shot Learning** - Prompt များတွင် နမူနာများ ပေးသွင်းခြင်း။ [Module 02](../02-prompt-engineering/README.md)
+**Few-Shot Learning** - Prompt များတွင် ဥပမာများ ထည့်သွင်းပေးခြင်း။ [Module 02](../02-prompt-engineering/README.md)
 
-**Large Language Model (LLM)** - မြောက်မားသော စာသားဒေတာဖြင့် လေ့ကျင့်ထားသော AI မော်ဒယ်များ။
+**Large Language Model (LLM)** - စာသားကြီးများအားပေါင်းစည်း၍ လေ့ကျင့်ထားသော AI မော်ဒယ်များ။
 
-**Reasoning Effort** - GPT-5.2 ၏ စဉ်းစားပထမအဆင့် ထိန်းချုပ်မှု ပြားမီတာ။ [Module 02](../02-prompt-engineering/README.md)
+**Reasoning Effort** - GPT-5.2 ၏ စဉ်းစားနက်ရှိုင်းမှု ထိန်းချုပ်ရန် ပါရာမီတာ။ [Module 02](../02-prompt-engineering/README.md)
 
-**Temperature** - ထွက်ရှိမှု အလွတ်တမ်းအတုအယောင် ထိန်းညှိမှု။ အနိမ့်= သတ်မှတ်ထားသော၊ အမြင့်= ဖန်တီးမှုအမြင့်။
+**Temperature** - ထွက်ရှိမည့် အချက်အလက် အမှားလွတ်နည်းသတ်မှတ်ချက်။ နိမ့်ရင် စနစ်တကျ၊ မြင့်ရင် ဖန်တီးမှုမြင့်။
 
-**Vector Database** - Embeddings များအတွက် အထူးပြု ဒေတာအချက်အလက် တိုက်ဆိုင်ရာသိုလှောင်မှု။ [Module 03](../03-rag/README.md)
+**Vector Database** - Embeddings များ အတွက် အထူးသီးသန့်ဒေတာဘေ့စ်။ [Module 03](../03-rag/README.md)
 
-**Zero-Shot Learning** - နမူနာ အသုံးပြုခြင်းမဟုတ်ဘဲ အလုပ်များ ဆောင်ရွက်ခြင်း။ [Module 02](../02-prompt-engineering/README.md)
+**Zero-Shot Learning** - ဥပမာများ မပါဘဲ အလုပ်လုပ်ဆောင်နိုင်ခြင်း။ [Module 02](../02-prompt-engineering/README.md)
 
-## အသုံးတားရေး - [Module 00](../00-quick-start/README.md)
+## လုံခြုံရေးစနစ်များ
 
-**Defense in Depth** - ဝန်ဆောင်မှုနှင့် ပေးသူ လုံခြုံရေးထိန်းသိမ်းမှုများ ပေါင်းစပ်ထားသော စွဲမြဲသော ခြုံငုံကာကွယ်ရေး။
+**Defense in Depth** - အလွှာအနှစ်သာရများဖြင့် အလုံအလောက် လုံခြုံရေးတန်ခိုးတိုးမြှင့်ခြင်း။
 
-**Hard Block** - အကြမ်းဖက်သော အကြောင်းအရာ များဖြစ်လာလျှင် ပေးသူမှ HTTP 400 error ပေးပိတ်တားဆီးခြင်း။
+**Hard Block** - ပြင်းထန်သော အကြောင်းပြချက်များအတွက် ကုန်ကြမ်း HTTP 400 အမှားပစ်ခြင်း။
 
-**InputGuardrail** - LangChain4j LLM ထံ ရောက်ရှိမီ အသုံးပြုသူ input ကို စစ်ဆေးသွားသော အင်တာဖေ့စ်။ မကောင်းသော prompt များကို စောင့်ပိတ်ကြောင်း ကုန်ကျစရိတ်နှင့် နောက်နှောင့်နှေးမှု ကို လျော့ချတယ်။
+**InputGuardrail** - LangChain4j ၏ interface တစ်ခုဖြစ်ပြီး၊ LLM တွင် ကြိုတင်ရောက်မည့် အသုံးပြုသူ input များကို အတည်ပြုမှုလုပ်သည်။ ဒါမှတဆင့် ကုန်ကျစရိတ်နှင့် ကြာချိန်လျော့ကြေးတယ်။
 
-**InputGuardrailResult** - guardrail စစ်ဆေးမှု ရလဒ်: `success()` သို့မဟုတ် `fatal("reason")`။
+**InputGuardrailResult** - guardrail အတည်ပြုမှု အမျိုးအစား။ `success()` သို့မဟုတ် `fatal("reason")` ဖြင့် ပြန်လည်ထုတ်ပေးသည်။
 
-**OutputGuardrail** - အသုံးပြုသူထံ ပြန်ပေးရန် မတိုင်မီ AI တုံ့ပြန်ချက်များကို စစ်ဆေးသော အင်တာဖေ့စ်။
+**OutputGuardrail** - AI အဖြေများ အသုံးပြုသူထံ ပေးပို့ရန်မတိုင်မှီ စစ်ဆေးခြင်းအတွက် interface။
 
-**Provider Safety Filters** - AI ပေးသူများထံမှ အကြောင်းအရာ စစ်ထုတ်မှုများ API အဆင့်တွင် ဖမ်းဆီးထားသည်။
+**Provider Safety Filters** - AI ပံ့ပိုးသူများ (ဥပမာ Azure OpenAI) မှ ဆက်သွယ်မှု API အဆင့်တွင် ချုပ်ဆိုထားသော အကြောင်းအရာ စစ်တမ်းများ။
 
-**Soft Refusal** - မော်ဒယ် အမှားမထုတ်ဘဲ ရှင်းပြ၍ ဖြေကြားရန် ဖျက်ပယ်ခြင်း။
+**Soft Refusal** - မော်ဒယ်က အမှားမဖြစ်ပေါ်ဘဲ စိတ်ညစ်ဓာတ်မပေးဘဲ ဖြေရှင်းပေးတယ်။
 
 ## Prompt Engineering - [Module 02](../02-prompt-engineering/README.md)
 
-**Chain-of-Thought** - မြန်ဆန်စွာ မှန်ကန်မှုရရှိစေရန် တစ်ဆင့်ချင်း စဉ်းစားခြင်း။
+**Chain-of-Thought** - တဆင့်ဆင့် စဉ်းစားချက် များဖြင့် တိကျမှန်ကန်မှုပိုမိုရရှိစေခြင်း။
 
-**Constrained Output** - သတ်မှတ်ထားသော ပုံစံ သို့မဟုတ် ဖွဲ့စည်းမှု အပ်နာခြင်း။
+**Constrained Output** - အတိုးစနစ်တကျ အသုံးပြုရန် ပုံစံသတ်မှတ်ခြင်း။
 
-**High Eagerness** - GPT-5.2 မှ ခွဲခြမ်းစိတ်ဖြာမှု ပြည့်စုံသော ပုံစံ။
+**High Eagerness** - GPT-5.2 ၏ နက်ရှိုင်းစွာ စဉ်းစားမှုပုံစံ။
 
-**Low Eagerness** - GPT-5.2 မှ လျင်မြန်သော ဖြေကြားချက်ပုံစံ။
+**Low Eagerness** - GPT-5.2 ၏ မြန်ဆန်စွာ ဖြေကြားပုံ။
 
-**Multi-Turn Conversation** - လွှဲပြောင်းဆက်ဆံမှုများအတွင်း စပ်ဆိုင်မှုပေးခြင်း။
+**Multi-Turn Conversation** - ဆက်လက်အောင် တုံ့ပြန်မှုရှိရန် သတင်းအချက်အလက် ထိန်းသိမ်းခြင်း။
 
-**Role-Based Prompting** - စနစ် သတင်းအချက်အလက်ဖြင့် မော်ဒယ်ဘာသာရပ်ကို သတ်မှတ်ခြင်း။
+**Role-Based Prompting** - မော်ဒယ်ကို အမျိုးအစားသတ်မှတ်ရန် system messages ဖြင့် သတ်မှတ်ခြင်း။
 
-**Self-Reflection** - မော်ဒယ်က ကိုယ့်ရလဒ်ကို သုံးသပ် လှှိမ့်ပြောင်းခြင်း။
+**Self-Reflection** - မော်ဒယ်သည် မိမိ၏ထွက်ရှိမှုကို စစ်ဆေး၊ တိုးတက်စေရန် ကြိုးစားခြင်း။
 
-**Structured Analysis** - သတ်မှတ်ထားသော သုံးသပ်မှု ပြုလုပ်ပုံ။
+**Structured Analysis** - ကန့်သတ်ထားသော အကဲဖြတ်စနစ်။
 
-**Task Execution Pattern** - အစီအစဉ် → အကောင်အထည် → အနှစ်ချုပ်။
+**Task Execution Pattern** - အစီအစဉ်ရေးဆွဲ → လုပ်ဆောင် → အကျဉ်းချုပ်။
 
 ## RAG (Retrieval-Augmented Generation) - [Module 03](../03-rag/README.md)
 
-**Document Processing Pipeline** - အသုံးပြုလိုက်ပါ → အပိုင်းခွဲ → embedding ထည့် → သိမ်းဆည်း။
+**Document Processing Pipeline** - တွဲဆက်: ယူရန် → အစိတ်အပိုင်း ခွဲရန် → Embed ဆွဲရန် → သိမ်းဆည်းရန်။
 
-**In-Memory Embedding Store** - စမ်းသပ်မှုအတွက် မဟုတ်သော သိမ်းဆည်းမှု။
+**In-Memory Embedding Store** - စမ်းသပ်မှုအတွက် ထိန်းသိမ်းမှု မရှိသော ဒေတာသိုလှောင်ခြင်း။
 
-**RAG** - ရှာဖွေရေးနှင့် ထုတ်လုပ်ခြင်း ဆက်စပ်ပေးသည်။
+**RAG** - ရှာဖွေမှုနှင့် ဖန်တီးမှုကို ပေါင်းစပ်၍ တုံ့ပြန်ချက်အခြေခံမှု ပေးသည်။
 
-**Similarity Score** - အဓိပ္ပာယ်ဆက်နွယ်မှု တိုင်းတာမှု (0-1)။
+**Similarity Score** - Semantic တူညီမှု ရမှတ် (0-1)။
 
-**Source Reference** - ရှာဖွေတွေ့ရှိသောအရာ၏ မီတာဒေတာ။
+**Source Reference** - ရရှိသော အကြောင်းအရာ metadata။
 
 ## Agents နှင့် Tools - [Module 04](../04-tools/README.md)
 
-**@Tool Annotation** - Java ဗဟိုများကို AI မှ ခေါ်နိုင်သည့် tool အဖြစ် သတ်မှတ်ခြင်း။
+**@Tool Annotation** - Java နည်းစနစ်များအား AI ခေါ်နိုင်သော tools အဖြစ် သတ်မှတ်သည်။
 
-**ReAct Pattern** - စဉ်းစားပါ → လုပ်ဆောင်ပါ → လေ့လာခြင်း → ထပ်လုပ်ပါ။
+**ReAct Pattern** - စဉ်းစား → လုပ်ဆောင် → လေ့လာ → ထပ်မံလုပ်ဆောင်ခြင်း။
 
-**Session Management** - အသုံးပြုသူ သီးခြား context များ ထိန်းသိမ်းခြင်း။
+**Session Management** - အသုံးပြုသူများအလိုက် ဖွင့်ထားသော context များကို သီးခြားထားပေးခြင်း။
 
-**Tool** - AI agent က ခေါ်နိုင်သော လုပ်ဆောင်ချက်။
+**Tool** - AI agent တိုက်ရိုက်ခေါ်နိုင်သော function တစ်ခု။
 
-**Tool Description** - ကိရိယာရဲ့ ရည်ရွယ်ချက်နှင့် ပာရမီတာများ အကြောင်း ဖော်ပြချက်။
+**Tool Description** - tool ၏ ရည်ရွယ်ချက် နှင့် ပါရာမီတာ ဖော်ပြချက်။
 
 ## Agentic Module - [Module 05](../05-mcp/README.md)
 
-**@Agent Annotation** - AI agent များကို အပြောအဆို သတ်မှတ်မှုဖြင့် သတ်မှတ်ခြင်း။
+**@Agent Annotation** - AI agent များအဖြစ် interface များ သတ်မှတ်ပြီး ချကောင်းပြုမူ အကျဉ်းဖော်ခြင်း။
 
-**Agent Listener** - `beforeAgentInvocation()` နှင့် `afterAgentInvocation()` ဖြင့် agent လုပ်ဆောင်မှု ကြည့်ရှုခံစားခြင်း။
+**Agent Listener** - Agent လုပ်ငန်းစဉ်ကို `beforeAgentInvocation()` နှင့် `afterAgentInvocation()` မှတဆင့် ကြည့်လိုက်ခြင်း။
 
-**Agentic Scope** - agents များ ရလာဒ်များ သိမ်းဆည်းပါသော မျှဝေရန် memory နေရာ။
+**Agentic Scope** - agent များ output ကို သိမ်းဆည်းထားသော memory ပိုင်း။
 
-**AgenticServices** - `agentBuilder()` နှင့် `supervisorBuilder()` ဖြင့် agent များ ဖန်တီးရန် factory။
+**AgenticServices** - `agentBuilder()` နှင့် `supervisorBuilder()` ဖြင့် agent ဖန်တီးရာ factory။
 
-**Conditional Workflow** - ကန့်သတ်ချက်များအရ အထူးပြု agent များသို့ လမ်းညွှန်ခြင်း။
+**Conditional Workflow** - အခြေအနေများပေါ်မူတည်၍ သီးခြား agent များဖွင့်သုံးခြင်း။
 
-**Human-in-the-Loop** - လူ ဆန်းစစ်အတည်ပြုချက် သို့မဟုတ် အကြောင်းအရာ သုံးသပ်ခြင်း အပြင်အဆင်။
+**Human-in-the-Loop** - အတည်ပြုခြင်း သို့မဟုတ် အကြောင်းအရာ ကြည့်ရှုရန် လူကို ထည့်သွင်းသည့် workflow ပုံစံ။
 
-**langchain4j-agentic** - 선언형 agent building အတွက် Maven dependency (စမ်းသပ်မှုအဆင့်)။
+**langchain4j-agentic** - Declarative agent ဖန်တီးရေးရန် Maven သတ်မှတ်ချက် (စမ်းသပ်မှုအစိတ်အပိုင်း)။
 
-**Loop Workflow** - ချက်ချင်းလိုအပ်ချက် ပြည့်မှ မျှောက်တိုက် agent လုပ်ငန်းစဉ်။
+**Loop Workflow** - အခြေအနေဖြစ်တဲ့အထိ agent များ တစ်ကြိမ်ပြီးတစ်ကြိမ် ဆက်လုပ်ခြင်း (ဥပမာ quality score ≥ 0.8)။
 
-**outputKey** - Agent များ ရယ်ငယ်ရာ Agentic Scope သို့ ရလဒ် သိုလှောင်ရာ ချက်။
+**outputKey** - Agent annotation parameter ဖြစ်ပြီး agentic Scope တွင် ပြန်သိမ်းရာများ။
 
-**Parallel Workflow** - လွတ်လပ်စွာ လုပ်ငန်းကို ဘာသာရေး agent များအပြား အချိန်တစ်ပြိုင်နက်မှာ လုပ်ခြင်း။
+**Parallel Workflow** - လွတ်လပ်သော အလုပ်များအတွက် agent များကို တပြိုင်နက် ဆောင်ရွက်ခြင်း။
 
-**Response Strategy** - Supervisor က နောက်ဆုံးဖြေရှင်းချက် အကြောင်း ရေးဆွဲပုံ - LAST, SUMMARY, သို့မဟုတ် SCORED။
+**Response Strategy** - supervisor သည် နောက်ဆုံးဖြေချက်ကို LAST, SUMMARY, သို့မဟုတ် SCORED အနေနှင့် ဖော်ပြခြင်း။
 
-**Sequential Workflow** - Agent အလိုက် တစ်ဆင့်ဆက်တိုက်ဆောင်ရွက်ခြင်း။
+**Sequential Workflow** - အဆင့်လိုက် agent များကို ဆောင်ရွက်၍  outputသည် နောက်တစ်ဆင့်သို့ စီးဆင်းမှု။
 
-**Supervisor Agent Pattern** - Supervisor LLM ထံမှ အခြေခံ၍ sub-agent များ ရွေးချယ်ခေါ်ယူစေသော agentic အဆင့်မြင့် ပုံစံ။
+**Supervisor Agent Pattern** - တိုးတက်သော agentic ပုံစံဖြစ်ပြီး supervisor LLM သည် စိတ်ကြိုက် sub-agent များခေါ်ယူခြင်း။
 
 ## Model Context Protocol (MCP) - [Module 05](../05-mcp/README.md)
 
-**langchain4j-mcp** - LangChain4j အတွက် MCP တွဲဖက်အသုံးပြုရန် Maven dependency။
+**langchain4j-mcp** - LangChain4j ထဲတွင် MCP ပေါင်းစည်းမှုအတွက် Maven သတ်မှတ်ချက်။
 
-**MCP** - Model Context Protocol: AI app များနှင့် ပြင်ပ Tools များ ဆက်သွယ်ရန် စံချိန်တစ်ခု။ တစ်ကြိမ်တည်ဆောက်၍ မည်နေရာတွင်မဆို အသုံးပြုရန်။
+**MCP** - Model Context Protocol: AI အပ်ပလီကေးရှင်းများကို ပြင်ပ tools နှင့် ချိတ်ဆက်မှုစံကြားစနစ်။ တစ်ကြိမ်တည်ဆောက်၍ အားလုံးတွင် အသုံးပြုနိုင်သည်။
 
-**MCP Client** - MCP server များဆီ သွား၍ Tools ရှာဖွေ အသုံးပြုနိုင်သော app။
+**MCP Client** - MCP server များနှင့် ချိတ်ဆက်၍ tool များ ရှာဖွေ သုံးစွဲသည့် အက်ပ်။
 
-**MCP Server** - MCP ဖြင့် Tool များကို ဖော်ပြထားပြီး parameter schemas ဖြင့် ဝန်ဆောင်မှုပေးသည့် ဆာဗာ။
+**MCP Server** - Tool များကို MCP ဖြင့် ထုတ်ဖေါ်ထားသော ဝန်ဆောင်မှု။ ဖော်ပြချက်နှင့် ပြင္ပ parameter schema ပါရှိသည်။
 
-**McpToolProvider** - MCP tools များကို AI ဝန်ဆောင်မှုများနှင့် agent များတွင် အသုံးပြုရန် LangChain4j အစိတ်အပိုင်း။
+**McpToolProvider** - AI ဝန်ဆောင်မှုများနှင့် agent များတွင် MCP tools အသုံးပြုရန် LangChain4j အစိတ်အပိုင်း။
 
-**McpTransport** - MCP ဆက်သွယ်မှု အင်တာဖေ့စ်။ Stdio နှင့် HTTP ကဲ့သို့ ထုတ်ဖော်ချက် ရှိသည်။
+**McpTransport** - MCP ဆက်သွယ်ရေး interface။ စနစ်အသုံးချချက်များတွင် Stdio နှင့် HTTP ပါဝင်သည်။
 
-**Stdio Transport** - stdin/stdout ဖြင့် ဒေသတွင်း လုပ်ထုံးလုပ်နည်း။ ဖိုင်စနစ် ဝင်ရောက်မှု သို့မဟုတ် command-line tool များအတွက် အသုံးပြုသည်။
+**Stdio Transport** - ဒေသန္တရ လုပ်ငန်းစဉ်များအတွက် stdin/stdout ဖြင့် ဆက်သွယ်သော транспорт။
 
-**StdioMcpTransport** - MCP ဆာဗာ ကို subprocess အနေနှင့် အလုပ်လုပ်စေရန် LangChain4j က အကောင်အထည် ဖော်ထားသည်။
+**StdioMcpTransport** - MCP server ကို subprocess အဖြစ် ဖန်တီးသော LangChain4j အကောင်အထည်ဖော်မှု။
 
-**Tool Discovery** - Client က server ဆီသို့ လက်ရှိ အသုံးပြုနိုင်သော tools များအား ဖော်ပြချက်နှင့် schemas အပါအဝင် မေးမြန်းရှာဖွေခြင်း။
+**Tool Discovery** - Client သည် မြှင့်တင်မှု နှင့် schemas များနဲ့ tool များ ရှာဖွေမေးမြန်းခြင်း။
 
 ## Azure ဝန်ဆောင်မှုများ - [Module 01](../01-introduction/README.md)
 
-**Azure AI Search** - vector စွမ်းရည်ပါဝင်သည့် မိုးကောင်းကင် ရှာဖွေမှု။ [Module 03](../03-rag/README.md)
+**Azure AI Search** - vector ဆိုင်ရာ လက္ခဏာဖြင့် cloud search။ [Module 03](../03-rag/README.md)
 
-**Azure Developer CLI (azd)** - Azure အရင်းအမြစ်များ ထည့်သွင်းပေးသည်။
+**Azure Developer CLI (azd)** - Azure အရင်းအမြစ်များ ထုတ်လုပ်ခြင်း။
 
-**Azure OpenAI** - Microsoft ၏ စီးပွားဖြစ် AI ဝန်ဆောင်မှု။
+**Azure OpenAI** - Microsoft ၏ စီးပွားရေး AI ဝန်ဆောင်မှု။
 
-**Bicep** - Azure အောက်ခံ အဆောက်အအုံ ကုဒ်ရေးခြင်း ဘာသာစကား။ [Infrastructure Guide](../01-introduction/infra/README.md)
+**Bicep** - Azure အခြေခံအချက်အလက်-ကုဒ် ဘာသာစကား။ [Infrastructure Guide](../01-introduction/infra/README.md)
 
-**Deployment Name** - Azure တွင် မော်ဒယ် deployment အတွက် အမည်။
+**Deployment Name** - Azure တွင် မော်ဒယ် deployment အမည်။
 
-**GPT-5.2** - Reasoning ထိန်းချုပ်မှု ပါရှိသည့် နောက်ဆုံးပေါ် OpenAI မော်ဒယ်။ [Module 02](../02-prompt-engineering/README.md)
+**GPT-5.2** - reasoning ထိန်းချုပ်မှုပါသော နောက်ဆုံး OpenAI မော်ဒယ်။ [Module 02](../02-prompt-engineering/README.md)
 
 ## စမ်းသပ်ခြင်းနှင့် ဖွံ့ဖြိုးတိုးတက်မှု - [Testing Guide](TESTING.md)
 
-**Dev Container** - ကုဒ်ဖန်တီးရေးအတွက် container ပတ်ဝန်းကျင်။ [Configuration](../../../.devcontainer/devcontainer.json)
+**Dev Container** - ကွန်တိန်နာ အခြေပြု ဖွံ့ဖြိုးရေး ပတ်ဝန်းကျင်။ [Configuration](../../../.devcontainer/devcontainer.json)
 
-**GitHub Models** - အခမဲ့ AI မော်ဒယ် ကစားကွင်း။ [Module 00](../00-quick-start/README.md)
+**In-Memory Testing** - မွမ်းမံထားသော မှတ်ဉာဏ်တွင် စမ်းသပ်ခြင်း။
 
-**In-Memory Testing** - မီမာရီ သိုလှောင်မှု ဖြင့် စမ်းသပ်ခြင်း။
+**Integration Testing** - တကယ့် အခြေခံအဆောက်အအုံဖြင့် စမ်းသပ်ခြင်း။
 
-**Integration Testing** - ပိုင်းစပ်နှင့်အတူ စမ်းသပ်ခြင်း။
-
-**Maven** - Java ဖန်တီးမှု အလိုအလျောက် ကိရိယာ။
+**Maven** - Java build automation မော်ဂျူး။
 
 **Mockito** - Java mocking framework။
 
@@ -227,6 +225,6 @@
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**စည်းမျဉ်းချက်**  
-ဤစာတမ်းကို AI ဘာသာပြန်ဝန်ဆောင်မှုဖြစ်သည့် [Co-op Translator](https://github.com/Azure/co-op-translator) ကို အသုံးပြုပြီး ဘာသာပြန်ထားပါသည်။ ကျွန်ုပ်တို့သည် တိကျမှန်ကန်မှုအတွက် ကြိုးစားသော်လည်း အလိုအလျောက် ဘာသာပြန်ခြင်းသည် အမှားများ သို့မဟုတ် မှားယွင်းမှုများ ပါဝင်နိုင်ကြောင်း ကျေးဇူးပြု၍ လေးစားရရှိပါ။ မူလစာတမ်းကို မိမိဘာသာစကားဖြင့် အမှန်တကယ် အရာဦးတည်ချက်အဖြစ် ယူဆရန် အကြံပြုပါသည်။ အရေးပါသည့် အချက်အလက်များအတွက် မူရင်း လူတစ်ဦးချင်း ဘာသာပြန်ခြင်းကို သင့်တော်ပါသည်။ ဤဘာသာပြန်ချက်အသုံးပြုမှုကြောင့် ဖြစ်ပေါ်လာသော နားမလည်မှုများ သို့မဟုတ် မှားယွင်း ဖတ်ရှုမှုများအတွက် ကျွန်ုပ်တို့သည် တာဝန်မယူပါ။
+**ပြောကြားချက်**
+ဤစာတမ်းကို AI ဘာသာပြန်ဝန်ဆောင်မှု [Co-op Translator](https://github.com/Azure/co-op-translator) အသုံးပြု၍ ဘာသာပြန်ထားပါသည်။ ကျွန်ုပ်တို့သည် တိကျမှန်ကန်မှုအတွက် ကြိုးပမ်းနေသော်လည်း၊ စက်ကိရိယာဘာသာပြန်ခြင်းများတွင် အမှားများ သို့မဟုတ် မှားယွင်းချက်များ ပါဝင်နိုင်ကြောင်း သတိပြုပါရန် လိုအပ်ပါသည်။ မူလစာတမ်းကို မူရင်းဘာသာဖြင့်သာ ယုံကြည်စိတ်ချရသော အချက်အလက်အဖြစ် သတ်မှတ်သင့်သည်။ အရေးကြီးသည့် သတင်းအချက်အလက်များအတွက် ပရော်ဖက်ရှင်နယ် လူသားဘာသာပြန်သူဝန်ဆောင်မှုကို အကြံပြုပါသည်။ ဤဘာသာပြန်ချက်ကို အသုံးပြုခြင်းမှ ဖြစ်ပေါ်လာသော နားလည်မှုကွာခြားမှုများ သို့မဟုတ် မမှန်ကန်သော အသုံးပြုမှုများအတွက် ကျွန်ုပ်တို့ တာဝန်မခံပါ။
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

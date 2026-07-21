@@ -2,17 +2,17 @@
 
 ## Table of Contents
 
-- [Core Concepts](../../../docs)
-- [LangChain4j Components](../../../docs)
-- [AI/ML Concepts](../../../docs)
-- [Guardrails](../../../docs)
-- [Prompt Engineering](../../../docs)
-- [RAG (Retrieval-Augmented Generation)](../../../docs)
-- [Agents and Tools](../../../docs)
-- [Agentic Module](../../../docs)
-- [Model Context Protocol (MCP)](../../../docs)
-- [Azure Services](../../../docs)
-- [Testing and Development](../../../docs)
+- [Core Concepts](#core-concepts)
+- [LangChain4j Components](#langchain4j-components)
+- [AI/ML Concepts](#aiml-concepts)
+- [Guardrails](#guardrails)
+- [Prompt Engineering](#prompt-engineering---module-02)
+- [RAG (Retrieval-Augmented Generation)](#rag-retrieval-augmented-generation---module-03)
+- [Agents and Tools](#agents-and-tools---module-04)
+- [Agentic Module](#agentic-module---module-05)
+- [Model Context Protocol (MCP)](#model-context-protocol-mcp---module-05)
+- [Azure Services](#azure-services---module-01)
+- [Testing and Development](#testing-and-development---testing-guide)
 
 Quick reference for terms and concepts used throughout the course.
 
@@ -86,7 +86,7 @@ Quick reference for terms and concepts used throughout the course.
 
 **Zero-Shot Learning** - Performing tasks without examples. [Module 02](../02-prompt-engineering/README.md)
 
-## Guardrails - [Module 00](../00-quick-start/README.md)
+## Guardrails
 
 **Defense in Depth** - Multi-layer security approach combining application-level guardrails with provider safety filters.
 
@@ -98,7 +98,7 @@ Quick reference for terms and concepts used throughout the course.
 
 **OutputGuardrail** - Interface for validating AI responses before returning to users.
 
-**Provider Safety Filters** - Built-in content filters from AI providers (e.g., GitHub Models) that catch violations at the API level.
+**Provider Safety Filters** - Built-in content filters from AI providers (e.g., Azure OpenAI) that catch violations at the API level.
 
 **Soft Refusal** - Model politely declines to answer without throwing an error.
 
@@ -212,8 +212,6 @@ Quick reference for terms and concepts used throughout the course.
 
 **Dev Container** - Containerized development environment. [Configuration](../../../.devcontainer/devcontainer.json)
 
-**GitHub Models** - Free AI model playground. [Module 00](../00-quick-start/README.md)
-
 **In-Memory Testing** - Testing with in-memory storage.
 
 **Integration Testing** - Testing with real infrastructure.
@@ -228,5 +226,5 @@ Quick reference for terms and concepts used throughout the course.
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Disclaimer**:
-This document has been translated using the AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
+This document has been translated using AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

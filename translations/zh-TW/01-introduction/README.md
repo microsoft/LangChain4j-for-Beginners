@@ -1,87 +1,87 @@
-# Module 01: LangChain4j 入門
+# Module 01: 使用 LangChain4j 入門
 
 ## 目錄
 
-- [影片導覽](../../../01-introduction)
-- [你將學到什麼](../../../01-introduction)
-- [先決條件](../../../01-introduction)
-- [理解核心問題](../../../01-introduction)
-- [理解 Tokens](../../../01-introduction)
-- [記憶是如何運作的](../../../01-introduction)
-- [如何使用 LangChain4j](../../../01-introduction)
-- [部署 Azure OpenAI 基礎架構](../../../01-introduction)
-- [在本機執行應用程式](../../../01-introduction)
-- [使用應用程式](../../../01-introduction)
-  - [無狀態聊天（左側面板）](../../../01-introduction)
-  - [有狀態聊天（右側面板）](../../../01-introduction)
-- [下一步](../../../01-introduction)
+- [影片導覽](#影片導覽)
+- [您將學到什麼](#您將學到什麼)
+- [先決條件](#先決條件)
+- [理解核心問題](#理解核心問題)
+- [理解 Tokens](#理解-tokens)
+- [記憶如何運作](#記憶如何運作)
+- [本模組如何使用 LangChain4j](#本模組如何使用-langchain4j)
+- [部署 Azure OpenAI 基礎架構](#部署-azure-openai-基礎架構)
+- [在本機執行應用程式](#在本機執行應用程式)
+- [使用應用程式](#使用應用程式)
+  - [無狀態聊天（左側面板）](#無狀態聊天（左側面板）)
+  - [有狀態聊天（右側面板）](#有狀態聊天（右側面板）)
+- [後續步驟](#後續步驟)
 
 ## 影片導覽
 
-觀看這場直播，說明如何開始使用本模組：
+觀看此直播課程，說明如何開始使用本模組：
 
-<a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Getting Started with LangChain4j - Live Session" width="800"/></a>
+<a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="LangChain4j 入門 - 直播課程" width="800"/></a>
 
-## 你將學到什麼
+## 您將學到什麼
 
-在快速入門中，你使用 GitHub Models 傳送提示、呼叫工具、建立 RAG 流程並測試保護措施。這些展示了可能的方式 — 現在我們轉向 Azure OpenAI 和 GPT-5.2，開始建立生產樣式的應用程式。本模組專注於會記得上下文並維持狀態的對話式 AI — 這些概念在快速入門的示範中有用到但沒有詳細說明。
+這是您使用 LangChain4j 和 Azure OpenAI 的起點。我們從基礎開始，逐步構建生產級應用程式。本模組專注於會記憶上下文且維持狀態的對話式 AI——這是後續所有模組的基礎概念。
 
-本指南全程使用 Azure OpenAI 的 GPT-5.2，因為其先進的推理能力讓不同模式的行為更明顯。加入記憶後，你會清楚看到差異。這讓你更容易理解每個元件為你的應用帶來什麼。
+整個指南中，我們將使用 Azure OpenAI 的 GPT-5.2，因為其強大的推理能力能讓不同模式的行為差異更為明顯。當您加入記憶功能時，即可明確看出差異。這讓您更容易理解每個組件如何強化您的應用程式。
 
-你將建立一個示範兩種模式的應用程式：
+您將建立一個示範兩種模式的應用：
 
-**無狀態聊天** — 每次請求都是獨立的。模型不會記得之前的訊息。這是你在快速入門中使用的模式。
+<strong>無狀態聊天</strong> - 每個請求彼此獨立。模型不會記憶先前訊息。這是最簡單的起點。
 
-**有狀態對話** — 每次請求包含對話歷史。模型能跨多輪維持上下文。這是生產應用需要的模式。
+<strong>有狀態對話</strong> - 每次請求包含對話歷史。模型跨多輪保持上下文。這是生產應用所需。
 
 ## 先決條件
 
-- 具有 Azure OpenAI 使用權限的 Azure 訂閱
-- Java 21、Maven 3.9+
+- 具有 Azure OpenAI 權限的 Azure 訂閱
+- Java 21, Maven 3.9+
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **注意：** 提供的 devcontainer 預先安裝了 Java、Maven、Azure CLI 和 Azure Developer CLI (azd)。
+> **注意：** 提供的開發容器中已預先安裝 Java、Maven、Azure CLI 和 Azure Developer CLI (azd)。
 
-> **注意：** 本模組使用 Azure OpenAI 上的 GPT-5.2。部署是透過 `azd up` 自動設定，請不要修改程式碼中的模型名稱。
+> **注意：** 本模組使用 Azure OpenAI 上的 GPT-5.2。部署會透過 `azd up` 自動設定，請勿在程式碼中修改模型名稱。
 
 ## 理解核心問題
 
-語言模型是無狀態的。每次 API 呼叫都是獨立的。如果你送出「我的名字是約翰」，然後問「我的名字是什麼？」模型根本不知道你剛剛自我介紹了。它把每次請求當作你第一次對話。
+語言模型是無狀態的。每個 API 呼叫都是獨立的。如果您說「我的名字是 John」，接著問「我叫什麼名字？」，模型其實不知道您剛剛自我介紹。它會把每個請求視為您人生中第一次對話。
 
-這對於簡單問答沒問題，但對真正應用沒用。客服機器人需要記得你跟它說過什麼。個人助理需要上下文。任何多輪對話都需要記憶。
+這對簡單問答問題沒問題，但對實際應用卻毫無用處。客服聊天機器人需要記憶您告訴他的資訊。個人助理需要上下文。任何多輪對話都需要記憶。
 
-下面的圖示對比兩種方式 — 左側是無狀態呼叫，忘記你的名字；右側是有狀態呼叫，使用 ChatMemory 記得你的名字。
+下面圖示對比兩種做法——左邊是無狀態呼叫，會忘記您的名字；右邊是有 ChatMemory 支援的有狀態呼叫，記得您的名字。
 
-<img src="../../../translated_images/zh-TW/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Stateless vs Stateful Conversations" width="800"/>
+<img src="../../../translated_images/zh-TW/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="無狀態與有狀態對話示意圖" width="800"/>
 
-*無狀態（獨立呼叫）與有狀態（上下文感知）對話的差別*
+*無狀態（獨立呼叫）與有狀態（上下文感知）對話的差異*
 
 ## 理解 Tokens
 
-在深入對話前，了解 tokens 很重要 — tokens 是語言模型處理的基本文字單元：
+在探討對話前，先了解 tokens －語言模型處理文本的基本單位，非常重要：
 
-<img src="../../../translated_images/zh-TW/token-explanation.c39760d8ec650181.webp" alt="Token Explanation" width="800"/>
+<img src="../../../translated_images/zh-TW/token-explanation.c39760d8ec650181.webp" alt="Token 說明" width="800"/>
 
-*文字如何被拆成 tokens 範例 — 「I love AI!」變成 4 個獨立的處理單元*
+*文本如何拆解成 tokens 的範例 — 「I love AI!」變成 4 個獨立處理單位*
 
-tokens 是 AI 模型衡量和處理文字的方式。詞語、標點甚至空格都可能是 tokens。你的模型有一次能處理的 token 數量上限（GPT-5.2 為 400,000，含最多 272,000 輸入 tokens 與 128,000 輸出 tokens）。了解 tokens 有助管理對話長度和成本。
+tokens 是 AI 模型衡量與處理文本的方式。字詞、標點符號甚至空格都能成為 tokens。您的模型一次可處理的 token 數有限（GPT-5.2 為 40 萬，輸入最高 272,000，輸出最高 128,000）。了解 tokens 有助於管理對話長度與花費。
 
-## 記憶是如何運作的
+## 記憶如何運作
 
-聊天記憶透過維持對話歷史解決無狀態問題。在送請求給模型前，框架會將相關的先前訊息加到前面。當你問「我的名字是什麼？」系統實際上是送出整段對話歷史，讓模型看到你之前說了「我的名字是約翰」。
+聊天記憶解決了無狀態問題，維持對話歷史。在您送出請求給模型前，框架會先放入相關的先前訊息。當您問「我叫什麼名字？」時，系統會把整個對話歷史送出，讓模型知道您之前說過「我的名字是 John」。
 
-LangChain4j 提供自動處理此事的記憶實作。你選擇保留幾則訊息，框架管理上下文視窗。下面圖示顯示 MessageWindowChatMemory 如何管理近期訊息的滑動視窗。
+LangChain4j 提供的記憶實作會自動處理這些問題。您可以設定保留的訊息數量，框架會管理上下文視窗。下圖顯示 MessageWindowChatMemory 如何維持近期訊息的滑動視窗。
 
-<img src="../../../translated_images/zh-TW/memory-window.bbe67f597eadabb3.webp" alt="Memory Window Concept" width="800"/>
+<img src="../../../translated_images/zh-TW/memory-window.bbe67f597eadabb3.webp" alt="記憶視窗概念" width="800"/>
 
-*MessageWindowChatMemory 維持近期訊息的滑動視窗，自動捨棄較舊的訊息*
+*MessageWindowChatMemory 維持近期訊息的滑動視窗，自動丟棄舊訊息*
 
-## 如何使用 LangChain4j
+## 本模組如何使用 LangChain4j
 
-本模組在快速入門基礎上整合 Spring Boot 並加入對話記憶。組件搭配如下：
+本模組整合了 Spring Boot 並加入對話記憶。整體架構如下：
 
-**依賴項** — 新增兩個 LangChain4j 函式庫：
+<strong>相依套件</strong> - 新增兩個 LangChain4j 函式庫：
 
 ```xml
 <dependency>
@@ -94,7 +94,7 @@ LangChain4j 提供自動處理此事的記憶實作。你選擇保留幾則訊�
 </dependency>
 ```
 
-**聊天模型** — 以 Spring bean 配置 Azure OpenAI（[LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)）：
+<strong>聊天模型</strong> - 配置 Azure OpenAI 為 Spring bean ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java))：
 
 ```java
 @Bean
@@ -109,9 +109,9 @@ public OpenAiOfficialChatModel openAiOfficialChatModel() {
 }
 ```
 
-建構器從 `azd up` 設定的環境變數讀取認證。設定 `baseUrl` 為你的 Azure 端點，使 OpenAI 用戶端可與 Azure OpenAI 一起使用。
+建構器會從 `azd up` 設定的環境變數讀取憑證。設定 `baseUrl` 為您的 Azure 端點可讓 OpenAI 用戶端正確使用 Azure OpenAI。
 
-**對話記憶** — 使用 MessageWindowChatMemory 追蹤聊天歷史（[ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)）：
+<strong>對話記憶</strong> - 使用 MessageWindowChatMemory 跟蹤聊天歷史 ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java))：
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -124,59 +124,59 @@ AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
 
-用 `withMaxMessages(10)` 建立記憶，保留最近 10 則訊息。用型別包裝器新增使用者與 AI 訊息：`UserMessage.from(text)` 與 `AiMessage.from(text)`。用 `memory.messages()` 取得歷史並送給模型。服務依對話 ID 保存獨立記憶，允許多使用者同時聊天。
+建立時調用 `withMaxMessages(10)` 保留最近 10 則訊息。使用帶型別包裝的方式新增使用者和 AI 訊息：`UserMessage.from(text)` 和 `AiMessage.from(text)`。透過 `memory.messages()` 取得歷史訊息，再送至模型。服務會依對話 ID 儲存不同記憶實體，允許多用戶同時聊天。
 
-> **🤖 可嘗試使用 [GitHub Copilot](https://github.com/features/copilot) 聊天功能：打開 [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) 並問：**
-> - 「MessageWindowChatMemory 在視窗滿時如何決定要丟棄哪些訊息？」
-> - 「我能用資料庫實作自訂記憶存儲嗎，取代記憶體？」
+> **🤖 嘗試用 [GitHub Copilot](https://github.com/features/copilot) 聊天：** 打開 [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)，問：
+> - 「MessageWindowChatMemory 滑動視窗滿時如何決定丟棄哪些訊息？」
+> - 「我可以用資料庫實作自訂記憶存儲取代記憶體中儲存嗎？」
 > - 「要如何加入摘要功能以壓縮舊的對話歷史？」
 
-無狀態聊天端點完全跳過記憶 — 就像快速入門的 `chatModel.chat(prompt)`。有狀態端點則是將訊息加入記憶、取得歷史，並在每次請求時包含該上下文。模型配置相同，模式不同。
+無狀態聊天端點完全跳過記憶，像快篩一樣直接呼叫 `chatModel.chat(prompt)`。有狀態端點會將訊息加入記憶，抓取歷史並在每次請求中包含上下文。模型設定同樣，模式不同。
 
 ## 部署 Azure OpenAI 基礎架構
 
-**Bash:**
+**Bash 指令：**
 ```bash
 cd 01-introduction
 azd up  # 選擇訂閱和位置（建議使用 eastus2）
 ```
 
-**PowerShell:**
+**PowerShell 指令：**
 ```powershell
 cd 01-introduction
 azd up  # 選擇訂閱和位置（建議使用 eastus2）
 ```
 
-> **注意：** 若遇到逾時錯誤（`RequestConflict: Cannot modify resource ... provisioning state is not terminal`），只要再執行一次 `azd up` 即可。Azure 資源可能仍在背景部署，再試一次能讓部署在資源到達終止狀態後順利完成。
+> **注意：** 若遇到逾時錯誤（`RequestConflict: Cannot modify resource ... provisioning state is not terminal`），只需再執行一次 `azd up`。Azure 資源可能還在背景佈建，重試即可等資源進入最終狀態完成佈署。
 
-這將會：
-1. 部署 Azure OpenAI 資源，包含 GPT-5.2 與 text-embedding-3-small 模型
-2. 自動在專案根目錄產生 `.env` 憑證檔案
-3. 設定所有需要的環境變數
+此步驟會：
+1. 部署 Azure OpenAI 資源，包含 GPT-5.2 和 text-embedding-3-small 模型
+2. 自動生成根目錄的 `.env` 憑證檔案
+3. 設定所有必要的環境變數
 
-**部署遇到困難？** 請參考 [Infrastructure README](infra/README.md) 取得詳細疑難排解，包含子網域名稱衝突、手動 Azure Portal 部署步驟與模型設定指引。
+**部署有問題？** 請參考 [Infrastructure README](infra/README.md) 詳盡故障排除說明，包括子網域名稱衝突、手動 Azure 入口網站部署步驟及模型設定指導。
 
-**確認部署成功：**
+**驗證部署成功：**
 
-**Bash:**
+**Bash 指令：**
 ```bash
-cat ../.env  # 應該顯示 AZURE_OPENAI_ENDPOINT、API_KEY 等等。
+cat ../.env  # 應該顯示 AZURE_OPENAI_ENDPOINT、API_KEY 等。
 ```
 
-**PowerShell:**
+**PowerShell 指令：**
 ```powershell
-Get-Content ..\.env  # 應顯示 AZURE_OPENAI_ENDPOINT、API_KEY 等。
+Get-Content ..\.env  # 應該顯示 AZURE_OPENAI_ENDPOINT、API_KEY 等等。
 ```
 
-> **注意：** `azd up` 命令會自動生成 `.env` 檔案。若要之後更新，可手動編輯 `.env` 檔案或重新執行：
+> **注意：** `azd up` 會自動生成 `.env` 檔。若日後需更新，您可手動編輯 `.env` 或重新生成：
 >
-> **Bash:**
+> **Bash 指令：**
 > ```bash
 > cd ..
 > bash .azd-env.sh
 > ```
 >
-> **PowerShell:**
+> **PowerShell 指令：**
 > ```powershell
 > cd ..
 > .\.azd-env.ps1
@@ -184,139 +184,139 @@ Get-Content ..\.env  # 應顯示 AZURE_OPENAI_ENDPOINT、API_KEY 等。
 
 ## 在本機執行應用程式
 
-**確認部署狀態：**
+**驗證部署：**
 
-確保 `.env` 檔案存在根目錄且含有 Azure 認證。於模組目錄（`01-introduction/`）執行：
+確保根目錄存在含 Azure 憑證的 `.env` 檔。於模組目錄（`01-introduction/`）執行：
 
-**Bash:**
+**Bash 指令：**
 ```bash
 cat ../.env  # 應該顯示 AZURE_OPENAI_ENDPOINT、API_KEY、DEPLOYMENT
 ```
 
-**PowerShell:**
+**PowerShell 指令：**
 ```powershell
 Get-Content ..\.env  # 應該顯示 AZURE_OPENAI_ENDPOINT、API_KEY、DEPLOYMENT
 ```
 
 **啟動應用程式：**
 
-**選項 1：使用 Spring Boot Dashboard（推薦給 VS Code 使用者）**
+**選項 1：使用 Spring Boot Dashboard（建議 VS Code 使用者）**
 
-開發容器內含 Spring Boot Dashboard 擴充套件，提供管理所有 Spring Boot 應用的視覺介面。可在 VS Code 的側邊欄活動列找到（尋找 Spring Boot 圖示）。
+開發容器內含 Spring Boot Dashboard 擴充套件，提供視覺化介面管理所有 Spring Boot 應用程式。可在 VS Code 左側活動列找到（尋找 Spring Boot 圖示）。
 
-在 Spring Boot Dashboard，你可以：
-- 查看工作區內所有 Spring Boot 應用程式
-- 一鍵啟動／停止應用程式
-- 實時查看應用日誌
-- 監控應用狀態
+透過 Spring Boot Dashboard，您可以：
+- 查看工作區內所有可用的 Spring Boot 應用程式
+- 一鍵啟動/停止應用程式
+- 實時查看應用程式日誌
+- 監控應用程式狀態
 
-只要點選「introduction」旁的播放按鈕即可啟用此模組，或一次啟動所有模組。
+只要點擊「introduction」旁的播放按鈕即可啟動本模組，或同時啟動所有模組。
 
 <img src="../../../translated_images/zh-TW/dashboard.69c7479aef09ff6b.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*VS Code 中的 Spring Boot Dashboard — 從同一位置啟動、停止及監控所有模組*
+*VS Code 中的 Spring Boot Dashboard — 從同一介面啟動、停止與監控所有模組*
 
-**選項 2：使用 shell 腳本**
+**選項 2：使用 shell 指令腳本**
 
-啟動所有網頁應用（模組 01-04）：
+啟動所有 Web 應用（模組 01-04）：
 
-**Bash:**
+**Bash 指令：**
 ```bash
-cd ..  # 從根目錄
+cd ..  # 從根目錄開始
 ./start-all.sh
 ```
 
-**PowerShell:**
+**PowerShell 指令：**
 ```powershell
-cd ..  # 從根目錄
+cd ..  # 從根目錄開始
 .\start-all.ps1
 ```
 
-或者只啟動本模組：
+或僅啟動本模組：
 
-**Bash:**
+**Bash 指令：**
 ```bash
 cd 01-introduction
 ./start.sh
 ```
 
-**PowerShell:**
+**PowerShell 指令：**
 ```powershell
 cd 01-introduction
 .\start.ps1
 ```
 
-這兩個腳本會自動從根目錄 `.env` 載入環境變數，且如果不存在 JAR 檔會先編譯。
+兩個腳本會自動從根目錄 `.env` 讀取環境變數，且若 JAR 檔不存在會進行編譯。
 
-> **注意：** 若你偏好先手動編譯所有模組，再啟動：
+> **注意：** 若您想在啟動前手動建置所有模組：
 >
-> **Bash:**
+> **Bash 指令：**
 > ```bash
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
 >
-> **PowerShell:**
+> **PowerShell 指令：**
 > ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
 
-於瀏覽器開啟 http://localhost:8080 。
+開啟瀏覽器並造訪 http://localhost:8080 。
 
-**停止應用程式：**
+**停止應用：**
 
-**Bash:**
+**Bash 指令：**
 ```bash
-./stop.sh  # 僅此模組
-# 或者
+./stop.sh  # 僅限此模組
+# 或
 cd .. && ./stop-all.sh  # 所有模組
 ```
 
-**PowerShell:**
+**PowerShell 指令：**
 ```powershell
-.\stop.ps1  # 僅限此模組
+.\stop.ps1  # 僅此模組
 # 或
 cd ..; .\stop-all.ps1  # 所有模組
 ```
 
 ## 使用應用程式
 
-應用程式呈現一個網頁介面，左右並排兩種不同聊天實作。
+應用程式提供 Web 介面，並排展示兩種聊天實作。
 
-<img src="../../../translated_images/zh-TW/home-screen.121a03206ab910c0.webp" alt="Application Home Screen" width="800"/>
+<img src="../../../translated_images/zh-TW/home-screen.121a03206ab910c0.webp" alt="應用程式主畫面" width="800"/>
 
-*主畫面展示簡易聊天（無狀態）與對話聊天（有狀態）兩種選項*
+*儀錶板呈現「簡單聊天（無狀態）」和「對話式聊天（有狀態）」選項*
 
 ### 無狀態聊天（左側面板）
 
-先試試看這個。問「我的名字是約翰」，緊接著問「我的名字是什麼？」模型不會記得，因為每則訊息都是獨立的。這展現了基礎語言模型整合的核心問題 — 無對話上下文。
+先試試這個。輸入「我的名字是 John」，接著立刻問「我叫什麼名字？」模型不會記住，因每則訊息獨立。這說明基本語言模型整合的核心問題 — 無上下文。
 
-<img src="../../../translated_images/zh-TW/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Stateless Chat Demo" width="800"/>
+<img src="../../../translated_images/zh-TW/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="無狀態聊天示範" width="800"/>
 
-*AI 不會記得你上一句話中的名字*
+*AI 不會記得您剛剛告訴它的名字*
 
 ### 有狀態聊天（右側面板）
 
-現在在這裡試同樣流程。問「我的名字是約翰」，再問「我的名字是什麼？」這次模型會記得。關鍵是 MessageWindowChatMemory — 它維持對話歷史且每次請求都帶上。這就是生產環境對話式 AI 的工作方式。
+現在在這裡試同樣的流程。輸入「我的名字是 John」，再問「我叫什麼名字？」這次它會記住。關鍵是 MessageWindowChatMemory — 它維持會話歷史並包含在每次請求中。這是生產級對話 AI 的運作方式。
 
-<img src="../../../translated_images/zh-TW/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Stateful Chat Demo" width="800"/>
+<img src="../../../translated_images/zh-TW/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="有狀態聊天示範" width="800"/>
 
-*AI 記得對話早先提過的名字*
+*AI 會記得您先前對話中的名字*
 
-兩個面板都使用相同的 GPT-5.2 模型，唯一不同就是記憶。這讓你清楚了解記憶為應用程式帶來的價值及其對實務需求的必要性。
+兩個面板皆使用相同 GPT-5.2 模型。唯一不同是記憶。這清楚呈現記憶為應用程式帶來的功能及為何真實應用必須。
 
-## 下一步
+## 後續步驟
 
-**下一模組：** [02-prompt-engineering - GPT-5.2 的提示工程](../02-prompt-engineering/README.md)
+**下一模組：** [02-prompt-engineering - 使用 GPT-5.2 的提示工程學](../02-prompt-engineering/README.md)
 
 ---
 
-**導航：** [← 上一節：模組 00 - 快速入門](../00-quick-start/README.md) | [回主頁](../README.md) | [下一節：模組 02 - 提示工程 →](../02-prompt-engineering/README.md)
+**導覽：** [← 返回主頁](../README.md) | [下一步：模組 02 - 提示工程 →](../02-prompt-engineering/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**免責聲明**：  
-本文件係使用 AI 翻譯服務 [Co-op Translator](https://github.com/Azure/co-op-translator) 進行翻譯。雖然我們力求準確，但請注意自動翻譯可能包含錯誤或不準確之處。原始文件的原文版本應視為權威來源。對於關鍵資訊，建議尋求專業人工翻譯。我們不對因使用本翻譯而產生的任何誤解或誤譯承擔責任。
+**免責聲明**：
+此文件已使用 AI 翻譯服務 [Co-op Translator](https://github.com/Azure/co-op-translator) 進行翻譯。雖然我們努力追求準確性，但請注意自動翻譯可能包含錯誤或不準確之處。原始文件的母語版本應視為權威來源。對於關鍵資訊，建議採用專業人工翻譯。我們不對因使用此翻譯所產生的任何誤解或誤譯承擔責任。
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

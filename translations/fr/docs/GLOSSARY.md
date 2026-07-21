@@ -1,186 +1,186 @@
-# LangChain4j Glossaire
+# Glossaire LangChain4j
 
-## Table des Matières
+## Table des matières
 
-- [Concepts de Base](../../../docs)
-- [Composants LangChain4j](../../../docs)
-- [Concepts AI/ML](../../../docs)
-- [Guardrails](../../../docs)
-- [Ingénierie des Prompts](../../../docs)
-- [RAG (Retrieval-Augmented Generation)](../../../docs)
-- [Agents et Outils](../../../docs)
-- [Module Agentique](../../../docs)
-- [Protocole de Contexte Modèle (MCP)](../../../docs)
-- [Services Azure](../../../docs)
-- [Tests et Développement](../../../docs)
+- [Concepts de base](#concepts-de-base)
+- [Composants LangChain4j](#composants-langchain4j)
+- [Concepts IA/ML](#concepts-iaml)
+- [Garde-fous](#garde-fous)
+- [Ingénierie des prompts](#prompt-engineering---module-02)
+- [RAG (Génération augmentée par récupération)](#rag-retrieval-augmented-generation---module-03)
+- [Agents et Outils](#agents-and-tools---module-04)
+- [Module Agentique](#agentic-module---module-05)
+- [Protocole de Contexte de Modèle (MCP)](#model-context-protocol-mcp---module-05)
+- [Services Azure](#azure-services---module-01)
+- [Tests et Développement](#testing-and-development---testing-guide)
 
-Référence rapide pour les termes et concepts utilisés tout au long du cours.
+Référence rapide des termes et concepts utilisés tout au long du cours.
 
-## Concepts de Base
+## Concepts de base
 
-**Agent IA** - Système utilisant l'IA pour raisonner et agir de manière autonome. [Module 04](../04-tools/README.md)
+**Agent IA** - Système qui utilise l'IA pour raisonner et agir de manière autonome. [Module 04](../04-tools/README.md)
 
 **Chaîne** - Séquence d'opérations où la sortie alimente l'étape suivante.
 
-**Découpage** - Fragmenter les documents en morceaux plus petits. Typiquement : 300-500 tokens avec chevauchement. [Module 03](../03-rag/README.md)
+**Chunking** - Découpage des documents en morceaux plus petits. Typique : 300-500 tokens avec chevauchement. [Module 03](../03-rag/README.md)
 
-**Fenêtre de Contexte** - Nombre maximal de tokens qu'un modèle peut traiter. GPT-5.2 : 400K tokens (jusqu'à 272K en entrée, 128K en sortie).
+**Fenêtre de contexte** - Nombre maximal de tokens qu'un modèle peut traiter. GPT-5.2 : 400K tokens (jusqu'à 272K en entrée, 128K en sortie).
 
-**Embeddings** - Vecteurs numériques représentant la signification du texte. [Module 03](../03-rag/README.md)
+**Embeddings** - Vecteurs numériques représentant le sens du texte. [Module 03](../03-rag/README.md)
 
-**Appel de Fonction** - Le modèle génère des requêtes structurées pour appeler des fonctions externes. [Module 04](../04-tools/README.md)
+**Appel de fonction** - Le modèle génère des requêtes structurées pour appeler des fonctions externes. [Module 04](../04-tools/README.md)
 
-**Hallucination** - Quand les modèles génèrent des informations incorrectes mais plausibles.
+**Hallucination** - Lorsque les modèles génèrent des informations incorrectes mais plausibles.
 
-**Prompt** - Texte d’entrée donné à un modèle de langage. [Module 02](../02-prompt-engineering/README.md)
+**Prompt** - Texte d'entrée pour un modèle de langage. [Module 02](../02-prompt-engineering/README.md)
 
-**Recherche Sémantique** - Recherche par signification utilisant des embeddings, pas des mots-clés. [Module 03](../03-rag/README.md)
+**Recherche sémantique** - Recherche par sens utilisant des embeddings, pas des mots-clés. [Module 03](../03-rag/README.md)
 
-**Avec état vs Sans état** - Sans état : pas de mémoire. Avec état : maintien de l’historique de la conversation. [Module 01](../01-introduction/README.md)
+**Sans état vs avec état** - Sans état : pas de mémoire. Avec état : conserve l'historique de la conversation. [Module 01](../01-introduction/README.md)
 
-**Tokens** - Unités de texte de base traitées par les modèles. Impacte les coûts et les limites. [Module 01](../01-introduction/README.md)
+**Tokens** - Unités de texte de base que les modèles traitent. Impacte coûts et limites. [Module 01](../01-introduction/README.md)
 
-**Chaînage d’Outils** - Exécution séquentielle d’outils où la sortie informe l’appel suivant. [Module 04](../04-tools/README.md)
+**Chaînage d'outils** - Exécution séquentielle d'outils où la sortie informe l'appel suivant. [Module 04](../04-tools/README.md)
 
 ## Composants LangChain4j
 
-**AiServices** - Crée des interfaces de services IA typées.
+**AiServices** - Crée des interfaces de service IA typées.
 
-**OpenAiOfficialChatModel** - Client unifié pour les modèles OpenAI et Azure OpenAI.
+**OpenAiOfficialChatModel** - Client unifié pour modèles OpenAI et Azure OpenAI.
 
-**OpenAiOfficialEmbeddingModel** - Crée des embeddings utilisant le client officiel OpenAI (supporte OpenAI et Azure OpenAI).
+**OpenAiOfficialEmbeddingModel** - Crée des embeddings via le client officiel OpenAI (supporte OpenAI et Azure OpenAI).
 
-**ChatModel** - Interface centrale pour les modèles de langage.
+**ChatModel** - Interface principale pour les modèles de langage.
 
-**ChatMemory** - Maintient l’historique des conversations.
+**ChatMemory** - Conserve l'historique de la conversation.
 
-**ContentRetriever** - Trouve des fragments documents pertinents pour RAG.
+**ContentRetriever** - Trouve des morceaux de documents pertinents pour RAG.
 
-**DocumentSplitter** - Divise les documents en fragments.
+**DocumentSplitter** - Découpe les documents en chunks.
 
 **EmbeddingModel** - Convertit le texte en vecteurs numériques.
 
-**EmbeddingStore** - Stocke et récupère des embeddings.
+**EmbeddingStore** - Stocke et récupère les embeddings.
 
 **MessageWindowChatMemory** - Maintient une fenêtre glissante des messages récents.
 
 **PromptTemplate** - Crée des prompts réutilisables avec des espaces réservés `{{variable}}`.
 
-**TextSegment** - Fragment de texte avec métadonnées. Utilisé en RAG.
+**TextSegment** - Morceau de texte avec métadonnées. Utilisé dans RAG.
 
-**ToolExecutionRequest** - Représente une requête d'exécution d'outil.
+**ToolExecutionRequest** - Représente une requête d’exécution d’outil.
 
 **UserMessage / AiMessage / SystemMessage** - Types de messages de conversation.
 
-## Concepts AI/ML
+## Concepts IA/ML
 
-**Apprentissage Few-Shot** - Fournir des exemples dans les prompts. [Module 02](../02-prompt-engineering/README.md)
+**Few-Shot Learning** - Fournir des exemples dans les prompts. [Module 02](../02-prompt-engineering/README.md)
 
-**Grand Modèle de Langage (LLM)** - Modèles IA entraînés sur d’immenses volumes de texte.
+**Large Language Model (LLM)** - Modèles IA entraînés sur de vastes données textuelles.
 
-**Effort de Raisonnement** - Paramètre GPT-5.2 contrôlant la profondeur de la réflexion. [Module 02](../02-prompt-engineering/README.md)
+**Effort de raisonnement** - Paramètre GPT-5.2 contrôlant la profondeur de réflexion. [Module 02](../02-prompt-engineering/README.md)
 
-**Température** - Contrôle la variabilité des sorties. Faible = déterministe, élevé = créatif.
+**Température** - Contrôle l’aléatoire des sorties. Faible = déterministe, élevé = créatif.
 
-**Base de Données Vectorielle** - Base spécialisée pour les embeddings. [Module 03](../03-rag/README.md)
+**Base de données vectorielle** - Base de données spécialisée pour les embeddings. [Module 03](../03-rag/README.md)
 
-**Apprentissage Zero-Shot** - Effectuer des tâches sans exemples. [Module 02](../02-prompt-engineering/README.md)
+**Zero-Shot Learning** - Réaliser des tâches sans exemples. [Module 02](../02-prompt-engineering/README.md)
 
-## Guardrails - [Module 00](../00-quick-start/README.md)
+## Garde-fous
 
-**Défense en Profondeur** - Approche de sécurité multi-couches combinant guardrails applicatifs et filtres de sécurité fournisseur.
+**Défense en profondeur** - Approche de sécurité multi-couches combinant garde-fous applicatifs et filtres de sécurité du fournisseur.
 
-**Blocage Strict** - Le fournisseur retourne une erreur HTTP 400 pour violations graves de contenu.
+**Blocage dur** - Le fournisseur renvoie une erreur HTTP 400 pour des violations sévères de contenu.
 
-**InputGuardrail** - Interface LangChain4j pour valider la saisie utilisateur avant qu'elle n'atteigne le LLM. Économise coûts et latence en bloquant tôt les prompts nuisibles.
+**InputGuardrail** - Interface LangChain4j pour valider les entrées utilisateurs avant qu'elles n’atteignent le LLM. Économise coûts et latence en bloquant tôt les prompts nuisibles.
 
-**InputGuardrailResult** - Type de retour pour la validation guardrail : `success()` ou `fatal("raison")`.
+**InputGuardrailResult** - Type de retour pour validation des garde-fous : `success()` ou `fatal("raison")`.
 
-**OutputGuardrail** - Interface pour valider les réponses IA avant de les retourner aux utilisateurs.
+**OutputGuardrail** - Interface pour valider les réponses IA avant de les renvoyer aux utilisateurs.
 
-**Filtres de Sécurité Fournisseur** - Filtres intégrés fournis par les fournisseurs d’IA (ex. GitHub Models) qui détectent les violations au niveau API.
+**Filtres de sécurité du fournisseur** - Filtres de contenu intégrés des fournisseurs d’IA (ex : Azure OpenAI) qui interceptent les violations au niveau de l’API.
 
-**Refus Doux** - Le modèle refuse poliment de répondre sans générer d’erreur.
+**Refus doux** - Le modèle décline poliment de répondre sans générer d’erreur.
 
-## Ingénierie des Prompts - [Module 02](../02-prompt-engineering/README.md)
+## Ingénierie des prompts - [Module 02](../02-prompt-engineering/README.md)
 
-**Chaîne de Raisonnement** - Raisonnement étape par étape pour une meilleure précision.
+**Chaîne de pensée (Chain-of-Thought)** - Raisonnement étape par étape pour plus de précision.
 
-**Sortie Contraint** - Imposer un format ou une structure spécifique.
+**Sortie contrainte** - Application d’un format ou structure spécifiques.
 
-**Forte Volonté** - Patron GPT-5.2 pour un raisonnement approfondi.
+**Forte motivation** - Modèle GPT-5.2 pour un raisonnement approfondi.
 
-**Faible Volonté** - Patron GPT-5.2 pour des réponses rapides.
+**Faible motivation** - Modèle GPT-5.2 pour des réponses rapides.
 
-**Conversation Multi-Tours** - Maintien du contexte sur plusieurs échanges.
+**Conversation multi-tours** - Maintien du contexte à travers les échanges.
 
-**Prompting Basé sur les Rôles** - Définir la persona du modèle via des messages système.
+**Prompting basé sur les rôles** - Définir la persona du modèle via des messages système.
 
-**Autoréflexion** - Le modèle évalue et améliore ses propres sorties.
+**Auto-réflexion** - Le modèle évalue et améliore sa sortie.
 
-**Analyse Structurée** - Cadre d’évaluation fixe.
+**Analyse structurée** - Cadre d’évaluation fixe.
 
-**Patron d’Exécution de Tâche** - Planifier → Exécuter → Résumer.
+**Modèle d’exécution de tâche** - Planifier → Exécuter → Résumer.
 
-## RAG (Retrieval-Augmented Generation) - [Module 03](../03-rag/README.md)
+## RAG (Génération augmentée par récupération) - [Module 03](../03-rag/README.md)
 
-**Pipeline de Traitement de Document** - Charger → découper → encoder → stocker.
+**Pipeline de traitement documentaire** - Charger → découper → créer embeddings → stocker.
 
-**Magasin d’Embeddings en Mémoire** - Stockage non persistant pour les tests.
+**Stockage d’embeddings en mémoire** - Stockage non persistant pour tests.
 
-**RAG** - Combine la récupération avec la génération pour ancrer les réponses.
+**RAG** - Combine récupération et génération pour ancrer les réponses.
 
-**Score de Similarité** - Mesure (0-1) de similarité sémantique.
+**Score de similarité** - Mesure (0-1) de similitude sémantique.
 
-**Référence Source** - Métadonnées sur le contenu récupéré.
+**Référence source** - Métadonnées sur le contenu récupéré.
 
 ## Agents et Outils - [Module 04](../04-tools/README.md)
 
 **Annotation @Tool** - Marque les méthodes Java comme outils appelables par l’IA.
 
-**Patron ReAct** - Raisonner → Agir → Observer → Répéter.
+**Modèle ReAct** - Raisonner → Agir → Observer → Répéter.
 
-**Gestion de Session** - Contextes séparés pour différents utilisateurs.
+**Gestion de session** - Contextes séparés pour différents utilisateurs.
 
 **Outil** - Fonction qu’un agent IA peut appeler.
 
-**Description d’Outil** - Documentation sur l’usage et les paramètres de l’outil.
+**Description d’outil** - Documentation sur la finalité et les paramètres de l’outil.
 
 ## Module Agentique - [Module 05](../05-mcp/README.md)
 
-**Annotation @Agent** - Marque les interfaces comme agents IA avec définition de comportement déclarative.
+**Annotation @Agent** - Marque les interfaces comme agents IA avec définition déclarative du comportement.
 
-**Agent Listener** - Crochet pour surveiller l’exécution agent via `beforeAgentInvocation()` et `afterAgentInvocation()`.
+**Agent Listener** - Hook pour surveiller l’exécution d’un agent via `beforeAgentInvocation()` et `afterAgentInvocation()`.
 
-**Portée Agentique** - Mémoire partagée où les agents stockent leurs sorties sous `outputKey` pour consommation par d’autres agents.
+**Portée agentique** - Mémoire partagée où les agents stockent des sorties avec `outputKey` pour consommation par d’autres agents.
 
-**AgenticServices** - Fabrique pour créer des agents via `agentBuilder()` et `supervisorBuilder()`.
+**AgenticServices** - Usine pour créer des agents avec `agentBuilder()` et `supervisorBuilder()`.
 
-**Flux Conditionnel** - Dirige selon des conditions vers différents agents spécialistes.
+**Workflow conditionnel** - Routage basé sur conditions vers différents agents spécialistes.
 
-**Humain dans la Boucle** - Patron de flux ajoutant des points de contrôle humains pour approbation ou revue de contenu.
+**Humain dans la boucle** - Pattern avec étapes humaines pour approbation ou revue de contenu.
 
 **langchain4j-agentic** - Dépendance Maven pour construction déclarative d’agents (expérimental).
 
-**Boucle de Flux** - Itérer l’exécution de l’agent jusqu’à ce qu’une condition soit remplie (ex. score qualité ≥ 0.8).
+**Workflow en boucle** - Itérer l’exécution d’un agent jusqu’à ce qu’une condition soit satisfaite (ex : score qualité ≥ 0.8).
 
-**outputKey** - Paramètre d’annotation agent définissant où les résultats sont stockés dans la Portée Agentique.
+**outputKey** - Paramètre d’annotation agent indiquant où stocker les résultats dans la portée agentique.
 
-**Flux Parallèle** - Exécuter plusieurs agents simultanément pour des tâches indépendantes.
+**Workflow parallèle** - Exécuter plusieurs agents simultanément pour tâches indépendantes.
 
-**Stratégie de Réponse** - Façon dont le superviseur formule la réponse finale : LAST, SUMMARY, ou SCORED.
+**Stratégie de réponse** - Manière dont le superviseur formule la réponse finale : LAST, SUMMARY, ou SCORED.
 
-**Flux Séquentiel** - Exécuté agents en ordre où la sortie alimente l’étape suivante.
+**Workflow séquentiel** - Exécuter les agents dans l’ordre où la sortie alimente l’étape suivante.
 
-**Patron Agent Superviseur** - Patron agentique avancé où un LLM superviseur décide dynamiquement quels sous-agents invoquer.
+**Modèle d’agent superviseur** - Pattern agentique avancé où un superviseur LLM décide dynamiquement quels sous-agents invoquer.
 
-## Protocole de Contexte Modèle (MCP) - [Module 05](../05-mcp/README.md)
+## Protocole de Contexte de Modèle (MCP) - [Module 05](../05-mcp/README.md)
 
-**langchain4j-mcp** - Dépendance Maven pour intégration MCP dans LangChain4j.
+**langchain4j-mcp** - Dépendance Maven pour l’intégration MCP dans LangChain4j.
 
-**MCP** - Protocole de Contexte Modèle : standard pour connecter les applis IA à des outils externes. Construire une fois, utiliser partout.
+**MCP** - Protocole de Contexte de Modèle : standard pour connecter les applications IA à des outils externes. Construire une fois, utiliser partout.
 
-**Client MCP** - Application qui se connecte aux serveurs MCP pour découvrir et utiliser les outils.
+**Client MCP** - Application qui se connecte aux serveurs MCP pour découvrir et utiliser des outils.
 
 **Serveur MCP** - Service exposant des outils via MCP avec descriptions claires et schémas de paramètres.
 
@@ -188,37 +188,35 @@ Référence rapide pour les termes et concepts utilisés tout au long du cours.
 
 **McpTransport** - Interface pour communication MCP. Implémentations incluent Stdio et HTTP.
 
-**Transport Stdio** - Transport local par processus via stdin/stdout. Utile pour accès système de fichiers ou outils ligne de commande.
+**Transport Stdio** - Transport de processus local via stdin/stdout. Utile pour accès système de fichiers ou outils en ligne de commande.
 
 **StdioMcpTransport** - Implémentation LangChain4j lançant le serveur MCP en sous-processus.
 
-**Découverte d’Outils** - Client interroge le serveur pour les outils disponibles avec descriptions et schémas.
+**Découverte d’outils** - Le client interroge le serveur pour les outils disponibles avec descriptions et schémas.
 
 ## Services Azure - [Module 01](../01-introduction/README.md)
 
 **Azure AI Search** - Recherche cloud avec capacités vectorielles. [Module 03](../03-rag/README.md)
 
-**Azure Developer CLI (azd)** - Déploie des ressources Azure.
+**Azure Developer CLI (azd)** - Déploie les ressources Azure.
 
-**Azure OpenAI** - Service IA entreprise de Microsoft.
+**Azure OpenAI** - Service IA d’entreprise de Microsoft.
 
-**Bicep** - Langage d’infrastructure Azure-as-code. [Guide Infrastructure](../01-introduction/infra/README.md)
+**Bicep** - Langage infrastructure-as-code Azure. [Guide Infrastructure](../01-introduction/infra/README.md)
 
-**Nom de Déploiement** - Nom du déploiement modèle dans Azure.
+**Nom de déploiement** - Nom pour le déploiement du modèle dans Azure.
 
 **GPT-5.2** - Dernier modèle OpenAI avec contrôle du raisonnement. [Module 02](../02-prompt-engineering/README.md)
 
-## Tests et Développement - [Guide de Tests](TESTING.md)
+## Tests et Développement - [Guide de tests](TESTING.md)
 
-**Dev Container** - Environnement de développement containerisé. [Configuration](../../../.devcontainer/devcontainer.json)
+**Dev Container** - Environnement de développement conteneurisé. [Configuration](../../../.devcontainer/devcontainer.json)
 
-**GitHub Models** - Terrain de jeu AI modèle gratuit. [Module 00](../00-quick-start/README.md)
+**Tests en mémoire** - Tests avec stockage en mémoire.
 
-**Test en Mémoire** - Tests avec stockage en mémoire.
+**Tests d’intégration** - Tests avec infrastructure réelle.
 
-**Tests d’Intégration** - Tests avec infrastructure réelle.
-
-**Maven** - Outil d’automatisation de construction Java.
+**Maven** - Outil d’automatisation de build Java.
 
 **Mockito** - Framework de moquage Java.
 
@@ -227,6 +225,6 @@ Référence rapide pour les termes et concepts utilisés tout au long du cours.
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Avis de non-responsabilité** :  
-Ce document a été traduit à l'aide du service de traduction par IA [Co-op Translator](https://github.com/Azure/co-op-translator). Bien que nous nous efforçons d'assurer l'exactitude, veuillez noter que les traductions automatisées peuvent contenir des erreurs ou des inexactitudes. Le document original dans sa langue native doit être considéré comme la source faisant foi. Pour les informations critiques, une traduction professionnelle réalisée par un humain est recommandée. Nous déclinons toute responsabilité en cas de malentendus ou de mauvaises interprétations résultant de l'utilisation de cette traduction.
+**Avertissement** :
+Ce document a été traduit à l'aide du service de traduction automatique [Co-op Translator](https://github.com/Azure/co-op-translator). Bien que nous nous efforçions d'assurer l'exactitude, veuillez noter que les traductions automatisées peuvent contenir des erreurs ou des inexactitudes. Le document original dans sa langue native doit être considéré comme la source faisant autorité. Pour les informations critiques, il est recommandé de recourir à une traduction professionnelle réalisée par un humain. Nous ne saurions être tenus responsables des malentendus ou erreurs d'interprétation découlant de l'utilisation de cette traduction.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

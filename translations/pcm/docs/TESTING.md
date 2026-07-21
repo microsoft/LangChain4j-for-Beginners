@@ -2,19 +2,19 @@
 
 ## Table of Contents
 
-- [Quick Start](../../../docs)
-- [Wet Tin De Tests Cover](../../../docs)
-- [How To Run Di Tests](../../../docs)
-- [How To Run Tests For VS Code](../../../docs)
-- [Testing Patterns](../../../docs)
-- [Testing Philosophy](../../../docs)
-- [Next Steps](../../../docs)
+- [Quick Start](#quick-start)
+- [What the Tests Cover](#what-the-tests-cover)
+- [Running the Tests](#running-the-tests)
+- [Running Tests in VS Code](#running-tests-in-vs-code)
+- [Testing Patterns](#testing-patterns)
+- [Testing Philosophy](#testing-philosophy)
+- [Next Steps](#next-steps)
 
-Dis guide go waka you through di tests wey dem dey use show how to test AI applications without you need API keys or outside services.
+Dis guide go carry you waka through di tests wey dey show how to test AI applications without need API keys or outside services.
 
 ## Quick Start
 
-Run all di tests wit just one command:
+Run all di tests with one command:
 
 **Bash:**
 ```bash
@@ -26,30 +26,29 @@ mvn test
 mvn --% test
 ```
 
-When all di tests pass, you go see output like di screenshot below — di tests run wit zero failures.
+When all di tests pass, you go see output wey dey like di screenshot below — tests run without any failure.
 
 <img src="../../../translated_images/pcm/test-results.ea5c98d8f3642043.webp" alt="Successful Test Results" width="800"/>
 
 *Successful test execution showing all tests passing with zero failures*
 
-## Wet Tin De Tests Cover
+## What the Tests Cover
 
-Dis course focus on **unit tests** wey dey run for local machine. Each test dey show one LangChain4j idea for isolation. Di testing pyramid below dey show where unit tests fit — dem dey form di fast, reliable foundation wey all your other test strategy base on top.
+Dis course focus on **unit tests** wey run locally. Every test go show one LangChain4j concept for isolation. Di testing pyramid wey dey below show where unit tests fit — na dem be di fast, reliable base wey all your test strategy build on.
 
 <img src="../../../translated_images/pcm/testing-pyramid.2dd1079a0481e53e.webp" alt="Testing Pyramid" width="800"/>
 
-*Testing pyramid wey dey show balance between unit tests (fast, isolated), integration tests (real components), and end-to-end tests. Dis training na for unit testing.*
+*Testing pyramid showing di balance between unit tests (fast, isolated), integration tests (real components), and end-to-end tests. Dis training cover unit testing.*
 
 | Module | Tests | Focus | Key Files |
 |--------|-------|-------|-----------|
-| **00 - Quick Start** | 6 | Prompt templates and variable substitution | `SimpleQuickStartTest.java` |
 | **01 - Introduction** | 8 | Conversation memory and stateful chat | `SimpleConversationTest.java` |
 | **02 - Prompt Engineering** | 12 | GPT-5.2 patterns, eagerness levels, structured output | `SimpleGpt5PromptTest.java` |
 | **03 - RAG** | 10 | Document ingestion, embeddings, similarity search | `DocumentServiceTest.java` |
 | **04 - Tools** | 12 | Function calling and tool chaining | `SimpleToolsTest.java` |
 | **05 - MCP** | 8 | Model Context Protocol with Stdio transport | `SimpleMcpTest.java` |
 
-## How To Run Di Tests
+## Running the Tests
 
 **Run all di tests from root:**
 
@@ -79,7 +78,7 @@ cd 01-introduction; mvn --% test
 mvn --% test -pl 01-introduction
 ```
 
-**Run one test class:**
+**Run one single test class:**
 
 **Bash:**
 ```bash
@@ -91,45 +90,45 @@ mvn test -Dtest=SimpleConversationTest
 mvn --% test -Dtest=SimpleConversationTest
 ```
 
-**Run specific test method:**
+**Run one specific test method:**
 
 **Bash:**
 ```bash
-mvn test -Dtest=SimpleConversationTest#suppose mek e keep di tori wey dem don talk before
+mvn test -Dtest=SimpleConversationTest#suppose make dey remember wetin we don yarn before
 ```
 
 **PowerShell:**
 ```powershell
-mvn --% test -Dtest=SimpleConversationTest#suppose make e dey keep di gist wey dey before
+mvn --% test -Dtest=SimpleConversationTest#suppose make e keep di tori wey dem don yarn before
 ```
 
-## How To Run Tests For VS Code
+## Running Tests in VS Code
 
-If you dey use Visual Studio Code, di Test Explorer get graphic interface wey fit help you run and debug di tests.
+If you dey use Visual Studio Code, di Test Explorer go give graphical interface to run and debug tests.
 
 <img src="../../../translated_images/pcm/vscode-testing.f02dd5917289dced.webp" alt="VS Code Test Explorer" width="800"/>
 
-*VS Code Test Explorer wey dey show di test tree wit all di Java test classes and individual test methods*
+*VS Code Test Explorer showing di test tree with all Java test classes and individual test methods*
 
-**To run the tests for VS Code:**
+**How to run tests for VS Code:**
 
 1. Open di Test Explorer by clicking di beaker icon for di Activity Bar
-2. Expand di test tree to see all modules and test classes
-3. Click di play button wey dey next to any test to run am one by one
-4. Click "Run All Tests" to run all di suite
-5. Right-click any test and choose "Debug Test" to set breakpoints and step through di code
+2. Expand di test tree to see all di modules and test classes
+3. Click di play button beside any test to run am one-one
+4. Click "Run All Tests" to run di whole suite
+5. Right-click any test and choose "Debug Test" to set breakpoints and step through code
 
-Di Test Explorer go show green checkmarks if tests pass and go give you detailed failure messages if e fail.
+Di Test Explorer go show green checkmarks for di tests wey pass and give detailed failure messages when any test fail.
 
 ## Testing Patterns
 
 ### Pattern 1: Testing Prompt Templates
 
-Di simplest pattern na to test prompt templates without to call any AI model. You go check if di variable substitution dey work well and confirm say di prompts dey formatted like how you expect am.
+Di simplest pattern test prompt templates without calling any AI model. You dey check whether variable substitution dey work well and prompt dem correct.
 
 <img src="../../../translated_images/pcm/prompt-template-testing.b902758ddccc8dee.webp" alt="Prompt Template Testing" width="800"/>
 
-*Testing prompt templates wey dey show variable substitution flow: template wey get placeholders → values dem apply → formatted output we verify*
+*Testing prompt templates showing variable substitution flow: template with placeholders → values applied → formatted output verified*
 
 ```java
 @Test
@@ -148,27 +147,15 @@ void testPromptTemplateFormatting() {
 }
 ```
 
-Dis test dey `00-quick-start/src/test/java/com/example/langchain4j/quickstart/SimpleQuickStartTest.java`.
-
-**Run am:**
-
-**Bash:**
-```bash
-cd 00-quick-start && mvn test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting
-```
-
-**PowerShell:**
-```powershell
-cd 00-quick-start; mvn --% test -Dtest=SimpleQuickStartTest#testPromptTemplateFormatting
-```
+Dis pattern dey verify say variable substitution dey work well and prompt dem format correct — no API key or model call needed.
 
 ### Pattern 2: Mocking Language Models
 
-When you dey test conversation logic, use Mockito to create fake models wey go return set responses wey you don arrange before. Dis one dey make tests fast, free, and predictable.
+When you dey test conversation logic, use Mockito to make fake models wey return predetermined replies. Dis one make di tests fast, free, and deterministic.
 
 <img src="../../../translated_images/pcm/mock-vs-real.3b8b1f85bfe6845e.webp" alt="Mock vs Real API Comparison" width="800"/>
 
-*Comparison wey dey show why mocks dey beta for testing: dem fast, dem no cost anything, dem dey repeat same result, and dem no need API keys*
+*Comparison showing why mocks dey preferred for testing: dem dey fast, free, deterministic, and dem no need API keys*
 
 ```java
 @ExtendWith(MockitoExtension.class)
@@ -218,15 +205,15 @@ class SimpleConversationTest {
 }
 ```
 
-Dis pattern dey for `01-introduction/src/test/java/com/example/langchain4j/service/SimpleConversationTest.java`. Di mock dey make sure say behavior dey consistent so you fit check if memory management work well.
+Dis pattern dey `01-introduction/src/test/java/com/example/langchain4j/service/SimpleConversationTest.java`. Di mock dey make sure behaviour consistent so you fit verify memory management dey work well.
 
 ### Pattern 3: Testing Conversation Isolation
 
-Conversation memory must keep many users separate. Dis test dey check if conversations no dey mix their contexts.
+Conversation memory suppose keep different users separate. Dis test dey check say conversations no dey mix contexts.
 
 <img src="../../../translated_images/pcm/conversation-isolation.e00336cf8f7a3e3f.webp" alt="Conversation Isolation" width="800"/>
 
-*Testing conversation isolation wey dey show separate memory stores for different users so no mixing of context*
+*Testing conversation isolation showing separate memory stores for different users to prevent context mixing*
 
 ```java
 @Test
@@ -250,15 +237,15 @@ void shouldIsolateConversationsByid() {
 }
 ```
 
-Each conversation get e own independent history. For production systems, dis kind isolation na very important for multi-user applications.
+Every conversation get im own independent history. For production systems, dis kind isolation na important for multi-user applications.
 
 ### Pattern 4: Testing Tools Independently
 
-Tools na functions wey di AI fit call. You test dem direct to make sure dem dey work well no matter how AI go take decide.
+Tools na functions wey AI fit call. Test dem directly to make sure dem dey work correct no matter wetin AI decide.
 
 <img src="../../../translated_images/pcm/tools-testing.3e1706817b0b3924.webp" alt="Tools Testing" width="800"/>
 
-*Testing tools independently wey dey show mock tool execution without AI calls to verify business logic*
+*Testing tools independently showing mock tool execution without AI calls to verify business logic*
 
 ```java
 @Test
@@ -281,15 +268,15 @@ void shouldDemonstrateToolChaining() {
 }
 ```
 
-Dem get dis tests from `04-tools/src/test/java/com/example/langchain4j/agents/tools/SimpleToolsTest.java` wey validate tool logic without AI interference. Di chaining example dey show how one tool output dey feed into another input.
+Dis tests from `04-tools/src/test/java/com/example/langchain4j/agents/tools/SimpleToolsTest.java` dey validate tool logic without AI input. Di chaining example show how one tool output dey enter another tool input.
 
 ### Pattern 5: In-Memory RAG Testing
 
-RAG systems dey normally require vector databases plus embedding services. Di in-memory pattern dey allow you test all di pipeline without outside dependencies.
+RAG systems normally need vector databases and embedding services. Di in-memory pattern make you fit test di whole pipeline without outside dependencies.
 
 <img src="../../../translated_images/pcm/rag-testing.ee7541b1e23934b1.webp" alt="In-Memory RAG Testing" width="800"/>
 
-*In-memory RAG testing workflow wey dey show document parsing, embedding storage, and similarity search without needing database*
+*In-memory RAG testing workflow showing document parsing, embedding storage, and similarity search without requiring a database*
 
 ```java
 @Test
@@ -306,15 +293,15 @@ void testProcessTextDocument() {
 }
 ```
 
-Dis test from `03-rag/src/test/java/com/example/langchain4j/rag/service/DocumentServiceTest.java` dey create document for memory and verify chunking and metadata management.
+Dis test from `03-rag/src/test/java/com/example/langchain4j/rag/service/DocumentServiceTest.java` dey create one document inside memory and verify how e dey chunk and handle metadata.
 
 ### Pattern 6: MCP Integration Testing
 
-Di MCP module dey test Model Context Protocol integration using stdio transport. Dem tests dey verify say your app fit spawn and communicate with MCP servers as subprocesses.
+Di MCP module dey test Model Context Protocol integration wey use stdio transport. Dem tests go verify say your app fit spawn and communicate with MCP servers as subprocesses.
 
-Di tests wey dey `05-mcp/src/test/java/com/example/langchain4j/mcp/SimpleMcpTest.java` dey validate MCP client behavior.
+Tests for `05-mcp/src/test/java/com/example/langchain4j/mcp/SimpleMcpTest.java` dey validate MCP client behaviour.
 
-**Run dem:**
+**Run them:**
 
 **Bash:**
 ```bash
@@ -328,28 +315,27 @@ cd 05-mcp; mvn --% test
 
 ## Testing Philosophy
 
-Test your code, no be AI. Your tests suppose validate di code wey you write by checking how prompts dey build, how memory dey managed, and how tools dey execute. AI response dey change, e no suppose dey part of test assertions. Ask yourself if your prompt template dey correctly substitute variables, no be if AI dey give the correct answer.
+Test your code, no be AI. Your tests suppose validate di code wey you write by checking how prompts dem build, how memory dey handle, and how tools dey execute. AI responses dey different every time and no suppose be part of test assertions. Ask yourself if your prompt template correctly substitute variables, no be if AI dey give correct answer.
 
-Use mocks for language models. Dem na external things wey dey slow, expensive and no dey predictable. Mocking dey make tests fast with milliseconds instead of seconds, free without API cost, and predictable with the same result every time.
+Use mocks for language models. Dem be outside dependencies wey slow, expensive, and no dey predictable. Mocking dey make tests fast with milliseconds instead of seconds, free with no API money, and deterministic with di same result every time.
 
-Make tests independent. Every test suppose setup im own data, no rely on other tests and clean up after itself. Tests should pass no matter how you run am.
+Keep tests independent. Every test suppose set up im own data, no rely on other tests, and clean up after imself. Tests suppose pass no matter di order wey dem run.
 
-Test edge cases way beyond the common way. Try empty inputs, big big inputs, special characters, invalid parameters, and boundary conditions. These ones fit show bugs wey normal usage no go fit show.
+Test edge cases wey go beyond di happy path. Try empty inputs, very big inputs, special characters, invalid parameters, and boundary conditions. Dem dey always show bugs wey normal usage no dey expose.
 
-Use descriptive names. Compare `shouldMaintainConversationHistoryAcrossMultipleMessages()` with `test1()`. Di first one go tell you exactly wetin di test mean to test, to make debugging easier.
+Use descriptive names. Compare `shouldMaintainConversationHistoryAcrossMultipleMessages()` with `test1()`. Di first one tell you exactly wetin dem dey test, e dey make debugging failure easy.
 
 ## Next Steps
 
-Now wey you don understand di testing patterns, you fit dive deep into each module:
+Now wey you don understand di testing patterns, dive deeper inside each module:
 
-- **[00 - Quick Start](../00-quick-start/README.md)** - Start wit prompt template basics
-- **[01 - Introduction](../01-introduction/README.md)** - Learn conversation memory management
-- **[02 - Prompt Engineering](../02/prompt-engineering/README.md)** - Master GPT-5.2 prompting patterns
+- **[01 - Introduction](../01-introduction/README.md)** - Learn how to manage conversation memory
+- **[02 - Prompt Engineering](../02-prompt-engineering/README.md)** - Master GPT-5.2 prompting patterns
 - **[03 - RAG](../03-rag/README.md)** - Build retrieval-augmented generation systems
 - **[04 - Tools](../04-tools/README.md)** - Implement function calling and tool chains
 - **[05 - MCP](../05-mcp/README.md)** - Integrate Model Context Protocol
 
-Each module README go provide detailed explanations of di concepts tested here.
+Every module's README go give detailed tori about the concepts wey dey tested here.
 
 ---
 
@@ -358,5 +344,6 @@ Each module README go provide detailed explanations of di concepts tested here.
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Disclaimer**: Dis document don translate by AI translation service wey dem dey call [Co-op Translator](https://github.com/Azure/co-op-translator). Even though we dey try make am correct, abeg sabi say automated translation fit get mistakes or no correct well. Di original document for im own language na di correct one wey you suppose trust. If na beta important information, e better make person wey sabi do human translation help you do am. We no go responsible if any misunderstanding or wrong meaning come from dis translation.
+**Disclaimer**:
+Dis document don translate wit AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). Even tho we dey try make am correct, abeg make you know say automated translation fit get errors or mistakes. Di original document for dia own language na im be di correct source. For important info, make person wey sabi human translation do am. We no go responsible for any misunderstanding or wrong understanding wey fit happen because of dis translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

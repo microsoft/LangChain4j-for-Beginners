@@ -1,232 +1,230 @@
-# LangChain4j Slovník
+# LangChain4j Slovník pojmov
 
 ## Obsah
 
-- [Základné pojmy](../../../docs)
-- [Komponenty LangChain4j](../../../docs)
-- [Pojmy AI/ML](../../../docs)
-- [Bezpečnostné opatrenia](../../../docs)
-- [Prompt Engineering](../../../docs)
-- [RAG (Retrieval-Augmented Generation)](../../../docs)
-- [Agenti a nástroje](../../../docs)
-- [Agentic Modul](../../../docs)
-- [Model Context Protocol (MCP)](../../../docs)
-- [Azure služby](../../../docs)
-- [Testovanie a vývoj](../../../docs)
+- [Základné koncepty](#základné-koncepty)
+- [Komponenty LangChain4j](#komponenty-langchain4j)
+- [Koncepty AI/ML](#koncepty-aiml)
+- [Bezpečnostné opatrenia](#bezpečnostné-opatrenia)
+- [Návrh promptov](#prompt-engineering---module-02)
+- [RAG (Retrieval-Augmented Generation)](#rag-retrieval-augmented-generation---module-03)
+- [Agenti a nástroje](#agents-and-tools---module-04)
+- [Agentic modul](#agentic-module---module-05)
+- [Model Context Protocol (MCP)](#model-context-protocol-mcp---module-05)
+- [Azure služby](#azure-services---module-01)
+- [Testovanie a vývoj](#testing-and-development---testing-guide)
 
-Rýchla referencia pre pojmy a koncepty používané v priebehu kurzu.
+Rýchly prehľad termínov a konceptov používaných v celom kurze.
 
-## Základné pojmy
+## Základné koncepty
 
-**AI Agent** - Systém, ktorý používa AI na autonómne uvažovanie a konanie. [Modul 04](../04-tools/README.md)
+**AI Agent** - Systém využívajúci AI na uvažovanie a autonómne konanie. [Modul 04](../04-tools/README.md)
 
-**Chain** - Sekvencia operácií, kde výstup slúži ako vstup do ďalšieho kroku.
+**Reťazec (Chain)** - Sekvencia operácií, kde výstup slúži ako vstup ďalšieho kroku.
 
-**Chunking** - Rozdeľovanie dokumentov na menšie časti. Typicky 300-500 tokenov s prekrytím. [Modul 03](../03-rag/README.md)
+**Rozdeľovanie na časti (Chunking)** - Rozdeľovanie dokumentov na menšie kúsky. Typické: 300-500 tokenov s prekrytím. [Modul 03](../03-rag/README.md)
 
-**Context Window** - Maximálny počet tokenov, ktoré model dokáže spracovať. GPT-5.2: 400K tokenov (do 272K vstup, 128K výstup).
+**Kontextové okno (Context Window)** - Maximálny počet tokenov, ktoré model dokáže spracovať. GPT-5.2: 400K tokenov (až 272K vstup, 128K výstup).
 
 **Embeddings** - Číselné vektory reprezentujúce význam textu. [Modul 03](../03-rag/README.md)
 
-**Function Calling** - Model generuje štruktúrované požiadavky na volanie externých funkcií. [Modul 04](../04-tools/README.md)
+**Volanie funkcií (Function Calling)** - Model generuje štruktúrované požiadavky na volanie externých funkcií. [Modul 04](../04-tools/README.md)
 
-**Halucinácia** - Keď modely generujú nesprávne ale vierohodné informácie.
+**Halucinácie (Hallucination)** - Keď modely generujú nesprávne, no na prvý pohľad pravdepodobné informácie.
 
 **Prompt** - Textový vstup do jazykového modelu. [Modul 02](../02-prompt-engineering/README.md)
 
-**Sémantické vyhľadávanie** - Vyhľadávanie podľa významu pomocou embeddings, nie podľa kľúčových slov. [Modul 03](../03-rag/README.md)
+**Sémantické vyhľadávanie (Semantic Search)** - Vyhľadávanie podľa významu pomocou embeddings, nie podľa kľúčových slov. [Modul 03](../03-rag/README.md)
 
-**Stateful vs Stateless** - Stateless: bez pamäti. Stateful: uchováva históriu konverzácie. [Modul 01](../01-introduction/README.md)
+**Stavové vs. bezstavové (Stateful vs Stateless)** - Bezstavové: bez pamäte. Stavové: uchováva históriu konverzácie. [Modul 01](../01-introduction/README.md)
 
-**Tokens** - Základné textové jednotky, ktoré model spracováva. Ovplyvňuje náklady a limity. [Modul 01](../01-introduction/README.md)
+**Tokény (Tokens)** - Základné textové jednotky, ktoré modely spracúvajú. Ovplyvňujú náklady a limity. [Modul 01](../01-introduction/README.md)
 
-**Tool Chaining** - Sekvenčné spúšťanie nástrojov, kde výstup ovplyvňuje ďalší hovor. [Modul 04](../04-tools/README.md)
+**Zreťazenie nástrojov (Tool Chaining)** - Sekvenčné spúšťanie nástrojov, kde výstup informuje ďalšie volanie. [Modul 04](../04-tools/README.md)
 
 ## Komponenty LangChain4j
 
-**AiServices** - Vytvára typovo bezpečné AI servisné rozhrania.
+**AiServices** - Vytvára typovo bezpečné rozhrania AI služieb.
 
-**OpenAiOfficialChatModel** - Zjednotený klient pre OpenAI a Azure OpenAI modely.
+**OpenAiOfficialChatModel** - Uniformný klient pre OpenAI a Azure OpenAI modely.
 
 **OpenAiOfficialEmbeddingModel** - Vytvára embeddings pomocou oficiálneho klienta OpenAI (podporuje OpenAI aj Azure OpenAI).
 
-**ChatModel** - Hlavné rozhranie pre jazykové modely.
+**ChatModel** - Základné rozhranie pre jazykové modely.
 
 **ChatMemory** - Uchováva históriu konverzácie.
 
-**ContentRetriever** - Nájde relevantné časti dokumentov pre RAG.
+**ContentRetriever** - Nájdu relevantné kúsky dokumentov pre RAG.
 
 **DocumentSplitter** - Rozdeľuje dokumenty na časti.
 
-**EmbeddingModel** - Premení text na číselné vektory.
+**EmbeddingModel** - Konvertuje text na číselné vektory.
 
 **EmbeddingStore** - Ukladá a získava embeddings.
 
-**MessageWindowChatMemory** - Udržiava kĺzavé okno nedávnych správ.
+**MessageWindowChatMemory** - Uchováva posuvné okno nedávnych správ.
 
-**PromptTemplate** - Vytvára opakovane použiteľné promptové šablóny s `{{variable}}` zástupcami.
+**PromptTemplate** - Vytvára znovupoužiteľné prompty s {{variable}} zástupcami.
 
 **TextSegment** - Textový úsek s metadátami. Používa sa v RAG.
 
-**ToolExecutionRequest** - Reprezentuje požiadavku na vykonanie nástroja.
+**ToolExecutionRequest** - Reprezentuje požiadavku na spustenie nástroja.
 
 **UserMessage / AiMessage / SystemMessage** - Typy správ v konverzácii.
 
-## Pojmy AI/ML
+## Koncepty AI/ML
 
-**Few-Shot Learning** - Poskytovanie príkladov v promptoch. [Modul 02](../02-prompt-engineering/README.md)
+**Few-Shot Learning** - Poskytnutie príkladov v promptoch. [Modul 02](../02-prompt-engineering/README.md)
 
-**Large Language Model (LLM)** - AI modely trénované na rozsiahlych textových dátach.
+**Veľký jazykový model (LLM)** - AI modely trénované na obrovskom množstve textových dát.
 
-**Reasoning Effort** - Parameter GPT-5.2 riadiaci hĺbku uvažovania. [Modul 02](../02-prompt-engineering/README.md)
+**Úsilie o uvažovanie (Reasoning Effort)** - Parameter GPT-5.2 regulujúci hĺbku uvažovania. [Modul 02](../02-prompt-engineering/README.md)
 
-**Temperature** - Riadi náhodnosť výstupu. Nízka=deterministické, vysoká=kreatívne.
+**Teplota (Temperature)** - Riadi náhodnosť výstupu. Nízka = deterministický, vysoká = kreatívny.
 
 **Vektorová databáza** - Špecializovaná databáza pre embeddings. [Modul 03](../03-rag/README.md)
 
 **Zero-Shot Learning** - Vykonávanie úloh bez príkladov. [Modul 02](../02-prompt-engineering/README.md)
 
-## Bezpečnostné opatrenia - [Modul 00](../00-quick-start/README.md)
+## Bezpečnostné opatrenia
 
-**Defense in Depth** - Viacvrstvový bezpečnostný prístup kombinujúci aplikačné guardrails so bezpečnostnými filtrami poskytovateľa.
+**Obrana v hĺbke (Defense in Depth)** - Viacvrstvový bezpečnostný prístup kombinujúci aplikačné ochrany s bezpečnostnými filtrami poskytovateľa.
 
-**Hard Block** - Poskytovateľ vyhodí HTTP 400 chybu pri vážnom porušení obsahu.
+**Tvrdý blok (Hard Block)** - Poskytovateľ vracia HTTP 400 chybu pri vážnych porušeniach obsahu.
 
-**InputGuardrail** - Rozhranie LangChain4j na validáciu používateľského vstupu pred dosiahnutím LLM. Šetrí náklady a latenciu tým, že blokuje škodlivé prompty skôr.
+**InputGuardrail** - Rozhranie LangChain4j na validáciu používateľského vstupu pred odoslaním do LLM. Šetrí náklady a latenciu blokovaním škodlivých promptov včas.
 
-**InputGuardrailResult** - Návratový typ validácie guardrailu: `success()` alebo `fatal("dôvod")`.
+**InputGuardrailResult** - Typ návratovej hodnoty validácie: `success()` alebo `fatal("dôvod")`.
 
-**OutputGuardrail** - Rozhranie na validáciu odpovedí AI pred ich vrátením používateľom.
+**OutputGuardrail** - Rozhranie na validáciu odpovedí AI pred ich odoslaním používateľom.
 
-**Filtery bezpečnosti poskytovateľa** - Vstavané filtre obsahu od AI poskytovateľov (napr. GitHub Models), ktoré zachytávajú porušenia na úrovni API.
+**Bezpečnostné filtre poskytovateľa** - Vstavané filtre obsahu od AI poskytovateľov (napr. Azure OpenAI), ktoré zachytávajú porušenia na úrovni API.
 
-**Soft Refusal** - Model zdvorilo odmietne odpovedať bez vyvolania chyby.
+**Mäkké odmietnutie (Soft Refusal)** - Model slušne odmietne odpovedať bez chyby.
 
-## Prompt Engineering - [Modul 02](../02-prompt-engineering/README.md)
+## Návrh promptov - [Modul 02](../02-prompt-engineering/README.md)
 
-**Chain-of-Thought** - Postupné uvažovanie pre lepšiu presnosť.
+**Reťazec myšlienok (Chain-of-Thought)** - Krokovanie uvažovania pre lepšiu presnosť.
 
-**Constrained Output** - Vynútenie konkrétneho formátu alebo štruktúry.
+**Obmedzený výstup (Constrained Output)** - Vynucovanie konkrétneho formátu alebo štruktúry.
 
-**High Eagerness** - Vzor GPT-5.2 pre dôkladné uvažovanie.
+**Vysoká snaha (High Eagerness)** - Vzorec GPT-5.2 pre dôkladné uvažovanie.
 
-**Low Eagerness** - Vzor GPT-5.2 pre rýchle odpovede.
+**Nízka snaha (Low Eagerness)** - Vzorec GPT-5.2 pre rýchle odpovede.
 
-**Multi-Turn Conversation** - Udržiavanie kontextu v priebehu výmen.
+**Viackolová konverzácia (Multi-Turn Conversation)** - Udržiavanie kontextu naprieč výmenami.
 
-**Role-Based Prompting** - Nastavenie osobnosti modelu cez systémové správy.
+**Promptovanie podľa rolí (Role-Based Prompting)** - Nastavenie modelovej persony pomocou systémových správ.
 
-**Self-Reflection** - Model hodnotí a zlepšuje svoj výstup.
+**Sebareflexia (Self-Reflection)** - Model hodnotí a zlepšuje svoj výstup.
 
-**Structured Analysis** - Pevný hodnotiaci rámec.
+**Štruktúrovaná analýza (Structured Analysis)** - Fixný rámec hodnotenia.
 
-**Task Execution Pattern** - Plánuj → Vykonaj → Zhrň.
+**Vzor vykonávania úlohy (Task Execution Pattern)** - Plánuj → Vykonaj → Zhrni.
 
 ## RAG (Retrieval-Augmented Generation) - [Modul 03](../03-rag/README.md)
 
-**Document Processing Pipeline** - Načítať → rozdeliť → embedded → uložiť.
+**Pracovný tok spracovania dokumentov (Document Processing Pipeline)** - Načítaj → rozdeľ → vlož do embeddingov → ulož.
 
-**In-Memory Embedding Store** - Nepersistentné uloženie na testovanie.
+**Pamäťové úložisko embeddingov (In-Memory Embedding Store)** - Nepersistentné úložisko na testovanie.
 
-**RAG** - Kombinuje vyhľadávanie a generovanie na zakotvenie odpovedí.
+**RAG** - Kombinuje vyhľadávanie a generovanie pre overené odpovede.
 
-**Similarity Score** - Miera (0-1) sémantickej podobnosti.
+**Miera podobnosti (Similarity Score)** - Miera (0-1) sémantickej podobnosti.
 
-**Source Reference** - Metadáta o získanom obsahu.
+**Zdrojová referencia (Source Reference)** - Metadáta o načítanom obsahu.
 
 ## Agenti a nástroje - [Modul 04](../04-tools/README.md)
 
-**@Tool Anotácia** - Označuje Java metódy ako AI volateľné nástroje.
+**@Tool anotácia** - Označuje Java metódy ako AI-volateľné nástroje.
 
-**ReAct Pattern** - Uvažuj → Konaj → Pozoruj → Opakuj.
+**ReAct vzorec** - Uvažuj → Konaj → Pozoruj → Opakuj.
 
-**Správa relácie** - Oddelené kontexty pre rôznych používateľov.
+**Správa relácií (Session Management)** - Oddelené kontexty pre rôznych používateľov.
 
-**Nástroj** - Funkcia, ktorú AI agent môže vyvolať.
+**Nástroj (Tool)** - Funkcia, ktorú môže AI agent volať.
 
-**Popis nástroja** - Dokumentácia účelu nástroja a parametrov.
+**Popis nástroja (Tool Description)** - Dokumentácia účelu a parametrov nástroja.
 
-## Agentic Modul - [Modul 05](../05-mcp/README.md)
+## Agentic modul - [Modul 05](../05-mcp/README.md)
 
-**@Agent Anotácia** - Označuje rozhrania ako AI agentov s deklaratívnym definovaním správania.
+**@Agent anotácia** - Označuje rozhrania ako AI agentov s deklaratívnym definovaním správania.
 
 **Agent Listener** - Háčik na monitorovanie vykonávania agenta cez `beforeAgentInvocation()` a `afterAgentInvocation()`.
 
-**Agentic Scope** - Zdieľaná pamäť, kde agenti ukladajú výstupy pomocou `outputKey` pre použitie downstream agentmi.
+**Agentic Scope** - Zdieľaná pamäť, kde agenti ukladajú výstupy pomocou `outputKey` pre ďalších agentov.
 
-**AgenticServices** - Fabrika na vytváranie agentov pomocou `agentBuilder()` a `supervisorBuilder()`.
+**AgenticServices** - Fabrika na tvorbu agentov cez `agentBuilder()` a `supervisorBuilder()`.
 
-**Podmienkový workflow** - Trasa podľa podmienok ku rôznym špecializovaným agentom.
+**Podmienený pracovný tok (Conditional Workflow)** - Trasa podľa podmienok k rôznym špecializovaným agentom.
 
-**Human-in-the-Loop** - Vzorec workflow pridávajúci ľudské kontrolné body na schválenie alebo revíziu obsahu.
+**Človek v slučke (Human-in-the-Loop)** - Vzorec pracovného toku pridávajúci ľudské kontroly na schválenie alebo revíziu obsahu.
 
-**langchain4j-agentic** - Maven závislosť pre deklaratívnu tvorbu agentov (experimentálne).
+**langchain4j-agentic** - Maven závislosť na deklaratívnu tvorbu agentov (experimentálne).
 
-**Loop Workflow** - Iteruje vykonávanie agenta až do splnenia podmienky (napr. skóre kvality ≥ 0.8).
+**Cyklický pracovný tok (Loop Workflow)** - Iteruje vykonávanie agenta, kým nie je splnená podmienka (napr. skóre kvality ≥ 0.8).
 
-**outputKey** - Parameter anotácie agenta určujúci, kde sa uložia výsledky v Agentic Scope.
+**outputKey** - Parameter anotácie agenta určujúci, kde sa výsledky ukladajú v Agentic Scope.
 
-**Paralelný workflow** - Súčasné spúšťanie viacerých agentov pre nezávislé úlohy.
+**Paralelný pracovný tok (Parallel Workflow)** - Súbežné spúšťanie viacerých agentov pre nezávislé úlohy.
 
-**Response Strategy** - Ako dozorný agent formuluje konečnú odpoveď: LAST, SUMMARY alebo SCORED.
+**Stratégia odpovede (Response Strategy)** - Ako supervízor formuluje finálnu odpoveď: LAST, SUMMARY alebo SCORED.
 
-**Sekvenčný workflow** - Vykonávanie agentov podľa poradia, kde výstup prúdi do ďalšieho kroku.
+**Sekvenčný pracovný tok (Sequential Workflow)** - Vykonanie agentov za sebou, kde výstup tečie do ďalšieho kroku.
 
-**Supervisor Agent Pattern** - Pokročilý agentický vzorec, kde dozorný LLM dynamicky rozhoduje, ktorých podagentov spustiť.
+**Supervisor Agent Pattern** - Pokročilý agentický vzorec, kde supervízor LLM dynamicky rozhoduje, ktorých podagentov zavolať.
 
 ## Model Context Protocol (MCP) - [Modul 05](../05-mcp/README.md)
 
 **langchain4j-mcp** - Maven závislosť pre integráciu MCP v LangChain4j.
 
-**MCP** - Model Context Protocol: štandard pre prepájanie AI aplikácií s externými nástrojmi. Vytvor raz, používaj všade.
+**MCP** - Model Context Protocol: štandard na prepojenie AI aplikácií s externými nástrojmi. Spoj raz, používaj všade.
 
-**MCP Client** - Aplikácia pripájajúca sa k MCP serverom na objavovanie a používanie nástrojov.
+**MCP klient** - Aplikácia, ktorá sa pripája na MCP servery, aby objavila a používala nástroje.
 
-**MCP Server** - Služba vystavujúca nástroje cez MCP s jasnými popismi a schémami parametrov.
+**MCP server** - Služba vystavujúca nástroje cez MCP s jasnými popismi a schémami parametrov.
 
-**McpToolProvider** - Komponent LangChain4j, ktorý obaluje MCP nástroje na použitie v AI službách a agentoch.
+**McpToolProvider** - Komponent LangChain4j, ktorý obalí MCP nástroje pre použitie v AI službách a agentoch.
 
-**McpTransport** - Rozhranie na MCP komunikáciu. Implementácie zahŕňajú Stdio a HTTP.
+**McpTransport** - Rozhranie pre komunikáciu MCP. Implementácie zahŕňajú Stdio a HTTP.
 
-**Stdio Transport** - Lokálny procesný transport cez stdin/stdout. Užitečné pre prístup k súborovému systému alebo príkazové nástroje.
+**Stdio transport** - Lokálny transport procesov cez stdin/stdout. Vhodný na prístup k súborovému systému alebo príkazovým nástrojom.
 
-**StdioMcpTransport** - Implementácia LangChain4j, ktorá spúšťa MCP server ako podproces.
+**StdioMcpTransport** - Implementácia LangChain4j, ktorá spúšťa MCP server ako podsproces.
 
-**Objavovanie nástrojov** - Klient dopytuje server po dostupných nástrojoch s popismi a schémami.
+**Objavovanie nástrojov (Tool Discovery)** - Klient zisťuje dostupné nástroje so špecifikáciami a popismi.
 
 ## Azure služby - [Modul 01](../01-introduction/README.md)
 
-**Azure AI Search** - Cloudové vyhľadávanie s vektorovými schopnosťami. [Modul 03](../03-rag/README.md)
+**Azure AI Search** - Cloudové vyhľadávanie so schopnosťou práce s vektormi. [Modul 03](../03-rag/README.md)
 
-**Azure Developer CLI (azd)** - Nástroj na nasadenie Azure prostriedkov.
+**Azure Developer CLI (azd)** - Nasadzuje Azure zdroje.
 
-**Azure OpenAI** - Podniková AI služba Microsoftu.
+**Azure OpenAI** - Podniková AI služba od Microsoftu.
 
-**Bicep** - Azure jazyk infraštruktúry ako kódu. [Sprievodca infraštruktúrou](../01-introduction/infra/README.md)
+**Bicep** - Jazyk infraštruktúry ako kódu pre Azure. [Infrastructure Guide](../01-introduction/infra/README.md)
 
-**Názov nasadenia** - Názov pre nasadenie modelu v Azure.
+**Názov nasadenia (Deployment Name)** - Názov pre nasadenie modelu v Azure.
 
-**GPT-5.2** - Najnovší model OpenAI s riadením uvažovania. [Modul 02](../02-prompt-engineering/README.md)
+**GPT-5.2** - Najnovší OpenAI model s riadením uvažovania. [Modul 02](../02-prompt-engineering/README.md)
 
-## Testovanie a vývoj - [Testovací sprievodca](TESTING.md)
+## Testovanie a vývoj - [Testing Guide](TESTING.md)
 
 **Dev Container** - Kontajnerizované vývojové prostredie. [Konfigurácia](../../../.devcontainer/devcontainer.json)
 
-**GitHub Models** - Bezplatné AI modelové prostredie. [Modul 00](../00-quick-start/README.md)
+**Testovanie v pamäti (In-Memory Testing)** - Testovanie s úložiskom v pamäti.
 
-**In-Memory Testing** - Testovanie s využitím pamäťového uloženia.
+**Integračné testovanie (Integration Testing)** - Testovanie s reálnou infraštruktúrou.
 
-**Integration Testing** - Testovanie s reálnou infraštruktúrou.
+**Maven** - Nástroj na automatizáciu buildov v Jave.
 
-**Maven** - Java nástroj na automatizáciu buildov.
+**Mockito** - Framework na mocking v Jave.
 
-**Mockito** - Java knižnica na mockovanie.
-
-**Spring Boot** - Java aplikačný framework. [Modul 01](../01-introduction/README.md)
+**Spring Boot** - Framework pre Java aplikácie. [Modul 01](../01-introduction/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Upozornenie**:  
-Tento dokument bol preložený pomocou AI prekladateľskej služby [Co-op Translator](https://github.com/Azure/co-op-translator). Hoci sa snažíme o presnosť, majte na pamäti, že automatizované preklady môžu obsahovať chyby alebo nepresnosti. Originálny dokument v jeho pôvodnom jazyku by mal byť považovaný za autoritatívny zdroj. Pre kritické informácie sa odporúča profesionálny ľudský preklad. Nezodpovedáme za akékoľvek nedorozumenia alebo nesprávne výklady vyplývajúce z používania tohto prekladu.
+**Vyhlásenie o zodpovednosti**:
+Tento dokument bol preložený pomocou AI prekladateľskej služby [Co-op Translator](https://github.com/Azure/co-op-translator). Hoci sa snažíme o presnosť, vezmite prosím na vedomie, že automatické preklady môžu obsahovať chyby alebo nepresnosti. Pôvodný dokument v jeho natívnom jazyku by mal byť považovaný za autoritatívny zdroj. Pre kritické informácie sa odporúča profesionálny ľudský preklad. Nie sme zodpovední za žiadne nedorozumenia alebo nesprávne interpretácie vyplývajúce z použitia tohto prekladu.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

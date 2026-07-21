@@ -1,84 +1,84 @@
-# Moodul 04: Tehisintellekti agendid tööriistadega
+# Moodul 04: AI Agendid tööriistadega
 
 ## Sisukord
 
-- [Video juhend](../../../04-tools)
-- [Mida õpite](../../../04-tools)
-- [Eeldused](../../../04-tools)
-- [Tehisintellekti agentide mõistmine tööriistadega](../../../04-tools)
-- [Kuidas tööriistakutse töötab](../../../04-tools)
-  - [Tööriistade definitsioonid](../../../04-tools)
-  - [Otsuste tegemine](../../../04-tools)
-  - [Täideviimine](../../../04-tools)
-  - [Vastusvõime genereerimine](../../../04-tools)
-  - [Arhitektuur: Spring Boot automaatühendus](../../../04-tools)
-- [Tööriistade aheldamine](../../../04-tools)
-- [Rakenduse käivitamine](../../../04-tools)
-- [Rakenduse kasutamine](../../../04-tools)
-  - [Proovi lihtsat tööriista kasutust](../../../04-tools)
-  - [Testi tööriistade aheldamist](../../../04-tools)
-  - [Vaata vestluse kulgu](../../../04-tools)
-  - [Katseta erinevate päringutega](../../../04-tools)
-- [Põhikontseptsioonid](../../../04-tools)
-  - [ReAct muster (põhjendamine ja tegutsemine)](../../../04-tools)
-  - [Tööriistade kirjeldused on olulised](../../../04-tools)
-  - [Seansi haldus](../../../04-tools)
-  - [Veadega toimetulek](../../../04-tools)
-- [Saadaval olevad tööriistad](../../../04-tools)
-- [Millal kasutada tööriistapõhiseid agente](../../../04-tools)
-- [Tööriistad vs RAG](../../../04-tools)
-- [Järgmised sammud](../../../04-tools)
+- [Video Juhend](#video-juhend)
+- [Mida Sa Õpid](#mida-sa-õpid)
+- [Eeltingimused](#eeltingimused)
+- [AI Agentide Mõistmine Tööriistadega](#ai-agentide-mõistmine-tööriistadega)
+- [Kuidas Tööriista Kutsumine Töötab](#kuidas-tööriista-kutsumine-töötab)
+  - [Tööriistade Definitsioonid](#tööriistade-definitsioonid)
+  - [Otsuste Tegemine](#otsuste-tegemine)
+  - [Täideviimine](#täideviimine)
+  - [Vastuse Genereerimine](#vastuse-genereerimine)
+  - [Arhitektuur: Spring Boot Automaatühendus](#arhitektuur-spring-boot-automaatühendus)
+- [Tööriistade Järgnevus](#tööriistade-järgnevus)
+- [Rakenduse Käivitamine](#rakenduse-käivitamine)
+- [Rakenduse Kasutamine](#rakenduse-kasutamine)
+  - [Proovi Lihtsat Tööriista Kasutust](#proovi-lihtsat-tööriista-kasutust)
+  - [Testi Tööriistade Järgnevust](#testi-tööriistade-ahelat)
+  - [Vaata Vestluse Voogu](#vaata-vestluse-voogu)
+  - [Katseta Erinevate Päringutega](#katseta-erinevate-päringutega)
+- [Olulised Mõisted](#peamised-kontseptsioonid)
+  - [ReAct Muster (Põhjendamine ja Tegutsemine)](#react-muster-põhjus-ja-tegutsemine)
+  - [Tööriistade Kirjeldused on Tähtsad](#tööriistade-kirjeldused-on-tähtsad)
+  - [Sessioonihaldus](#sessiooni-haldus)
+  - [Vigade Käitlemine](#veahaldus)
+- [Saadaval Tööriistad](#saadaval-olevad-tööriistad)
+- [Millal Kasutada Tööriistapõhiseid Agente](#millal-kasutada-tööriistapõhiseid-agente)
+- [Tööriistad vs RAG](#tööriistad-vs-rag)
+- [Järgmised Sammud](#järgmised-sammud)
 
-## Video juhend
+## Video Juhend
 
-Vaadake seda otseülekannet, mis selgitab, kuidas selle mooduliga alustada:
+Vaata seda otseülekannet, mis selgitab, kuidas selle mooduliga alustada:
 
 <a href="https://www.youtube.com/watch?v=O_J30kZc0rw"><img src="https://img.youtube.com/vi/O_J30kZc0rw/maxresdefault.jpg" alt="AI Agents with Tools and MCP - Live Session" width="800"/></a>
 
-## Mida õpite
+## Mida Sa Õpid
 
-Seni olete õppinud, kuidas tehisintellektiga vestelda, vormistada päringuid efektiivselt ning siduda vastuseid oma dokumentidega. Kuid on olemas põhiepitsus: keelemudelid suudavad genereerida ainult teksti. Nad ei saa ilma abiliste ja tööriistadeta ilmaennustust kontrollida, arvutusi teha, andmebaase pärida ega välissüsteemidega suhelda.
+Nii kaugele oled õppinud, kuidas pidada vestlusi AI-ga, struktureerida tõhusaid prompt’e ja põhendada vastuseid oma dokumentides. Kuid on endiselt põhimõtteline piirang: keelemudelid saavad vaid teksti genereerida. Nad ei saa ilmaennustust teha, arvutusi lahendada, andmebaase pärida ega suhelda väliste süsteemidega.
 
-Tööriistad muudavad selle. Kui mudelile anda võimalus kutsuda funktsioone, muudate temast tekstigeneraatori asemel agendi, kes saab tegutseda. Mudel otsustab, millal tal tööriista vaja on, millist tööriista kasutada ja milliseid parameetreid edasi anda. Teie kood täidab funktsiooni ja tagastab tulemuse. Mudel integreerib selle tulemuse oma vastusesse.
+Tööriistad muudavad selle. Anda mudelile juurdepääs funktsioonidele, mida ta saab kutsuda, muudab selle tekstigeneraatorist agendiks, kes suudab tegutseda. Mudel otsustab, millal tal on vaja tööriista, millist tööriista kasutada ja milliseid parameetreid edastada. Sinu kood täidab funktsiooni ja tagastab tulemuse. Mudel kasutab seda tulemust oma vastuses.
 
-## Eeldused
+## Eeltingimused
 
-- On läbitud [Moodul 01 - Sissejuhatus](../01-introduction/README.md) (Azure OpenAI ressursid paigaldatud)
-- Soovitatavalt on läbitud varasemad moodulid (see moodul viitab [RAG kontseptsioonidele Moodulis 03](../03-rag/README.md) tööriistade ja RAG võrdluses)
-- Juurkausta `.env` fail Azure volitustega (loodud `azd up` käsuga Moodul 01 jooksul)
+- Läbitud [Moodul 01 - Sissejuhatus](../01-introduction/README.md) (Azure OpenAI ressursid juurutatud)
+- Soovitatavalt läbitud varasemad moodulid (see moodul viitab [RAG kontseptsioonidele Moodulis 03](../03-rag/README.md) Tööriistade vs RAG võrdluses)
+- Juurekataloogis asuv `.env` fail Azure volitustega (loodud `azd up` abil Moodulis 01)
 
-> **Märkus:** Kui te pole Moodulit 01 läbinud, järgige esmalt seal olevaid juurutusjuhiseid.
+> **Märkus:** Kui sa pole veel Moodulit 01 läbinud, järgi esmalt seal olevaid juurutusjuhiseid.
 
-## Tehisintellekti agentide mõistmine tööriistadega
+## AI Agentide Mõistmine Tööriistadega
 
-> **📝 Märkus:** Selles moodulis tähendab "agentide" all tehisintellektipõhiseid abistajaid, kellel on tööriistakutsete võimekus. See erineb **Agentic AI** mustritest (iseseisvad agendid planeerimise, mälu ja mitmeastmelise mõtlemisega), mida käsitleme [Moodulis 05: MCP](../05-mcp/README.md).
+> **📝 Märkus:** Selles moodulis viitab mõiste "agendid" AI assistentidele, millel on tööriista kutsumise võimekus. See erineb **Agentic AI** mustritest (autonoomsed agendid planeerimise, mälu ja mitmeastmelise põhjendamisega), mida käsitleme [Moodulis 05: MCP](../05-mcp/README.md).
 
-Ilma tööriistadeta suudab keelemudel genereerida teksti ainult oma treeningandmete põhjal. Küsi temalt ilmateadet ja ta peab arvama. Kui anda tööriistad, saab ta kutsuda ilma API-t, teha arvutusi või pärida andmebaasi — ning neid tegelikke tulemusi oma vastusesse kanda.
+Ilma tööriistadeta saab keelemudel ainult oma treeningandmetest teksti genereerida. Küsi ilmakaarti ja ta peab aimama. Anna talle tööriistad ja ta saab kutsuda ilma API, teha arvutusi või andmebaasi päringuid — ning põimida need reaalsete tulemused oma vastusesse.
 
-<img src="../../../translated_images/et/what-are-tools.724e468fc4de64da.webp" alt="Ilma tööriistadeta vs tööriistadega" width="800"/>
+<img src="../../../translated_images/et/what-are-tools.724e468fc4de64da.webp" alt="Ilma Tööriistadeta vs Tööriistadega" width="800"/>
 
-*Ilma tööriistadeta mudel ainult arvab — tööriistadega saab ta kutsuda API-sid, teha arvutusi ja tagastada reaalajas andmeid.*
+*Ilma tööriistadeta saab mudel ainult oletada — tööriistadega saab ta kutsuda API-sid, teha arvutusi ja tagastada reaalajas andmeid.*
 
-Tehisintellekti agent tööriistadega järgib **Reasoning and Acting (ReAct)** mustrit. Mudel ei vastagi lihtsalt — ta mõtleb, mida vajab, kutsub tööriista, jälgib tulemust ning otsustab siis, kas tegutseda edasi või anda lõplik vastus:
+AI agent tööriistadega järgib **Põhjendamise ja Tegutsemise (ReAct)** mustrit. Mudel ei vasta lihtsalt — ta mõtleb, mida vajab, tegutseb tööriista kutsumisega, jälgib tulemust ja otsustab, kas tegutseda uuesti või anda lõplik vastus:
 
-1. **Põhjenda** — Agent analüüsib kasutaja küsimust ja tuvastab vajaliku info
-2. **Tegu** — Agent valib õige tööriista, genereerib korrektseid parameetreid ja kutsub selle
-3. **Jälgi** — Agent saab tööriista väljundi ja hindab tulemust
-4. **Korda või vasta** — Kui vaja on rohkem andmeid, kordab agent tsüklit; vastasel juhul koostab loomuliku keele vastuse
+1. **Põhjenda** — Agent analüüsib kasutaja küsimust ja määrab vajaliku info
+2. **Tegutse** — Agent valib sobiva tööriista, genereerib õiged parameetrid ja kutsub selle
+3. **Vaatle** — Agent saab tööriista väljundi ja hindab tulemust
+4. **Korda või Vasta** — Kui vaja rohkem andmeid, kordab agent tsüklit; muidu koostab loomuliku keele vastuse
 
-<img src="../../../translated_images/et/react-pattern-detail.96a5efeeb6dd2f61.webp" alt="ReAct muster" width="800"/>
+<img src="../../../translated_images/et/react-pattern-detail.96a5efeeb6dd2f61.webp" alt="ReAct Muster" width="800"/>
 
-*ReAct tsükkel — agent põhjendab, mida teha, kutsub tööriista, jälgib tulemust ja kordab, kuni suudab anda lõpliku vastuse.*
+*ReAct tsükkel — agent põhjendab, mida teha, tegutseb tööriista kutsumisega, vaatleb tulemust ja kordab kuni lõpliku vastuse esitamiseni.*
 
-See toimub automaatselt. Te ise määratlete tööriistad ja nende kirjeldused. Mudel teeb otsuse, millal ja kuidas neid kasutada.
+See toimub automaatselt. Sa defineerid tööriistad ja nende kirjeldused. Mudel haldab otsustamist, millal ja kuidas neid kasutada.
 
-## Kuidas tööriistakutse töötab
+## Kuidas Tööriista Kutsumine Töötab
 
-### Tööriistade definitsioonid
+### Tööriistade Definitsioonid
 
 [WeatherTool.java](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/WeatherTool.java) | [TemperatureTool.java](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/TemperatureTool.java)
 
-Te määratlete funktsioonid selgete kirjelduste ja parameetrispetsifikatsioonidega. Mudel näeb neid kirjeldusi oma süsteemi promptis ja mõistab, mida iga tööriist teeb.
+Sa defineerid funktsioonid selgete kirjelduste ja parameetrite spetsifikatsioonidega. Mudel näeb neid kirjeldusi oma süsteemipromptis ja mõistab, mida iga tööriist teeb.
 
 ```java
 @Component
@@ -86,7 +86,7 @@ public class WeatherTool {
     
     @Tool("Get the current weather for a location")
     public String getCurrentWeather(@P("Location name") String location) {
-        // Teie ilmaotsingu loogika
+        // Teie ilmainfo päringu loogika
         return "Weather in " + location + ": 22°C, cloudy";
     }
 }
@@ -96,153 +96,153 @@ public interface Assistant {
     String chat(@MemoryId String sessionId, @UserMessage String message);
 }
 
-// Assistent on Spring Booti poolt automaatselt ühendatud järgmistega:
-// - ChatModel komponent
+// Abi on Spring Booti poolt automaatselt ühendatud järgmistega:
+// - ChatModel bean
 // - Kõik @Tool meetodid @Component klassidest
-// - ChatMemoryProvider sessioonihalduseks
+// - ChatMemoryProvider sessiooni haldamiseks
 ```
 
-Järgmine diagramm lahtiseletab iga annotatsiooni ja näitab, kuidas iga osa aitab tehisintellektil mõista, millal tööriista kutsuda ja milliseid argumente edasi anda:
+Järgmine skeem lahti seletab iga annotatsiooni ja näitab, kuidas iga osa aitab tehisintellektil mõista, millal tööriista kutsuda ja milliseid argumente edastada:
 
-<img src="../../../translated_images/et/tool-definitions-anatomy.f6468546037cf28b.webp" alt="Tööriista definitsiooni anatoomia" width="800"/>
+<img src="../../../translated_images/et/tool-definitions-anatomy.f6468546037cf28b.webp" alt="Tööriista Definitsioonide Anatoomia" width="800"/>
 
-*Tööriista definitsiooni anatoomia — @Tool ütleb AI-le, millal seda kasutada, @P kirjeldab iga parameetrit ning @AiService ühendab kõik käivitamisel.*
+*Tööriistade definitsiooni anatoomia — @Tool ütleb tehisintellektile, millal seda kasutada, @P kirjeldab iga parameetrit ja @AiService ühendab kõik käivitamisel.*
 
-> **🤖 Proovi koos [GitHub Copilot](https://github.com/features/copilot) Chatiga:** Ava [`WeatherTool.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/WeatherTool.java) ja küsi:
-> - "Kuidas integreerida päris ilma API nagu OpenWeatherMap, mitte tehisandmeid?"
-> - "Mis on hea tööriistakirjelduse omadused, mis aitavad AI-l seda korrektselt kasutada?"
-> - "Kuidas käidelda API-vigu ja piiranguid tööriistade rakendamisel?"
+> **🤖 Proovi [GitHub Copilot](https://github.com/features/copilot) Chat’iga:** Ava [`WeatherTool.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/tools/WeatherTool.java) ja küsi:
+> - "Kuidas integreerida päris ilma API nagu OpenWeatherMap simuleeritud andmete asemel?"
+> - "Mis teeb tööriista kirjelduse heaks ja aitab AI kasutamisel seda õigesti kasutada?"
+> - "Kuidas käsitleda API vigu ja päringu piire tööriista rakendustes?"
 
-### Otsuste tegemine
+### Otsuste Tegemine
 
-Kui kasutaja küsib: "Milline on ilm Seattle'is?", ei vali mudel tööriista juhuslikult. Ta võrdleb kasutaja kavatsust iga tööriista kirjeldusega, hindab iga relevantsust ja valib parima vaste. Ta genereerib struktureeritud funktsioonikutse õigetel parameetritel — antud juhul seatakse `location` väärtuseks `"Seattle"`.
+Kui kasutaja küsib "Milline on ilm Seattle’is?", ei vali mudel tööriista juhuslikult. Ta võrdleb kasutaja tahet kõigi tema käsutuses olevate tööriistade kirjeldustega, hinde igaüht asjakohasuse põhjal ja valib parima vaste. Seejärel genereerib struktureeritud funktsiooni kutsumise õigete parameetritega — antud juhul seab `location` väärtuseks `"Seattle"`.
 
-Kui ükski tööriist ei sobi kasutaja päringuga, vastab mudel oma teadmiste põhjal. Kui sobivaid tööriistu on mitu, valib kõige spetsiifilisema.
+Kui ükski tööriist ei vasta kasutaja päringule, vastab mudel oma teadmiste põhjal. Kui sobivaid tööriistu on mitu, valib kõige spetsiifilisema.
 
-<img src="../../../translated_images/et/decision-making.409cd562e5cecc49.webp" alt="Kuidas AI otsustab, millist tööriista kasutada" width="800"/>
+<img src="../../../translated_images/et/decision-making.409cd562e5cecc49.webp" alt="Kuidas AI Otsustab, Millist Tööriista Kasutada" width="800"/>
 
-*Mudel hindab iga saadavaloleva tööriista kasutaja kavatsuse vastu ja valib parima sobivuse — seepärast on oluline kirjutada selge ja konkreetne tööriistakirjeldus.*
+*Mudel hindab kõiki olemasolevaid tööriistu kasutaja eesmärgiga ja valib parima sobivuse — sellepärast on selgete ja spetsiifiliste tööriistakirjelduste kirjutamine oluline.*
 
 ### Täideviimine
 
 [AgentService.java](../../../04-tools/src/main/java/com/example/langchain4j/agents/service/AgentService.java)
 
-Spring Boot ühendab automaatselt deklaratiivse `@AiService` liidese kõigi registreeritud tööriistadega ning LangChain4j täidab tööriistakutsed automaatselt. Tagatipuks voolab komplektne tööriistakutse kuue etapi kaudu — kasutaja loomulikust keeles küsimusest tagasi loomuliku keele vastuseni:
+Spring Boot ühendab deklaratiivse `@AiService` liidese kõigi registreeritud tööriistadega automaatselt ning LangChain4j täidab tööriistakutsed ise. Tagaplaanil kulgeb täiesti tööriistakutse kuue faasiga — kasutaja loomuliku keele küsimusest loodusesse vastuseni tagasi:
 
-<img src="../../../translated_images/et/tool-calling-flow.8601941b0ca041e6.webp" alt="Tööriistakutse voog" width="800"/>
+<img src="../../../translated_images/et/tool-calling-flow.8601941b0ca041e6.webp" alt="Tööriistakutse Voog" width="800"/>
 
-*Täielik voog — kasutaja esitab küsimuse, mudel valib tööriista, LangChain4j täidab selle ja mudel lõimib tulemuse loomulikuks vastuseks.*
+*Algusest lõpuni voog — kasutaja esitab küsimuse, mudel valib tööriista, LangChain4j täidab selle ja mudel põimib tulemuse loomulikku vastusesse.*
 
-Kui käivitasite [ToolIntegrationDemo](../../../00-quick-start/src/main/java/com/example/langchain4j/quickstart/ToolIntegrationDemo.java) Moodulis 00, nägite seda mustrit töös — `Calculator` tööriistad kutsuti täpselt samamoodi. Järgmine järjestusdiagramm näitab täpselt, mis sel ajal toimus:
+Tagaplaanil käivitab `AiServices` sama tööriistakutsete tsükli iga tööriista jaoks — siin lihtsustatud `Calculatori` näitel. Allolev järjestusdiagramm näitab täpselt, mis toimub allapoole vooludes:
 
-<img src="../../../translated_images/et/tool-calling-sequence.94802f406ca26278.webp" alt="Tööriistakutsede järjestusdiagramm" width="800"/>
+<img src="../../../translated_images/et/tool-calling-sequence.94802f406ca26278.webp" alt="Tööriistakutse Järjestusdiagramm" width="800"/>
 
-*Tööriistakutse tsükkel Quick Start demos — `AiServices` saadab teie sõnumi ja tööriistade skeemid LLM-ile, LLM vastab funktsioonikutsega nagu `add(42, 58)`, LangChain4j täidab kohapeal `Calculator` meetodi ja tagastab tulemuse lõplikuks vastuseks.*
+*Tööriistakutse tsükkel — `AiServices` saadab su sõnumi ja tööriistaskemad LLM-ile, LLM vastab funktsioonikutsena nagu `add(42, 58)`, LangChain4j täidab kohalikult `Calculator` meetodi ja tagastab tulemuse lõpliku vastuse jaoks.*
 
-> **🤖 Proovi koos [GitHub Copilot](https://github.com/features/copilot) Chatiga:** Ava [`AgentService.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/service/AgentService.java) ja küsi:
-> - "Kuidas ReAct muster toimib ja miks on see tehisintellekti agentidele efektiivne?"
-> - "Kuidas agent otsustab, millist tööriista kasutada ja millises järjekorras?"
-> - "Mis juhtub, kui tööriista täideviimine ebaõnnestub - kuidas vigadega kindlalt toime tulla?"
+> **🤖 Proovi [GitHub Copilot](https://github.com/features/copilot) Chat’iga:** Ava [`AgentService.java`](../../../04-tools/src/main/java/com/example/langchain4j/agents/service/AgentService.java) ja küsi:
+> - "Kuidas töötab ReAct muster ja miks see on AI agentide puhul tõhus?"
+> - "Kuidas agent otsustab, millist tööriista kasutada ja mis järjekorras?"
+> - "Mis juhtub, kui tööriista täideviimine ebaõnnestub - kuidas käsitleda vigu kindlalt?"
 
-### Vastuse genereerimine
+### Vastuse Genereerimine
 
-Mudel saab ilmateabe ja vormindab selle kasutajale loomulikus keeles vastuseks.
+Mudel saab ilmaandmed ja vormistab need loomulikus keeles vastuseks kasutajale.
 
-### Arhitektuur: Spring Boot automaatühendus
+### Arhitektuur: Spring Boot Automaatühendus
 
-See moodul kasutab LangChain4j Spring Boot integreerimist deklaratiivsete `@AiService` liidestega. Käivitamisel leiab Spring Boot kõik `@Component`-id, mis sisaldavad `@Tool` meetodeid, teie `ChatModel` beani ja `ChatMemoryProvider` — ning ühendab need kõik ühte `Assistant` liidesesse ilma täiendava koodita.
+Selles moodulis kasutatakse LangChain4j Spring Boot integratsiooni deklaratiivsete `@AiService` liidestega. Käivitamisel avastab Spring Boot iga `@Component`, mis sisaldab `@Tool` meetodeid, sinu `ChatModel` bean’i ja `ChatMemoryProvider` — ning ühendab kõik üheks `Assistant` liideseks nullkoodita.
 
-<img src="../../../translated_images/et/spring-boot-wiring.151321795988b04e.webp" alt="Spring Boot automaatühenduse arhitektuur" width="800"/>
+<img src="../../../translated_images/et/spring-boot-wiring.151321795988b04e.webp" alt="Spring Boot Automaatühenduse Arhitektuur" width="800"/>
 
-*@AiService liides ühendab ChatModeli, tööriista komponendid ja mälupakkuja — Spring Boot haldab automaatselt kogu ühenduse.*
+*@AiService liides ühendab kokku ChatModel’i, tööriistakomponendid ja mälu pakkuja — Spring Boot haldab kogu ühenduse automaatselt.*
 
-Järgnevalt on kogu päringu elutsükkel järjestusdiagrammina — HTTP päringust kontrolleri, teenuse ja automaatselt ühendatud proksi kaudu tööriistakutse täideviimiseni ja tagasi:
+Siin on kogu päringu elutsükkel järjestusdiagrammina — HTTP päringust kontrolleri, teenuse ja automaatühendatud proksi kaudu tööriistakutseni ja tagasi:
 
-<img src="../../../translated_images/et/spring-boot-sequence.f83e3d485aa4a3c6.webp" alt="Spring Boot tööriistakutsete järjestus" width="800"/>
+<img src="../../../translated_images/et/spring-boot-sequence.f83e3d485aa4a3c6.webp" alt="Spring Boot Tööriistakutsete Järjestus" width="800"/>
 
-*Täielik Spring Boot päringu elutsükkel — HTTP päring voolab läbi kontrolleri ja teenuse automaatselt ühendatud Assistant proksisse, kes orkestreerib LLM-i ja tööriistakutsed iseseisvalt.*
+*Täielik Spring Boot päringu elutsükkel — HTTP päring voolab läbi kontrolleri ja teenuse automaatselt ühendatud Assistant proksi juurde, mis korraldab LLM ja tööriistakutsed iseseisvalt.*
 
 Selle lähenemise peamised eelised:
 
 - **Spring Boot automaatühendus** — ChatModel ja tööriistad süstitakse automaatselt
-- **@MemoryId muster** — Automaatne seansipõhine mälu haldus
-- **Üks instants** — Assistant luuakse korra ja kasutatakse uuesti parema jõudluse jaoks
-- **Tüübiturvaline täideviimine** — Java meetodid kutsutakse otse tüübi teisendusega
-- **Mitme sammuga orkestreerimine** — Haldbab tööriistade aheldamist automaatselt
-- **Null täiendavat koodi** — Ei ole vaja käsitsi kutsuda `AiServices.builder()` või mälu HashMapi
+- **@MemoryId muster** — Automaatne sessioonipõhine mäluhaldus
+- **Üks eksemplar** — Assistant loodud korra ja korduvkasutatud paremaks jõudluseks
+- **Tüübikindel täideviimine** — Java meetodid kutsutakse otse koos tüübi konverteerimisega
+- **Mitme sammuga korraldus** — Haldab tööriistade ühendamist automaatselt
+- **Nullkood** — Ei ole vaja käsitsi `AiServices.builder()` kutsumisi ega mäluhaldus HashMap’i
 
-Alternatiivsed lähenemised (käsitsi `AiServices.builder()`) vajavad rohkem koodi ja jäävad ilma Spring Boot integratsiooni eelistest.
+Alternatiivsed käsitletavad lähenemised (käsitsi `AiServices.builder()`) vajavad rohkem koodi ja jäävad ilma Spring Boot integratsiooni eelistest.
 
-## Tööriistade aheldamine
+## Tööriistade Järgnevus
 
-**Tööriistade aheldamine** — Tööriistapõhiste agentide tõeline võimsus tuleb ilmsiks siis, kui üks küsimus vajab mitut tööriista. Küsi: "Milline on Seattle'i ilm Fahrenheitides?" ja agent aheldab automaatselt kaks tööriista: esmalt kutsub `getCurrentWeather`, et saada temperatuur Celsiuses, seejärel edastab selle väärtuse `celsiusToFahrenheit` konverteerimiseks — kõik ühe vestluse jooksul.
+**Tööriistade Järgnevus** — Tööriistapõhiste agentide tõeline jõud avaldub siis, kui üks küsimus nõuab mitut tööriista. Küsi "Milline on ilm Seattle’is Fahrenheitides?" ja agent ühendab automaatselt kaks tööriista: esmalt kutsub `getCurrentWeather`, et saada temperatuur Celsiuses, seejärel annab selle tulemuse `celsiusToFahrenheit`-ile ümberarvestamiseks — kõik ühes vestluse sammus.
 
-<img src="../../../translated_images/et/tool-chaining-example.538203e73d09dd82.webp" alt="Tööriistade aheldamise näide" width="800"/>
+<img src="../../../translated_images/et/tool-chaining-example.538203e73d09dd82.webp" alt="Tööriistade Järgnevuse Näide" width="800"/>
 
-*Tööriistade aheldamine töös — agent kutsub esmalt getCurrentWeather, seejärel suunab Celsiuse tulemuse celsiusToFahrenheit-i ja annab kokkuvõtva vastuse.*
+*Tööriistade järgnevus tegevuses — agent kutsub esmalt getCurrentWeather, siis suunab Celsiuse tulemuse celsiusToFahrenheit-i ja annab kokkuvõtliku vastuse.*
 
-**Viisakas vigade käsitlemine** — Küsi ilma linna kohta, mis ei ole tehisandmetes. Tööriist tagastab veateate ning tehisintellekt seletab, et ei saa aidata, selle asemel et kokku jooksu teha. Tööriistad ebaõnnestuvad turvaliselt. Järgmine diagramm võrdleb kahte lähenemist — korraliku vigade käitlemisega agent tabab erandi ja vastab abivalmilt, ilma selleta kukub kogu rakendus kokku:
+**Vigade Maaratlus** — Küsi ilma kohta linnast, mis pole simulatsioonandmetes. Tööriist tagastab veateate ja AI selgitab, et ei saa aidata, selle asemel et rike tekiks. Tööriistad ebaõnnestuvad turvaliselt. Järgmine skeem võrdleb kahte lähenemist — korraliku veahaldusega püüab agent vea kinni ja vastab abistavalt, ilma selleta kukub kogu rakendus kokku:
 
-<img src="../../../translated_images/et/error-handling-flow.9a330ffc8ee0475c.webp" alt="Vigade käsitlemise voog" width="800"/>
+<img src="../../../translated_images/et/error-handling-flow.9a330ffc8ee0475c.webp" alt="Veakäsitluse Voog" width="800"/>
 
-*Kui tööriist ebaõnnestub, tabab agent vea ja vastab abivalmilt, selle asemel et rakendus kokku jookseks.*
+*Kui tööriist ebaõnnestub, püüab agent vea kinni ja vastab kasuliku selgitusega selle asemel, et kokku kukkuda.*
 
-See juhtub ühe vestlusvooru jooksul. Agent orkestreerib automaatselt mitut tööriistakutset.
+See kõik toimub ühes vestluse sammus. Agent korraldab mitmeid tööriistakutseid iseseisvalt.
 
-## Rakenduse käivitamine
+## Rakenduse Käivitamine
 
-**Kontrollige juurutust:**
+**Kontrolli juurutust:**
 
-Veenduge, et juurkaustas on olemas `.env` fail Azure volitustega (loodud Moodulis 01). Käivitage see mooduli kaustast (`04-tools/`):
+Veendu, et juurekataloogis on `.env` fail Azure volitustega (loodud Moodulis 01). Käivita see moodulikaustast (`04-tools/`):
 
-**Bash:**
+**Bash:**  
 ```bash
 cat ../.env  # Peaks näitama AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 Get-Content ..\.env  # Peaks näitama AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-
+  
 **Rakenduse käivitamine:**
 
-> **Märkus:** Kui olete juba käivitanud kõik rakendused käsuga `./start-all.sh` juurkaustast (nagu kirjeldatud Moodulis 01), töötab see moodul porti 8084. Võite käivituskäsklused vahele jätta ja minna otse aadressile http://localhost:8084.
+> **Märkus:** Kui sa oled juba käivitanud kõik rakendused käsuga `./start-all.sh` juurest (nagu kirjeldatud Moodulis 01), siis see moodul juba töötab pordil 8084. Võid käivitamiskäsud vahele jätta ja minna otse aadressile http://localhost:8084.
 
-**Variant 1: Spring Boot Dashboardi kasutamine (soovitatav VS Code kasutajatele)**
+**Variant 1: Kasutades Spring Boot Dashboard’i (Soovitatav VS Code kasutajatele)**
 
-Arenduskonteiner sisaldab Spring Boot Dashboard laiendust, mis pakub visuaalset liidest kõigi Spring Boot rakenduste haldamiseks. Leiate selle VS Code’i vasakpoolse tööriistariba ikoonilt, otsides Spring Boot ikooni.
+Arenduskonteiner sisaldab Spring Boot Dashboard laiendust, mis pakub visuaalset liidest kõigi Spring Boot rakenduste haldamiseks. Sa leiad selle VS Code vasakpoolsest Activity Bar’ist (otsi Spring Boot ikooni).
 
-Spring Boot Dashboardi kaudu saate:
-- Näha kõiki tööruumis olevaid Spring Boot rakendusi
-- Käivitada/peatada rakendusi ühe klõpsuga
-- Vaadata rakenduste logisid reaalajas
+Spring Boot Dashboard’i abil saad:  
+- Näha kõiki töölaua Spring Boot rakendusi  
+- Käivitada/peatada rakendusi ühe klikiga  
+- Vaadata rakenduse logisid reaalajas  
 - Jälgida rakenduse olekut
-Lihtsalt klõpsake selle mooduli käivitamiseks nupu "tools" kõrval olevat esitamisnuppu või käivitage kõik moodulid korraga.
 
-Siin on, kuidas Spring Boot Dashboard VS Code'is välja näeb:
+Lihtsalt klõpsa "tools" kõrval olevat play nuppu, et käivitada see moodul, või alusta korraga kõiki mooduleid.
 
-<img src="../../../translated_images/et/dashboard.9b519b1a1bc1b30a.webp" alt="Spring Boot Dashboard" width="400"/>
+Siin on, kuidas Spring Boot Dashboard VS Code’is välja näeb:
+<img src="../../../translated_images/et/dashboard.9b519b1a1bc1b30a.webp" alt="Spring Boot Tööriistalaud" width="400"/>
 
-*Spring Boot Dashboard VS Code'is — käivitage, peatage ja jälgige kõiki mooduleid ühest kohast*
+*Spring Boot Tööriistalaud VS Code’is — alusta, peata ja jälgi kõiki mooduleid ühest kohast*
 
-**Valik 2: Shell-skriptide kasutamine**
+**Variant 2: Shell-i skriptide kasutamine**
 
-Käivitage kõik veebirakendused (moodulid 01-04):
+Alusta kõiki veebirakendusi (moodulid 01-04):
 
 **Bash:**
 ```bash
-cd ..  # Juurekataloogist
+cd ..  # Juurkaustast
 ./start-all.sh
 ```
 
 **PowerShell:**
 ```powershell
-cd ..  # Juurestikust
+cd ..  # Põhijuurkataloogist
 .\start-all.ps1
 ```
 
-Või käivitage ainult see moodul:
+Või alusta ainult seda moodulit:
 
 **Bash:**
 ```bash
@@ -256,9 +256,9 @@ cd 04-tools
 .\start.ps1
 ```
 
-Mõlemad skriptid laadivad automaatselt keskkonnamuutujad juurkataloogis asuvast `.env` failist ning ehitavad JAR-id, kui neid ei eksisteeri.
+Mõlemad skriptid laadivad automaatselt keskkonnamuutujad juurest `.env` failist ja ehitavad JAR-id, kui neid veel ei ole.
 
-> **Märkus:** Kui soovite enne käivitamist kõik moodulid käsitsi ehitada:
+> **Märkus:** Kui soovid enne käivitamist kõik moodulid käsitsi ehitada:
 >
 > **Bash:**
 > ```bash
@@ -272,7 +272,7 @@ Mõlemad skriptid laadivad automaatselt keskkonnamuutujad juurkataloogis asuvast
 > mvn clean package -DskipTests
 > ```
 
-Avage oma brauseris aadress <http://localhost:8084>.
+Ava oma brauseris aadress http://localhost:8084.
 
 **Peatamiseks:**
 
@@ -292,96 +292,96 @@ cd ..; .\stop-all.ps1  # Kõik moodulid
 
 ## Rakenduse kasutamine
 
-Rakendus pakub veebiliidest, kus saate suhelda AI agendiga, kellel on juurdepääs ilma- ja temperatuuri teisendamise tööriistadele. Siin on liides — sisaldab kiire algusega näiteid ja vestluspaneeli päringute saatmiseks:
+Rakendus pakub veebiliidest, kus saad suhelda AI-agentiga, kellel on ligipääs ilma- ja temperatuuri teisendamise tööriistadele. Näiteks näeb kasutajaliides välja selline — sisaldab kiirstart näiteid ja vestluse paneeli päringute saatmiseks:
 
-<a href="images/tools-homepage.png"><img src="../../../translated_images/et/tools-homepage.4b4cd8b2717f9621.webp" alt="AI Agent Tools Interface" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/tools-homepage.png"><img src="../../../translated_images/et/tools-homepage.4b4cd8b2717f9621.webp" alt="AI Agendi Tööriistade Liides" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*AI Agent Tools liides – kiireid näiteid ja vestlusliides tööriistadega suhtlemiseks*
+*AI Agendi Tööriistade liides - kiirnäited ja vestlusliides tööriistadega suhtlemiseks*
 
 ### Proovi lihtsat tööriista kasutust
 
-Alusta lihtsast päringust: "Convert 100 degrees Fahrenheit to Celsius". Agent tuvastab, et tal on vaja temperatuuri teisendamise tööriista, kutsub selle õige parameetritega ja tagastab tulemuse. Märka, kui loomulik see on – sa ei pidanud täpsustama, millist tööriista kasutada või kuidas seda kutsuda.
+Alusta lihtsast päringust: "Teisenda 100 kraadi Fahrenheitist Celsiuseks". Agent mõistab, et tal on vaja temperatuuri teisendamise tööriista, kutsub seda õigete parameetritega ja tagastab tulemuse. Pane tähele, kui loomulik see on - sa ei pidanud täpsustama, millist tööriista kasutada või kuidas seda kutsuda.
 
 ### Testi tööriistade ahelat
 
-Proovi nüüd keerulisemat: "What's the weather in Seattle and convert it to Fahrenheit?" Vaata, kuidas agent samm-sammult töötab. Esiteks hangib ta ilma (mis tagastab Celsius), tunneb ära vajaduse teisendada Fahrenheitiks, kutsub teisendusvahendi ja ühendab mõlemad tulemused ühe vastusena.
+Proovi midagi keerukamat: "Milline on ilm Seattle’is ja teisenda see Fahrenheitiks?" Vaatle, kuidas agent samm-sammult töötab. Ta võtab esmalt ilmateate (mis tagastab Celsiuse kraadid), mõistab, et peab teisendama Fahrenheitiks, kutsub teisendustööriista ja ühendab mõlemad tulemused ühte vastusesse.
 
-### Vaata vestluse kulgu
+### Vaata vestluse voogu
 
-Vestlusliides säilitab vestluse ajaloo, võimaldades mitmevoorulist suhtlust. Näed kõiki varasemaid päringuid ja vastuseid, mis hõlbustab vestluse jälgimist ja mõistmist, kuidas agent ehitab konteksti mitme vahetuse jooksul.
+Vestlusliides hoiab vestluste ajalugu, võimaldades mitmetoalisi dialooge. Sa näed kõiki eelnevaid päringuid ja vastuseid, mis teeb kergeks vestluse jälgimise ja mõistmise, kuidas agent konteksti mitme vahetusega üles ehitab.
 
-<a href="images/tools-conversation-demo.png"><img src="../../../translated_images/et/tools-conversation-demo.89f2ce9676080f59.webp" alt="Conversation with Multiple Tool Calls" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/tools-conversation-demo.png"><img src="../../../translated_images/et/tools-conversation-demo.89f2ce9676080f59.webp" alt="Vestlus mitme tööriistikutsega" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*Mitmevooruline vestlus, mis näitab lihtsaid teisendusi, ilmapäringuid ja tööriistade ahelat*
+*Mitme vooruga vestlus, mis näitab lihtsaid teisendusi, ilmateateid ja tööriistade ahelat*
 
-### Katseta erinevaid päringuid
+### Katseta erinevate päringutega
 
 Proovi erinevaid kombinatsioone:
-- Ilmapäringud: "What's the weather in Tokyo?"
-- Temperatuuri teisendused: "What is 25°C in Kelvin?"
-- Ühispäringud: "Check the weather in Paris and tell me if it's above 20°C"
+- Ilmateated: "Milline on ilm Tokyos?"
+- Temperatuuri teisendused: "Mis on 25°C kelvinites?"
+- Ühendatud päringud: "Kontrolli Pariisi ilma ja ütle, kas temperatuur on üle 20°C"
 
-Märka, kuidas agent tõlgendab loomulikku keelt ja kaardistab selle sobivateks tööriistakutseteks.
+Pane tähele, kuidas agent tõlgendab loomulikku keelt ja seob selle sobivate tööriistakutsetega.
 
-## Põhimõisted
+## Peamised kontseptsioonid
 
-### ReAct muster (Põhjendamine ja Tegutsemine)
+### ReAct muster (Põhjus ja Tegutsemine)
 
-Agent vaheldub põhjendamise (otsustamine, mida teha) ja tegutsemise (tööriistade kasutamine) vahel. See muster võimaldab autonoomset probleemilahendust, mitte ainult juhiste täitmist.
+Agent vaheldumisi põhjendab (otsustab, mida teha) ja tegutseb (kasutab tööriistu). See muster võimaldab autonoomset probleemilahendust, mitte ainult juhiste täitmist.
 
-### Tööriistade kirjeldusel on tähtsus
+### Tööriistade kirjeldused on tähtsad
 
-Tööriistakirjelduse kvaliteet mõjutab otseselt, kui hästi agent neid kasutab. Selged, spetsiifilised kirjeldused aitavad mudelil mõista, millal ja kuidas iga tööriista kutsuda.
+Tööriistade kirjelduste kvaliteet määrab otse, kui hästi agent neid kasutab. Selged ja spetsiifilised kirjeldused aitavad mudelil mõista, millal ja kuidas iga tööriista kutsuda.
 
-### Sessioonihaldus
+### Sessiooni haldus
 
-`@MemoryId` annotatsioon võimaldab automaatset sessioonipõhist mäluhaldust. Iga sessiooni ID jaoks luuakse oma `ChatMemory` instants, mida haldab `ChatMemoryProvider` bean, nii et mitmed kasutajad saavad korraga agendiga suhelda ilma, et nende vestlused seguneksid. Järgnev diagramm näitab, kuidas mitu kasutajat suunatakse eraldatud mälupoodidesse vastavalt nende sessiooni ID-dele:
+`@MemoryId` annotatsioon lubab automaatset sessioonipõhist mälu haldust. Iga sessiooni ID-le luuakse oma `ChatMemory` instants, mida haldab `ChatMemoryProvider` bean, nii et mitmed kasutajad saavad samaaegselt agentidega suhelda ilma, et vestlused seguneksid. Järgmine diagramm näitab, kuidas mitmed kasutajad suunatakse eraldatud vestlusmäludele vastavalt nende sessiooni ID-dele:
 
-<img src="../../../translated_images/et/session-management.91ad819c6c89c400.webp" alt="Session Management with @MemoryId" width="800"/>
+<img src="../../../translated_images/et/session-management.91ad819c6c89c400.webp" alt="Sessiooni haldus koos @MemoryId-ga" width="800"/>
 
-*Iga sessiooni ID vastab eraldatud vestluse ajalool — kasutajad ei näe kunagi teiste sõnumeid.*
+*Iga sessiooni ID vastab isoleeritud vestluse ajaloole — kasutajad ei näe kunagi teiste sõnumeid.*
 
-### Vea käsitlemine
+### Veahaldus
 
-Tööriistad võivad ebaõnnestuda — API-d aeguvad, parameetrid võivad olla vigased, välisteenused ei tööta. Tootmisagentidele on vajalik veahaldus, et mudel suudaks probleemi selgitada või alternatiive proovida, mitte et terve rakendus kokku jookseks. Kui tööriist viskab erindi, püüab LangChain4j selle kinni ja edastab veateate mudelile, mis võib seejärel probleemi loomulikus keeles selgitada.
+Tööriistad võivad ebaõnnestuda — API-d aeguvad, parameetrid võivad olla valed, välised teenused võivad olla maas. Tootmisagentidel on vaja veahaldust, et mudel saaks probleeme selgitada või proovida alternatiive, mitte et kogu rakendus kokku jookseks. Kui tööriist viskab erandi, tabab LangChain4j selle ja suunab veateate mudelile tagasi, kes saab probleemi selgitada loomulikus keeles.
 
-## Saadavalolevad tööriistad
+## Saadaval olevad tööriistad
 
-Järgmine diagramm näitab laia tööriistade ökosüsteemi, mida saate ehitada. See moodul demonstreerib ilma- ja temperatuuri tööriistu, kuid sama `@Tool` muster toimib mistahes Java meetodi puhul — alates andmebaasipäringutest kuni maksete töötlemiseni.
+Järgmine diagramm näitab laia tööriistade ökosüsteemi, mida saad ehitada. See moodul demonstreerib ilma- ja temperatuuritööriistu, kuid sama `@Tool` muster töötab mis tahes Java meetodi puhul — alates andmebaasi päringutest kuni maksete töötlemiseni.
 
-<img src="../../../translated_images/et/tool-ecosystem.aad3d74eaa14a44f.webp" alt="Tool Ecosystem" width="800"/>
+<img src="../../../translated_images/et/tool-ecosystem.aad3d74eaa14a44f.webp" alt="Tööriistade ökosüsteem" width="800"/>
 
-*Mitte ükski Java meetod, mida annotatsiooniga @Tool märgistatakse, ei muutuks saadavaks AI-le — mustrit saab laiendada andmebaaside, API-de, e-posti, failitöötluse ja muu puhul.*
+*Iga Java meetod, mis on märgistatud @Tool-iga, saab AI-le kättesaadavaks — muster laieneb andmebaasidele, API-dele, e-postile, failitöötlusele ja muule.*
 
 ## Millal kasutada tööriistapõhiseid agente
 
-Mitte iga päring ei vaja tööriistu. Otsus sõltub sellest, kas AI-l on vaja suhelda välissüsteemidega või saab vastata oma teadmiste põhjal. Järgmine juhend võtab kokku, millal tööriistad väärtust lisavad ja millal neid pole vaja:
+Mitte iga päring ei vaja tööriistu. Otsus sõltub sellest, kas AI-l on vaja suhelda väliste süsteemidega või saab ta vastata oma teadmiste põhjal. Järgmine juhend koondab, millal tööriistad on kasulikud ja millal tarbetud:
 
-<img src="../../../translated_images/et/when-to-use-tools.51d1592d9cbdae9c.webp" alt="When to Use Tools" width="800"/>
+<img src="../../../translated_images/et/when-to-use-tools.51d1592d9cbdae9c.webp" alt="Millal tööriistu kasutada" width="800"/>
 
-*Kiire otsustusjuhend — tööriistad on mõeldud reaalajas andmete, arvutuste ja toimingute jaoks; üldteadmised ja loomingulised ülesanded neid ei vaja.*
+*Kiire otsustusjuhend — tööriistad on reaalajas andmete, arvutuste ja toimingute jaoks; üldised teadmised ja loomingulised ülesanded ei vaja neid.*
 
 ## Tööriistad vs RAG
 
-Moodulid 03 ja 04 laiendavad mõlemad, mida AI suudab teha, kuid põhjalikult erineval moel. RAG annab mudelile juurdepääsu **teadmistele** dokumentide abil. Tööriistad annavad mudelile võime **toimingute** tegemiseks funktsioone kutsuda. Järgnev diagramm võrdleb neid kahte lähenemist kõrvuti — alates tööprotsesside toimimisest kuni kompromissideni:
+Moodulid 03 ja 04 laiendavad AI võimekust, aga põhimõtteliselt erinevalt. RAG annab mudelile ligipääsu **teadmistele** dokumentide toomise kaudu. Tööriistad annavad mudelile võime **teha toiminguid** funktsioonide kutsumise kaudu. Järgmine diagramm võrdleb neid kahte lähenemist kõrvuti — alates sellest, kuidas töövood toimivad kuni nende vaheliste kompromissideni:
 
-<img src="../../../translated_images/et/tools-vs-rag.ad55ce10d7e4da87.webp" alt="Tools vs RAG Comparison" width="800"/>
+<img src="../../../translated_images/et/tools-vs-rag.ad55ce10d7e4da87.webp" alt="Tööriistade ja RAG võrdlus" width="800"/>
 
-*RAG hangib infot staatilistest dokumentidest — tööriistad täidavad toiminguid ja hangivad dünaamilisi, reaalajas andmeid. Paljud tootmissüsteemid kombineerivad mõlemat.*
+*RAG toob infot staatilistest dokumentidest — Tööriistad täidavad toiminguid ja hangivad dünaamilisi, reaalajas andmeid. Paljud tootmissüsteemid kasutavad mõlemat kombineeritult.*
 
-Praktikas kasutavad paljud tootmissüsteemid mõlemat lähenemist: RAG kinnitab vastused teie dokumentatsioonile ja tööriistad hangivad elusaid andmeid või teevad toiminguid.
+Praktikas kasutavad paljud tootmissüsteemid mõlemaid lähenemisi: RAG dokumentatsiooni toetamiseks ja Tööriistad elavate andmete hankimiseks või toimingute tegemiseks.
 
 ## Järgmised sammud
 
-**Järgmine moodul:** [05-mcp - Model Context Protocol (MCP)](../05-mcp/README.md)
+**Järgmine moodul:** [05-mcp - Mudeli konteksti protokoll (MCP)](../05-mcp/README.md)
 
 ---
 
-**Navigeerimine:** [← Eelmine: Moodul 03 - RAG](../03-rag/README.md) | [Tagasi Pealehele](../README.md) | [Järgmine: Moodul 05 - MCP →](../05-mcp/README.md)
+**Navigeerimine:** [← Eelmine: Moodul 03 - RAG](../03-rag/README.md) | [Tagasi avalehele](../README.md) | [Järgmine: Moodul 05 - MCP →](../05-mcp/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Vastutusest loobumine**:
-See dokument on tõlgitud AI tõlketeenuse [Co-op Translator](https://github.com/Azure/co-op-translator) abil. Kuigi püüame tagada täpsust, palun arvestage, et automaatses tõlkes võib esineda vigu või ebatäpsusi. Originaaldokument selle emakeeles tuleks pidada autoriteetseks allikaks. Olulise teabe puhul soovitatakse professionaalset inimtõlget. Me ei vastuta selle tõlke kasutamisest tingitud arusaamatuste või valesti mõistmiste eest.
+**Lahtiütlus**:
+See dokument on tõlgitud kasutades AI tõlketeenust [Co-op Translator](https://github.com/Azure/co-op-translator). Kuigi me püüdleme täpsuse poole, palun pange tähele, et automatiseeritud tõlgetes võib esineda vigu või ebatäpsusi. Originaaldokument selle emakeeles tuleks pidada autoriteetseks allikaks. Olulise teabe puhul soovitatakse kasutada professionaalset inimtõlget. Me ei vastuta selle tõlkega seotud eksimustest või valesti mõistmistest.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

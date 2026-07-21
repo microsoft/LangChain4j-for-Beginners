@@ -34,12 +34,11 @@ A course for building AI applications with LangChain4j and Azure OpenAI GPT-5.2,
 
 ## Table of Contents
 
-1. [Quick Start](00-quick-start/README.md) - Get started with LangChain4j
-2. [Introduction](01-introduction/README.md) - Learn the fundamentals of LangChain4j
-3. [Prompt Engineering](02-prompt-engineering/README.md) - Master effective prompt design
-4. [RAG (Retrieval-Augmented Generation)](03-rag/README.md) - Build intelligent knowledge-based systems
-5. [Tools](04-tools/README.md) - Integrate external tools and simple assistants
-6. [MCP (Model Context Protocol)](05-mcp/README.md) - Work with the Model Context Protocol (MCP) and Agentic modules
+1. [Introduction](01-introduction/README.md) - Learn the fundamentals of LangChain4j
+2. [Prompt Engineering](02-prompt-engineering/README.md) - Master effective prompt design
+3. [RAG (Retrieval-Augmented Generation)](03-rag/README.md) - Build intelligent knowledge-based systems
+4. [Tools](04-tools/README.md) - Integrate external tools and simple assistants
+5. [MCP (Model Context Protocol)](05-mcp/README.md) - Work with the Model Context Protocol (MCP) and Agentic modules
 
 ### Video Walkthroughs
 
@@ -65,11 +64,11 @@ Each module has a companion live session where we walk through the concepts and 
 3. Use the defaults – this will select the Development container created for this course
 4. Click **Create codespace**
 5. Wait 5-10 minutes for the environment to be ready
-6. Jump straight to [Quick Start](./00-quick-start/README.md) to get started!
+6. Jump straight to [Introduction](./01-introduction/README.md) to get started!
 
 After completing the modules, explore the [Testing Guide](docs/TESTING.md) to see LangChain4j testing concepts in action.
 
-> **Note:** This training uses both GitHub Models and Azure OpenAI. The [Quick Start](00-quick-start/README.md) module uses GitHub Models (no Azure subscription required), while modules 1-5 use Azure OpenAI. Get started with a [FREE Azure account](https://aka.ms/azure-free-account) if you don't have one.
+> **Note:** This training uses Azure OpenAI. Get started with a [FREE Azure account](https://aka.ms/azure-free-account) if you don't have one.
 
 
 ## Learning with GitHub Copilot
@@ -145,6 +144,6 @@ MIT License - See [LICENSE](../../LICENSE) file for details.
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Disclaimer**:  
-This document has been translated using the AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
+**Disclaimer**:
+This document has been translated using AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). While we strive for accuracy, please be aware that automated translations may contain errors or inaccuracies. The original document in its native language should be considered the authoritative source. For critical information, professional human translation is recommended. We are not liable for any misunderstandings or misinterpretations arising from the use of this translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

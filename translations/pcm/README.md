@@ -2,18 +2,18 @@
 
 # LangChain4j for Beginners
 
-Na kurs wey dey teach how to build AI apps wit LangChain4j and Azure OpenAI GPT-5.2, from basic chat reach AI agents.
+One course wey dey teach how to build AI applications wit LangChain4j and Azure OpenAI GPT-5.2, from basic chat go reach AI agents.
 
 ### 🌐 Multi-Language Support
 
-#### Supported via GitHub Action (Automated & Always Up-to-Date)
+#### Dem dey support am for GitHub Action (Automated & Always Up-to-Date)
 
 <!-- CO-OP TRANSLATOR LANGUAGES TABLE START -->
 [Arabic](../ar/README.md) | [Bengali](../bn/README.md) | [Bulgarian](../bg/README.md) | [Burmese (Myanmar)](../my/README.md) | [Chinese (Simplified)](../zh-CN/README.md) | [Chinese (Traditional, Hong Kong)](../zh-HK/README.md) | [Chinese (Traditional, Macau)](../zh-MO/README.md) | [Chinese (Traditional, Taiwan)](../zh-TW/README.md) | [Croatian](../hr/README.md) | [Czech](../cs/README.md) | [Danish](../da/README.md) | [Dutch](../nl/README.md) | [Estonian](../et/README.md) | [Finnish](../fi/README.md) | [French](../fr/README.md) | [German](../de/README.md) | [Greek](../el/README.md) | [Hebrew](../he/README.md) | [Hindi](../hi/README.md) | [Hungarian](../hu/README.md) | [Indonesian](../id/README.md) | [Italian](../it/README.md) | [Japanese](../ja/README.md) | [Kannada](../kn/README.md) | [Khmer](../km/README.md) | [Korean](../ko/README.md) | [Lithuanian](../lt/README.md) | [Malay](../ms/README.md) | [Malayalam](../ml/README.md) | [Marathi](../mr/README.md) | [Nepali](../ne/README.md) | [Nigerian Pidgin](./README.md) | [Norwegian](../no/README.md) | [Persian (Farsi)](../fa/README.md) | [Polish](../pl/README.md) | [Portuguese (Brazil)](../pt-BR/README.md) | [Portuguese (Portugal)](../pt-PT/README.md) | [Punjabi (Gurmukhi)](../pa/README.md) | [Romanian](../ro/README.md) | [Russian](../ru/README.md) | [Serbian (Cyrillic)](../sr/README.md) | [Slovak](../sk/README.md) | [Slovenian](../sl/README.md) | [Spanish](../es/README.md) | [Swahili](../sw/README.md) | [Swedish](../sv/README.md) | [Tagalog (Filipino)](../tl/README.md) | [Tamil](../ta/README.md) | [Telugu](../te/README.md) | [Thai](../th/README.md) | [Turkish](../tr/README.md) | [Ukrainian](../uk/README.md) | [Urdu](../ur/README.md) | [Vietnamese](../vi/README.md)
 
-> **You prefer to Clone Locally?**
+> **You Nor Dey Want Small Wahala? Clon am for your system?**
 >
-> Dis repository get more than 50 language translations wey make di download size big well well. If you want clone without di translations, use sparse checkout:
+> Dis repository get 50+ language translations wey fit make di download big. If you wan clone without translations, use sparse checkout:
 >
 > **Bash / macOS / Linux:**
 > ```bash
@@ -29,21 +29,20 @@ Na kurs wey dey teach how to build AI apps wit LangChain4j and Azure OpenAI GPT-
 > git sparse-checkout set --no-cone "/*" "!translations" "!translated_images"
 > ```
 >
-> Dis one go give you everything wey you need to finish di course but your download go quick well.
+> Dis one go give you everytin wey you need to complete di course quick quick.
 <!-- CO-OP TRANSLATOR LANGUAGES TABLE END -->
 
 ## Table of Contents
 
-1. [Quick Start](00-quick-start/README.md) - How to start with LangChain4j
-2. [Introduction](01-introduction/README.md) - Learn di basic tins about LangChain4j
-3. [Prompt Engineering](02-prompt-engineering/README.md) - How to sabi design better prompt dem
-4. [RAG (Retrieval-Augmented Generation)](03-rag/README.md) - Build smart knowledge-based systems
-5. [Tools](04-tools/README.md) - How to join outside tools and simple assistants
-6. [MCP (Model Context Protocol)](05-mcp/README.md) - Work wit di Model Context Protocol (MCP) and Agentic modules
+1. [Introduction](01-introduction/README.md) - Learn di basics of LangChain4j
+2. [Prompt Engineering](02-prompt-engineering/README.md) - Master how to design prompt well well
+3. [RAG (Retrieval-Augmented Generation)](03-rag/README.md) - Build smart knowledge based systems
+4. [Tools](04-tools/README.md) - Connect external tools and simple assistants
+5. [MCP (Model Context Protocol)](05-mcp/README.md) - Work wit Model Context Protocol (MCP) and Agentic modules
 
 ### Video Walkthroughs
 
-Each module get live session wey go show di concepts and code small small.
+Each module get live session wey we dey go through di ideas and code step by step.
 
 | Module | Video |
 |--------|-------|
@@ -56,33 +55,35 @@ Each module get live session wey go show di concepts and code small small.
 
 ##  Learning Path
 
-**New for LangChain4j?** Check di [Glossary](docs/GLOSSARY.md) for wetin key terms and concepts mean.
+**You be new for LangChain4j?** Check out di [Glossary](docs/GLOSSARY.md) for wetin key terms and concepts mean.
 
-> **Quick Start**
+> **How to Start Quick**
 
-1. Fork dis repo go your GitHub account
+1. Fork dis repository go your GitHub account
 2. Click **Code** → **Codespaces** tab → **...** → **New with options...**
-3. Use di default – dis one go select di Development container wey dem create for dis course
+3. Use di defaults – dis one go select di Development container wey dem make for dis course
 4. Click **Create codespace**
-5. Wait like 5-10 minutes for di environment to ready
-6. Jump quick go [Quick Start](./00-quick-start/README.md) make you fit start!
+5. Wait 5-10 minutes till environment ready
+6. Jump straight go [Introduction](./01-introduction/README.md) to start!
 
-After you don finish di modules, try check di [Testing Guide](docs/TESTING.md) make you see how di LangChain4j testing concepts dey work.
+After you finish all di modules, check di [Testing Guide](docs/TESTING.md) to sabi how dem dey test LangChain4j concepts.
 
-> **Note:** Dis training dey use both GitHub Models and Azure OpenAI. Di [Quick Start](00-quick-start/README.md) module dey use GitHub Models (no need Azure subscription), but modules 1-5 dey use Azure OpenAI. If you never get, start wit [FREE Azure account](https://aka.ms/azure-free-account).
+> **Note:** Dis training dey use Azure OpenAI. If you never get, start with [FREE Azure account](https://aka.ms/azure-free-account).
+
 
 ## Learning with GitHub Copilot
 
-To quick start writing your code, open dis project for one GitHub Codespace or for your local IDE wit di devcontainer wey dem give. Di devcontainer wey dem use for dis course don ready wit GitHub Copilot for AI paired programming.
+To start coding quick quick, open dis project inside GitHub Codespace or your local IDE with di devcontainer wey dem provide. Di devcontainer wey dis course use don already set GitHub Copilot for AI paired programming.
 
-Every code example get questions wey you fit ask GitHub Copilot to make you understand better. Look for di 💡/🤖 signs for:
+Each code example get suggested questions wey you fit ask GitHub Copilot to understand better. Look out for di 💡/🤖 prompts for:
 
-- **Java file headers** - Questions wey dey particular to each example
-- **Module READMEs** - Exploration prompts after code examples
+- **Java file headers** - Questions wey dey for each example
+- **Module READMEs** - Exploration prompts after di code examples
 
-**How to use:** Open any code file and ask Copilot di questions wey dem suggest. E get full idea of di codebase and fit explain, add more, or suggest other options.
+**How to use am:** Open any code file and ask Copilot di suggested questions. E sabi all about di codebase and fit explain, add more, and suggest other options.
 
-You want sabi more? Check [Copilot for AI Paired Programming](https://aka.ms/GitHubCopilotAI).
+You wan learn more? Check [Copilot for AI Paired Programming](https://aka.ms/GitHubCopilotAI).
+
 
 ## Additional Resources
 
@@ -128,11 +129,11 @@ You want sabi more? Check [Copilot for AI Paired Programming](https://aka.ms/Git
 
 ## Getting Help
 
-If you get stuck or get question about how to build AI apps, abeg join:
+If you get stuck or get any questions about how to build AI apps, join:
 
 [![Microsoft Foundry Discord](https://img.shields.io/badge/Discord-Microsoft_Foundry_Community_Discord-blue?style=for-the-badge&logo=discord&color=5865f2&logoColor=fff)](https://aka.ms/foundry/discord)
 
-If you get product feedback or wahala when you dey build, commot go:
+If you get product feedback or errors as you dey build, waka go:
 
 [![Microsoft Foundry Developer Forum](https://img.shields.io/badge/GitHub-Microsoft_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=000000&logoColor=fff)](https://aka.ms/foundry/forum)
 
@@ -143,6 +144,6 @@ MIT License - See [LICENSE](../../LICENSE) file for details.
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Disclaimer**:  
-Dis document don translate wit AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). Even tho we dey try make am correct, abeg sabi say automated translation fit get wahala or mistake. Di original document for im own language na di main correct source. For important tin dem, e better make person wey sabi translate human translate am. We no go responsible for any wrong understanding or wrong meaning wey fit show from dis translation.
+**Disclaimer**:
+Dis document don translate wit AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). Even tho we dey try make am correct, abeg make you know say automated translation fit get errors or mistakes. Di original document for dia own language na im be di correct source. For important info, make person wey sabi human translation do am. We no go responsible for any misunderstanding or wrong understanding wey fit happen because of dis translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

@@ -1,85 +1,85 @@
-# Module 01: Getting Started with LangChain4j
+# Module 01: Getting Started wit LangChain4j
 
 ## Table of Contents
 
-- [Video Walkthrough](../../../01-introduction)
-- [What You'll Learn](../../../01-introduction)
-- [Prerequisites](../../../01-introduction)
-- [Understanding the Core Problem](../../../01-introduction)
-- [Understanding Tokens](../../../01-introduction)
-- [How Memory Works](../../../01-introduction)
-- [How This Uses LangChain4j](../../../01-introduction)
-- [Deploy Azure OpenAI Infrastructure](../../../01-introduction)
-- [Run the Application Locally](../../../01-introduction)
-- [Using the Application](../../../01-introduction)
-  - [Stateless Chat (Left Panel)](../../../01-introduction)
-  - [Stateful Chat (Right Panel)](../../../01-introduction)
-- [Next Steps](../../../01-introduction)
+- [Video Walkthrough](#video-walkthrough)
+- [Wetìn You Go Learn](#wetìn-you-go-learn)
+- [Wetìn You Go Need](#wetìn-you-go-need)
+- [Undastand Di Main Wahala](#undastand-di-main-wahala)
+- [Undastand Tokens](#undastand-tokens)
+- [How Memory Dey Work](#how-memory-dey-work)
+- [How Dis One Take Use LangChain4j](#how-dis-one-take-use-langchain4j)
+- [Deploy Azure OpenAI Infrastructure](#deploy-azure-openai-infrastructure)
+- [Run Di Application for Your Local](#run-di-application-for-your-local)
+- [How to Use Di Application](#how-to-use-di-application)
+  - [Stateless Chat (Left Panel)](#stateless-chat-left-panel)
+  - [Stateful Chat (Right Panel)](#stateful-chat-right-panel)
+- [Wetìn to Do Next](#wetìn-to-do-next)
 
 ## Video Walkthrough
 
-Watch dis live session wey dey explain how to start to use dis module:
+Watch dis live session wey explain how you go start wit dis module:
 
 <a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Getting Started with LangChain4j - Live Session" width="800"/></a>
 
-## What You'll Learn
+## Wetìn You Go Learn
 
-Inside di quick start, you use GitHub Models to send prompts, call tools, build one RAG pipeline, and test guardrails. Dem demos show wetin fit be done — now we go switch to Azure OpenAI and GPT-5.2 and start to build production-style applications. Dis module focus on conversational AI wey dey remember context and keep state — di concepts wey dem quick start demos use for back ground but no explain.
+Dis na your start point wit LangChain4j and Azure OpenAI. We go start wit di basics and begin build production-style applications. Dis module na for conversational AI wey dey remember context and dey maintain state — di basic tins wey every later module go build on top.
 
-We go use Azure OpenAI GPT-5.2 for dis guide because e strong for reasoning and make di behavior of different patterns clear. When you add memory, you go clearly sabi di difference. Dis one go make am easy to understand wetin each component dey bring come your application.
+We go use Azure OpenAI GPT-5.2 throughout dis guide because im strong reasoning fit make di different patterns clear well well. When you add memory, you go clearly sabi di difference. Dis one go make am easy to understand wetin each part dey bring to your application.
 
 You go build one application wey go show both patterns:
 
-**Stateless Chat** - Each request na separate one. Di model no get memory of previous messages. Na di pattern wey you use for quick start.
+**Stateless Chat** - Each request na separate tin. Di model no get memory of wetin you talk before. Na di simplest starting point be dis.
 
-**Stateful Conversation** - Each request get conversation history. Di model dey keep context through many turns. Na wetin production applications need.
+**Stateful Conversation** - Each request get conversation history join. Di model dey maintain context across plenty turns. Na wetin production applications need.
 
-## Prerequisites
+## Wetìn You Go Need
 
 - Azure subscription wey get Azure OpenAI access
-- Java 21, Maven 3.9+ 
+- Java 21, Maven 3.9+
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **Note:** Java, Maven, Azure CLI and Azure Developer CLI (azd) don already install for di devcontainer wey dem provide.
+> **Note:** Java, Maven, Azure CLI and Azure Developer CLI (azd) don already dey inside di devcontainer wey dem provide.
 
-> **Note:** Dis module dey use GPT-5.2 for Azure OpenAI. The deployment dey configured automatically by `azd up` - no change di model name inside di code.
+> **Note:** Dis module dey use GPT-5.2 for Azure OpenAI. Di deployment dey automatic with `azd up` - no change di model name for di code.
 
-## Understanding the Core Problem
+## Undastand Di Main Wahala
 
-Language models no get state. Each API call na separate one. If you talk “My name is John” then ask “What's my name?”, di model no go know say you don already introduce yourself. E dey treat all requests like say na di first conversation wey you dey do.
+Language models no get memory. Each API call na separate tin. If you send "My name is John" and then ask "What's my name?", di model no go sabi say you don yarn yourself before. E go treat every request like na di first conversation wey you don ever get.
 
-E good for simple Q&A but e no work for real applications. Customer service bots need to remember wetin you talk. Personal assistants need context. Any multi-turn conversation need memory.
+Dis one good for simple Q&A but e no work for real applications. Customer service bots need to remember wetin you talk before. Personal assistants need context. Any multi-turn conversation need memory.
 
-Di picture below show di two ways — for left side, na stateless call wey forget your name; for right side, na stateful call wey use ChatMemory wey remember am.
+Di diagram wey follow below compare di two different ways — for left na stateless call wey dey forget your name; for right na stateful call wey get ChatMemory wey dey remember am.
 
 <img src="../../../translated_images/pcm/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Stateless vs Stateful Conversations" width="800"/>
 
-*Di difference between stateless (independent calls) and stateful (context-aware) conversations*
+*Di difference between stateless (calls wey independent) and stateful (calls wey sabi context) conversations*
 
-## Understanding Tokens
+## Undastand Tokens
 
-Before you enter conversation matter, e good to sabi tokens - na di basic text units wey language models dey process:
+Before you begin talk for conversation, e important to sabi tokens - di basic units of text wey language models dey use:
 
 <img src="../../../translated_images/pcm/token-explanation.c39760d8ec650181.webp" alt="Token Explanation" width="800"/>
 
-*Example how text dey break into tokens - "I love AI!" become 4 separate processing units*
+*Example how text dey break for tokens - "I love AI!" go be 4 separate processing units*
 
-Tokens na how AI models dey measure and process text. Words, punctuation, and space fit be tokens. Your model get limit on how many tokens e fit process at once (400,000 for GPT-5.2, with up to 272,000 input tokens and 128,000 output tokens). If you sabi tokens, e go help you manage conversation length and cost.
+Tokens na how AI models take measure and process text. Words, punctuation, and even spaces fit be tokens. Your model get limit on how many tokens e fit process for one time (400,000 for GPT-5.2, wit up to 272,000 input tokens and 128,000 output tokens). To sabi tokens go help you manage conversation length and cost.
 
-## How Memory Works
+## How Memory Dey Work
 
-Chat memory solve di stateless wahala by keeping conversation history. Before dem send your request to di model, di framework go first put di relevant previous messages front front. When you ask "What's my name?", di system go actually send all di conversation history. This one make di model see say you already talk "My name is John."
+Chat memory na di solution for di stateless wahala by maintaining conversation history. Before you send your request go di model, di framework go add previous messages wey dey relevant before di new one. When you ask "What's my name?", di system go send di whole conversation history, so di model go fit see say you don talk "My name is John" before.
 
-LangChain4j get memory implementations wey dey handle dis one automatically. You go choose how many messages to keep and di framework go arrange di context window. Di picture below show how MessageWindowChatMemory dey keep sliding window of recent messages.
+LangChain4j dey provide memory implementations wey dey do dis one automatically. You go choose how many messages to keep and di framework go manage context window. Di diagram wey below show how MessageWindowChatMemory dey maintain sliding window of recent messages.
 
 <img src="../../../translated_images/pcm/memory-window.bbe67f597eadabb3.webp" alt="Memory Window Concept" width="800"/>
 
-*MessageWindowChatMemory dey keep sliding window of recent messages, e dey automatically drop old ones*
+*MessageWindowChatMemory dey keep sliding window of recent messages, dey drop old ones automatically*
 
-## How This Uses LangChain4j
+## How Dis One Take Use LangChain4j
 
-Dis module dey build on top quick start by adding Spring Boot and conversation memory. Na so di pieces dey connect:
+Dis module join Spring Boot and add conversation memory. See how di parts dem link together:
 
 **Dependencies** - Add two LangChain4j libraries:
 
@@ -94,7 +94,7 @@ Dis module dey build on top quick start by adding Spring Boot and conversation m
 </dependency>
 ```
 
-**Chat Model** - Configure Azure OpenAI as one Spring bean ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
+**Chat Model** - Configure Azure OpenAI as Spring bean ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
 
 ```java
 @Bean
@@ -109,9 +109,9 @@ public OpenAiOfficialChatModel openAiOfficialChatModel() {
 }
 ```
 
-The builder dey read credentials from environment variables wey `azd up` set. If you set `baseUrl` to your Azure endpoint, e make OpenAI client fit work with Azure OpenAI.
+Di builder go read credentials from environment variables wey `azd up` set. If you set `baseUrl` to your Azure endpoint, OpenAI client go work with Azure OpenAI.
 
-**Conversation Memory** - Track chat history with MessageWindowChatMemory ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)):
+**Conversation Memory** - Track chat history wit MessageWindowChatMemory ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)):
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -124,51 +124,51 @@ AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
 
-Create memory with `withMaxMessages(10)` to keep last 10 messages. Add user and AI messages with typed wrappers: `UserMessage.from(text)` and `AiMessage.from(text)`. Get history `memory.messages()` then send am go di model. Di service store separate memory per conversation ID so multiple users fit chat at the same time.
+Create memory wit `withMaxMessages(10)` to keep last 10 messages. Add user and AI messages wit typed wrappers: `UserMessage.from(text)` and `AiMessage.from(text)`. To get history, use `memory.messages()` and send am to di model. Di service dey store separate memory for each conversation ID, so multiple users fit dey chat at di same time.
 
-> **🤖 Try with [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) and ask:
-> - "How MessageWindowChatMemory dey decide which messages to drop when window full?"
-> - "Fit I do custom memory storage with database instead of in-memory?"
-> - "How I fit add summarization to compress old conversation history?"
+> **🤖 Try wit [GitHub Copilot](https://github.com/features/copilot) Chat:** Open [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) and ask:
+> - "How MessageWindowChatMemory dey decide which messages to drop when window ful?"
+> - "Fit I implement custom memory storage using database instead of memory?"
+> - "How I go add summarization to compress old conversation history?"
 
-Di stateless chat endpoint no use memory - just `chatModel.chat(prompt)` like for quick start. Di stateful endpoint dey add messages go memory, gather history and join di context for each request. Same model config, different patterns.
+Di stateless chat endpoint no use memory at all - na just `chatModel.chat(prompt)` like quick start. Di stateful endpoint add messages to memory, retrieve history, and join am with each request. Same model configuration, different patterns.
 
 ## Deploy Azure OpenAI Infrastructure
 
 **Bash:**
 ```bash
 cd 01-introduction
-azd up  # Choose subscription and place (eastus2 na di best)
+azd up  # Select subscription and location (eastus2 dem recommend)
 ```
 
 **PowerShell:**
 ```powershell
 cd 01-introduction
-azd up  # Choose subscription and where you dey (eastus2 na beta)
+azd up  # Chọs subscription and location (eastus2 dey recommended)
 ```
 
-> **Note:** If you see timeout error (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), no wahala, just run `azd up` again. Azure resources fit still dey provision in background, so retrying go help deployment finish when resources finish.
+> **Note:** If you see timeout error (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), jus run `azd up` again. Azure resources fit still dey provision inside background, to try again go allow di deployment finish when resource dem reach terminal state.
 
 This one go:
-1. Deploy Azure OpenAI resource with GPT-5.2 and text-embedding-3-small models
-2. Automatically create `.env` file for project root with credentials
-3. Set all necessary environment variables
+1. Deploy Azure OpenAI resource wit GPT-5.2 and text-embedding-3-small models
+2. Automatically generate `.env` file for project root wit credentials
+3. Setup all required environment variables
 
-**If deployment get wahala?** Check [Infrastructure README](infra/README.md) for troubleshooting tips including subdomain name conflicts, manual Azure Portal deployment steps, and model config guide.
+**If deployment get problem?** Check [Infrastructure README](infra/README.md) for troubleshooting like subdomain name wahala, manual Azure Portal deployment steps, and model configuration guide.
 
-**Confirm deployment complete:**
+**Make sure deployment succeed:**
 
 **Bash:**
 ```bash
-cat ../.env  # E suppose show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
+cat ../.env  # E suppose show AZURE_OPENAI_ENDPOINT, API_KEY, anoda tin dem.
 ```
 
 **PowerShell:**
 ```powershell
-Get-Content ..\.env  # Suppose show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
+Get-Content ..\.env  # E for show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
 ```
 
-> **Note:** `azd up` command dey automatically generate `.env` file. If you want update am later, fit manually edit `.env` or regenerate by running:
+> **Note:** `azd up` command dey automatically generate `.env` file. If you want update am later, you fit either edit `.env` file manual or regenerate am by running:
 >
 > **Bash:**
 > ```bash
@@ -182,47 +182,47 @@ Get-Content ..\.env  # Suppose show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
 > .\.azd-env.ps1
 > ```
 
-## Run the Application Locally
+## Run Di Application for Your Local
 
-**Confirm deployment:**
+**Make sure deployment ready:**
 
-Make sure `.env` file dey root folder wit Azure credentials. Run this command inside module folder (`01-introduction/`):
+Ensure `.env` file dey root directory wit Azure credentials. Run dis from module directory (`01-introduction/`):
 
 **Bash:**
 ```bash
-cat ../.env  # Suppoz go show AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+cat ../.env  # E suppose show AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
 
 **PowerShell:**
 ```powershell
-Get-Content ..\.env  # Shiud show AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+Get-Content ..\.env  # E suppose show AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
 
-**Start di apps:**
+**Start di applications:**
 
-**Option 1: Use Spring Boot Dashboard (Best for VS Code users)**
+**Option 1: Using Spring Boot Dashboard (Better for VS Code users)**
 
-Di devcontainer get Spring Boot Dashboard extension, wey get GUI interface to control all Spring Boot apps. You fit find am for di Activity Bar for left side of VS Code (look for Spring Boot icon).
+Di dev container get Spring Boot Dashboard extension, wey go give you visual interface to manage all Spring Boot applications. You fit find am for Activity Bar wey dey left side of VS Code (look for Spring Boot icon).
 
-From di Spring Boot Dashboard you fit:
-- See all Spring Boot apps for di workspace
-- Start/stop apps with one click
-- View app logs as e dey happen
-- Check app status
+From Spring Boot Dashboard, you fit:
+- See all Spring Boot apps for workspace
+- Start/stop applications wit one click
+- View application logs live
+- Monitor application status
 
-Just click di play button beside "introduction" to start dis module, or start all modules at once.
+Just click play button next to "introduction" to start dis module, or start all modules together.
 
 <img src="../../../translated_images/pcm/dashboard.69c7479aef09ff6b.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*Spring Boot Dashboard inside VS Code — start, stop, and monitor all modules for one place*
+*Spring Boot Dashboard for VS Code — start, stop, and monitor all modules for one place*
 
-**Option 2: Use shell scripts**
+**Option 2: Using shell scripts**
 
-Start all web apps (modules 01-04):
+Start all web applications (modules 01-04):
 
 **Bash:**
 ```bash
-cd ..  # From root directory
+cd ..  # From di root directory
 ./start-all.sh
 ```
 
@@ -246,9 +246,9 @@ cd 01-introduction
 .\start.ps1
 ```
 
-Both scripts go load environment variables from root `.env` file and go build the JARs if dem no dey.
+Both scripts go automatically load environment variables from root `.env` file, and go build JARs if dem never dey.
 
-> **Note:** If you want build all modules manually before starting:
+> **Note:** If you prefer build all modules yourself before you start:
 >
 > **Bash:**
 > ```bash
@@ -270,53 +270,53 @@ Open http://localhost:8080 for your browser.
 ```bash
 ./stop.sh  # Dis module only
 # Or
-cd .. && ./stop-all.sh  # All di modules
+cd .. && ./stop-all.sh  # All modules
 ```
 
 **PowerShell:**
 ```powershell
-.\stop.ps1  # Dis module only
+.\stop.ps1  # Dis moduul only
 # Or
-cd ..; .\stop-all.ps1  # All di modules
+cd ..; .\stop-all.ps1  # All moduuls
 ```
 
-## Using the Application
+## How to Use Di Application
 
-Di application get web interface with two chat types side-by-side.
+Di application get web interface wit two chat implementations side by side.
 
 <img src="../../../translated_images/pcm/home-screen.121a03206ab910c0.webp" alt="Application Home Screen" width="800"/>
 
-*Dashboard wey show Simple Chat (stateless) and Conversational Chat (stateful) options*
+*Dashboard wey show both Simple Chat (stateless) and Conversational Chat (stateful) options*
 
 ### Stateless Chat (Left Panel)
 
-Try am first. Tell "My name is John" then quickly ask "What's my name?" Di model no go remember because each message na separate one. Dis one show di core problem with basic language model integration - no conversation context.
+Try dis one first. Ask "My name is John" then immediately ask "What's my name?" Di model no go remember because each message na different tin. Dis one show di core wahala with basic language model join - no conversation context.
 
 <img src="../../../translated_images/pcm/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Stateless Chat Demo" width="800"/>
 
-*AI no remember your name from your last message*
+*AI no remember your name from previous message*
 
 ### Stateful Chat (Right Panel)
 
-Now try di same thing here. Tell "My name is John" then ask "What's my name?" This time e remember. Di difference na MessageWindowChatMemory - e dey keep conversation history and add am with every request. Na so production conversational AI dey work.
+Now try same thing here. Ask "My name is John" then "What's my name?" This time e remember. Di difference na MessageWindowChatMemory - e maintain conversation history and add am with each request. Na so production conversational AI dey work.
 
 <img src="../../../translated_images/pcm/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Stateful Chat Demo" width="800"/>
 
-*AI remember your name from earlier conversation*
+*AI dey remember your name from earlier conversation*
 
-Both sides use di same GPT-5.2 model. Di only difference na memory. Dis one make clear how memory fit improve your app and why e important for real use.
+Both panels dey use same GPT-5.2 model. Di only difference na memory. Dis one clear how memory dey help your application and why e important for real use case dem.
 
-## Next Steps
+## Wetìn to Do Next
 
-**Next Module:** [02-prompt-engineering - Prompt Engineering with GPT-5.2](../02-prompt-engineering/README.md)
+**Next Module:** [02-prompt-engineering - Prompt Engineering wit GPT-5.2](../02-prompt-engineering/README.md)
 
 ---
 
-**Navigation:** [← Previous: Module 00 - Quick Start](../00-quick-start/README.md) | [Back to Main](../README.md) | [Next: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
+**Navigation:** [← Back to Main](../README.md) | [Next: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Disclaimer**:
-Dis document na di one wey AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator) translate. Even though we dey try make e correct, abeg make you sabi say automated translations fit get some errors or mistake. Di original document for dia own language na di main correct source. If na important info, e better make pro human translator do am. We no gree take any blame if person misunderstand or misinterpret tins because of dis translation.
+Dis document don translate wit AI translation service [Co-op Translator](https://github.com/Azure/co-op-translator). Even tho we dey try make am correct, abeg make you know say automated translation fit get errors or mistakes. Di original document for dia own language na im be di correct source. For important info, make person wey sabi human translation do am. We no go responsible for any misunderstanding or wrong understanding wey fit happen because of dis translation.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

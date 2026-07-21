@@ -1,101 +1,101 @@
-# Modul 02: Prompt Műszaki Tervezés a GPT-5.2-vel
+# Modul 02: Prompt Mérés GPT-5.2-vel
 
 ## Tartalomjegyzék
 
-- [Videós Bemutató](../../../02-prompt-engineering)
-- [Amit Meg Fogsz Tanulni](../../../02-prompt-engineering)
-- [Előfeltételek](../../../02-prompt-engineering)
-- [A Prompt Műszaki Tervezés Megértése](../../../02-prompt-engineering)
-- [A Prompt Műszaki Tervezés Alapjai](../../../02-prompt-engineering)
-  - [Zero-Shot Prompting](../../../02-prompt-engineering)
-  - [Few-Shot Prompting](../../../02-prompt-engineering)
-  - [Gondolatmenet Láncolata](../../../02-prompt-engineering)
-  - [Szerepalapú Prompting](../../../02-prompt-engineering)
-  - [Prompt Sablonok](../../../02-prompt-engineering)
-- [Fejlett Minták](../../../02-prompt-engineering)
-- [Az Alkalmazás Futtatása](../../../02-prompt-engineering)
-- [Alkalmazás Képernyőképek](../../../02-prompt-engineering)
-- [A Minták Felfedezése](../../../02-prompt-engineering)
-  - [Alacsony vs Magas Lelkesedés](../../../02-prompt-engineering)
-  - [Feladatvégrehajtás (Eszköz Előszövegek)](../../../02-prompt-engineering)
-  - [Önreflektáló Kód](../../../02-prompt-engineering)
-  - [Strukturált Elemzés](../../../02-prompt-engineering)
-  - [Többkörös Csevegés](../../../02-prompt-engineering)
-  - [Lépésről Lépésre Logika](../../../02-prompt-engineering)
-  - [Korlátozott Kimenet](../../../02-prompt-engineering)
-- [Amit Valójában Meg Fogsz Tanulni](../../../02-prompt-engineering)
-- [Következő Lépések](../../../02-prompt-engineering)
+- [Videós bemutató](#videós-bemutató)
+- [Amit megtanulsz](#amit-megtanulsz)
+- [Előfeltételek](#előfeltételek)
+- [A Prompt Mérés megértése](#a-prompt-mérés-megértése)
+- [A Prompt Mérés alapjai](#a-prompt-mérés-alapjai)
+  - [Zero-Shot Prompting](#zero-shot-prompting)
+  - [Few-Shot Prompting](#few-shot-prompting)
+  - [Gondolatmenet láncolata](#gondolatmenet-láncolata)
+  - [Szerepalapú Prompting](#szerepalapú-prompting)
+  - [Prompt sablonok](#prompt-sablonok)
+- [Fejlett minták](#fejlett-minták)
+- [Az alkalmazás futtatása](#az-alkalmazás-futtatása)
+- [Az alkalmazás képernyőképei](#alkalmazás-képernyőképek)
+- [A minták felfedezése](#a-minták-felfedezése)
+  - [Alacsony vs magas lelkesedés](#alacsony-vs-magas-lelkesedés)
+  - [Feladat-végrehajtás (Eszköz-előszavak)](#feladatteljesítés-eszköz-bevezetők)
+  - [Önreflektáló kód](#önszemléletű-kód)
+  - [Strukturált elemzés](#strukturált-elemzés)
+  - [Többfordulós csevegés](#többfordulós-chat)
+  - [Lépésről lépésre való érvelés](#lépésről-lépésre-történő-érvelés)
+  - [Korlátozott kimenet](#korlátozott-kimenet)
+- [Amit valóban megtanulsz](#amit-valójában-tanulsz)
+- [Következő lépések](#következő-lépések)
 
-## Videós Bemutató
+## Videós bemutató
 
-Nézd meg ezt az élő bemutatót, amely megmutatja, hogyan kezdhetsz neki ennek a modulnak:
+Nézd meg ezt az élő adást, amely elmagyarázza, hogyan kezdj neki ennek a modulnak:
 
 <a href="https://www.youtube.com/live/PJ6aBaE6bog?si=LDshyBrTRodP-wke"><img src="https://img.youtube.com/vi/PJ6aBaE6bog/maxresdefault.jpg" alt="Prompt Engineering with LangChain4j - Live Session" width="800"/></a>
 
-## Amit Meg Fogsz Tanulni
+## Amit megtanulsz
 
-A következő ábra áttekintést ad a kulcsfontosságú témákról és készségekről, amelyeket ebben a modulban fejleszteni fogsz — a prompt finomítási technikáktól a lépésről lépésre követett munkafolyamatig.
+Az alábbi diagram áttekintést nyújt a modul kulcsfontosságú témáiról és készségeiről — a prompt finomítási technikáktól a lépésenkénti munkafolyamatig, amelyet követni fogsz.
 
-<img src="../../../translated_images/hu/what-youll-learn.c68269ac048503b2.webp" alt="Amit Meg Fogsz Tanulni" width="800"/>
+<img src="../../../translated_images/hu/what-youll-learn.c68269ac048503b2.webp" alt="What You'll Learn" width="800"/>
 
-Az előző modulokban megismerted az alapvető LangChain4j interakciókat a GitHub modellekkel, és láthattad, hogyan teszi lehetővé a memória a beszélgető AI működését Azure OpenAI-val. Most arra koncentrálunk, hogyan teszel fel kérdéseket — vagyis magukra a promptokra — Azure OpenAI GPT-5.2 használatával. Az, hogy hogyan strukturálod a promptjaidat, drámaian befolyásolja a kapott válaszok minőségét. Kezdjük az alapvető prompting technikák áttekintésével, majd továbblépünk nyolc fejlett mintára, amelyek teljes mértékben kihasználják a GPT-5.2 képességeit.
+Az előző modulban láttad, hogyan teszi lehetővé a memória a konverzációs AI-t az Azure OpenAI-val. Most arra fókuszálunk, hogyan teszel fel kérdéseket — azaz magukra a promptokra — az Azure OpenAI GPT-5.2 segítségével. A promptok felépítése drámaian befolyásolja a kapott válaszok minőségét. Először áttekintjük az alapvető prompting technikákat, majd áttérünk nyolc fejlett mintára, amelyek teljes mértékben kihasználják a GPT-5.2 képességeit.
 
-A GPT-5.2-t azért használjuk, mert bevezeti az érvelés szabályozását — megmondhatod a modellnek, mennyi gondolkodást végezzen mielőtt válaszol. Ez világosabbá teszi a különböző prompting stratégiákat, és segít megérteni, mikor melyik megközelítést használd. Továbbá, az Azure kevesebb korlátozást tesz a GPT-5.2-re a GitHub modellekhez képest.
+A GPT-5.2-t azért használjuk, mert bevezeti az érvelés szabályozását - megmondhatod a modellnek, mennyi gondolkodást végezzen a válaszadás előtt. Ez tisztábban láttatja a különböző prompting stratégiákat és segít megérteni, mikor melyiket alkalmazd.
 
 ## Előfeltételek
 
 - Az 01-es modul elvégzése (Azure OpenAI erőforrások telepítve)
-- `.env` fájl a gyökérkönyvtárban Azure hitelesítő adatokkal (az `azd up` parancs által létrehozva az 01-es modulban)
+- `.env` fájl a gyökérkönyvtárban Azure hitelesítő adatokkal (az `azd up` parancs hozta létre az 01-es modulban)
 
-> **Megjegyzés:** Ha még nem végezted el az 01-es modult, először kövesd ott a telepítési útmutatót.
+> **Megjegyzés:** Ha még nem végezted el az 01-es modult, először ott kövesd a telepítési utasításokat.
 
-## A Prompt Műszaki Tervezés Megértése
+## A Prompt Mérés megértése
 
-Lényegében a prompt műszaki tervezés a homályos és a pontos utasítások közti különbség, amint ezt az alábbi összehasonlítás is illusztrálja.
+Lényegében a prompt mérnökség a homályos utasítások és a pontosak közötti különbség, ahogy az alábbi összehasonlítás is mutatja.
 
-<img src="../../../translated_images/hu/what-is-prompt-engineering.5c392a228a1f5823.webp" alt="Mi a Prompt Műszaki Tervezés?" width="800"/>
+<img src="../../../translated_images/hu/what-is-prompt-engineering.5c392a228a1f5823.webp" alt="What is Prompt Engineering?" width="800"/>
 
-A prompt műszaki tervezés az olyan bemeneti szöveg megtervezéséről szól, amely következetesen eléri a kívánt eredményeket. Nemcsak kérdések feltevéséről van szó - arról is, hogy úgy struktúrálod a kéréseket, hogy a modell pontosan értse, mit akarsz és hogyan kell teljesíteni.
+A prompt mérnökség arról szól, hogy olyan bemenetet tervezz, amely következetesen a kívánt eredményeket hozza. Nem csak kérdések feltevése – hanem az igények olyan strukturálása, hogy a modell pontosan értse, mit szeretnél, és hogyan adja vissza.
 
-Gondolj rá úgy, mint egy kollégának adott utasításra. „Javítsd meg a hibát” homályos. „Javítsd meg a null pointer kivételt a UserService.java 45. sorában null ellenőrzéssel” specifikus. A nyelvi modellek ugyanígy működnek — a specifikusság és a struktúra számít.
+Gondolj rá úgy, mint amikor utasítást adsz egy kollégának. „Javítsd a hibát” homályos. „Javítsd a null pointer exception-t a UserService.java 45. sorában egy null ellenőrzés hozzáadásával” specifikus. A nyelvi modellek ugyanígy működnek – a konkrétság és az struktúra számít.
 
-Az alábbi ábra mutatja, hogyan illeszkedik ide a LangChain4j — összekapcsolva a prompt mintáidat a modellel a SystemMessage és UserMessage építőelemek segítségével.
+Az alábbi diagram azt mutatja, hogyan illeszkedik ebbe a képbe a LangChain4j — összekapcsolva a prompt mintáidat a modellel a SystemMessage és UserMessage építőelemek segítségével.
 
-<img src="../../../translated_images/hu/how-langchain4j-fits.dfff4b0aa5f7812d.webp" alt="Hogyan Illeszkedik a LangChain4j" width="800"/>
+<img src="../../../translated_images/hu/how-langchain4j-fits.dfff4b0aa5f7812d.webp" alt="How LangChain4j Fits" width="800"/>
 
-A LangChain4j biztosítja az infrastruktúrát — modellkapcsolatok, memória és üzenettípusok — miközben a prompt minták egyszerűen gondosan strukturált szövegek, amelyeket ezen infrastruktúrán keresztül küldesz. A kulcsépítőelemek a `SystemMessage` (amely beállítja az MI viselkedését és szerepét) és a `UserMessage` (amely hordozza a tényleges kérésedet).
+A LangChain4j az infrastruktúrát biztosítja — modellkapcsolatokat, memóriát és üzenettípusokat — míg a prompt minták csupán gondosan strukturált szövegek, amelyeket ezen az infrastruktúrán keresztül küldesz. A kulcsfontosságú építőelemek a `SystemMessage` (ami beállítja az AI viselkedését és szerepét) és a `UserMessage` (ami az aktuális kérést hordozza).
 
-## A Prompt Műszaki Tervezés Alapjai
+## A Prompt Mérés alapjai
 
-Az alább bemutatott öt alapvető technika alkotja a hatékony prompt műszaki tervezés alapját. Mindegyik más aspektusát célozza meg annak, hogyan kommunikálsz a nyelvi modellekkel.
+Az alább látható öt alapvető technika képezi a hatékony prompt mérnökség alapját. Mindegyik más-más aspektusát célozza meg annak, ahogyan kommunikálsz a nyelvi modellekkel.
 
-<img src="../../../translated_images/hu/five-patterns-overview.160f35045ffd2a94.webp" alt="Öt Prompt Műszaki Tervezési Minta Áttekintése" width="800"/>
+<img src="../../../translated_images/hu/five-patterns-overview.160f35045ffd2a94.webp" alt="Five Prompt Engineering Patterns Overview" width="800"/>
 
-Mielőtt belevágnánk a modul fejlett mintáiba, tekintsük át az öt alapvető prompting technikát. Ezek azok az építőelemek, amelyeket minden prompt mérnöknek ismernie kell. Ha már dolgoztál a [Gyors kezdő modulon](../00-quick-start/README.md#2-prompt-patterns), láthattad őket működés közben — itt a mögöttes fogalmi keret.
+Mielőtt belevágnánk a fejlett mintákba, nézzük át az öt alapvető prompting technikát. Ezek az építőelemei minden prompt mérnök eszköztárának.
 
 ### Zero-Shot Prompting
 
-A legegyszerűbb megközelítés: közvetlen utasítást adsz a modellnek példa nélkül. A modell teljes egészében a tréningjére hagyatkozik a feladat megértésében és végrehajtásában. Ez jól működik egyértelmű kéréseknél, ahol a várt viselkedés nyilvánvaló.
+A legegyszerűbb megközelítés: adj közvetlen utasítást a modellnek példák nélkül. A modell teljes mértékben a tanulására támaszkodik a feladat megértéséhez és végrehajtásához. Ez jól működik egyszerű kéréseknél, ahol az elvárt viselkedés nyilvánvaló.
 
 <img src="../../../translated_images/hu/zero-shot-prompting.7abc24228be84e6c.webp" alt="Zero-Shot Prompting" width="800"/>
 
-*Közvetlen utasítás példák nélkül — a modell csak az utasításból következteti a feladatot*
+*Közvetlen utasítás példák nélkül — a modell csak az utasításból következtet a feladatra*
 
 ```java
 String prompt = "Classify this sentiment: 'I absolutely loved the movie!'";
 String response = model.chat(prompt);
 // Válasz: "Pozitív"
 ```
-  
-**Mikor használd:** Egyszerű osztályozásoknál, közvetlen kérdéseknél, fordításnál vagy bármilyen feladatnál, amelyet a modell további útmutatás nélkül képes kezelni.
+
+**Mikor használd:** Egyszerű osztályozások, közvetlen kérdések, fordítások vagy bármilyen feladat, amit a modell további iránymutatás nélkül kezelni tud.
 
 ### Few-Shot Prompting
 
-Adj példákat, amelyek megmutatják a modellt követendő mintát. A modell megtanulja az elvárt input-output formátumot a példáidból, majd alkalmazza azt új bemenetekre. Ez jelentősen javítja a konzisztenciát ott, ahol a kívánt formátum vagy viselkedés nem nyilvánvaló.
+Adj példákat, amelyek megmutatják, milyen mintát szeretnél, hogy a modell kövessen. A modell megtanulja az elvárt input-output formátumot a példáidból, és alkalmazza azt új bemenetekre. Ez drámaian javítja a következetességet azoknál a feladatoknál, ahol a kívánt formátum vagy viselkedés nem nyilvánvaló.
 
 <img src="../../../translated_images/hu/few-shot-prompting.9d9eace1da88989a.webp" alt="Few-Shot Prompting" width="800"/>
 
-*Példákból tanul — a modell felismeri a mintát és új bemenetekre alkalmazza*
+*Példákból tanulva — a modell felismeri a mintát, és alkalmazza új inputokra*
 
 ```java
 String prompt = """
@@ -111,16 +111,16 @@ String prompt = """
     """;
 String response = model.chat(prompt);
 ```
-  
-**Mikor használd:** Egyedi osztályozásokhoz, egységes formázáshoz, speciális szakterületi feladatokhoz, vagy ha a zero-shot eredmények következetlenek.
 
-### Gondolatmenet Láncolata
+**Mikor használd:** Egyedi osztályozások, következetes formázás, domain-specifikus feladatok, vagy amikor a zero-shot eredmények nem megbízhatóak.
 
-Kérd meg a modellt, hogy lépésről lépésre mutassa be az érvelését. Ahelyett, hogy azonnal válaszolna, a modell bontsa le a problémát és részletezze a részeket. Ez javítja a pontosságot matekban, logikában és többlépéses érvelésben.
+### Gondolatmenet láncolata
 
-<img src="../../../translated_images/hu/chain-of-thought.5cff6630e2657e2a.webp" alt="Gondolatmenet Láncolata Prompting" width="800"/>
+Kérd meg a modellt, hogy mutassa meg érvelését lépésről lépésre. Ahelyett, hogy azonnal válaszolna, a modell lebontja a problémát, és expliciten végighalad minden részen. Ez javítja a pontosságot matek, logika és többlépéses érvelési feladatoknál.
 
-*Lépésről lépésre való érvelés — bonyolult problémák explicit logikai lépésekre bontása*
+<img src="../../../translated_images/hu/chain-of-thought.5cff6630e2657e2a.webp" alt="Chain of Thought Prompting" width="800"/>
+
+*Lépésenkénti érvelés — a komplex problémák explicit logikai lépésekre bontása*
 
 ```java
 String prompt = """
@@ -130,18 +130,18 @@ String prompt = """
     Let's solve this step-by-step:
     """;
 String response = model.chat(prompt);
-// A modell így mutatja: 15 - 8 = 7, majd 7 + 12 = 19 alma
+// A modell azt mutatja: 15 - 8 = 7, majd 7 + 12 = 19 alma
 ```
-  
-**Mikor használd:** Matekfeladatoknál, logikai rejtvényeknél, hibakeresésnél vagy bármilyen feladatnál, ahol az érvelési folyamat bemutatása javítja a pontosságot és a bizalmat.
+
+**Mikor használd:** Matematikai problémák, logikai rejtvények, hibakeresés vagy bármilyen feladat, ahol az érvelési folyamat láthatósága növeli a pontosságot és a bizalmat.
 
 ### Szerepalapú Prompting
 
-Állíts be egy személyiséget vagy szerepet az MI-nek a kérdésed előtt. Ez kontextust ad, amely alakítja a válasz hangvételét, mélységét és fókuszát. Egy „szoftverarchitekt” más tanácsot ad, mint egy „junior fejlesztő” vagy egy „biztonsági auditor”.
+Állíts be egy személyiséget vagy szerepet az AI-nak a kérdésed feltétele előtt. Ez kontextust ad, ami alakítja a válasz hangnemét, mélységét és fókuszát. Egy „szoftver architect” más tanácsot ad, mint egy „junior fejlesztő” vagy egy „biztonsági auditor”.
 
-<img src="../../../translated_images/hu/role-based-prompting.a806e1a73de6e3a4.webp" alt="Szerepalapú Prompting" width="800"/>
+<img src="../../../translated_images/hu/role-based-prompting.a806e1a73de6e3a4.webp" alt="Role-Based Prompting" width="800"/>
 
-*Kontextus és személyiség beállítása — ugyanaz a kérdés más választ kap a kijelölt szereptől függően*
+*Kontextus és személyiség beállítása — ugyanaz a kérdés más választ kap a megadott szerep függvényében*
 
 ```java
 String prompt = """
@@ -156,16 +156,16 @@ String prompt = """
     """;
 String response = model.chat(prompt);
 ```
-  
-**Mikor használd:** Kódáttekintéseknél, oktatásban, speciális szakterületi elemzéseknél vagy amikor a válaszokat egy adott szakértelmi szint vagy szemlélet szerint kell igazítani.
 
-### Prompt Sablonok
+**Mikor használd:** Kódellenőrzés, oktatás, domain-specifikus elemzések, vagy amikor a válaszokat egy adott szakértelmi szinthez vagy nézőponthoz kell szabni.
 
-Hozz létre újrahasználható promptokat változó helyőrzőkkel. Ahelyett, hogy mindig új promptot írjál, egyszer definiálj egy sablont, majd töltsd ki különböző értékekkel. A LangChain4j `PromptTemplate` osztálya ezt megkönnyíti a `{{variable}}` szintaxissal.
+### Prompt sablonok
 
-<img src="../../../translated_images/hu/prompt-templates.14bfc37d45f1a933.webp" alt="Prompt Sablonok" width="800"/>
+Készíts újrahasználható promptokat változó helyőrzőkkel. Új prompt írása helyett egyszer definiálsz egy sablont, majd különféle értékekkel töltöd fel. A LangChain4j `PromptTemplate` osztálya ezt `{{variable}}` szintaxissal egyszerűvé teszi.
 
-*Újrahasználható promptok változó helyőrzőkkel — egy sablon, sok felhasználás*
+<img src="../../../translated_images/hu/prompt-templates.14bfc37d45f1a933.webp" alt="Prompt Templates" width="800"/>
+
+*Újrahasználható prompt változó helyőrzőkkel — egy sablon, sok használat*
 
 ```java
 PromptTemplate template = PromptTemplate.from(
@@ -179,28 +179,28 @@ Prompt prompt = template.apply(Map.of(
 
 String response = model.chat(prompt.text());
 ```
-  
-**Mikor használd:** Ismétlődő lekérdezéseknél, kötegelt feldolgozásnál, újrahasználható AI munkafolyamatok építésénél, vagy bármilyen helyzetben, ahol a prompt szerkezete ugyanaz marad, de az adatok változnak.
+
+**Mikor használd:** Ismétlődő lekérdezések különböző bemenetekkel, tömeges feldolgozás, újrahasználható AI munkafolyamatok építése, vagy bármilyen eset, ahol a prompt struktúrája azonos, de az adat változik.
 
 ---
 
-Ezek az öt alapvető technika szilárd eszköztárat adnak a legtöbb prompting feladathoz. A modul további részében **nyolc fejlett mintát** ismerhetsz meg, amelyek kihasználják a GPT-5.2 érvelés szabályozását, önértékelését és strukturált kimeneti képességeit.
+Ezek az öt alapelv egy szilárd eszköztárat ad a legtöbb prompting feladathoz. A modul további része erre épít **nyolc fejlett mintával**, amelyek kihasználják a GPT-5.2 érvelés-szabályozását, önértékelését és strukturált kimenet képességeit.
 
-## Fejlett Minták
+## Fejlett minták
 
-Miután áttekintettük az alapokat, lépjünk tovább a nyolc fejlett mintára, amelyek egyedivé teszik ezt a modult. Nem minden problémához ugyanaz a megközelítés kell. Egyes kérdések gyors válaszokat igényelnek, mások mély gondolkodást. Egyesek látható érvelést, mások csak eredményeket. Az alábbi minták mindegyike egy adott szituációra optimalizált — és a GPT-5.2 érvelés szabályozása még nyilvánvalóbbá teszi a különbségeket.
+Az alapok után térjünk át a nyolc fejlett mintára, amelyek egyedivé teszik ezt a modult. Nem minden probléma igényli ugyanazt a megközelítést. Egyes kérdések gyors válaszokat kívánnak, mások mély gondolkodást. Egyeseknél szükséges az érvelés láthatósága, másoknál csak az eredmény számít. Az alábbi minták mindegyike más helyzetre lett optimalizálva — és a GPT-5.2 érvelés-szabályozása még nyilvánvalóbbá teszi a különbségeket.
 
-<img src="../../../translated_images/hu/eight-patterns.fa1ebfdf16f71e9a.webp" alt="Nyolc Prompt Minta" width="800"/>
+<img src="../../../translated_images/hu/eight-patterns.fa1ebfdf16f71e9a.webp" alt="Eight Prompting Patterns" width="800"/>
 
-*A nyolc prompt műszaki tervezési minták áttekintése és felhasználási eseteik*
+*A nyolc prompt mérnökségi minta áttekintése és felhasználási eseteik*
 
-A GPT-5.2 egy további dimenziót ad ezekhez a mintákhoz: *érvelés szabályozás*. Az alábbi csúszka mutatja, hogyan állíthatod be a modell gondolkodási erőfeszítését — a gyors, közvetlen válaszoktól a mély, alapos elemzésig.
+A GPT-5.2 egy új dimenziót ad ezekhez a mintákhoz: *érvelés szabályozása*. Az alábbi csúszka azt mutatja, hogyan állíthatod be a modell gondolkodási erőfeszítését — a gyors, közvetlen válaszoktól a mély, alapos elemzésig.
 
-<img src="../../../translated_images/hu/reasoning-control.5cf85f0fc1d0c1f3.webp" alt="Érvelés Szabályozás a GPT-5.2-vel" width="800"/>
+<img src="../../../translated_images/hu/reasoning-control.5cf85f0fc1d0c1f3.webp" alt="Reasoning Control with GPT-5.2" width="800"/>
 
-*A GPT-5.2 érvelés szabályozásával megadhatod, mennyi gondolkodást végezzen a modell — gyors közvetlen válaszoktól a mély feltárásig*
+*A GPT-5.2 érvelés szabályozásával megadhatod, mennyi gondolkodást végezzen a modell — a gyors közvetlen válaszoktól a mély feltárásig*
 
-**Alacsony Lelkesedés (Gyors és Fókuszált)** - Egyszerű kérdésekhez, ahol gyors, közvetlen válaszokat szeretnél. A modell minimális érvelést végez - maximum 2 lépést. Használd számításokhoz, lekérdezésekhez vagy egyértelmű kérdésekhez.
+**Alacsony lelkesedés (gyors és fókuszált)** - Egyszerű kérdésekhez, ahol gyors, tömör válaszokat akarsz. A modell minimális érvelést végez - maximum 2 lépés. Használd számításokhoz, keresésekhez, vagy egyenes kérdésekhez.
 
 ```java
 String prompt = """
@@ -218,13 +218,13 @@ String prompt = """
 
 String response = chatModel.chat(prompt);
 ```
-  
-> 💡 **Fedezd fel GitHub Copilot-tal:** Nyisd meg a [`Gpt5PromptService.java`](../../../02-prompt-engineering/src/main/java/com/example/langchain4j/prompts/service/Gpt5PromptService.java) fájlt, és kérdezd meg:
-> - „Mi a különbség az alacsony és magas lelkesedésű prompting minták között?”
-> - „Hogyan segítenek az XML tagek a promptok AI válaszának strukturálásában?”
-> - „Mikor használjam az önreflektáló mintákat a közvetlen utasítással szemben?”
 
-**Magas Lelkesedés (Mély és Alapos)** - Összetett problémákhoz, ahol átfogó elemzésre van szükség. A modell alaposan feltár, részletes érvelést mutat. Használd rendszertervezéshez, architektúra döntésekhez vagy komplex kutatáshoz.
+> 💡 **Fedezd fel GitHub Copilot-tal:** Nyisd meg a [`Gpt5PromptService.java`](../../../02-prompt-engineering/src/main/java/com/example/langchain4j/prompts/service/Gpt5PromptService.java) fájlt és kérdezd:
+> - „Mi a különbség az alacsony és magas lelkesedésű prompting minták között?”
+> - „Hogyan segítenek az XML tagek a promptokban az AI válaszának strukturálásában?”
+> - „Mikor használjam az önreflexiós mintákat közvetlen utasítás helyett?”
+
+**Magas lelkesedés (mély és alapos)** - Komplex problémákhoz, ahol átfogó elemzést szeretnél. A modell alaposan vizsgálódik és részletes érvelést mutat. Használd rendszertervezéshez, architektúra döntésekhez vagy komplex kutatáshoz.
 
 ```java
 String prompt = """
@@ -237,8 +237,8 @@ String prompt = """
 
 String response = chatModel.chat(prompt);
 ```
-  
-**Feladatvégrehajtás (Lépésről lépésre haladás)** - Többlépéses munkafolyamatokhoz. A modell előre megtervezi a lépéseket, elmondja, mit csinál, majd összefoglal. Használd migrációkhoz, implementációkhoz vagy bármilyen többlépéses feladathoz.
+
+**Feladat-végrehajtás (lépésenkénti haladás)** - Többlépéses munkafolyamatokhoz. A modell előzetesen tervet ad, narrálja az egyes lépéseket, majd összefoglal. Használd migrációkhoz, implementációkhoz, vagy bármilyen többlépéses folyamathoz.
 
 ```java
 String prompt = """
@@ -275,21 +275,21 @@ String prompt = """
 
 String response = chatModel.chat(prompt);
 ```
-  
-A Chain-of-Thought prompting kifejezetten kéri a modellt, hogy mutassa meg az érvelési folyamatát, javítva a pontosságot összetett feladatoknál. A lépésenkénti bontás segíti az embert és az MI-t is az logika megértésében.
 
-> **🤖 Próbáld ki a [GitHub Copilot](https://github.com/features/copilot) Chat-ben:** Kérdezz erről a mintáról:
-> - „Hogyan adaptálnám a feladatvégrehajtás mintát hosszú futású műveletekhez?”
-> - „Mik a legjobb gyakorlatok az eszköz előszövegek strukturálásához éles alkalmazásokban?”
-> - „Hogyan tudok megjeleníteni köztes előrehaladási frissítéseket egy felhasználói felületen?”
+A Chain-of-Thought prompting kifejezetten kéri a modellt, hogy mutassa meg érvelési folyamatát, ami növeli a pontosságot összetett feladatoknál. A lépésenkénti bontás segíti az embereket és az AI-t is az értelem megértésében.
 
-Az alábbi ábra szemlélteti ezt a Tervezés → Végrehajtás → Összefoglalás munkafolyamatot.
+> **🤖 Próbáld ki a [GitHub Copilot](https://github.com/features/copilot) Csevegéssel:** Kérdezz erről a mintáról:
+> - „Hogyan alakítanám át a feladat-végrehajtási mintát hosszú ideig futó műveletekre?”
+> - „Mik a legjobb gyakorlatok eszköz-előszavak strukturálására éles alkalmazásokban?”
+> - „Hogyan tudok rögzíteni és megjeleníteni köztes előrehaladási állapotokat egy UI-ban?”
 
-<img src="../../../translated_images/hu/task-execution-pattern.9da3967750ab5c1e.webp" alt="Feladatvégrehajtási Minta" width="800"/>
+Az alábbi diagram illusztrálja a Terv → Végrehajtás → Összefoglalás munkafolyamatot.
 
-*Tervezés → Végrehajtás → Összefoglalás munkafolyamat többlépéses feladatokhoz*
+<img src="../../../translated_images/hu/task-execution-pattern.9da3967750ab5c1e.webp" alt="Task Execution Pattern" width="800"/>
 
-**Önreflektáló Kód** - Termelési minőségű kódgeneráláshoz. A modell a gyártási szabványoknak megfelelő, hibakezeléssel ellátott kódot hoz létre. Használd új funkciók vagy szolgáltatások építésére.
+*Terv → Végrehajtás → Összefoglalás munkafolyamat többlépéses feladatokhoz*
+
+**Önreflektáló kód** - Termelési minőségű kód generálásához. A modell termelési szabványok szerint generál kódot megfelelő hibakezeléssel. Használd új funkciók vagy szolgáltatások fejlesztésénél.
 
 ```java
 String prompt = """
@@ -299,14 +299,14 @@ String prompt = """
 
 String response = chatModel.chat(prompt);
 ```
-  
-Az alábbi ábra mutatja ezt az iteratív fejlesztési ciklust — generálás, értékelés, gyengeségek felismerése, majd finomítás, amíg a kód megfelel a gyártási szabványoknak.
 
-<img src="../../../translated_images/hu/self-reflection-cycle.6f71101ca0bd28cc.webp" alt="Önreflexiós Ciklus" width="800"/>
+Az alábbi diagram ezt az iteratív fejlesztési ciklust mutatja be — generálás, értékelés, gyengeségek azonosítása és finomítás, amíg a kód megfelel a termelési szabványoknak.
 
-*Iteratív fejlesztési ciklus - generálás, értékelés, problémák felismerése, javítás, ismétlés*
+<img src="../../../translated_images/hu/self-reflection-cycle.6f71101ca0bd28cc.webp" alt="Self-Reflection Cycle" width="800"/>
 
-**Strukturált Elemzés** - Következetes értékeléshez. A modell előre meghatározott keretrendszer szerint vizsgálja a kódot (helyesség, gyakorlatok, teljesítmény, biztonság, karbantarthatóság). Használd kódáttekintésekhez vagy minőségértékelésekhez.
+*Iteratív fejlesztési ciklus - generálás, értékelés, problémák azonosítása, javítás, ismétlés*
+
+**Strukturált elemzés** - Következetes értékeléshez. A modell egy rögzített keretrendszerrel vizsgálja a kódot (helyesség, gyakorlatok, teljesítmény, biztonság, fenntarthatóság). Használd kódellenőrzéshez vagy minőségellenőrzéshez.
 
 ```java
 String prompt = """
@@ -353,19 +353,19 @@ String prompt = """
 
 String response = chatModel.chat(prompt);
 ```
-  
-> **🤖 Próbáld ki a [GitHub Copilot](https://github.com/features/copilot) Chat-ben:** Kérdezz strukturált elemzésről:
-> - „Hogyan szabhatom testre az elemzési keretrendszert különféle kódáttekintésekhez?”
-> - „Mi a legjobb módja a strukturált kimenet feldolgozásának programozottan?”
-> - „Hogyan biztosítom a következetes súlyossági szinteket különböző áttekintési üléseken?”
 
-Az alábbi ábra mutatja, hogyan szervezi ez a strukturált keretrendszer a kódáttekintést következetes kategóriákba súlyossági szintekkel.
+> **🤖 Próbáld ki a [GitHub Copilot](https://github.com/features/copilot) Csevegéssel:** Kérdezz a strukturált elemzésről:
+> - „Hogyan testre szabhatom az elemzési keretrendszert különböző kódellenőrzési típusokra?”
+> - „Mi a legjobb módja a strukturált kimenet programozott feldolgozásának és feldolgozásának?”
+> - „Hogyan biztosíthatom a következetes súlyossági szinteket különböző ellenőrzési ülések között?”
 
-<img src="../../../translated_images/hu/structured-analysis-pattern.0af3b690b60cf2d6.webp" alt="Strukturált Elemzési Minta" width="800"/>
+Az alábbi diagram bemutatja, hogyan szervezi ezt a strukturált keretrendszer egy kódellenőrzést következetes kategóriákba súlyossági szintekkel.
 
-*Következetes kódáttekintési keretrendszer súlyossági szintekkel*
+<img src="../../../translated_images/hu/structured-analysis-pattern.0af3b690b60cf2d6.webp" alt="Structured Analysis Pattern" width="800"/>
 
-**Többkörös Csevegés** - Olyan beszélgetésekhez, amelyeknek kontextusra van szükségük. A modell emlékszik az előző üzenetekre és épít rájuk. Használd interaktív segítségnyújtó ülésekhez vagy komplex kérdés-válasz helyzetekhez.
+*Következetes kódellenőrzések keretrendszere súlyossági szintekkel*
+
+**Többfordulós csevegés** - Kontextust igénylő beszélgetésekhez. A modell emlékszik az előző üzenetekre és azokra épít. Használd interaktív segítségnyújtó vagy összetett kérdés-felelet alkalmakhoz.
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -378,13 +378,14 @@ memory.add(UserMessage.from("Show me an example"));
 AiMessage aiMessage2 = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage2);
 ```
-  
-Az alábbi ábra szemlélteti, hogyan halmozódik fel a beszélgetési kontextus minden körrel, és hogyan viszonyul ez a modell token limitjéhez.
 
-<img src="../../../translated_images/hu/context-memory.dff30ad9fa78832a.webp" alt="Kontextus Memória" width="800"/>
+Az alábbi diagram szemlélteti, hogyan halmozódik fel a beszélgetés kontextusa fordulóról fordulóra, és hogyan kapcsolódik a modell token-korlátjához.
 
-*Hogyan halmozódik fel a beszélgetési kontextus többszöri körök alatt, amíg eléri a token korlátot*
-**Lépésről-lépésre gondolkodás** – Látható logikát igénylő problémák esetén. A modell minden lépéshez expliciten bemutatja az okfejtést. Használd ezt matematikai problémákhoz, logikai rejtvényekhez, vagy amikor meg kell értened a gondolkodási folyamatot.
+<img src="../../../translated_images/hu/context-memory.dff30ad9fa78832a.webp" alt="Context Memory" width="800"/>
+
+*Hogyan gyűlik össze a beszélgetés kontextusa több fordulón át a token-korlátig*
+
+**Lépésről lépésre való érvelés** - Látható logikát igénylő problémákhoz. A modell minden lépésnél explicit érvelést mutat. Használd matek problémákhoz, logikai rejtvényekhez, vagy amikor meg kell értened a gondolkodási folyamatot.
 
 ```java
 String prompt = """
@@ -398,13 +399,12 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-Az alábbi ábra bemutatja, hogyan bontja a modell a problémákat explicit, számozott logikai lépésekre.
+Az alábbi diagram bemutatja, hogyan bontja a modell a problémákat explicit, számozott logikai lépésekre.
 
-<img src="../../../translated_images/hu/step-by-step-pattern.a99ea4ca1c48578c.webp" alt="Lépésről-lépésre minta" width="800"/>
+<img src="../../../translated_images/hu/step-by-step-pattern.a99ea4ca1c48578c.webp" alt="Step-by-Step Pattern" width="800"/>
+*Problémák lebontása kifejezett logikai lépésekre*
 
-*Problémák explicit logikai lépésekre bontása*
-
-**Korlátozott kimenet** – Specifikus formátumkövetelményekkel bíró válaszokhoz. A modell szigorúan követi a formátum- és hosszúságszabályokat. Használd összefoglalókhoz vagy precíz kimenetstruktúrát igénylő esetekben.
+**Korlátozott kimenet** – Olyan válaszokhoz, amelyeknek specifikus formátum- és hosszúságkövetelményük van. A modell szigorúan követi a formátum és hosszúság szabályait. Használd ezt összefoglalókhoz vagy ha pontos kimeneti szerkezetre van szükséged.
 
 ```java
 String prompt = """
@@ -420,21 +420,21 @@ String prompt = """
 String response = chatModel.chat(prompt);
 ```
 
-A következő ábra bemutatja, hogyan irányítják a korlátok a modellt, hogy szigorúan az előírt formátum- és hosszúságszabályokat kövesse.
+Az alábbi diagram bemutatja, hogyan irányítják a korlátozások a modellt, hogy olyan kimenetet készítsen, amely szigorúan megfelel a formátum- és hosszúsági követelményeknek.
 
-<img src="../../../translated_images/hu/constrained-output-pattern.0ce39a682a6795c2.webp" alt="Korlátozott kimenet minta" width="800"/>
+<img src="../../../translated_images/hu/constrained-output-pattern.0ce39a682a6795c2.webp" alt="Constrained Output Pattern" width="800"/>
 
-*Specifikus formátum, hossz és struktúra követelményének érvényesítése*
+*Speciális formátum-, hosszúsági és szerkezeti követelmények érvényesítése*
 
-## A alkalmazás futtatása
+## Az alkalmazás futtatása
 
 **Telepítés ellenőrzése:**
 
-Győződj meg róla, hogy a `.env` fájl létezik a gyökérkönyvtárban az Azure hitelesítő adatokkal (amely a 01-es modulban készült). Futtasd ezt a modul könyvtárából (`02-prompt-engineering/`):
+Győződj meg róla, hogy a `.env` fájl létezik a gyökérkönyvtárban az Azure hitelesítési adatokkal (amelyet az 01-es modul során hoztál létre). Futtasd ezt a modul könyvtárából (`02-prompt-engineering/`):
 
 **Bash:**
 ```bash
-cat ../.env  # Meg kell jelenítenie az AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT értékeket
+cat ../.env  # Meg kell mutatnia az AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT értékeket
 ```
 
 **PowerShell:**
@@ -442,27 +442,27 @@ cat ../.env  # Meg kell jelenítenie az AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYME
 Get-Content ..\.env  # Meg kell jelenítenie az AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT értékeket
 ```
 
-**Indítsd el az alkalmazást:**
+**Az alkalmazás indítása:**
 
-> **Megjegyzés:** Ha már elindítottad az összes alkalmazást a gyökérkönyvtárból `./start-all.sh` segítségével (ahogy az 01-es modul leírja), ez a modul már fut a 8083-as porton. Ekkor kihagyhatod az alábbi indítási parancsokat, és közvetlenül a http://localhost:8083 oldalra léphetsz.
+> **Megjegyzés:** Ha már indítottad az összes alkalmazást a `./start-all.sh` használatával a gyökérkönyvtárból (ahogy az az 01-es modulban le van írva), akkor ez a modul már fut a 8083-as porton. Átugorhatod az alábbi indító parancsokat, és közvetlenül elmehetsz a http://localhost:8083 oldalra.
 
-**1. lehetőség: Spring Boot Dashboard használata (Ajánlott VS Code felhasználóknak)**
+**1. lehetőség: Spring Boot Dashboard használata (ajánlott VS Code felhasználóknak)**
 
-A fejlesztői környezet tartalmazza a Spring Boot Dashboard bővítményt, ami vizuális felületet nyújt az összes Spring Boot alkalmazás kezelésére. A VS Code bal oldali tevékenységsávjában találod meg (a Spring Boot ikon alapján).
+A fejlesztői konténer tartalmazza a Spring Boot Dashboard bővítményt, amely vizuális felületet biztosít az összes Spring Boot alkalmazás kezelésére. Megtalálod a VS Code bal oldali Művelet sávjában (keresd a Spring Boot ikont).
 
-A Spring Boot Dashboardból:
-- Megtekintheted az összes elérhető Spring Boot alkalmazást a munkaterületen
-- Egy kattintással indíthatsz vagy állíthatsz le alkalmazásokat
-- Valós időben nézheted az alkalmazás naplóit
-- Figyelemmel kísérheted az alkalmazás állapotát
+A Spring Boot Dashboard-ról:
+- Az összes elérhető Spring Boot alkalmazást látod a munkaterületen
+- Egy kattintással indíthatsz/leállíthatsz alkalmazásokat
+- Valós időben nézheted az alkalmazások naplóit
+- Figyelemmel kísérheted az alkalmazások állapotát
 
-Egyszerűen kattints a lejátszás gombra a "prompt-engineering" modul mellett a modul indításához, vagy indíts el egyszerre minden modult.
+Egyszerűen kattints a lejátszás gombra a "prompt-engineering" mellett az adott modul indításához, vagy indítsd el egyszerre az összes modult.
 
 <img src="../../../translated_images/hu/dashboard.da2c2130c904aaf0.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*A Spring Boot Dashboard a VS Code-ban — indítsd, állítsd le és monitorozd az összes modult egy helyről*
+*A Spring Boot Dashboard a VS Code-ban — indítsd, állítsd le és figyeld az összes modult egy helyről*
 
-**2. lehetőség: Shell szkriptek használata**
+**2. lehetőség: Shell script-ek használata**
 
 Indítsd el az összes webalkalmazást (01-04 modulok):
 
@@ -478,7 +478,7 @@ cd ..  # A gyökérkönyvtárból
 .\start-all.ps1
 ```
 
-Vagy indítsd csak ezt a modult:
+Vagy indítsd el csak ezt a modult:
 
 **Bash:**
 ```bash
@@ -492,9 +492,9 @@ cd 02-prompt-engineering
 .\start.ps1
 ```
 
-Mindkét szkript automatikusan betölti a környezeti változókat a gyökér `.env` fájlból, és ha nem léteznek, legyártja a JAR fájlokat.
+Mindkét script automatikusan betölti a root `.env` fájlban lévő környezeti változókat, és felépíti a JAR fájlokat, ha még nem léteznek.
 
-> **Megjegyzés:** Ha inkább manuálisan szeretnéd buildelni az összes modult indítás előtt:
+> **Megjegyzés:** Ha manuálisan szeretnéd buildelni az összes modult az indítás előtt:
 >
 > **Bash:**
 > ```bash
@@ -508,7 +508,7 @@ Mindkét szkript automatikusan betölti a környezeti változókat a gyökér `.
 > mvn clean package -DskipTests
 > ```
 
-Nyisd meg böngészőben a http://localhost:8083 címet.
+Nyisd meg a böngésződben a http://localhost:8083 címet.
 
 **Leállításhoz:**
 
@@ -523,74 +523,74 @@ cd .. && ./stop-all.sh  # Minden modul
 ```powershell
 .\stop.ps1  # Csak ez a modul
 # Vagy
-cd ..; .\stop-all.ps1  # Az összes modul
+cd ..; .\stop-all.ps1  # Minden modul
 ```
 
 ## Alkalmazás képernyőképek
 
-Itt a prompt engineering modul fő felülete, ahol egyszerre próbálhatod ki mind a nyolc mintát.
+Íme a prompt engineering modul fő kezelőfelülete, ahol egyszerre kísérletezhetsz a nyolc minta mindegyikével.
 
 <img src="../../../translated_images/hu/dashboard-home.5444dbda4bc1f79d.webp" alt="Dashboard Home" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
 
-*A fő dashboard, amely az összes 8 prompt mérnöki mintát mutatja jellemzőikkel és használati eseteikkel*
+*A fő műszerfal, mely az összes 8 prompt engineering mintát mutatja jellemzőikkel és használati eseteikkel együtt*
 
-## Minták felfedezése
+## A minták felfedezése
 
-A webes felület lehetővé teszi a különböző promptolási stratégiák kipróbálását. Mindegyik minta más-más problémára ad választ – próbáld ki, hogy lásd, mikor működik jól melyik megközelítés.
+A webes felület lehetővé teszi, hogy különböző promptolási stratégiákkal kísérletezz. Minden minta más problémát old meg – próbáld ki őket, hogy lásd, mikor működik jól egy-egy megközelítés.
 
-> **Megjegyzés: Streaming és nem streaming** — Minden mintalapon két gombot találsz: **🔴 Stream Response (Live)** és egy **nem streaming** opciót. A streaming Server-Sent Events (SSE) használatával azonnal megjeleníti azokat a tokeneket, amelyeket a modell generál, így az előrehaladást közvetlenül láthatod. A nem streaming opció megvárja a teljes választ, mielőtt megjelenítené azt. Mély okfejtést igénylő promptoknál (például High Eagerness, Self-Reflecting Code) a nem streaming hívás nagyon hosszú ideig is eltarthat — akár percekig — látványos visszajelzés nélkül. **Használj streaminget, amikor összetett promptokkal kísérletezel**, így látod a modell működését és elkerülöd azt a benyomást, hogy a kérés időtúllépett.
-> 
-> **Megjegyzés: Böngészőkövetelmény** — A streaming funkció a Fetch Streams API-t (`response.body.getReader()`) használja, ami teljes böngészőt igényel (Chrome, Edge, Firefox, Safari). Ez **nem** működik a VS Code beépített Simple Browserében, mert annak webnézete nem támogatja a ReadableStream API-t. Ha Simple Brosert használsz, a nem streaming gombok továbbra is normálisan működnek — csak a streaming gombokat érinti ez a korlátozás. A teljes élményhez külső böngészőben nyisd meg a `http://localhost:8083` címet.
+> **Megjegyzés: Streaming vagy nem streaming** — Minden mintának van két gombja: **🔴 Stream Response (Live)** és egy **Nem streaming** opció. A streaming a Server-Sent Events (SSE) használatával valós időben mutatja a tokeneket, miközben a modell generálja őket, így azonnal látod a folyamatot. A nem streaming opció megvárja az egész választ, mielőtt megjeleníti. Mély gondolkodást igénylő promptoknál (pl. High Eagerness, Self-Reflecting Code) a nem streaming hívás nagyon hosszú ideig is eltarthat – néha percekig – látható visszajelzés nélkül. **Komplex promptok teszteléséhez használj streaminget**, hogy lásd a modell működését, és ne tűnjön úgy, mintha időtúllépés történt volna.
+>
+> **Megjegyzés: Böngésző követelmény** — A streaming funkció a Fetch Streams API-t használja (`response.body.getReader()`), ami teljes böngészőt igényel (Chrome, Edge, Firefox, Safari). Nem működik a VS Code beépített Simple Browser-ében, mivel annak webnézetében nem támogatott a ReadableStream API. Ha a Simple Browser-t használod, a nem streaming gombok továbbra is működnek rendesen – csak a streaming gombokat érinti. A teljes élményért nyisd meg `http://localhost:8083` külső böngészőben.
 
 ### Alacsony vs Magas lelkesedés
 
-Tegyél fel egy egyszerű kérdést, például "Mi a 15%-a 200-nak?" Alacsony lelkesedéssel. Azonnali, közvetlen választ kapsz. Most kérdezz valami bonyolultabbat, például "Tervezzen meg egy caching stratégiát egy nagy forgalmú API-hoz" Magas lelkesedéssel. Kattints a **🔴 Stream Response (Live)** gombra, és nézd, miként jelenik meg részletes gondolkodás lépésről lépésre tokenenként. Ugyanaz a modell, ugyanaz a kérdés felépítés – de a prompt megmondja, mennyi gondolkodást végezzen.
+Tegyél fel egy egyszerű kérdést, például „Mi a 15%-a 200-nak?” Alacsony lelkesedéssel azonnali, közvetlen választ kapsz. Most tegyél fel egy összetettebb kérdést, például „Tervezzen gyorsítótárazási stratégiát egy nagyforgalmú API-hoz” Magas lelkesedéssel. Kattints a **🔴 Stream Response (Live)**-re, és nézd, ahogy a modell részletes gondolkodása tokenenként megjelenik. Ugyanaz a modell, ugyanaz a kérdésfelépítés – csak a prompt határozza meg, mennyit gondolkodjon.
 
-### Feladatvégrehajtás (Eszköz bevezetések)
+### Feladatteljesítés (Eszköz bevezetők)
 
-Többlépcsős munkafolyamatoknál előnyös az előzetes tervezés és a folyamat narrálása. A modell ismerteti, mit fog csinálni, lépésről lépésre mesél, majd összegzi az eredményeket.
+A többlépéses munkafolyamatok előnyhöz jutnak az előzetes tervezés és az előrehaladás narrációja miatt. A modell vázolja, mit fog csinálni, narrálja az egyes lépéseket, majd összefoglalja az eredményeket.
 
-### Önreflektáló kód
+### Önszemléletű kód
 
-Próbáld ki a "Hozz létre egy email érvényesítő szolgáltatást" promptot. Ahelyett, hogy csak kódot generálna és megállna, a modell generál, értékel minőségi kritériumok alapján, azonosít gyengeségeket, majd javít. Láthatod, ahogy iterál, amíg a kód megfelel a termelési szabványoknak.
+Próbáld ki a „Hozz létre egy e-mail érvényesítő szolgáltatást” kérést. Ahelyett, hogy csak kódot generálna, és abbahagyná, a modell generál, értékel minőségi kritériumok alapján, azonosítja a gyengeségeket, majd javít. Látni fogod, hogy iterál addig, amíg a kód megfelel a termelési követelményeknek.
 
 ### Strukturált elemzés
 
-Kódáttekintésekhez következetes értékelési keretek kellenek. A modell a kódot fix kategóriák szerint elemzi (helyesség, gyakorlatok, teljesítmény, biztonság), súlyossági szintekkel.
+A kódáttekintésekhez konzisztens értékelési keretrendszerek szükségesek. A modell rögzített kategóriák (helyesség, gyakorlatok, teljesítmény, biztonság) és súlyossági szintek alapján elemzi a kódot.
 
-### Többkörös csevegés
+### Többfordulós chat
 
-Kérdezd meg: "Mi az a Spring Boot?" majd közvetlenül kövesd azzal: "Mutass példát." A modell emlékszik az első kérdésre, és egy Spring Boot példát ad. Memória nélkül a második kérdés túl homályos lenne.
+Kérdezd meg: „Mi az a Spring Boot?”, majd azonnal kérd meg: „Mutass egy példát”. A modell emlékszik az első kérdésedre és egy Spring Boot példát ad speciálisan. Memória nélkül a második kérdés túl általános lenne.
 
-### Lépésről-lépésre gondolkodás
+### Lépésről lépésre történő érvelés
 
-Válassz egy matekfeladatot, és próbáld ki egyszerre a Lépésről-lépésre gondolkodást és az Alacsony lelkesedést. Az alacsony lelkesedés gyorsan csak a választ adja meg – gyors, de átláthatatlan. A lépésről lépésre bemutatja minden számítást és döntést.
+Válassz egy matematikai problémát, és próbáld ki mind a Lépésről lépésre érvelést, mind az Alacsony lelkesedést. Az alacsony lelkesedés csak megadja a választ – gyors, de kevésbé átlátható. A lépésről lépésre megmutatja minden számítást és döntést.
 
 ### Korlátozott kimenet
 
-Amikor meghatározott formátumra vagy szóközszámra van szükség, ez a minta szigorúan érvényesíti az előírásokat. Próbálj meg egy pontosan 100 szóból álló összefoglalót generálni felsorolásos formában.
+Ha specifikus formátumra vagy szószámra van szükséged, ez a minta szigorúan betartatja ezeket. Próbálj meg egy pontosan 100 szóból álló listás összefoglalót generálni.
 
 ## Amit valójában tanulsz
 
-**Az okfejtés erőfeszítése mindent megváltoztat**
+**Az érvelési erőfeszítés mindent megváltoztat**
 
-A GPT-5.2 lehetővé teszi, hogy a promptok által szabályozd a számítási erőfeszítést. Az alacsony erőfeszítés gyors válaszokat eredményez minimális feltárással. A magas erőfeszítés azt jelenti, hogy a modell mélyen és alaposan gondolkodik. Megtanulod az erőfeszítést a feladat komplexitásához igazítani – ne pazarold az időt egyszerű kérdésekre, de ne siesd el a bonyolult döntéseket sem.
+A GPT-5.2 lehetővé teszi, hogy a promptjaidon keresztül szabályozd a számítási erőfeszítést. Az alacsony erőfeszítés gyors válaszokat jelent minimális feltárással. A magas erőfeszítés azt jelenti, hogy a modell időt szán a mély gondolkodásra. Megtanulod, hogyan igazítsd az erőfeszítést a feladat összetettségéhez – ne pazarold az időt egyszerű kérdésekre, de ne siess el összetett döntéseket se.
 
-**A struktúra irányítja a viselkedést**
+**A szerkezet szabályozza a viselkedést**
 
-Észrevetted az XML címkéket a promptokban? Nem dekoratívak. A modellek a strukturált utasításokat megbízhatóbban követik, mint az szabad szöveget. Többlépcsős folyamatokhoz vagy összetett logikához a struktúra segít a modellnek követni, hol tart és mi következik. Az alábbi ábra egy jól strukturált promptot bont le, bemutatva, hogyan rendezi az utasításokat XML-stílusú címkék, mint `<system>`, `<instructions>`, `<context>`, `<user-input>`, és `<constraints>`.
+Észrevetted a promptokban szereplő XML címkéket? Nem csupán díszek. A modellek megbízhatóbban követik a strukturált utasításokat, mint a szabad szöveget. Amikor többlépéses folyamatokra vagy összetett logikára van szükség, a szerkezet segít a modellnek követni, hol tart, és mi következik. Az alábbi diagram lebontja egy jól strukturált prompt felépítését, és megmutatja, hogyan szervezik az utasításokat a `<system>`, `<instructions>`, `<context>`, `<user-input>` és `<constraints>` címkék világos szakaszokra.
 
-<img src="../../../translated_images/hu/prompt-structure.a77763d63f4e2f89.webp" alt="Prompt szerkezete" width="800"/>
+<img src="../../../translated_images/hu/prompt-structure.a77763d63f4e2f89.webp" alt="Prompt Structure" width="800"/>
 
-*Egy jól strukturált prompt anatómiája tiszta szakaszokkal és XML-stílusú szervezéssel*
+*A jól strukturált prompt anatómiája világos szakaszokkal és XML-stílusú szervezéssel*
 
 **Minőség önértékeléssel**
 
-Az önreflektáló minták úgy működnek, hogy a minőségi kritériumokat explicit módon megadják. Ahelyett, hogy remélnéd, hogy a modell "jól csinálja", pontosan megmondod neki, mit jelent a "helyes": logikai helyesség, hibakezelés, teljesítmény, biztonság. A modell így képes saját kimenetét értékelni és javítani. Ez előállításból folyamatot csinál.
+Az önreflektáló minták úgy működnek, hogy a minőségi kritériumokat explicit módon megadják. Ahelyett, hogy csak remélnéd, hogy a modell "jól csinálja", pontosan megmondod neki, mit jelent a "jól": helyes logika, hibakezelés, teljesítmény, biztonság. A modell így értékelni tudja saját kimenetét és javítani. Ez a kódgenerálást lotériából folyamatba alakítja.
 
 **A kontextus véges**
 
-A többkörös beszélgetések úgy működnek, hogy a lekérdezéshez mellékelik az üzenet előzményeit. Viszont van korlát – minden modellhez van maximális token-szám. Ahogy nő a beszélgetés, stratégiák kellenek, hogy a releváns kontextust megtartsd anélkül, hogy túllépnéd a plafont. Ez a modul megmutatja, hogyan működik a memória; később megtanulod, mikor foglalj össze, mikor felejts, és mikor hívj elő.
+A többfordulós beszélgetések úgy működnek, hogy minden kéréshez tartalmazzák az üzenettörténetet. De van egy határ – minden modellnek maximális token száma van. Ahogy a beszélgetések nőnek, stratégiákra lesz szükséged, hogy a releváns kontextust megőrizd anélkül, hogy elérnéd a korlátot. Ez a modul megmutatja, hogyan működik a memória; később megtanulod, mikor foglalj össze, mikor felejts és mikor kérj vissza információt.
 
 ## Következő lépések
 
@@ -604,5 +604,5 @@ A többkörös beszélgetések úgy működnek, hogy a lekérdezéshez mellékel
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
 **Jogi nyilatkozat**:
-Ez a dokumentum az [Co-op Translator](https://github.com/Azure/co-op-translator) AI fordító szolgáltatásával készült. Bár az pontosságra törekszünk, kérjük, vegye figyelembe, hogy az automatikus fordítások hibákat vagy pontatlanságokat tartalmazhatnak. Az eredeti dokumentum az eredeti nyelven tekintendő hiteles forrásnak. Fontos információk esetén szakmai emberi fordítást javasolunk. Nem vállalunk felelősséget a fordítás használatából eredő félreértésekért vagy helytelen értelmezésekért.
+Ez a dokumentum az AI fordítási szolgáltatás, a [Co-op Translator](https://github.com/Azure/co-op-translator) segítségével készült. Bár az pontosságra törekszünk, kérjük, vegye figyelembe, hogy az automatikus fordítások hibákat vagy pontatlanságokat tartalmazhatnak. Az eredeti dokumentum az anyanyelvén tekintendő hiteles forrásnak. Fontos információk esetén professzionális emberi fordítást javasolunk. Nem vállalunk felelősséget semmilyen félreértésért vagy téves értelmezésért, amely ebből a fordításból ered.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

@@ -1,146 +1,143 @@
-# Moodul 03: RAG (taastepõhine loomine)
+# Moodul 03: RAG (otsingupõhine genereerimine)
 
 ## Sisukord
 
-- [Video juhendamine](../../../03-rag)
-- [Mida sa õpid](../../../03-rag)
-- [Eeldused](../../../03-rag)
-- [RAG mõistmine](../../../03-rag)
-  - [Millist RAG lähenemist see juhend kasutab?](../../../03-rag)
-- [Kuidas see töötab](../../../03-rag)
-  - [Dokumendi töötlemine](../../../03-rag)
-  - [Manuste loomine](../../../03-rag)
-  - [Semantiline otsing](../../../03-rag)
-  - [Vastuste genereerimine](../../../03-rag)
-- [Rakenduse käivitamine](../../../03-rag)
-- [Rakenduse kasutamine](../../../03-rag)
-  - [Dokumendi üleslaadimine](../../../03-rag)
-  - [Küsimuste esitamine](../../../03-rag)
-  - [Allikaviidete kontrollimine](../../../03-rag)
-  - [Katsetamine küsimustega](../../../03-rag)
-- [Põhikontseptsioonid](../../../03-rag)
-  - [Tükeldamisstrateegia](../../../03-rag)
-  - [Sarnasuskoefitsiendid](../../../03-rag)
-  - [Mälusalvestus](../../../03-rag)
-  - [Kontekstivälja haldamine](../../../03-rag)
-- [Millal RAG on oluline](../../../03-rag)
-- [Järgmised sammud](../../../03-rag)
+- [Videojuhend](#videojuhend)
+- [Mida Sa Õpid](#mida-sa-õpid)
+- [Eelnõuded](#eelnõuded)
+- [RAG mõistmine](#rag-mõistmine)
+  - [Millist RAG lähenemist see juhend kasutab?](#millist-rag-lähenemist-see-juhend-kasutab)
+- [Kuidas see töötab](#kuidas-see-töötab)
+  - [Dokumendi töötlemine](#dokumendi-töötlemine)
+  - [Sissejuhatuste loomine](#sissejuhatuste-loomine)
+  - [Semantiline otsing](#semantiline-otsing)
+  - [Vastuse genereerimine](#vastuse-loomine)
+- [Rakenduse käivitamine](#rakenduse-käivitamine)
+- [Rakenduse kasutamine](#rakenduse-kasutamine)
+  - [Dokumendi üleslaadimine](#dokumendi-üleslaadimine)
+  - [Küsimuste esitamne](#küsi-küsimusi)
+  - [Allikaviidete kontrollimine](#kontrolli-allikaviiteid)
+  - [Katsetamine küsimustega](#katseta-küsimustega)
+- [Põhikontseptsioonid](#olulised-mõisted)
+  - [Tükkideks jagamise strateegia](#lõikude-strateegia)
+  - [Sarnasuse skoorid](#sarnasusskoorid)
+  - [Mälusalvestus](#mälupõhine-salvestus)
+  - [Kontekstiakna haldamine](#konteksti-akna-haldamine)
+- [Millal RAG on oluline](#millal-rag-on-oluline)
+- [Järgmised sammud](#järgmised-sammud)
 
-## Video juhendamine
+## Videojuhend
 
-Vaata seda otseülekannet, mis selgitab, kuidas selle mooduliga alustada:
+Vaata seda reaalajas sessiooni, mis selgitab, kuidas selle mooduli alustamiseks:
 
 <a href="https://www.youtube.com/watch?v=_olq75ZH_eY"><img src="https://img.youtube.com/vi/_olq75ZH_eY/maxresdefault.jpg" alt="RAG with LangChain4j - Live Session" width="800"/></a>
 
-## Mida sa õpid
+## Mida Sa Õpid
 
-Eelnevates moodulites õppisid, kuidas vestelda tehisintellektiga ja oma päringuid efektiivselt struktureerida. Kuid on üks põhipiirang: keelemudelid teavad ainult seda, mida neile treeningu ajal õpetati. Nad ei saa vastata küsimustele sinu ettevõtte poliitikate, projektdokumentatsiooni või muu info kohta, mida neile ei ole õpetatud.
+Eelnevates moodulites õppisid, kuidas suhelda tehisintellektiga ja struktureerida oma juhiseid efektiivselt. Kuid on üks põhimõtteline piirang: keelemudelid teavad vaid seda, mida nad treeningu ajal õppisid. Nad ei saa vastata küsimustele sinu ettevõtte poliitikate, projekti dokumentatsiooni või muu teabe kohta, mida neile treenimisel ei sisestatud.
 
-RAG (taastepõhine loomine) lahendab selle probleemi. Selle asemel, et pead mudelit sinu infole õpetama (mis on kallis ja ebaefektiivne), annad mudelile võimaluse otsida sinu dokumentidest. Kui keegi esitab küsimuse, leiab süsteem asjakohase info ja lisab selle päringusse. Mudel vastab siis selle taasesitatud konteksti põhjal.
+RAG (otsingupõhine genereerimine) lahendab selle probleemi. Selle asemel, et püüda mudelile sinu infot õpetada (mis on kallis ja ebaratsionaalne), annad talle võime otsida sinu dokumentidest. Kui keegi esitab mingi küsimuse, leiab süsteem asjakohase info ja lisab selle juhise hulka. Seejärel mudel vastab selle toomise baasil.
 
-Mõtle RAG-le kui viitetuumale mudeli jaoks. Kui sa küsid küsimust, teeb süsteem:
+Mõtle RAG-ile kui viidete raamatukogule mudelile. Kui esitad küsimuse, teeb süsteem järgmised sammud:
 
-1. **Kasutaja päring** – sa esitad küsimuse
-2. **Embedimine** – teisendab sinu küsimuse vektoriks
-3. **Vektoripäring** – leiab sarnased dokumendi tükid
-4. **Konteksti kokku panemine** – lisab vastavad tükid päringusse
-5. **Vastus** – LLM genereerib vastuse põhinedes kontekstile
+1. **Kasutaja päring** - Sa esitad küsimuse
+2. **Embedding** - Konverteerib sinu küsimuse vektoriks
+3. **Vektorotsing** - Leiab sarnase dokumendi tükid
+4. **Konteksti kokkupanek** - Lisab asjakohased tükid juhisesse
+5. **Vastus** - LLM genereerib vastuse konteksti põhjal
 
-See seab mudeli vastused sinu tegelikele andmetele, mitte ei sõltu ainult treeningteadmistest või ei leiuta vastuseid ise.
+See annab mudeli vastustele kindla baasi sinu tegelikest andmetest, mitte ei tugine üksnes treeningteadmistel ega improviseeri vastuseid.
 
-## Eeldused
+## Eelnõuded
 
-- Läbitud [Moodul 00 - Kiire algus](../00-quick-start/README.md) (lihtsa RAG näite jaoks, mida selles moodulis hiljem käsitletakse)
-- Läbitud [Moodul 01 - Sissejuhatus](../01-introduction/README.md) (kinnitatud Azure OpenAI ressursid, sh `text-embedding-3-small` manustumudel)
-- Juurekaustas olemas `.env` fail Azure mandaadiga (loodud `azd up` käsklusega Moodulis 01)
+- Lõpetatud [Moodul 01 - Sissejuhatus](../01-introduction/README.md) (Azure OpenAI ressursid paigaldatud, sh `text-embedding-3-small` embedimismudel)
+- `.env` fail juurkataloogis koos Azure volitustega (loodud käsuga `azd up` Moodulis 01)
 
-> **Märkus:** Kui sa ei ole veel Moodulit 01 lõpetanud, järgi esmalt seal olevaid paigaldusjuhiseid. Käsk `azd up` käivitab nii GPT vestlusmudeli kui ka manustumudeli, mida see moodul kasutab.
+> **Märkus:** Kui sa ei ole lõpetanud Moodulit 01, järgi sealset paigaldusjuhendit esmalt. Käsk `azd up` paigaldab nii GPT vestlusmudeli kui ka selle mooduli embedimismudeli.
 
 ## RAG mõistmine
 
-Järgmine diagramm illustreerib põhimõtet: selle asemel, et toetuda ainult mudeli treeningandmetele, annab RAG mudelile viiteraamatu sinu dokumentidest, mida ta saab enne vastuse genereerimist kasutada.
+Joonis allpool illustreerib põhikontseptsiooni: RAG ei tugine üksnes mudeli treeningandmetele, vaid annab talle ligipääsu sinu dokumentide raamatukogule enne iga vastuse genereerimist.
 
 <img src="../../../translated_images/et/what-is-rag.1f9005d44b07f2d8.webp" alt="Mis on RAG" width="800"/>
 
-*See diagramm näitab erinevust tavapärase LLM-i (mis juhindub treeningandmetest) ning RAG-toega LLM-i vahel (mis esmalt otsib sinu dokumente).*
+*Selles joonises näidatakse erinevust tavalise LLM vahel (mis oletab treeningandmete põhjal) ja RAG-ga tugevdatu vahel (mis esmalt kontrollib ära sinu dokumendid).*
 
-Nii on tükid omavahel seotud. Kasutaja päring läbib neli sammu — manustamine, vektoripäring, konteksti kokku panemine ja vastuse genereerimine — igaüks toetub eelnevale:
+Siin on sammud ükshaaval lõpp-punktini. Kasutaja küsimus liigub läbi nelja etapi — embedding, vektorotsingu, konteksti kokkupaneku ja vastuse genereerimise — igaüks tugineb eelnevale:
 
 <img src="../../../translated_images/et/rag-architecture.ccb53b71a6ce407f.webp" alt="RAG arhitektuur" width="800"/>
 
-*See diagramm näitab RAG täielikku torujuhtme — kasutaja päring läbib manustamise, vektoripäringu, konteksti kokkupaneku ja vastuse genereerimise.*
+*Selles joonises on RAG töövool lõpp-punktini — kasutaja päring läbib embeddingu, vektorotsingu, konteksti kokku paneku ja vastuse genereerimise.*
 
-Ülejäänud moodul kirjeldab iga etappi detailsemalt, koos koodinäidete ja diagrammidega.
+Järgmised sektsioonid käivad läbi iga etapi, koos koodiga, mida saad käivitada ja muuta.
 
 ### Millist RAG lähenemist see juhend kasutab?
 
-LangChain4j pakub kolme võimalust RAG-i rakendamiseks, igaühel erinev abstraktsioonitase. Allolev diagramm võrdleb neid kõrvuti:
+LangChain4j pakub kolme RAG rakendamist, igaüks erineval abstraktsioonitasemel. Joonis allpool võrdleb neid kõrvuti:
 
 <img src="../../../translated_images/et/rag-approaches.5b97fdcc626f1447.webp" alt="Kolm RAG lähenemist LangChain4j-s" width="800"/>
 
-*See diagramm võrdleb kolme LangChain4j RAG lähenemist — Lihtne, Natiivne ja Täiustatud — näidates nende peamisi komponente ja kasutusolukordi.*
+*Selles joonises on kolm LangChain4j RAG lähenemist — Easy, Native ja Advanced — ning näidatakse nende põhikomponente ja kasutamise olukordi.*
 
-| Lähenemine | Mida see teeb | Kompromiss |
+| Lähenemine | Mida See Teeb | Kompromiss |
 |---|---|---|
-| **Lihtne RAG** | Seob kõik automaatselt `AiServices` ja `ContentRetriever` kaudu. Sa märgid liidese, lisad taastele, ja LangChain4j haldab manustamist, otsingut ja päringu kokkupanekut tagaplaanil. | Vähe koodi, aga sa ei näe täpselt, mis igas etapis toimub. |
-| **Natiivne RAG** | Sa kutsud ise manustusmudelit, otsid andmestikus, ehitad päringu ja genereerid vastuse — sammhaaval ja selgelt. | Rohkem koodi, aga iga etapp on nähtav ja kohandatav. |
-| **Täiustatud RAG** | Kasutab `RetrievalAugmentor` raamistikku, kus on võimalik lisada päringumuundureid, marsruutereid, järjestajaid ja konteksti lisajaid tootmisklassi torujuhtmeks. | Kõrgeim paindlikkus, kuid ka märkimisväärne keerukus. |
+| **Easy RAG** | Sidub kõik automaatselt läbi `AiServices` ja `ContentRetriever`. Sa märgistad liidese, lisad retriiveri ning LangChain4j haldab embedimist, otsingut ja käsu koostamist taga. | Vähe koodi, kuid sa ei näe, mis toimub igas sammus. |
+| **Native RAG** | Sa kutsud embedimismudeli, otsid andmebaasist, koostad käsu ja genereerid vastuse ise — samm-sammult. | Rohkem koodi, kuid iga etapp on nähtav ja muudetav. |
+| **Advanced RAG** | Kasutab `RetrievalAugmentor` raamistikku koos vahetatavate päringu muundurite, marsruuterite, ümberhinnangute ja sisendite lisajatega tootmiskvaliteediga torujuhtmete jaoks. | Maksimaalne paindlikkus, kuid palju keerulisem. |
 
-**See juhend kasutab Natiivset lähenemist.** Iga RAG torujuhtme samm — päringu manustamine, vektoripäringu tegemine, konteksti koostamine ja vastuse genereerimine — on selgelt kirjas [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java) failis. See on teadlik valik: õppematerjalina on tähtsam, et näeksid ja mõistaksid iga etappi, kui et kood oleks vähendatud. Kui oled senise tööga mugav, võid kiirete prototüüpide jaoks minna Lihtsa RAG juurde või tootmisprojektide jaoks Täiustatud RAG-i.
+**See juhend kasutab Native lähenemist.** Iga RAG torujuhtme samm — päringu embedimine, vektoripoest otsimine, konteksti kogumine ja vastuse genereerimine — on selgelt lahti kirjutatud [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java). See on teadlik valik: õppematerjalina on olulisem, et sa näeksid ja mõistaksid iga etappi, kui et kood oleks minimaalselt kirjutatud. Kui oled igas etapis mugav, võid üle minna Easy RAG-le kiireteks prototüüpideks või Advanced RAG-le tootmissüsteemide jaoks.
 
-> **💡 Oled Lihtsat RAG-i juba näinud?** [Kiire alguse moodul](../00-quick-start/README.md) sisaldab dokumendi küsimuste ja vastuste näidet ([`SimpleReaderDemo.java`](../../../00-quick-start/src/main/java/com/example/langchain4j/quickstart/SimpleReaderDemo.java)), mis kasutab Lihtsat RAG-i — LangChain4j haldab manustamist, otsingut ja päringu kokkupanekut automaatselt. See moodul võtab järgmise sammu, avades selle torujuhtme nii, et sa näed ja juhid iga etappi ise.
+> **💡 Huvitatud Easy RAG-st?** LangChain4j pakub ka *Easy RAG* lähenemist, kus `AiServices` ja `ContentRetriever` haldavad embedimist, otsingut ja käsu koostamist automaatselt. See moodul kasutab selgemat teed — avab selle torujuhtme iga etapi, et sa näeksid ja kontrolliksid seda ise.
 
-Allolev diagramm näitab Lihtsa RAG torujuhet eelmainitud Kiire alguse näitest. Märka, kuidas `AiServices` ja `EmbeddingStoreContentRetriever` peidavad kogu keerukuse — laed dokumendi, lisad taastaja ja saad vastused. Selle mooduli Natiivne lähenemine avab neid peidetud samme:
+Joonis allpool näitab Easy RAG torujuhet. Märka, kuidas `AiServices` ja `EmbeddingStoreContentRetriever` varjavad kogu keerukust — sa laed dokumendi, lisad retriiveri ja saad vastused. Native lähenemine selles moodulis avab kõik need varjatud sammud:
 
-<img src="../../../translated_images/et/easy-rag-pipeline.2e1602e2ad2ded42.webp" alt="Lihtne RAG torujuhe - LangChain4j" width="800"/>
+<img src="../../../translated_images/et/easy-rag-pipeline.2e1602e2ad2ded42.webp" alt="Easy RAG torujuht - LangChain4j" width="800"/>
 
-*See diagramm näitab Lihtsa RAG torujuhet `SimpleReaderDemo.java` failist. Võrdle seda Natiivse lähenemisega selles moodulis: Lihtne RAG peidab manustamise, taaste ja päringu kokkupaneku `AiServices` ja `ContentRetriever` taha — laed dokumendi, lisad taastaja ja saad vastused. Selle mooduli Natiivne lähenemine avab selle torujuhtme, nii et sa kutsud iga etappi (manusta, otsi, kogu kontekst, genereeri) ise, saades täieliku ülevaate ja kontrolli.*
+*Selles joonises on Easy RAG torujuht. Võrdle seda Native lähenemisega selles moodulis: Easy RAG varjab embedimist, otsingut ja käsu koostamist `AiServices` ja `ContentRetriever` taga — sa laed dokumendi, lülitad retriiveri sisse ja saad vastused. Native lähenemine selles moodulis avab kogu torujuhtme, nii et sa kutsud iga etappi ise (embed, otsing, konteksti koostamine, genereerimine), pakkudes täisvaatlust ja kontrolli.*
 
 ## Kuidas see töötab
 
-Selles moodulis jaguneb RAG torujuhe neljaks sammuks, mis toimuvad järjest iga kord, kui kasutaja esitab küsimuse. Esiteks analüüsitakse üleslaaditud dokument, mis jagatakse haldamiseks sobivateks tükkideks. Need tükid teisendatakse vektoriteks (manustusteks) ja salvestatakse, et neid saaks matemaatiliselt võrrelda. Päringu korral teeb süsteem semantilise otsingu, et leida kõige asjakohasemad tükid, ning edastab need kontekstina LLM-ile vastuse genereerimiseks. Järgnevad osad selgitavad iga sammu koos koodiga.
-
-Vaatame esmalt dokumendi töötlemist.
+Selles moodulis jaguneb RAG torujuhe neljaks etapiks, mis käivad kasutaja iga küsimuse korral järjestikku läbi. Esmalt eelnevalt üles laetud dokument on **parsitakse ja tükkideks jagatud**, väiksemateks osadeks, mis mahuvad mugavalt mudeli kontekstiaknasse. Need tükid teisendatakse **vektoriteks** ehk embedimisteks ja säilitatakse, et neid saab matemaatiliselt võrrelda. Kui päring jõuab kohale, toimub **semantiline otsing**, et leida kõige asjakohasemad tükid. Lõpuks antakse need kontekstina LLM-ile vastuse genereerimiseks. Järgnevad osad selgitavad iga etappi koos reaalse koodi ja joonistega. Vaatame esimese sammu.
 
 ### Dokumendi töötlemine
 
 [DocumentService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java)
 
-Kui sa dokumenti üles laed, süsteem analüüsib selle (PDF või lihttekst), lisab metainfot nagu failinimi ja seejärel jagab selle osadeks — väiksemateks tükkideks, mis mahuvad mudeli kontekstiväljale mugavalt. Need tükid kattuvad veidi, et piiril ei kaoks oluline kontekst.
+Kui sa laed dokumendi üles, süsteem parsib selle (PDF või tavatekst), lisab metadata nagu failinimi ja jagab selle tükkideks — väiksemateks osadeks, mis mahuvad mudeli konteksti aknasse. Need tükid kattuvad osaliselt, et sa ei kaotaks konteksti servades.
 
 ```java
-// Analüüsi üleslaaditud faili ja mässi see LangChain4j dokumendi sisse
+// Töötle üleslaaditud fail ja paki see LangChain4j dokumendiks
 Document document = Document.from(content, metadata);
 
-// Jaga 300-tokenilisteks tükkideks, millel on 30-tokeniline kattuvus
+// Jaga 300 tokeni kaupa tükkideks, mis kattuvad 30 tokeniga
 DocumentSplitter splitter = DocumentSplitters
     .recursive(300, 30);
 
 List<TextSegment> segments = splitter.split(document);
 ```
-
-Allolev diagramm illustreerib seda visuaalselt. Märka, kuidas iga tükk jagab mõningaid tokeneid naaber tükkidega — 30-tokeni kattuvus tagab, et oluline kontekst ei jää vahele:
+  
+Joonis allpool näitab seda visuaalselt. Märka, kuidas iga tükk jagab mõningaid tokeneid oma naabritega — 30-tokeniline kattumine tagab, et oluline kontekst ei kaotsi:
 
 <img src="../../../translated_images/et/document-chunking.a5df1dd1383431ed.webp" alt="Dokumendi tükeldamine" width="800"/>
 
-*See diagramm näitab dokumenti, mis on jagatud 300 tokeni suurusteks tükkideks, kus on 30-tokeniline kattuvus, säilitades konteksti tükkide piiridel.*
+*Selles joonises näidatakse dokumenti, mis on jagatud 300 tokeni pikkusteks tükikesteks 30 tokeni kattumisega, säilitades konteksti tükkide servades.*
 
-> **🤖 Proovi koos [GitHub Copilot](https://github.com/features/copilot) Chat’iga:** Ava [`DocumentService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java) ja küsi:
-> - "Kuidas LangChain4j jagab dokumente tükkideks ja miks on kattuvus oluline?"
-> - "Mis on optimaalne tüki suurus erinevate dokumentide jaoks ja miks?"
+> **🤖 Proovi [GitHub Copilot](https://github.com/features/copilot) Chati abil:** Ava [`DocumentService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java) ja küsi:  
+> - "Kuidas LangChain4j jagab dokumendid tükkideks ja miks kattumine on oluline?"  
+> - "Mis on optimaalne tüki suurus erinevate dokumentide jaoks ja miks?"  
 > - "Kuidas käsitleda dokumente mitmes keeles või erilise vormindusega?"
 
-### Manuste loomine
+### Sissejuhatuste loomine
 
 [LangChainRagConfig.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/config/LangChainRagConfig.java)
 
-Iga tükk teisendatakse numbriliseks kujutiseks, nn manustuseks — tähenduse teisendaja arvudeks. Manustumudel ise ei ole „tark“ nagu vestlusmudel; ta ei suuda juhiseid järgida, loogiliselt põhjendada ega küsimustele vastata. Mida ta teeb, on tekstikildude asukoha määramine matemaatilises ruumis, kus lähedased tähendused paiknevad üksteisele lähedal — „auto“ on lähedal „autole“, „tagasimakse poliitika“ lähedal „raha tagastamisele“. Mõtle vestlusmudelile kui inimesele, kellega rääkida; manustumudel on tõhus ja hea süsteem asjade sortimiseks.
+Iga tükk teisendatakse numbriliseks esinduseks, mida nimetatakse embeddinguks — sisuliselt tähenduse ja numbrite konvertoriks. Embedimismudel pole "intelligentne" nagu vestlusmudel; ta ei suuda järgida juhiseid, arutleda ega vastata küsimustele. Mida ta teeb, on tekstide kaardistamine matemaatilisse ruumi, kus sarnased tähendused paiknevad üksteisele lähedal — näiteks "auto" ja "sõiduauto" on lähestikku, "tagasimakse poliitika" on lähedane "raha tagastamisele". Mõtle vestlusmudelit kui sõpra, kellega saab rääkida; embedimismudel on väga hea arhiveerimissüsteem.
 
-Allolev diagramm illustreerib seda mõistet — tekst läheb sisse, numbrilised vektorid tulevad välja, ning sarnased tähendused tähistatakse vektoriruumi lähedal:
+Joonis allpool visualiseerib seda kontseptsiooni — tekst sisse, numbrilised vektorid välja, ja sarnased tähendused tekitavad lähedalolevad vektorid:
 
-<img src="../../../translated_images/et/embedding-model-concept.90760790c336a705.webp" alt="Manustumudeli kontseptsioon" width="800"/>
+<img src="../../../translated_images/et/embedding-model-concept.90760790c336a705.webp" alt="Embedimismudeli kontseptsioon" width="800"/>
 
-*See diagramm näitab, kuidas manustumudel teisendab teksti numbriliseks vektoriks, pannes sarnased tähendused — nagu „auto“ ja „automaat“ — üksteisele lähedale vektoriruumis.*
+*Selles joonises on näidatud, kuidas embedimismudel konverteerib teksti numbrilisteks vektoriteks, pannes sarnased tähendused nagu "auto" ja "sõiduauto" vektoriruumis lähedale.*
 
 ```java
 @Bean
@@ -155,30 +152,30 @@ public EmbeddingModel embeddingModel() {
 EmbeddingStore<TextSegment> embeddingStore = 
     new InMemoryEmbeddingStore<>();
 ```
-
-Järgmine klassidiagramm näitab kahte sõltumatut voogu RAG torujuhtmes ja LangChain4j klasse, mis neid realiseerivad. **Sisseimemise voog** (käib ühe korra üleslaadimisel) jagab dokumendi tükkideks, manustab need ja salvestab `.addAll()` kaudu. **Päringuvoog** (igakordse kasutajapäringu ajal) manustab küsimuse, otsib salvestusest `.search()` kaudu ja edastab sobitatud konteksti vestlusmudelile. Mõlemad vood kohtuvad jagatud `EmbeddingStore<TextSegment>` liidesel:
+  
+Järgmine klassidiagramm näitab kahte eraldi töövoogu RAG torujuhtmes ja LangChain4j klasse, mis neid katavad. **Sisendvoog** (käivitatakse üleslaadimisel) jagab dokumendi, teeb tükkidele embeddingud ja salvestab need `.addAll()` meetodiga. **Päringuvoog** (käivitatakse iga kord, kui kasutaja esitab küsimuse) teeb päringust embeddingu, otsib poe kaudu `.search()` meetodiga ja annab leitud konteksti vestlusmudelile. Mõlemad vood kohtuvad jagatud `EmbeddingStore<TextSegment>` liidese juures:
 
 <img src="../../../translated_images/et/rag-langchain4j-classes.bbf3aa9077ab443d.webp" alt="LangChain4j RAG klassid" width="800"/>
 
-*See diagramm näitab kahte RAG voogu — sisseimemist ja päringut — ja nende ühendust ühise EmbeddingStore kaudu.*
+*Selles joonises on RAG torujuhtme kaks voogu — sisend ja päring — ning nende ühendus ühise EmbeddingStore´i kaudu.*
 
-Kui manused on salvestatud, koonduvad sarnased sisud loogiliselt vektoriruumi lähedale. Allolev visualisatsioon näitab, kuidas seotud teemad paistavad 3D-ruumis klastritena, mis teeb semantilise otsingu võimalikuks:
+Kui embeddingud on salvestatud, koonduvad sarnased dokumendid loomulikult vektoriruumis kokku. Järgmine visualisatsioon näitab, kuidas seotud teemad koonduvad lähestikku punktidesse, mis võimaldab semantilist otsingut:
 
-<img src="../../../translated_images/et/vector-embeddings.2ef7bdddac79a327.webp" alt="Vektormanuste ruum" width="800"/>
+<img src="../../../translated_images/et/vector-embeddings.2ef7bdddac79a327.webp" alt="Vektorite embeddingute ruum" width="800"/>
 
-*See visualisatsioon näitab, kuidas seotud dokumendid rühmituvad 3D vektoriruumi, moodustades erinevad grupid nagu tehnilised dokumendid, ärireeglid ja korduma kippuvad küsimused.*
+*See visualisatsioon näitab seotud dokumentide koondumist 3D vektoriruumis, kus on eristuvad grupid nagu Tehnilised dokumendid, Ärieeskirjad ja KKK.*
 
-Kui kasutaja otsib, järgib süsteem nelja sammu: manustab dokumendid kord, manustab päringu iga otsingu ajal, võrdleb päringu vektorit kõigi salvestatud vektoritega kosiinussarnasuse järgi ja tagastab tipp-K kõrgeima skooriga tükid. Allolev diagramm kirjeldab iga sammu ja kaasatud LangChain4j klasse:
+Kui kasutaja otsib, toimib süsteem neljas etapis: embedib dokumendid ühekordselt, embedib iga otsingu päringu eraldi, võrdleb päringu vektorit kõigi salvestatud vektoritega koosiin sarnasuse alusel ja tagastab parima K skooriga tükid. Joonis allpool demonstreerib iga sammu koos vastavate LangChain4j klassidega:
 
-<img src="../../../translated_images/et/embedding-search-steps.f54c907b3c5b4332.webp" alt="Manustamise otsingu sammud" width="800"/>
+<img src="../../../translated_images/et/embedding-search-steps.f54c907b3c5b4332.webp" alt="Embedimise otsingu sammud" width="800"/>
 
-*See diagramm näitab nelja sammu manustamise otsimusprotsessis: manusta dokumendid, manusta päring, võrdle vektoreid kosiinussarnasuse alusel ja tagasta tipp-K tulemid.*
+*Selles joonises on neljaastmeline embedimise otsingu protsess: embedid dokumendid, embedid päringu, võrdled vektoreid koosiin sarnasuse alusel ja tagastad tipp-K tulemused.*
 
 ### Semantiline otsing
 
 [RagService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java)
 
-Kui küsid küsimust, teisendatakse sinu küsimus samuti manustuseks. Süsteem võrdleb sinu päringu manustust kõigi dokumendi tükkide manustustega. Ta leiab kõige sarnasema tähendusega tükid — mitte ainult märksõnade kattuvuse põhjal, vaid tõelise semantilise sarnasuse alusel.
+Kui sa esitad küsimuse, muutub ka sinu küsimus embeddinguks. Süsteem võrdleb sinu päringu embeddingut kõigi dokumenditükkide embeddingutega. Ta leiab tükid, mille tähendused on sarnasemad — mitte ainult märksõnade kattumised, vaid tegelik semantiline sarnasus.
 
 ```java
 Embedding queryEmbedding = embeddingModel.embed(question).content();
@@ -197,28 +194,28 @@ for (EmbeddingMatch<TextSegment> match : matches) {
     double score = match.score();
 }
 ```
-
-Allolev diagramm võrdleb semantilist otsingut tavapärase märksõnapõhise otsinguga. Märksõnapõhine „sõiduk“ otsing jätab leidmata tüki „autod ja veoautod“, kuid semantiline otsing mõistab, et need tähendavad sama asja ja tagastab selle kõrge skooriga tulemusena:
+  
+Joonis allpool võrdleb semantilist otsingut traditsioonilise märksõnapõhise otsinguga. Märksõnapõhine otsing päringuga "sõiduk" jätab vahele mõned tükid teemal "autod ja veoautod", kuid semantiline otsing mõistab, et need tähendavad sama asja ja tagastab selle kõrge skooriga vasteidena:
 
 <img src="../../../translated_images/et/semantic-search.6b790f21c86b849d.webp" alt="Semantiline otsing" width="800"/>
 
-*See diagramm võrdleb märksõnapõhist otsingut semantilise otsinguga, näidates kuidas viimane leiab mõistepõhiseid seotud sisusid ka siis, kui täpsed märksõnad ei lange kokku.*
-Masinapõhiselt mõõdetakse sarnasust kasutades kosinussarnasust — sisuliselt küsides „Kas need kaks noolt osutavad sama suunda?“ Kaks lõiku võivad kasutada täiesti erinevaid sõnu, kuid kui nende tähendus on sama, osutavad nende vektorid samasse suunda ja skoorivad ligikaudu 1.0:
+*Selles joonises võrreldakse märksõnapõhist otsingut semantilise otsinguga, mis leiab mõistepõhist seotud sisu ka siis, kui märksõnad erinevad.*
 
-<img src="../../../translated_images/et/cosine-similarity.9baeaf3fc3336abb.webp" alt="Kosinussarnasus" width="800"/>
+Tegelikult mõõdetakse sarnasust koosiiniga — küsimusega "kas need kaks noolt osutavad samasse suunda?" Kahe tükki sõnad võivad olla täiesti erinevad, kuid kui tähendused kattuvad, osutavad vektorid samasse suunda ja skoor on ligi 1.0:
 
-*See diagramm illustreerib kosinussarnasust kui nurka manustatud vektorite vahel — rohkem joondunud vektorid skoorivad lähemale 1.0-le, mis näitab suuremat semantilist sarnasust.*
+<img src="../../../translated_images/et/cosine-similarity.9baeaf3fc3336abb.webp" alt="Koosiini sarnasus" width="800"/>
+*Selles diagrammis on kujutatud kosini sarnasust manustatud vektorite vahelise nurga kaudu — rohkem ühtlustatud vektorid saavad skoori lähemale 1,0-le, mis näitab kõrgemat semantilist sarnasust.*
 
-> **🤖 Proovi [GitHub Copilot](https://github.com/features/copilot) Chatiga:** Ava faili [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java) ja küsi:
-> - "Kuidas töötab sarnasuse otsing manustega ja mis määrab skoori?"
-> - "Millist sarnasuse läve peaksin kasutama ja kuidas see tulemusi mõjutab?"
-> - "Kuidas käituda juhtudel, kui asjakohaseid dokumente ei leita?"
+> **🤖 Proovi [GitHub Copilot](https://github.com/features/copilot) Chat'iga:** Ava [`RagService.java`](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java) ja küsi:
+> - "Kuidas töötab sarnasusotsing manustustega ja mis määrab skoori?"
+> - "Millist sarnasuse lävendit peaksin kasutama ja kuidas see tulemusi mõjutab?"
+> - "Kuidas ma käsitlen olukordi, kus sobivaid dokumente ei leita?"
 
-### Vastuse Genereerimine
+### Vastuse loomine
 
 [RagService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java)
 
-Kõige asjakohasemad lõigud koostatakse struktureeritud küsimuseks, mis sisaldab selgeid juhiseid, päringukonteksti ja kasutaja küsimust. Mudel loeb neid konkreetseid lõike ja vastab selle info põhjal — ta saab kasutada ainult seda, mis tal ees on, mis takistab hallutsinatsioone.
+Kõige asjakohasemad lõigud koostatakse struktureeritud päringuks, mis sisaldab selgeid juhiseid, päringu konteksti ja kasutaja küsimust. Mudel loeb need konkreetsed lõigud ja vastab nende põhjal — ta saab kasutada ainult seda, mis on ees, mis takistab hallutsinatsiooni.
 
 ```java
 String context = matches.stream()
@@ -239,65 +236,65 @@ String prompt = String.format("""
 String answer = chatModel.chat(prompt);
 ```
 
-Allolev diagramm näitab seda kokkupanekut tegevuses — otsingust saadud kõige paremini skoorivad lõigud süstitakse küsimuse malli ja `OpenAiOfficialChatModel` genereerib kinnitatud vastuse:
+Allolev diagramm näitab seda kokkupanekut tegevuses — otsingust parima skooriga lõigud sisestatakse päringumalli ja `OpenAiOfficialChatModel` genereerib põhjaliku vastuse:
 
-<img src="../../../translated_images/et/context-assembly.7e6dd60c31f95978.webp" alt="Konteksti Kokkupanek" width="800"/>
+<img src="../../../translated_images/et/context-assembly.7e6dd60c31f95978.webp" alt="Context Assembly" width="800"/>
 
-*See diagramm näitab, kuidas kõrgeima skooriga lõigud koostatakse struktureeritud küsimuseks, võimaldades mudelil genereerida kinnitatud vastuse teie andmetest.*
+*Selles diagrammis näidatakse, kuidas parima skooriga lõigud kogutakse struktureeritud päringusse, mis võimaldab mudelil teie andmetest põhjendatud vastust genereerida.*
 
-## Rakenduse Käivitamine
+## Rakenduse käivitamine
 
-**Kontrolli deployd:**
+**Kontrolli paigaldust:**
 
-Veendu, et `.env` fail asub juurkataloogis Azure'i mandaatidega (loodud moodulis 01). Käivita see mooduli kataloogist (`03-rag/`):
+Veendu, et juurkataloogis oleks olemas `.env` fail koos Azure volitustega (loodud moodulis 01). Käivita see mooduli kataloogist (`03-rag/`):
 
 **Bash:**
 ```bash
-cat ../.env  # Peaks näitama AZURE_OPENAI_ENDPOINT-i, API_KEY-d, DEPLOYMENT-i
+cat ../.env  # Peaks näitama AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
 
 **PowerShell:**
 ```powershell
-Get-Content ..\.env  # Tuleks näidata AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+Get-Content ..\.env  # Peaks näitama AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
 
 **Alusta rakendust:**
 
-> **Märkus:** Kui alustasid juba kõigi rakendustega `./start-all.sh` abil juurkataloogist (nagu kirjeldatud moodulis 01), töötab see moodul juba pordil 8081. Võid alltoodud käsud vahele jätta ja minna otse http://localhost:8081.
+> **Märkus:** Kui oled juba käivitanud kõik rakendused käsuga `./start-all.sh` juurkataloogist (nagu moodulis 01 kirjeldatud), töötab see moodul juba pordil 8081. Võid allolevad käivitamiskäsud vahele jätta ja minna otse aadressile http://localhost:8081.
 
-**Valik 1: Spring Boot Dashboardi kasutamine (Soovitatav VS Code kasutajatele)**
+**Variant 1: Kasutades Spring Boot Dashboardi (Soovitatav VS Code kasutajatele)**
 
-Arenduscontainer sisaldab Spring Boot Dashboard laiendust, mis pakub visuaalset kasutajaliidest kõigi Spring Boot rakenduste haldamiseks. Leiad selle aktiivsusribalt VS Code vasakul pool (otsige Spring Boot ikooni).
+Arendus konteiner sisaldab Spring Boot Dashboard laiendust, mis pakub visuaalset liidest kõigi Spring Boot rakenduste haldamiseks. Selle leiad VS Code vasakult küljeribalt (otsi Spring Boot ikooni).
 
-Spring Boot Dashboardilt saad:
+Spring Boot Dashboardist saad:
 - Näha kõiki tööruumis olevaid Spring Boot rakendusi
 - Käivitada/peatada rakendusi ühe klikiga
 - Vaadata rakenduse logisid reaalajas
-- Jälgida rakenduse olekut
+- Jälgida rakenduste olekut
 
-Lihtsalt kliki "rag" kõrval olevale play-nupule selle mooduli käivitamiseks või alusta korraga kõiki mudeleid.
+Lihtsalt klõpsa nupule "rag" kõrval, et käivitada see moodul või alusta korraga kõiki mooduleid.
 
 <img src="../../../translated_images/et/dashboard.fbe6e28bf4267ffe.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*See kuvatõmmis näitab Spring Boot Dashboardi VS Codes, kus saad visuaalselt rakendusi käivitada, peatada ja jälgida.*
+*Sellel ekraanipildil on näha Spring Boot Dashboard VS Codes, kus saad rakendusi visuaalselt käivitada, peatada ja jälgida.*
 
-**Valik 2: Shell skriptide kasutamine**
+**Variant 2: Kasutades käsurea skripte**
 
 Käivita kõik veebirakendused (moodulid 01-04):
 
 **Bash:**
 ```bash
-cd ..  # Juure kataloogist
+cd ..  # Juurekataloogist
 ./start-all.sh
 ```
 
 **PowerShell:**
 ```powershell
-cd ..  # Juurekataloogist
+cd ..  # Juure kataloogist
 .\start-all.ps1
 ```
 
-Või alusta ainult seda moodulit:
+Või käivita vaid see moodul:
 
 **Bash:**
 ```bash
@@ -311,9 +308,9 @@ cd 03-rag
 .\start.ps1
 ```
 
-Mõlemad skriptid laadivad automaatselt keskkonnamuutujaid juurpõhjast `.env` failist ja ehitavad JAR-id, kui need puuduvad.
+Mõlemad skriptid laadivad automaatselt keskkonnamuutujad juurkataloogist `.env` failist ning ehitavad JARid, kui neid pole veel olemas.
 
-> **Märkus:** Kui soovid enne käivitust kõik moodulid käsitsi ehitada:
+> **Märkus:** Kui soovid ehitada kõik moodulid käsitsi enne käivitamist:
 >
 > **Bash:**
 > ```bash
@@ -345,95 +342,95 @@ cd .. && ./stop-all.sh  # Kõik moodulid
 cd ..; .\stop-all.ps1  # Kõik moodulid
 ```
 
-## Rakenduse Kasutamine
+## Rakenduse kasutamine
 
-Rakendus pakub veebiliidest dokumentide üleslaadimiseks ja küsimiseks.
+Rakendus pakub veebiliidest dokumentide üleslaadimiseks ja küsimuste esitamiseks.
 
-<a href="images/rag-homepage.png"><img src="../../../translated_images/et/rag-homepage.d90eb5ce1b3caa94.webp" alt="RAG rakenduse kasutajaliides" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/rag-homepage.png"><img src="../../../translated_images/et/rag-homepage.d90eb5ce1b3caa94.webp" alt="RAG Application Interface" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*See kuvatõmmis näitab RAG rakenduse kasutajaliidest, kus saad üles laadida dokumente ja esitada küsimusi.*
+*Sellel ekraanipildil on näha RAG rakenduse liides, kus saad dokumente üles laadida ja küsimusi esitada.*
 
 ### Dokumendi üleslaadimine
 
-Alusta dokumendi üleslaadimisest – testimisel sobivad kõige paremini TXT failid. Selle kataloogi on lisatud `sample-document.txt`, mis sisaldab infot LangChain4j omaduste, RAG implementatsiooni ja parimate tavade kohta – ideaalne süsteemi testimiseks.
+Alusta dokumendi üleslaadimisega — testimiseks sobivad kõige paremini TXT-failid. Selles kataloogis on olemas `sample-document.txt`, mis sisaldab infot LangChain4j omaduste, RAG rakenduse ja parimate tavade kohta — ideaalne süsteemi testimiseks.
 
-Süsteem töötleb su dokumendi, jagab selle lõikudeks ja loob iga lõigu jaoks manused. See toimub automaatselt kohe peale üleslaadimist.
+Süsteem töötleb sinu dokumendi, jagab selle lõikudeks ja loob igale lõigule manustused. See toimub automaatselt pärast üleslaadimist.
 
-### Küsimuste Esitamine
+### Küsi küsimusi
 
-Nüüd esita konkreetseid küsimusi dokumenti sisu kohta. Proovi faktilisi küsimusi, mis on dokumendis selgelt välja toodud. Süsteem otsib asjakohased lõigud, lisab need küsimuse konteksti ja genereerib vastuse.
+Esita nüüd dokumendi sisu kohta konkreetseid küsimusi. Proovi midagi faktilist, mis on dokumendis selgelt välja toodud. Süsteem otsib asjakohaseid lõike, lisab need päringusse ja genereerib vastuse.
 
-### Allika Viidete Kontrollimine
+### Kontrolli allikaviiteid
 
-Pange tähele, et iga vastus sisaldab allika viiteid koos sarnasuse skooridega. Need skoorid (0 kuni 1) näitavad, kui asjakohane iga lõik sinu küsimusega oli. Kõrgemad skoorid tähendavad paremaid vasteid. Sellega saad vastuse kontrollida allikmaterjali vastu.
+Pane tähele, et iga vastus sisaldab allikaviiteid koos sarnasusskooridega. Need skoorid (0 kuni 1) näitavad, kui asjakohane iga lõik oli sinu küsimusele. Kõrgemad skoorid tähendavad paremaid vasteid. See võimaldab sul vastuse võrrelda algallikaga.
 
-<a href="images/rag-query-results.png"><img src="../../../translated_images/et/rag-query-results.6d69fcec5397f355.webp" alt="RAG päringu tulemused" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
+<a href="images/rag-query-results.png"><img src="../../../translated_images/et/rag-query-results.6d69fcec5397f355.webp" alt="RAG Query Results" width="800" style="border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/></a>
 
-*See kuvatõmmis näitab päringu tulemusi koos genereeritud vastuse, allika viidete ja iga leitud lõigu asjakohasuse skooriga.*
+*Sellel ekraanipildil on näha päringu tulemused koos genereeritud vastuse, allikaviidete ja iga leitud lõigu asjakohasuskoori.*
 
-### Küsitlusega Katsetamine
+### Katseta küsimustega
 
 Proovi erinevat tüüpi küsimusi:
-- Konkreetsed faktid: "Mis on peamine teema?"
+- Konkreetsed faktid: "Mis on põhiteema?"
 - Võrdlused: "Mis vahe on X ja Y vahel?"
-- Kokkuvõtted: "Kokkuvõtke Z põhiteemad"
+- Kokkuvõtted: "Kokkuvõtte põhikohad Z kohta"
 
-Jälgi, kuidas asjakohasuse skoorid muutuvad vastavalt sellele, kui hästi su küsimus dokumenti sobib.
+Vaata, kuidas muutuvad asjakohasus skoorid vastavalt sellele, kui hästi sinu küsimus dokumendi sisuga sobib.
 
-## Põhimõisted
+## Olulised mõisted
 
-### Lõikude Jagamise Strateegia
+### Lõikude strateegia
 
-Dokumendid jagatakse 300 märgiga lõikudeks, millel on 30 märgiline kattuvus. See tasakaal tagab, et iga lõik sisaldab piisavalt konteksti, et olla tähenduslik, samas jäädes piisavalt väikeseks, et mahutada mitut lõiku ühte küsimusse.
+Dokumendid jagatakse 300-token'ilise pikkusega lõikudeks, kus on 30 tokeni kattuvust. See tasakaal tagab, et igal lõigul on piisavalt konteksti, et olla tähenduslik, kuid samas piisavalt väike, et mahtuda päringusse mitu lõiku.
 
-### Sarnasuse Skoorid
+### Sarnasusskoorid
 
-Iga leitud lõikuga tuleb kaasas sarnasuse skoor 0 kuni 1, mis näitab, kui lähedalt see kasutaja küsimusele vastab. Alljärgnev diagramm visualiseerib skooride vahemikke ja seda, kuidas süsteem neid tulemuste filtreerimiseks kasutab:
+Iga leitud lõik on varustatud sarnasusskooriga vahemikus 0 kuni 1, mis näitab kui hästi see kasutaja küsimusega vastab. Järgmine diagramm visualiseerib skooride vahemikke ja kuidas süsteem neid tulemuste filtreerimiseks kasutab:
 
-<img src="../../../translated_images/et/similarity-scores.b0716aa911abf7f0.webp" alt="Sarnasuse Skoorid" width="800"/>
+<img src="../../../translated_images/et/similarity-scores.b0716aa911abf7f0.webp" alt="Similarity Scores" width="800"/>
 
-*See diagramm näitab skooride vahemikke 0 kuni 1, kus minimaalne lävi on 0.5, mis filtreerib välja asjakohatud lõigud.*
+*Selles diagrammis on näha skooride vahemikud 0 kuni 1, kus minimaalseks lävendiks on 0,5, mis filtreerib välja ebasobivad lõigud.*
 
-Skoorid jäävad vahemikku 0 kuni 1:
-- 0.7-1.0: Väga asjakohane, täpne vaste
-- 0.5-0.7: Asjakohane, hea kontekst
-- Alla 0.5: Filtreeritud välja, liiga erinev
+Skoorid on vahemikus 0 kuni 1:
+- 0,7–1,0: Väga asjakohane, täpne vaste
+- 0,5–0,7: Asjakohane, hea kontekst
+- Alla 0,5: Filtreeritud välja, liiga erinev
 
-Süsteem tagastab ainult lõigud, mis ületavad miinimalläve, et tagada kvaliteet.
+Süsteem otsib ainult lõikeid, mis ületavad minimaalse lävendi, kvaliteedi tagamiseks.
 
-Manused töötavad hästi, kui tähendused klastrites selged on, kuid neil on ka pimedad kohad. Järgnev diagramm näitab levinud ebaõnnestumise viise — liiga suured lõigud annavad ebaselged vektorid, liiga väikesed lõigud on kontekstist vaesed, mitmetähenduslikud terminid viitavad mitmele klastrile ja täpse vaste otsingud (ID-d, osanumber) ei tööta manustega sugugi:
+Manustused töötavad hästi selgete tähenduste rühmitamisel, kuid neil on ka kitsaskohad. Järgmine diagramm näitab levinud veaolukordi — liiga suured lõigud annavad uduseid vektoreid, liiga väikesed lõigud puuduvad konteksti, mitmetähenduslikud terminid viitavad mitmele rühmale ja täpsed otsingud (ID-d, osanumbrids) ei tööta manustustega üldse:
 
-<img src="../../../translated_images/et/embedding-failure-modes.b2bcb901d8970fc0.webp" alt="Manuse ebaõnnestumise režiimid" width="800"/>
+<img src="../../../translated_images/et/embedding-failure-modes.b2bcb901d8970fc0.webp" alt="Embedding Failure Modes" width="800"/>
 
-*See diagramm näitab levinud manustamise ebaõnnestumise vorme: liiga suured lõigud, liiga väikesed lõigud, mitmetähenduslikud terminid, mis viitavad mitmele klastrile, ning täpsed vasteotsingud nagu ID-d.*
+*Selles diagrammis on näha levinumaid manustamise veaolukordi: liiga suured lõigud, liiga väikesed lõigud, mitmetähenduslikud terminid, mis viitavad mitmele rühmale, ja täpsed otsingud nagu ID-d.*
 
-### Mälu Põhine Andmesalvestus
+### Mälupõhine salvestus
 
-See moodul kasutab lihtsuse huvides mälusalvestust. Rakenduse taaskäivitamisel kaovad üles laaditud dokumendid. Tootmiskeskkonnas kasutatakse püsivaid vektorandmebaase nagu Qdrant või Azure AI Search.
+See moodul kasutab lihtsuse huvides mälus hoidmist. Rakenduse taaskäivitamisel kaovad üleslaaditud dokumendid. Tootmiskeskkonnas kasutatakse püsivaid vektorandmebaase nagu Qdrant või Azure AI Search.
 
-### Konteksti Akna Halduse
+### Konteksti akna haldamine
 
-Igal mudelil on maksimaalne konteksti aken. Sa ei saa lisada kõiki lõike väga suurest dokumendist. Süsteem tagastab kõige asjakohasemad N lõiku (vaikimisi 5), et jääda piiridesse, kuid pakkuda piisavalt konteksti täpsete vastuste jaoks.
+Igal mudelil on maksimaalne konteksti akna suurus. Suurtest dokumentidest ei saa kõiki lõike korraga lisada. Süsteem otsib üles parima N asjakohased lõigud (vaikimisi 5), et jääda piiridesse, pakkudes samas piisavalt konteksti täpsete vastuste andmiseks.
 
-## Millal RAG Loeb
+## Millal RAG on oluline
 
-RAG ei ole alati õige lahendus. Järgmine otsustusjuhend aitab sul otsustada, millal RAG lisab väärtust võrreldes lihtsamate lähenemisviisidega — nagu sisu otse küsimusse lisamine või mudeli sisseehitatud teadmiste kasutamine:
+RAG ei ole alati parim lahendus. Järgmine otsusjuht aitab määrata, millal RAG lisab väärtust ja millal lihtsamad lahendused — nagu sisu otse päringusse lisamine või mudeli sisseehitatud teadmiste kasutamine — on piisavad:
 
-<img src="../../../translated_images/et/when-to-use-rag.1016223f6fea26bc.webp" alt="Millal kasutada RAG'i" width="800"/>
+<img src="../../../translated_images/et/when-to-use-rag.1016223f6fea26bc.webp" alt="When to Use RAG" width="800"/>
 
-*See diagramm näitab otsustusjuhendit, millal RAG lisab väärtust ja millal piisavad lihtsamad lähenemised.*
+*Selles diagrammis on otsustustugi, mis näitab, millal RAG lisab väärtust ja millal lihtsamad lahendused on piisavad.*
 
-## Järgmised Sammud
+## Järgmised sammud
 
-**Järgmine moodul:** [04-tools - Tehisintellekti agendid tööriistadega](../04-tools/README.md)
+**Järgmine moodul:** [04-tools - AI Agents with Tools](../04-tools/README.md)
 
 ---
 
-**Navigeerimine:** [← Eelmine: Moodul 02 - Küsitluste inseneritöö](../02-prompt-engineering/README.md) | [Tagasi Avalehile](../README.md) | [Järgmine: Moodul 04 - Tööriistad →](../04-tools/README.md)
+**Navigeerimine:** [← Eelmine: Moodul 02 - Päringute konstrueerimine](../02-prompt-engineering/README.md) | [Tagasi avalehele](../README.md) | [Järgmine: Moodul 04 - Tööriistad →](../04-tools/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Vastutusest loobumine**:
-See dokument on tõlgitud kasutades tehisintellektil põhinevat tõlketeenust [Co-op Translator](https://github.com/Azure/co-op-translator). Kuigi püüdleme täpsuse poole, palun pange tähele, et automaatsed tõlked võivad sisaldada vigu või ebatäpsusi. Algset dokumenti selle emakeeles tuleks pidada autoriteetseks allikaks. Olulise teabe puhul soovitatakse kasutada professionaalse inimtõlke teenust. Me ei vastuta selle tõlke kasutamisest tulenevate arusaamatuste või väärinterpreteerimiste eest.
+**Lahtiütlus**:
+See dokument on tõlgitud kasutades AI tõlketeenust [Co-op Translator](https://github.com/Azure/co-op-translator). Kuigi me püüdleme täpsuse poole, palun pange tähele, et automatiseeritud tõlgetes võib esineda vigu või ebatäpsusi. Originaaldokument selle emakeeles tuleks pidada autoriteetseks allikaks. Olulise teabe puhul soovitatakse kasutada professionaalset inimtõlget. Me ei vastuta selle tõlkega seotud eksimustest või valesti mõistmistest.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

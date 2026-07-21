@@ -1,87 +1,87 @@
-# Module 01: LangChain4j 入門
+# Module 01: LangChain4j のはじめ方
 
 ## 目次
 
-- [動画ウォークスルー](../../../01-introduction)
-- [学べること](../../../01-introduction)
-- [前提条件](../../../01-introduction)
-- [コア問題の理解](../../../01-introduction)
-- [トークンの理解](../../../01-introduction)
-- [メモリの仕組み](../../../01-introduction)
-- [LangChain4j の利用方法](../../../01-introduction)
-- [Azure OpenAI インフラの展開](../../../01-introduction)
-- [アプリケーションのローカル実行](../../../01-introduction)
-- [アプリケーションの使用方法](../../../01-introduction)
-  - [ステートレスチャット（左パネル）](../../../01-introduction)
-  - [ステートフルチャット（右パネル）](../../../01-introduction)
-- [次のステップ](../../../01-introduction)
+- [動画ウォークスルー](#動画ウォークスルー)
+- [学習内容](#学習内容)
+- [前提条件](#前提条件)
+- [コア問題の理解](#コア問題の理解)
+- [トークンの理解](#トークンの理解)
+- [メモリの仕組み](#メモリの仕組み)
+- [LangChain4j の使用方法](#langchain4j-の使用方法)
+- [Azure OpenAI インフラの展開](#azure-openai-インフラの展開)
+- [ローカルでアプリケーションを実行する](#ローカルでアプリケーションを実行する)
+- [アプリケーションの使用方法](#アプリケーションの使用方法)
+  - [ステートレスチャット（左パネル）](#ステートレスチャット（左パネル）)
+  - [ステートフルチャット（右パネル）](#ステートフルチャット（右パネル）)
+- [次のステップ](#次のステップ)
 
 ## 動画ウォークスルー
 
-このモジュールの始め方を説明するライブセッションをご覧ください：
+このモジュールの始め方を説明するライブセッションを見る：
 
 <a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Getting Started with LangChain4j - Live Session" width="800"/></a>
 
-## 学べること
+## 学習内容
 
-クイックスタートでは、GitHub Models を使ってプロンプト送信、ツール呼び出し、RAG パイプラインの構築、ガードレールのテストを行いました。これらのデモは可能なことを示しました — 今回は Azure OpenAI と GPT-5.2 に切り替え、本格的なプロダクションアプリケーションの構築を始めます。このモジュールは、会話のコンテキストを記憶し状態を維持する会話型AIにフォーカスします — クイックスタートデモで使われていたが説明されていなかった概念です。
+これは LangChain4j と Azure OpenAI の出発点です。基本から始めて、本格的なアプリケーションを構築していきます。このモジュールは、会話の文脈を覚え状態を維持する対話型AIに焦点を当てており、後のすべてのモジュールで基盤となる概念です。
 
-本ガイドでは Azure OpenAI の GPT-5.2 を通して利用します。高度な推論機能により、異なるパターンの挙動がより明確に分かります。メモリを追加すると、その違いがはっきり見えます。これにより、各コンポーネントがアプリケーションに何をもたらすか理解しやすくなります。
+このガイド全体で Azure OpenAI の GPT-5.2 を使用します。高度な推論機能により、異なるパターンの挙動の違いが明確になるためです。メモリを追加すると、その違いがはっきり分かります。これにより、それぞれのコンポーネントがアプリケーションにもたらす効果を理解しやすくなります。
 
-以下の2つのパターンを示すアプリケーションを構築します：
+両方のパターンを示すアプリケーションを1つ作成します：
 
-**ステートレスチャット** - 各リクエストは独立しています。モデルは前回のメッセージを記憶しません。クイックスタートで使ったのはこのパターンです。
+<strong>ステートレスチャット</strong> - 各リクエストは独立しています。モデルは前のメッセージを覚えていません。最もシンプルな出発点です。
 
-**ステートフル会話** - 各リクエストに会話履歴を含みます。モデルは複数ターンの文脈を維持します。これがプロダクションアプリケーションで必要なパターンです。
+<strong>ステートフル会話</strong> - 各リクエストに会話履歴が含まれます。モデルは複数ターンにわたって文脈を維持します。これは本番アプリケーションで必須です。
 
 ## 前提条件
 
-- Azure OpenAI へのアクセスがある Azure サブスクリプション
+- Azure OpenAI アクセスがある Azure サブスクリプション
 - Java 21、Maven 3.9+
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **注意：** Java、Maven、Azure CLI、Azure Developer CLI (azd) は提供された devcontainer に事前インストールされています。
+> **Note:** Java、Maven、Azure CLI、Azure Developer CLI (azd) は提供される devcontainer に事前にインストールされています。
 
-> **注意：** 本モジュールは Azure OpenAI の GPT-5.2 を使用します。`azd up` で自動的に展開されるため、コード内のモデル名は変更しないでください。
+> **Note:** 本モジュールは Azure OpenAI の GPT-5.2 を使用します。展開は `azd up` により自動設定されます。コード内のモデル名を変更しないでください。
 
 ## コア問題の理解
 
-言語モデルはステートレスです。各 API コールは独立しています。「私の名前はジョンです」と送っても、次に「私の名前は何？」と聞いても、モデルは直前に自己紹介を受けたことを知りません。すべてのリクエストをその会話が初めてであるかのように扱います。
+言語モデルはステートレス（状態を持たない）です。各API呼び出しは独立しています。「私の名前はジョンです」と送ってから「私の名前は何ですか？」と尋ねても、モデルは自己紹介した直後だとは認識しません。すべてのリクエストを、今までで初めての会話だと扱います。
 
-これは単純な Q&A には問題ありませんが、本物のアプリケーションには役に立ちません。カスタマーサービスボットはユーザーからの情報を記憶している必要があります。パーソナルアシスタントは文脈を必要とします。マルチターン会話はメモリを要求します。
+これは簡単なQ&Aには使えますが、本格的なアプリケーションには役に立ちません。カスタマーサポートのボットはあなたが何を言ったか覚える必要があります。パーソナルアシスタントは文脈を必要とします。複数ターンの対話にはメモリが不可欠です。
 
-以下の図は2つのアプローチを対比しています — 左は名前を忘れるステートレス呼び出し、右は ChatMemory が背後にあるステートフル呼び出しです。
+下図は両者の対比です — 左は名前を忘れるステートレス呼び出し、右はChatMemoryで名前を覚えているステートフル呼び出しです。
 
 <img src="../../../translated_images/ja/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Stateless vs Stateful Conversations" width="800"/>
 
-*ステートレス（独立した呼び出し）とステートフル（コンテキスト認識）会話の違い*
+*ステートレス（独立呼び出し）とステートフル（文脈認識）会話の違い*
 
 ## トークンの理解
 
-会話に入る前に、トークンの理解が重要です — 言語モデルが処理するテキストの基本単位：
+会話に入る前に、トークンを理解することが重要です。トークンは言語モデルが処理するテキストの基本単位です：
 
 <img src="../../../translated_images/ja/token-explanation.c39760d8ec650181.webp" alt="Token Explanation" width="800"/>
 
-*テキストがどのようにトークンに分割されるかの例 — 「I love AI!」は4つの別々の処理単位になる*
+*テキストがトークンに分解される例 — 「I love AI!」は4つの別々の処理単位になる*
 
-トークンは AI モデルがテキストを計測・処理する単位です。単語、句読点、スペースもトークンになり得ます。モデルには同時に処理できるトークン数の制限があります（GPT-5.2 は最大400,000トークン、入力最大272,000、出力最大128,000）。トークンの理解は会話の長さやコスト管理に役立ちます。
+トークンはAIモデルがテキストを計測・処理する単位です。単語、句読点、スペースもトークンになり得ます。モデルには一度に処理できるトークン数の上限があり（GPT-5.2では40万トークン、入力最大27.2万トークン＋出力最大12.8万トークン）、トークンを理解することは会話の長さとコスト管理に役立ちます。
 
 ## メモリの仕組み
 
-チャットメモリはステートレス問題を解決するため、会話履歴を保ちます。リクエストをモデルに送る前に、関連する過去のメッセージを前置きします。「私の名前は何？」と聞くと、実際にはこれまでの会話履歴全体を送り、モデルは「私の名前はジョンです」と言われていたことを参照できます。
+チャットメモリは、ステートレス問題を解決し会話履歴を保持します。リクエストをモデルに送る前に、フレームワークは関連する過去のメッセージを先頭に付け加えます。「私の名前は何ですか？」と聞くと、実際には全会話履歴が送られ、モデルは「私の名前はジョンです」と以前に言ったことを見られます。
 
-LangChain4j はこの処理を自動化するメモリの実装を提供します。保持するメッセージ数を指定すれば、フレームワークがコンテキストウィンドウを管理します。下図は MessageWindowChatMemory が最新メッセージのスライディングウィンドウを維持する様子です。
+LangChain4j は、この処理を自動化するメモリ実装を提供します。保持するメッセージ数を選択でき、フレームワークがコンテキストウィンドウを管理します。下図は MessageWindowChatMemory が最近のメッセージのスライディングウィンドウを維持する様子です。
 
 <img src="../../../translated_images/ja/memory-window.bbe67f597eadabb3.webp" alt="Memory Window Concept" width="800"/>
 
-*MessageWindowChatMemory は最近のメッセージのスライディングウィンドウを維持し、古いものを自動削除*
+*MessageWindowChatMemory は最近のメッセージのスライドウィンドウを管理し、古いメッセージを自動的に破棄する*
 
-## LangChain4j の利用方法
+## LangChain4j の使用方法
 
-このモジュールはクイックスタートを拡張し、Spring Boot と会話メモリを統合します。構成は以下の通り：
+このモジュールは Spring Boot と会話メモリを統合しています。構成は以下の通りです：
 
-**依存関係** — 2つの LangChain4j ライブラリを追加：
+<strong>依存関係</strong> — 2つの LangChain4j ライブラリを追加：
 
 ```xml
 <dependency>
@@ -94,7 +94,7 @@ LangChain4j はこの処理を自動化するメモリの実装を提供しま�
 </dependency>
 ```
 
-**チャットモデル** — Azure OpenAI を Spring Bean として設定 ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java))：
+<strong>チャットモデル</strong> — Azure OpenAI を Spring Bean として設定 ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java))：
 
 ```java
 @Bean
@@ -109,9 +109,9 @@ public OpenAiOfficialChatModel openAiOfficialChatModel() {
 }
 ```
 
-ビルダーは `azd up` で設定された環境変数から認証情報を読み込みます。`baseUrl` を Azure エンドポイントに設定することで、OpenAI クライアントは Azure OpenAI と連携します。
+ビルダーは `azd up` によって設定された環境変数から認証情報を読み取ります。`baseUrl` に Azure エンドポイントを設定することで、OpenAI クライアントが Azure OpenAI に対応します。
 
-**会話メモリ** — MessageWindowChatMemory でチャット履歴をトラック ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java))：
+<strong>会話メモリ</strong> — MessageWindowChatMemory でチャット履歴を追跡 ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java))：
 
 ```java
 ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
@@ -124,39 +124,39 @@ AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
 
-`withMaxMessages(10)` で直近10メッセージを保持します。ユーザーとAIのメッセージは型付きラッパーで追加：`UserMessage.from(text)` と `AiMessage.from(text)`。履歴は `memory.messages()` で取得しモデルへ送信。サービスは会話IDごとに別々のメモリインスタンスを保持し、複数ユーザーの同時チャットに対応します。
+`withMaxMessages(10)` で直近10メッセージを保持するメモリを作成。ユーザー・AIメッセージは型付きラッパーで追加：`UserMessage.from(text)` と `AiMessage.from(text)`。`memory.messages()` で履歴を取得しモデルに渡します。サービスは会話IDごとにメモリを分けて保持するため、複数ユーザーの同時会話が可能です。
 
-> **🤖 [GitHub Copilot](https://github.com/features/copilot) Chat で試すには：** [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) を開いて、以下を質問：
-> - "MessageWindowChatMemory はウィンドウがいっぱいの時どのメッセージをドロップするかどう決めているの？"
-> - "インメモリの代わりにデータベースを使ったカスタムメモリストレージは実装可能？"
-> - "古い会話履歴を圧縮するために要約機能を追加するには？"
+> **🤖 [GitHub Copilot](https://github.com/features/copilot) Chat も活用してみましょう：** [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) を開き、以下を質問：
+> - 「MessageWindowChatMemory はウィンドウが満杯の時にどのメッセージを破棄するかどう決めているの？」
+> - 「インメモリではなくデータベースを使ったカスタムメモリストレージを実装できる？」
+> - 「古い会話履歴を圧縮するために要約を追加するにはどうする？」
 
-ステートレスチャットエンドポイントはメモリを完全にスキップし、クイックスタートと同じく `chatModel.chat(prompt)` のみ。ステートフルエンドポイントはメモリにメッセージを追加、履歴を取得し、そのコンテキストを含めてリクエストします。同じモデル設定ですが異なるパターンです。
+ステートレスチャットのエンドポイントはメモリを使わず、`chatModel.chat(prompt)` のみでクイックスタートと同様です。ステートフルはメモリにメッセージを追加し履歴を取得、毎回その文脈をリクエストに含めます。同じモデル設定で異なるパターンを体験できます。
 
 ## Azure OpenAI インフラの展開
 
 **Bash:**
 ```bash
 cd 01-introduction
-azd up  # サブスクリプションと場所を選択します（eastus2 推奨）
+azd up  # サブスクリプションと場所を選択します（eastus2推奨）
 ```
 
 **PowerShell:**
 ```powershell
 cd 01-introduction
-azd up  # サブスクリプションと場所を選択してください（eastus2がおすすめ）
+azd up  # サブスクリプションと場所を選択してください（eastus2推奨）
 ```
 
-> **注意:** タイムアウトエラー (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`) が出た場合は、単純に `azd up` を再実行してください。Azure リソースはまだプロビジョニング中の可能性があり、再試行でリソースが確定状態になると展開が完了します。
+> **Note:** タイムアウトエラー (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`) が起きても、`azd up` を再度実行してください。Azure リソースはまだ展開中かもしれず、再試行でリソースが最終状態に到達すれば展開が完了します。
 
-これで以下が行われます：
-1. GPT-5.2 と text-embedding-3-small モデルを備えた Azure OpenAI リソースを展開
-2. プロジェクトルートに `.env` ファイルを自動生成（認証情報入り）
-3. 必要な環境変数をすべて設定
+これにより：
+1. GPT-5.2 と text-embedding-3-small モデルを持つ Azure OpenAI リソースを展開
+2. プロジェクトルートに資格情報入りの `.env` ファイルが自動生成
+3. 必要な環境変数がすべて設定される
 
-**展開に問題がある場合**は [Infrastructure README](infra/README.md) を参照してください。サブドメイン名の衝突、Azure ポータルでの手動デプロイ手順、モデル構成の案内を含みます。
+**展開に問題がありますか？** サブドメイン名の競合、Azure ポータル手動展開手順、モデル構成ガイダンスなど詳しいトラブルシューティングは [Infrastructure README](infra/README.md) を参照してください。
 
-**展開成功の確認：**
+**展開が成功したか確認：**
 
 **Bash:**
 ```bash
@@ -165,10 +165,10 @@ cat ../.env  # AZURE_OPENAI_ENDPOINT、API_KEYなどを表示する必要があ�
 
 **PowerShell:**
 ```powershell
-Get-Content ..\.env  # AZURE_OPENAI_ENDPOINT、API_KEYなどを表示する必要があります。
+Get-Content ..\.env  # AZURE_OPENAI_ENDPOINT、API_KEY などを表示する必要があります。
 ```
 
-> **注意:** `azd up` コマンドは自動で `.env` ファイルを生成します。後で更新が必要な場合は `.env` を直接編集するか、以下のコマンドで再生成可能です：
+> **Note:** `azd up` コマンドは `.env` ファイルを自動生成します。後から更新する必要があれば、手動で編集するか以下のコマンドで再生成できます：
 >
 > **Bash:**
 > ```bash
@@ -182,12 +182,11 @@ Get-Content ..\.env  # AZURE_OPENAI_ENDPOINT、API_KEYなどを表示する必�
 > .\.azd-env.ps1
 > ```
 
+## ローカルでアプリケーションを実行する
 
-## アプリケーションのローカル実行
+**展開の検証：**
 
-**展開の確認：**
-
-Azure 認証情報を含む `.env` ファイルがルートディレクトリに存在していることを確認し、モジュールディレクトリ (`01-introduction/`) で以下を実行：
+Azure資格情報が入った `.env` ファイルがルートにあることを確認し、モジュールディレクトリ（`01-introduction/`）から以下を実行：
 
 **Bash:**
 ```bash
@@ -199,27 +198,27 @@ cat ../.env  # AZURE_OPENAI_ENDPOINT、API_KEY、DEPLOYMENTを表示する必要
 Get-Content ..\.env  # AZURE_OPENAI_ENDPOINT、API_KEY、DEPLOYMENT を表示する必要があります
 ```
 
-**アプリケーションの起動：**
+**アプリケーションを起動：**
 
-**オプション1: Spring Boot Dashboard の利用（VS Code ユーザーに推奨）**
+**オプション1：Spring Boot ダッシュボードを使用（VS Codeユーザー推奨）**
 
-devcontainer には Spring Boot Dashboard 拡張機能が含まれており、Spring Boot アプリを視覚的に管理できます。VS Code 左側のアクティビティバーにある Spring Boot アイコンでアクセス可能です。
+開発コンテナには Spring Boot ダッシュボード拡張機能が含まれており、VS Code 左のアクティビティバーの Spring Boot アイコンから全Spring Bootアプリケーションを視覚的に管理できます。
 
-Spring Boot Dashboard から：
-- ワークスペース内のすべての Spring Boot アプリを確認
-- ワンクリックで起動/停止
-- リアルタイムでログ表示
-- アプリの状態監視
+ダッシュボードからは：
+- ワークスペース内のすべてのSpring Bootアプリケーションを一覧表示
+- ワンクリックでアプリの起動/停止
+- リアルタイムでアプリケーションログを閲覧
+- アプリの状態を監視
 
-"introduction" の横の再生ボタンをクリックするだけでこのモジュールを起動、またはすべてのモジュールを一括起動できます。
+「introduction」の横の再生ボタンを押せばこのモジュールが起動、またはすべてのモジュールを同時に起動できます。
 
 <img src="../../../translated_images/ja/dashboard.69c7479aef09ff6b.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*VS Code の Spring Boot Dashboard — すべてのモジュールをまとめて起動、停止、監視可能*
+*VS Code の Spring Boot ダッシュボード — 一箇所から全モジュールを起動・停止・監視*
 
-**オプション2: シェルスクリプト利用**
+**オプション2：シェルスクリプトを使う方法**
 
-すべてのウェブアプリ（モジュール01-04）を起動:
+すべてのウェブアプリ（モジュール01-04）を起動：
 
 **Bash:**
 ```bash
@@ -233,7 +232,7 @@ cd ..  # ルートディレクトリから
 .\start-all.ps1
 ```
 
-このモジュールだけ起動:
+または、このモジュールだけを起動：
 
 **Bash:**
 ```bash
@@ -247,9 +246,9 @@ cd 01-introduction
 .\start.ps1
 ```
 
-両スクリプトはルートの `.env` ファイルから環境変数を自動読み込みし、JAR がなければビルドも行います。
+いずれのスクリプトもルートの `.env` ファイルから環境変数を自動で読み込み、JARが無ければビルドします。
 
-> **注意:** 起動前にすべてのモジュールを手動ビルドしたい場合：
+> **Note:** もし、起動前にすべてのモジュールを手動でビルドしたい場合：
 >
 > **Bash:**
 > ```bash
@@ -281,44 +280,43 @@ cd .. && ./stop-all.sh  # すべてのモジュール
 cd ..; .\stop-all.ps1  # すべてのモジュール
 ```
 
-
 ## アプリケーションの使用方法
 
-アプリケーションは2つのチャット実装を並べて Web インターフェイスで提供します。
+このアプリには2種類のチャット実装が並んで表示されるウェブインターフェイスがあります。
 
 <img src="../../../translated_images/ja/home-screen.121a03206ab910c0.webp" alt="Application Home Screen" width="800"/>
 
-*シンプルチャット（ステートレス）と会話チャット（ステートフル）の両オプションを表示するダッシュボード*
+*シンプルチャット（ステートレス）と会話チャット（ステートフル）を両方表示するダッシュボード*
 
 ### ステートレスチャット（左パネル）
 
-まずはこちらを試してください。「私の名前はジョンです」と伝え、直後に「私の名前は何ですか？」と聞いてみましょう。モデルは覚えていません。各メッセージが独立しているためです。これは基本的な言語モデル統合のコア問題 — 会話の文脈がないことを示します。
+まずはこちらを試してください。「私の名前はジョンです」と言い、すぐに「私の名前は何ですか？」と尋ねると、モデルは記憶していません。メッセージは独立しているためです。これは基本的な言語モデル統合におけるコア問題を示しています — 会話文脈が無いこと。
 
 <img src="../../../translated_images/ja/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Stateless Chat Demo" width="800"/>
 
-*AIは前のメッセージからあなたの名前を覚えていません*
+*AIは前のメッセージから名前を覚えません*
 
 ### ステートフルチャット（右パネル）
 
-同じ流れをこちらでも試します。「私の名前はジョンです」と伝え、「私の名前は何ですか？」と聞くと、今回は覚えています。違いは MessageWindowChatMemory です — 会話履歴を維持し、それをリクエストに含めます。これが本番の会話 AI の動作方法です。
+同じ順番をこちらで試してください。「私の名前はジョンです」と言い、そのあと「私の名前は何ですか？」と言うと、今回は覚えています。違いは MessageWindowChatMemory で、会話履歴を保持し、毎回のリクエストに含めています。これが本番用の会話型AIの仕組みです。
 
 <img src="../../../translated_images/ja/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Stateful Chat Demo" width="800"/>
 
-*AIは会話の初めにあなたの名前を覚えています*
+*AIは以前の会話から名前を覚えています*
 
-両パネルとも同じ GPT-5.2 モデルを使います。違うのはメモリだけです。これによりメモリがアプリに何をもたらし、実利用でなぜ不可欠かが明瞭になります。
+両パネルは同じ GPT-5.2 モデルを使用し、違いはメモリだけです。これによりメモリがアプリケーションに何をもたらすかが明確になり、実際のユースケースで不可欠な理由が理解できます。
 
 ## 次のステップ
 
-**次のモジュール：** [02-prompt-engineering - GPT-5.2 によるプロンプトエンジニアリング](../02-prompt-engineering/README.md)
+**次のモジュール:** [02-prompt-engineering - GPT-5.2によるプロンプトエンジニアリング](../02-prompt-engineering/README.md)
 
 ---
 
-**ナビゲーション：** [← 前：Module 00 - クイックスタート](../00-quick-start/README.md) | [メインに戻る](../README.md) | [次：Module 02 - プロンプトエンジニアリング →](../02-prompt-engineering/README.md)
+**ナビゲーション:** [← メインへ戻る](../README.md) | [次へ: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**免責事項**：  
-本書類はAI翻訳サービス[Co-op Translator](https://github.com/Azure/co-op-translator)を使用して翻訳されました。正確性を期していますが、自動翻訳には誤りや不正確な箇所が含まれる場合があります。原文の母国語版が正式な情報源とみなされます。重要な情報については、専門の人間による翻訳をお勧めします。本翻訳の利用により生じた誤解や誤訳について、当方は一切の責任を負いかねます。
+**免責事項**：
+本書類は AI 翻訳サービス [Co-op Translator](https://github.com/Azure/co-op-translator) を使用して翻訳されています。正確性を期していますが、自動翻訳には誤りや不正確な部分が含まれる可能性があることをご承知おきください。原文の原語版が正式な情報源とみなされるべきです。重要な情報については、専門の人間による翻訳を推奨します。本翻訳の利用により生じたいかなる誤解や解釈違いについても、当方は責任を負いかねます。
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->

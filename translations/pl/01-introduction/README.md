@@ -1,38 +1,38 @@
-# Moduł 01: Pierwsze kroki z LangChain4j
+# Moduł 01: Rozpoczęcie pracy z LangChain4j
 
 ## Spis treści
 
-- [Przewodnik wideo](../../../01-introduction)
-- [Czego się nauczysz](../../../01-introduction)
-- [Wymagania wstępne](../../../01-introduction)
-- [Zrozumienie podstawowego problemu](../../../01-introduction)
-- [Zrozumienie tokenów](../../../01-introduction)
-- [Jak działa pamięć](../../../01-introduction)
-- [Jak to wykorzystuje LangChain4j](../../../01-introduction)
-- [Wdrożenie infrastruktury Azure OpenAI](../../../01-introduction)
-- [Uruchomienie aplikacji lokalnie](../../../01-introduction)
-- [Korzystanie z aplikacji](../../../01-introduction)
-  - [Czat bezstanowy (panel lewy)](../../../01-introduction)
-  - [Czat stanowy (panel prawy)](../../../01-introduction)
-- [Kolejne kroki](../../../01-introduction)
+- [Wideo przewodnik](#wideo-przewodnik)
+- [Czego się nauczysz](#czego-się-nauczysz)
+- [Wymagania wstępne](#wymagania-wstępne)
+- [Zrozumienie podstawowego problemu](#zrozumienie-podstawowego-problemu)
+- [Zrozumienie tokenów](#zrozumienie-tokenów)
+- [Jak działa pamięć](#jak-działa-pamięć)
+- [Jak to wykorzystuje LangChain4j](#jak-to-wykorzystuje-langchain4j)
+- [Wdrożenie infrastruktury Azure OpenAI](#wdrożenie-infrastruktury-azure-openai)
+- [Uruchomienie aplikacji lokalnie](#uruchomienie-aplikacji-lokalnie)
+- [Korzystanie z aplikacji](#korzystanie-z-aplikacji)
+  - [Chat bezstanowy (lewy panel)](#chat-bezstanowy-lewy-panel)
+  - [Chat ze stanem (prawy panel)](#chat-ze-stanem-prawy-panel)
+- [Kolejne kroki](#kolejne-kroki)
 
-## Przewodnik wideo
+## Wideo przewodnik
 
 Obejrzyj tę sesję na żywo, która wyjaśnia, jak zacząć z tym modułem:
 
-<a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Pierwsze kroki z LangChain4j - sesja na żywo" width="800"/></a>
+<a href="https://www.youtube.com/live/nl_troDm8rQ?si=6b85S8xGjWnT2fX9"><img src="https://img.youtube.com/vi/nl_troDm8rQ/maxresdefault.jpg" alt="Getting Started with LangChain4j - Live Session" width="800"/></a>
 
 ## Czego się nauczysz
 
-W szybkim starcie korzystałeś z modeli GitHub, aby wysyłać prompt, wywoływać narzędzia, budować pipeline RAG oraz testować zabezpieczenia. Te dema pokazały, co jest możliwe — teraz przechodzimy do Azure OpenAI i GPT-5.2 i zaczynamy budować aplikacje produkcyjne. Ten moduł skupia się na konwersacyjnym AI, które pamięta kontekst i utrzymuje stan — to pojęcia, które były używane w demonstracjach szybkiego startu, ale nie zostały wyjaśnione.
+To jest Twój punkt startowy z LangChain4j i Azure OpenAI. Zaczynamy od podstaw i zaczynamy budować aplikacje w stylu produkcyjnym. Ten moduł skupia się na konwersacyjnym AI, które zapamiętuje kontekst i utrzymuje stan — to podstawowe pojęcia, na których opierają się wszystkie kolejne moduły.
 
-W całym przewodniku użyjemy GPT-5.2 od Azure OpenAI, ponieważ jego zaawansowane możliwości rozumowania sprawiają, że zachowanie różnych wzorców jest bardziej widoczne. Kiedy dodasz pamięć, wyraźnie zobaczysz różnicę. To ułatwia zrozumienie, co każdy element wnosi do twojej aplikacji.
+Przez cały przewodnik będziemy korzystać z GPT-5.2 Azure OpenAI, ponieważ zaawansowane możliwości rozumowania tego modelu sprawiają, że zachowanie różnych wzorców jest bardziej widoczne. Kiedy dodasz pamięć, wyraźnie zobaczysz różnicę. To ułatwia zrozumienie, co każdy komponent wnosi do Twojej aplikacji.
 
-Zbudujesz jedną aplikację, która demonstruje oba wzorce:
+Zbudujesz jedną aplikację pokazującą oba wzorce:
 
-**Czat bezstanowy** – Każde zapytanie jest niezależne. Model nie pamięta poprzednich wiadomości. To wzorzec używany w szybkim starcie.
+**Chat bezstanowy** - Każde żądanie jest niezależne. Model nie ma pamięci poprzednich wiadomości. To najprostszy punkt startowy.
 
-**Konwersacja stanowa** – Każde zapytanie zawiera historię rozmowy. Model utrzymuje kontekst przez wiele tur. To jest wymagane w aplikacjach produkcyjnych.
+**Konwersacja ze stanem** - Każde żądanie zawiera historię konwersacji. Model utrzymuje kontekst przez wiele wymian. To, czego wymagają aplikacje produkcyjne.
 
 ## Wymagania wstępne
 
@@ -41,47 +41,47 @@ Zbudujesz jedną aplikację, która demonstruje oba wzorce:
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **Uwaga:** Java, Maven, Azure CLI i Azure Developer CLI (azd) są preinstalowane w dostarczonym devcontainerze.
+> **Uwaga:** Java, Maven, Azure CLI oraz Azure Developer CLI (azd) są preinstalowane w dostarczonym devcontainerze.
 
-> **Uwaga:** Ten moduł korzysta z GPT-5.2 na Azure OpenAI. Wdrożenie jest konfigurowane automatycznie przez `azd up` – nie modyfikuj nazwy modelu w kodzie.
+> **Uwaga:** Ten moduł używa GPT-5.2 na Azure OpenAI. Wdrożenie jest konfigurowane automatycznie przez `azd up` — nie zmieniaj nazwy modelu w kodzie.
 
 ## Zrozumienie podstawowego problemu
 
-Modele językowe są bezstanowe. Każde wywołanie API jest niezależne. Jeśli wyślesz „Nazywam się John”, a potem zapytasz „Jak mam na imię?”, model nie ma pojęcia, że właśnie się przedstawiłeś. Traktuje każde zapytanie tak, jakby to była twoja pierwsza rozmowa.
+Modele językowe są bezstanowe. Każde wywołanie API jest niezależne. Jeśli wyślesz „Mam na imię John”, a potem zapytasz „Jak mam na imię?”, model nie ma pojęcia, że się przedstawiłeś. Traktuje każde żądanie, jakby to była pierwsza rozmowa, jaką kiedykolwiek prowadziłeś.
 
-To wystarcza do prostych pytań i odpowiedzi, ale jest bezużyteczne dla prawdziwych aplikacji. Boty obsługi klienta muszą pamiętać, co im powiedziałeś. Asystenci osobisci potrzebują kontekstu. Każda rozmowa wieloturnowa wymaga pamięci.
+To jest w porządku dla prostych Q&A, ale bezużyteczne dla rzeczywistych aplikacji. Boty obsługi klienta muszą pamiętać, co im powiedziałeś. Osobiste asystenty potrzebują kontekstu. Każda konwersacja wieloetapowa wymaga pamięci.
 
-Poniższy diagram kontrastuje oba podejścia – po lewej wywołanie bezstanowe, które zapomina twoje imię; po prawej wywołanie stanowe wspierane przez ChatMemory, które je pamięta.
+Poniższy diagram przedstawia kontrast dwóch podejść — po lewej wywołanie bezstanowe, które zapomina Twoje imię; po prawej wywołanie ze stanem wspierane przez ChatMemory, które je pamięta.
 
-<img src="../../../translated_images/pl/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Rozmowy bezstanowe vs stanowe" width="800"/>
+<img src="../../../translated_images/pl/stateless-vs-stateful.cc4a4765e649c41a.webp" alt="Stateless vs Stateful Conversations" width="800"/>
 
-*Różnica między rozmowami bezstanowymi (niezależnymi wywołaniami) a stanowymi (świadomymi kontekstu)*
+*Różnica między konwersacjami bezstanowymi (niezależne wywołania) a ze stanem (świadome kontekstu)*
 
 ## Zrozumienie tokenów
 
-Zanim zanurkujesz w rozmowy, ważne jest, aby zrozumieć tokeny – podstawowe jednostki tekstu, które przetwarzają modele językowe:
+Zanim zagłębimy się w rozmowy, ważne jest zrozumienie tokenów — podstawowych jednostek tekstu przetwarzanych przez modele językowe:
 
-<img src="../../../translated_images/pl/token-explanation.c39760d8ec650181.webp" alt="Wyjaśnienie tokena" width="800"/>
+<img src="../../../translated_images/pl/token-explanation.c39760d8ec650181.webp" alt="Token Explanation" width="800"/>
 
-*Przykład rozbicia tekstu na tokeny – "I love AI!" staje się 4 oddzielnymi jednostkami do przetwarzania*
+*Przykład, jak tekst jest dzielony na tokeny — "I love AI!" staje się 4 oddzielnymi jednostkami przetwarzania*
 
-Tokeny to sposób, w jaki modele AI mierzą i przetwarzają tekst. Słowa, znaki interpunkcyjne, a nawet spacje mogą być tokenami. Twój model ma limit, ile tokenów może przetworzyć naraz (400 000 dla GPT-5.2, z maksymalnie 272 000 tokenów wejściowych i 128 000 wyjściowych). Zrozumienie tokenów pomaga zarządzać długością rozmowy i kosztami.
+Tokeny to sposób, w jaki modele AI mierzą i przetwarzają tekst. Słowa, interpunkcja, a nawet spacje mogą być tokenami. Twój model ma limit, ile tokenów może przetwarzać jednocześnie (400 000 dla GPT-5.2, z maksymalnie 272 000 tokenów wejściowych i 128 000 wyjściowych). Zrozumienie tokenów pomaga zarządzać długością rozmowy i kosztami.
 
 ## Jak działa pamięć
 
-Pamięć czatu rozwiązuje problem bezstanowości przez utrzymywanie historii rozmowy. Przed wysłaniem twojego zapytania do modelu, framework dodaje na początek odpowiednie poprzednie wiadomości. Gdy zapytasz „Jak mam na imię?”, system rzeczywiście wysyła całą historię rozmowy, pozwalając modelowi zobaczyć, że wcześniej powiedziałeś „Nazywam się John”.
+Pamięć czatu rozwiązuje problem bezstanu poprzez utrzymywanie historii konwersacji. Zanim wyślesz żądanie do modelu, framework dołącza odpowiednie wcześniejsze wiadomości. Kiedy pytasz „Jak mam na imię?”, system faktycznie wysyła całą historię konwersacji, pozwalając modelowi zobaczyć, że wcześniej powiedziałeś „Mam na imię John.”
 
-LangChain4j dostarcza implementacje pamięci, które obsługują to automatycznie. Wybierasz, ile wiadomości chcesz przechowywać, a framework zarządza oknem kontekstowym. Poniższy diagram pokazuje, jak MessageWindowChatMemory utrzymuje przesuwne okno ostatnich wiadomości.
+LangChain4j dostarcza implementacje pamięci, które obsługują to automatycznie. Wybierasz, ile wiadomości zachować, a framework zarządza oknem kontekstowym. Diagram poniżej pokazuje, jak MessageWindowChatMemory utrzymuje przesuwne okno ostatnich wiadomości.
 
-<img src="../../../translated_images/pl/memory-window.bbe67f597eadabb3.webp" alt="Koncepcja okna pamięci" width="800"/>
+<img src="../../../translated_images/pl/memory-window.bbe67f597eadabb3.webp" alt="Memory Window Concept" width="800"/>
 
 *MessageWindowChatMemory utrzymuje przesuwne okno ostatnich wiadomości, automatycznie usuwając stare*
 
 ## Jak to wykorzystuje LangChain4j
 
-Ten moduł rozszerza szybki start przez integrację Spring Boot i dodanie pamięci konwersacji. Oto jak elementy współpracują:
+Ten moduł integruje Spring Boot i dodaje pamięć konwersacji. Oto jak te elementy współgrają:
 
-**Zależności** – Dodaj dwie biblioteki LangChain4j:
+**Zależności** - Dodaj dwie biblioteki LangChain4j:
 
 ```xml
 <dependency>
@@ -93,8 +93,8 @@ Ten moduł rozszerza szybki start przez integrację Spring Boot i dodanie pamię
     <artifactId>langchain4j-open-ai-official</artifactId> <!-- Inherited from BOM in root pom.xml -->
 </dependency>
 ```
-
-**Model czatu** – Skonfiguruj Azure OpenAI jako bean Spring ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
+  
+**Model czatu** – Skonfiguruj Azure OpenAI jako komponent Spring ([LangChainConfig.java](../../../01-introduction/src/main/java/com/example/langchain4j/config/LangChainConfig.java)):
 
 ```java
 @Bean
@@ -108,8 +108,8 @@ public OpenAiOfficialChatModel openAiOfficialChatModel() {
             .build();
 }
 ```
-
-Builder odczytuje poświadczenia z zmiennych środowiskowych ustawionych przez `azd up`. Ustawienie `baseUrl` na twój punkt końcowy Azure zapewnia działanie klienta OpenAI z Azure OpenAI.
+  
+Builder odczytuje poświadczenia ze zmiennych środowiskowych ustawionych przez `azd up`. Ustawienie `baseUrl` na Twój punkt końcowy Azure sprawia, że klient OpenAI działa z Azure OpenAI.
 
 **Pamięć konwersacji** – Śledź historię czatu z MessageWindowChatMemory ([ConversationService.java](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java)):
 
@@ -123,188 +123,188 @@ memory.add(UserMessage.from("What's my name?"));
 AiMessage aiMessage = chatModel.chat(memory.messages()).aiMessage();
 memory.add(aiMessage);
 ```
+  
+Tworzy pamięć z `withMaxMessages(10)`, aby zachować ostatnie 10 wiadomości. Dodaje wiadomości użytkownika i AI za pomocą specjalnych wrapperów: `UserMessage.from(text)` i `AiMessage.from(text)`. Historia jest pobierana przez `memory.messages()` i wysyłana do modelu. Serwis przechowuje osobne instancje pamięci dla każdego ID konwersacji, umożliwiając wielu użytkownikom jednoczesne prowadzenie rozmów.
 
-Tworzy pamięć z `withMaxMessages(10)`, aby zachować ostatnie 10 wiadomości. Dodaje wiadomości użytkownika i AI za pomocą typowanych wrapperów: `UserMessage.from(text)` i `AiMessage.from(text)`. Pobiera historię z `memory.messages()` i wysyła ją do modelu. Serwis przechowuje oddzielne instancje pamięci dla każdego ID rozmowy, co pozwala na jednoczesne rozmowy wielu użytkowników.
+> **🤖 Spróbuj z [GitHub Copilot](https://github.com/features/copilot) Chat:** Otwórz [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) i zapytaj:
+> - „Jak MessageWindowChatMemory decyduje, które wiadomości usunąć, gdy okno jest pełne?”
+> - „Czy mogę zaimplementować własne przechowywanie pamięci przy użyciu bazy danych zamiast pamięci operacyjnej?”
+> - „Jak dodać podsumowywanie, aby skompresować starą historię konwersacji?”
 
-> **🤖 Wypróbuj z [GitHub Copilot](https://github.com/features/copilot) Chat:** Otwórz [`ConversationService.java`](../../../01-introduction/src/main/java/com/example/langchain4j/service/ConversationService.java) i zapytaj:
-> - "Jak MessageWindowChatMemory decyduje, które wiadomości usunąć, gdy okno jest pełne?"
-> - "Czy mogę zaimplementować niestandardowe przechowywanie pamięci używając bazy danych zamiast pamięci operacyjnej?"
-> - "Jak dodać podsumowanie do kompresji starej historii rozmowy?"
-
-Endpoint czatu bezstanowego pomija całkowicie pamięć – po prostu `chatModel.chat(prompt)`, jak w szybkim starcie. Endpoint stanowy dodaje wiadomości do pamięci, pobiera historię i dołącza ją do każdego zapytania. Ta sama konfiguracja modelu, różne wzorce.
+Endpoint chatu bezstanowego omija pamięć — po prostu `chatModel.chat(prompt)`, tak jak w szybkim starcie. Stateful endpoint dodaje wiadomości do pamięci, pobiera historię i dołącza ten kontekst do każdego żądania. Ta sama konfiguracja modelu, różne wzorce.
 
 ## Wdrożenie infrastruktury Azure OpenAI
 
-**Bash:**
+**Bash:**  
 ```bash
 cd 01-introduction
 azd up  # Wybierz subskrypcję i lokalizację (zalecane eastus2)
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 cd 01-introduction
 azd up  # Wybierz subskrypcję i lokalizację (zalecane eastus2)
 ```
+  
+> **Uwaga:** Jeśli napotkasz błąd timeoutu (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), po prostu uruchom ponownie `azd up`. Zasoby Azure mogą wciąż się wdrażać w tle, a ponowne próby pozwalają zakończyć wdrożenie, gdy zasoby osiągną stan końcowy.
 
-> **Uwaga:** Jeśli wystąpi błąd timeout (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`), po prostu uruchom ponownie `azd up`. Zasoby Azure mogą być nadal wdrażane w tle, a ponowna próba pozwoli zakończyć wdrożenie, gdy zasoby osiągną stan terminalny.
+To spowoduje:  
+1. Wdrożenie zasobu Azure OpenAI z modelami GPT-5.2 i text-embedding-3-small  
+2. Automatyczne wygenerowanie pliku `.env` w katalogu głównym projektu z poświadczeniami  
+3. Ustawienie wszystkich wymaganych zmiennych środowiskowych  
 
-To wykona:
-1. Wdrożenie zasobu Azure OpenAI z modelami GPT-5.2 i text-embedding-3-small
-2. Automatyczne wygenerowanie pliku `.env` w katalogu głównym projektu z poświadczeniami
-3. Ustawienie wszystkich wymaganych zmiennych środowiskowych
+**Masz problemy z wdrożeniem?** Zobacz [Infrastructure README](infra/README.md) z dokładniejszymi instrukcjami rozwiązywania problemów, m.in. konfliktami nazw subdomen, ręcznymi krokami wdrożenia przez Azure Portal i wskazówkami konfiguracyjnymi modelu.
 
-**Masz problemy z wdrożeniem?** Zobacz [README infrastruktury](infra/README.md) dla szczegółowego rozwiązywania problemów, w tym konfliktów nazw subdomen, ręcznych kroków wdrażania w Azure Portal oraz wskazówek dotyczących konfiguracji modelu.
+**Sprawdź, czy wdrożenie się powiodło:**  
 
-**Sprawdź, czy wdrożenie się powiodło:**
-
-**Bash:**
+**Bash:**  
 ```bash
 cat ../.env  # Powinno pokazywać AZURE_OPENAI_ENDPOINT, API_KEY itd.
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 Get-Content ..\.env  # Powinno pokazywać AZURE_OPENAI_ENDPOINT, API_KEY, itd.
 ```
-
-> **Uwaga:** Komenda `azd up` automatycznie generuje plik `.env`. Jeśli potrzebujesz go później zaktualizować, możesz albo edytować `.env` ręcznie albo wygenerować go ponownie uruchamiając:
->
-> **Bash:**
+  
+> **Uwaga:** Komenda `azd up` automatycznie generuje plik `.env`. Jeśli chcesz go później zaktualizować, możesz edytować `.env` ręcznie lub wygenerować ponownie, uruchamiając:  
+>  
+> **Bash:**  
 > ```bash
 > cd ..
 > bash .azd-env.sh
 > ```
->
-> **PowerShell:**
+>  
+> **PowerShell:**  
 > ```powershell
 > cd ..
 > .\.azd-env.ps1
 > ```
-
+  
 ## Uruchomienie aplikacji lokalnie
 
-**Zweryfikuj wdrożenie:**
+**Sprawdź wdrożenie:**  
 
-Upewnij się, że plik `.env` znajduje się w katalogu głównym z poświadczeniami Azure. Uruchom to z katalogu modułu (`01-introduction/`):
+Upewnij się, że plik `.env` istnieje w katalogu głównym z poświadczeniami Azure. Uruchom to z katalogu modułu (`01-introduction/`):
 
-**Bash:**
+**Bash:**  
 ```bash
-cat ../.env  # Powinno wyświetlać AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+cat ../.env  # Powinno pokazywać AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
-Get-Content ..\.env  # Powinno wyświetlać AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
+Get-Content ..\.env  # Powinno pokazać AZURE_OPENAI_ENDPOINT, API_KEY, DEPLOYMENT
 ```
-
-**Uruchom aplikacje:**
+  
+**Uruchom aplikacje:**  
 
 **Opcja 1: Korzystanie z Spring Boot Dashboard (zalecane dla użytkowników VS Code)**
 
-Devcontainer zawiera rozszerzenie Spring Boot Dashboard, które zapewnia wizualny interfejs do zarządzania wszystkimi aplikacjami Spring Boot. Znajdziesz go na pasku aktywności po lewej stronie VS Code (ikona Spring Boot).
+Kontener deweloperski zawiera rozszerzenie Spring Boot Dashboard, które zapewnia graficzny interfejs do zarządzania wszystkimi aplikacjami Spring Boot. Znajdziesz je na pasku aktywności po lewej stronie VS Code (poszukaj ikony Spring Boot).
 
-W Spring Boot Dashboard możesz:
-- Zobaczyć wszystkie dostępne aplikacje Spring Boot w workspace
-- Uruchomić/zatrzymać aplikacje jednym kliknięciem
-- Przeglądać logi aplikacji w czasie rzeczywistym
-- Monitorować status aplikacji
+Z poziomu Spring Boot Dashboard możesz:  
+- Zobaczyć wszystkie dostępne aplikacje Spring Boot w przestrzeni roboczej  
+- Uruchomić/zatrzymać aplikacje jednym kliknięciem  
+- Przeglądać logi aplikacji w czasie rzeczywistym  
+- Monitorować status aplikacji  
 
-Kliknij przycisk odtwarzania obok "introduction", aby uruchomić ten moduł, lub uruchom wszystkie moduły naraz.
+Po prostu kliknij przycisk odtwarzania obok „introduction”, aby uruchomić ten moduł, lub uruchom wszystkie moduły naraz.
 
 <img src="../../../translated_images/pl/dashboard.69c7479aef09ff6b.webp" alt="Spring Boot Dashboard" width="400"/>
 
-*Spring Boot Dashboard w VS Code — uruchamiaj, zatrzymuj i monitoruj wszystkie moduły z jednego miejsca*
+*Spring Boot Dashboard w VS Code — uruchamiaj, zatrzymuj i monitoruj wszystkie moduły w jednym miejscu*
 
-**Opcja 2: Korzystanie ze skryptów shell**
+**Opcja 2: Korzystanie ze skryptów powłoki**
 
 Uruchom wszystkie aplikacje webowe (moduły 01-04):
 
-**Bash:**
+**Bash:**  
 ```bash
 cd ..  # Z katalogu głównego
 ./start-all.sh
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 cd ..  # Z katalogu głównego
 .\start-all.ps1
 ```
-
+  
 Lub uruchom tylko ten moduł:
 
-**Bash:**
+**Bash:**  
 ```bash
 cd 01-introduction
 ./start.sh
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 cd 01-introduction
 .\start.ps1
 ```
-
+  
 Oba skrypty automatycznie ładują zmienne środowiskowe z pliku `.env` w katalogu głównym i zbudują pliki JAR, jeśli jeszcze nie istnieją.
 
-> **Uwaga:** Jeśli wolisz samodzielnie budować wszystkie moduły przed uruchomieniem:
->
-> **Bash:**
+> **Uwaga:** Jeśli wolisz zbudować wszystkie moduły ręcznie przed uruchomieniem:  
+>  
+> **Bash:**  
 > ```bash
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
->
-> **PowerShell:**
+>  
+> **PowerShell:**  
 > ```powershell
 > cd ..  # Go to root directory
 > mvn clean package -DskipTests
 > ```
-
+  
 Otwórz w przeglądarce http://localhost:8080.
 
-**Aby zatrzymać:**
+**Aby zatrzymać:**  
 
-**Bash:**
+**Bash:**  
 ```bash
 ./stop.sh  # Tylko ten moduł
 # Lub
 cd .. && ./stop-all.sh  # Wszystkie moduły
 ```
-
-**PowerShell:**
+  
+**PowerShell:**  
 ```powershell
 .\stop.ps1  # Tylko ten moduł
 # Lub
 cd ..; .\stop-all.ps1  # Wszystkie moduły
 ```
-
+  
 ## Korzystanie z aplikacji
 
 Aplikacja zapewnia interfejs webowy z dwoma implementacjami czatu obok siebie.
 
-<img src="../../../translated_images/pl/home-screen.121a03206ab910c0.webp" alt="Ekran główny aplikacji" width="800"/>
+<img src="../../../translated_images/pl/home-screen.121a03206ab910c0.webp" alt="Application Home Screen" width="800"/>
 
-*Panel pokazujący oba czaty — prosty czat (bezstanowy) i czat konwersacyjny (stanowy)*
+*Panel pokazujący opcje Simple Chat (bezstanowy) i Conversational Chat (ze stanem)*
 
-### Czat bezstanowy (panel lewy)
+### Chat bezstanowy (lewy panel)
 
-Wypróbuj najpierw to. Powiedz „Nazywam się John”, a potem natychmiast zapytaj „Jak mam na imię?”. Model tego nie zapamięta, ponieważ każda wiadomość jest niezależna. To demonstruje podstawowy problem integracji modeli językowych – brak kontekstu rozmowy.
+Wypróbuj najpierw ten. Zapytaj „Mam na imię John”, a następnie natychmiast „Jak mam na imię?” Model nie zapamięta, ponieważ każda wiadomość jest niezależna. Demonstruje to podstawowy problem integracji prostego modelu językowego — brak kontekstu rozmowy.
 
-<img src="../../../translated_images/pl/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Demo czatu bezstanowego" width="800"/>
+<img src="../../../translated_images/pl/simple-chat-stateless-demo.13aeb3978eab3234.webp" alt="Stateless Chat Demo" width="800"/>
 
-*AI nie pamięta twojego imienia z poprzedniej wiadomości*
+*AI nie pamięta Twojego imienia z poprzedniej wiadomości*
 
-### Czat stanowy (panel prawy)
+### Chat ze stanem (prawy panel)
 
-Teraz spróbuj tę samą sekwencję tutaj. Powiedz „Nazywam się John”, a potem „Jak mam na imię?”. Tym razem pamięta. Różnica to MessageWindowChatMemory – utrzymuje historię rozmowy i dołącza ją do każdego zapytania. Tak działa konwersacyjne AI produkcyjne.
+Teraz spróbuj tego samego tutaj. Zapytaj „Mam na imię John”, a potem „Jak mam na imię?” Tym razem pamięta. Różnicą jest MessageWindowChatMemory - utrzymuje historię rozmowy i dołącza ją do każdego żądania. Tak działa produkcyjne AI konwersacyjne.
 
-<img src="../../../translated_images/pl/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Demo czatu stanowego" width="800"/>
+<img src="../../../translated_images/pl/conversational-chat-stateful-demo.e5be9822eb23ff59.webp" alt="Stateful Chat Demo" width="800"/>
 
-*AI pamięta twoje imię z wcześniejszej rozmowy*
+*AI pamięta Twoje imię z wcześniejszej części rozmowy*
 
-Oba panele korzystają z tego samego modelu GPT-5.2. Jedyną różnicą jest pamięć. To jasno pokazuje, co pamięć wnosi do twojej aplikacji i dlaczego jest niezbędna w realnych przypadkach użycia.
+Oba panele korzystają z tego samego modelu GPT-5.2. Jedyna różnica to pamięć. To jasno pokazuje, co pamięć wnosi do Twojej aplikacji i dlaczego jest niezbędna w rzeczywistych zastosowaniach.
 
 ## Kolejne kroki
 
@@ -312,11 +312,11 @@ Oba panele korzystają z tego samego modelu GPT-5.2. Jedyną różnicą jest pam
 
 ---
 
-**Nawigacja:** [← Poprzedni: Moduł 00 - szybki start](../00-quick-start/README.md) | [Powrót do głównego](../README.md) | [Następny: Moduł 02 - Inżynieria promptów →](../02-prompt-engineering/README.md)
+**Nawigacja:** [← Wróć do głównej](../README.md) | [Następny: Moduł 02 - Inżynieria promptów →](../02-prompt-engineering/README.md)
 
 ---
 
 <!-- CO-OP TRANSLATOR DISCLAIMER START -->
-**Zrzeczenie się odpowiedzialności**:  
-Dokument ten został przetłumaczony za pomocą usługi tłumaczeń AI [Co-op Translator](https://github.com/Azure/co-op-translator). Mimo że dążymy do dokładności, prosimy mieć na uwadze, że automatyczne tłumaczenia mogą zawierać błędy lub nieścisłości. Oryginalny dokument w języku źródłowym powinien być uznawany za autorytatywne źródło. W przypadku informacji krytycznych zaleca się skorzystanie z profesjonalnego tłumaczenia wykonanego przez człowieka. Nie ponosimy odpowiedzialności za jakiekolwiek nieporozumienia lub błędne interpretacje wynikające z korzystania z tego tłumaczenia.
+**Zastrzeżenie**:
+Niniejszy dokument został przetłumaczony za pomocą usługi tłumaczenia AI [Co-op Translator](https://github.com/Azure/co-op-translator). Choć dążymy do dokładności, prosimy pamiętać, że automatyczne tłumaczenia mogą zawierać błędy lub niedokładności. Oryginalny dokument w jego języku źródłowym należy uznawać za autorytatywne źródło. W przypadku informacji krytycznych zalecane jest skorzystanie z profesjonalnego tłumaczenia wykonanego przez człowieka. Nie ponosimy odpowiedzialności za jakiekolwiek nieporozumienia lub błędne interpretacje wynikające z użycia tego tłumaczenia.
 <!-- CO-OP TRANSLATOR DISCLAIMER END -->
