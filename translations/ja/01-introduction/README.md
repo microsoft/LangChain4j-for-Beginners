@@ -1,4 +1,4 @@
-# Module 01: LangChain4j のはじめ方
+# モジュール01: LangChain4j のはじめ方
 
 ## 目次
 
@@ -41,9 +41,9 @@
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Azure Developer CLI (azd) (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-> **Note:** Java、Maven、Azure CLI、Azure Developer CLI (azd) は提供される devcontainer に事前にインストールされています。
+> **注記:** Java、Maven、Azure CLI、Azure Developer CLI (azd) は提供される devcontainer に事前にインストールされています。
 
-> **Note:** 本モジュールは Azure OpenAI の GPT-5.2 を使用します。展開は `azd up` により自動設定されます。コード内のモデル名を変更しないでください。
+> **注記:** 本モジュールは Azure OpenAI の GPT-5.2 を使用します。展開は `azd up` により自動設定されます。コード内のモデル名を変更しないでください。
 
 ## コア問題の理解
 
@@ -147,7 +147,7 @@ cd 01-introduction
 azd up  # サブスクリプションと場所を選択してください（eastus2推奨）
 ```
 
-> **Note:** タイムアウトエラー (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`) が起きても、`azd up` を再度実行してください。Azure リソースはまだ展開中かもしれず、再試行でリソースが最終状態に到達すれば展開が完了します。
+> **注記:** タイムアウトエラー (`RequestConflict: Cannot modify resource ... provisioning state is not terminal`) が起きても、`azd up` を再度実行してください。Azure リソースはまだ展開中かもしれず、再試行でリソースが最終状態に到達すれば展開が完了します。
 
 これにより：
 1. GPT-5.2 と text-embedding-3-small モデルを持つ Azure OpenAI リソースを展開
@@ -168,7 +168,7 @@ cat ../.env  # AZURE_OPENAI_ENDPOINT、API_KEYなどを表示する必要があ�
 Get-Content ..\.env  # AZURE_OPENAI_ENDPOINT、API_KEY などを表示する必要があります。
 ```
 
-> **Note:** `azd up` コマンドは `.env` ファイルを自動生成します。後から更新する必要があれば、手動で編集するか以下のコマンドで再生成できます：
+> **注記:** `azd up` コマンドは `.env` ファイルを自動生成します。後から更新する必要があれば、手動で編集するか以下のコマンドで再生成できます：
 >
 > **Bash:**
 > ```bash
@@ -248,7 +248,7 @@ cd 01-introduction
 
 いずれのスクリプトもルートの `.env` ファイルから環境変数を自動で読み込み、JARが無ければビルドします。
 
-> **Note:** もし、起動前にすべてのモジュールを手動でビルドしたい場合：
+> **注記:** もし、起動前にすべてのモジュールを手動でビルドしたい場合：
 >
 > **Bash:**
 > ```bash
@@ -308,11 +308,11 @@ cd ..; .\stop-all.ps1  # すべてのモジュール
 
 ## 次のステップ
 
-**次のモジュール:** [02-prompt-engineering - GPT-5.2によるプロンプトエンジニアリング](../02-prompt-engineering/README.md)
+**次のモジュール:** [02-プロンプトエンジニアリング - GPT-5.2によるプロンプトエンジニアリング](../02-prompt-engineering/README.md)
 
 ---
 
-**ナビゲーション:** [← メインへ戻る](../README.md) | [次へ: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
+**ナビゲーション:** [← メインへ戻る](../README.md) | [次へ: モジュール02 - プロンプトエンジニアリング →](../02-prompt-engineering/README.md)
 
 ---
 
