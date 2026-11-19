@@ -2,18 +2,18 @@
 
 # LangChain4j pradedantiesiems
 
-Kursas dirbant su AI programomis naudojant LangChain4j ir Azure OpenAI GPT-5.2 – nuo pagrindinio pokalbio iki AI agentų.
+Kursas apie AI programų kūrimą naudojant LangChain4j ir Azure OpenAI GPT-5.2, nuo paprasto pokalbio iki AI agentų.
 
 ### 🌐 Daugiakalbė palaikymas
 
-#### Palaikoma per GitHub Action (automatiškai ir visada atnaujinta)
+#### Vertimai palaikomi su [Co-op Translator](https://github.com/Azure/co-op-translator)
 
 <!-- CO-OP TRANSLATOR LANGUAGES TABLE START -->
-[Arabic](../ar/README.md) | [Bengali](../bn/README.md) | [Bulgarian](../bg/README.md) | [Burmese (Myanmar)](../my/README.md) | [Chinese (Simplified)](../zh-CN/README.md) | [Chinese (Traditional, Hong Kong)](../zh-HK/README.md) | [Chinese (Traditional, Macau)](../zh-MO/README.md) | [Chinese (Traditional, Taiwan)](../zh-TW/README.md) | [Croatian](../hr/README.md) | [Czech](../cs/README.md) | [Danish](../da/README.md) | [Dutch](../nl/README.md) | [Estonian](../et/README.md) | [Finnish](../fi/README.md) | [French](../fr/README.md) | [German](../de/README.md) | [Greek](../el/README.md) | [Hebrew](../he/README.md) | [Hindi](../hi/README.md) | [Hungarian](../hu/README.md) | [Indonesian](../id/README.md) | [Italian](../it/README.md) | [Japanese](../ja/README.md) | [Kannada](../kn/README.md) | [Khmer](../km/README.md) | [Korean](../ko/README.md) | [Lithuanian](./README.md) | [Malay](../ms/README.md) | [Malayalam](../ml/README.md) | [Marathi](../mr/README.md) | [Nepali](../ne/README.md) | [Nigerian Pidgin](../pcm/README.md) | [Norwegian](../no/README.md) | [Persian (Farsi)](../fa/README.md) | [Polish](../pl/README.md) | [Portuguese (Brazil)](../pt-BR/README.md) | [Portuguese (Portugal)](../pt-PT/README.md) | [Punjabi (Gurmukhi)](../pa/README.md) | [Romanian](../ro/README.md) | [Russian](../ru/README.md) | [Serbian (Cyrillic)](../sr/README.md) | [Slovak](../sk/README.md) | [Slovenian](../sl/README.md) | [Spanish](../es/README.md) | [Swahili](../sw/README.md) | [Swedish](../sv/README.md) | [Tagalog (Filipino)](../tl/README.md) | [Tamil](../ta/README.md) | [Telugu](../te/README.md) | [Thai](../th/README.md) | [Turkish](../tr/README.md) | [Ukrainian](../uk/README.md) | [Urdu](../ur/README.md) | [Vietnamese](../vi/README.md)
+[arabų](../ar/README.md) | [bengalų](../bn/README.md) | [bulgarų](../bg/README.md) | [birmiečių (Myanmar)](../my/README.md) | [kinų (supaprastinta)](../zh-CN/README.md) | [kinų (tradicinė, Honkongas)](../zh-HK/README.md) | [kinų (tradicinė, Makao)](../zh-MO/README.md) | [kinų (tradicinė, Taivanas)](../zh-TW/README.md) | [kroatų](../hr/README.md) | [čekų](../cs/README.md) | [danų](../da/README.md) | [olandų](../nl/README.md) | [estų](../et/README.md) | [suomių](../fi/README.md) | [prancūzų](../fr/README.md) | [vokiečių](../de/README.md) | [graikų](../el/README.md) | [hebrajų](../he/README.md) | [hindi](../hi/README.md) | [vengrų](../hu/README.md) | [indoneziečių](../id/README.md) | [italų](../it/README.md) | [japonų](../ja/README.md) | [kanadų](../kn/README.md) | [kmėrų](../km/README.md) | [korėjiečių](../ko/README.md) | [lietuvių](./README.md) | [malajų](../ms/README.md) | [malajalų](../ml/README.md) | [maratių](../mr/README.md) | [nepalų](../ne/README.md) | [nigerijos pidžinų](../pcm/README.md) | [norvegų](../no/README.md) | [persų (farši)](../fa/README.md) | [lenkų](../pl/README.md) | [portugalų (Brazilija)](../pt-BR/README.md) | [portugalų (Portugalija)](../pt-PT/README.md) | [pandžabių (Gurmukhi)](../pa/README.md) | [rumunų](../ro/README.md) | [rusų](../ru/README.md) | [serbų (kirilica)](../sr/README.md) | [slovakų](../sk/README.md) | [slovėnų](../sl/README.md) | [ispanų](../es/README.md) | [svahilų](../sw/README.md) | [švedų](../sv/README.md) | [tagalogų (filipiniečių)](../tl/README.md) | [tamilų](../ta/README.md) | [telugų](../te/README.md) | [tailandietiškų](../th/README.md) | [turkų](../tr/README.md) | [ukrainiečių](../uk/README.md) | [urdu](../ur/README.md) | [vietnamiečių](../vi/README.md)
 
-> **Norite kopijuoti vietoje?**
+> **Norite klonuoti vietoje?**
 >
-> Šiame saugykloje yra daugiau nei 50 kalbų vertimų, dėl ko reikšmingai padidėja atsisiuntimo dydis. Norėdami kopijuoti be vertimų, naudokite laipsniuotą atsisiuntimą:
+> Šiame saugykloje yra daugiau nei 50 kalbų vertimų, kurie ženkliai padidina atsisiuntimo dydį. Norėdami klonuoti be vertimų, naudokite sparčiojo atsisiuntimo pasirinkimą:
 >
 > **Bash / macOS / Linux:**
 > ```bash
@@ -29,60 +29,60 @@ Kursas dirbant su AI programomis naudojant LangChain4j ir Azure OpenAI GPT-5.2 �
 > git sparse-checkout set --no-cone "/*" "!translations" "!translated_images"
 > ```
 >
-> Tai suteiks viską, ko reikia kursui baigti, ir žymiai pagreitins atsisiuntimą.
+> Tai suteiks jums viską, ko reikia kursui užbaigti, su žymiai greitesniu atsisiuntimu.
 <!-- CO-OP TRANSLATOR LANGUAGES TABLE END -->
 
 ## Turinys
 
-1. [Įvadas](01-introduction/README.md) - Sužinokite LangChain4j pagrindus
-2. [Užklausų kūrimas](02-prompt-engineering/README.md) - Įsisavinkite efektyvaus užklausų dizaino meną
-3. [RAG (Retrieval-Augmented Generation)](03-rag/README.md) - Kurkite išmanias žinių sistemas
+1. [Įvadas](01-introduction/README.md) - Susipažinkite su LangChain4j pagrindais
+2. [Promptų kūrimas](02-prompt-engineering/README.md) - Įvaldykite efektyvų promptų dizainą
+3. [RAG (Retrieval-Augmented Generation)](03-rag/README.md) - Kurkite išmanias žinių pagrindu veikiančias sistemas
 4. [Įrankiai](04-tools/README.md) - Integruokite išorinius įrankius ir paprastus asistentus
-5. [MCP (Model Context Protocol)](05-mcp/README.md) - Dirbkite su Modelio konteksto protokolu (MCP) ir agentiniais moduliais
+5. [MCP (Model Context Protocol)](05-mcp/README.md) - Dirbkite su Model Context Protocol (MCP) ir agentiniais moduliais
 
-### Vaizdo įrašų vedliai
+### Vaizdo įrašų peržiūros
 
-Kiekvienas modulis turi tiesioginę sesiją, kurioje žingsnis po žingsnio nagrinėjame sąvokas ir kodą.
+Kiekvienas modulis turi tiesioginę sesiją, kurioje žingsnis po žingsnio aptariame koncepcijas ir kodą.
 
 | Modulis | Vaizdo įrašas |
-|--------|-------|
+|--------|--------------|
 | 01 - Įvadas | [Pradžia su LangChain4j](https://www.youtube.com/live/nl_troDm8rQ) |
-| 02 - Užklausų kūrimas | [Užklausų kūrimas su LangChain4j](https://www.youtube.com/live/PJ6aBaE6bog) |
+| 02 - Promptų kūrimas | [Promptų kūrimas su LangChain4j](https://www.youtube.com/live/PJ6aBaE6bog) |
 | 03 - RAG | [RAG su LangChain4j](https://www.youtube.com/watch?v=_olq75ZH_eY) |
-| 04 - Įrankiai & 05 - MCP | [AI agentai su įrankiais ir MCP](https://www.youtube.com/watch?v=O_J30kZc0rw) |
+| 04 - Įrankiai ir 05 - MCP | [AI agentai su įrankiais ir MCP](https://www.youtube.com/watch?v=O_J30kZc0rw) |
 
 ---
 
 ## Mokymosi kelias
 
-**Naujokas LangChain4j?** Pažiūrėkite [Žodynėlį](docs/GLOSSARY.md) su pagrindinių terminų ir sąvokų apibrėžimais.
+**Naujas LangChain4j?** Peržiūrėkite [Žodynėlį](docs/GLOSSARY.md), kuriame pateikiami svarbiausių terminų ir sąvokų apibrėžimai.
 
-> **Greitas pradžia**
+> **Greitas startas**
 
-1. Padarykite forką šiam saugyklai savo GitHub paskyroje
-2. Spustelėkite **Code** → skirtuką **Codespaces** → **...** → **New with options...**
-3. Naudokite numatytuosius nustatymus – bus pasirinktas šiam kursui sukurtas kūrimo konteineris
+1. Padarykite šio saugyklos atšaką į savo GitHub paskyrą
+2. Spustelėkite **Code** → **Codespaces** skirtuką → **...** → **New with options...**
+3. Naudokite numatytuosius nustatymus – bus pasirinktas šiam kursui sukurtas kontaktinis konteineris
 4. Spustelėkite **Create codespace**
 5. Palaukite 5-10 minučių, kol aplinka bus paruošta
-6. Tiesiai pereikite į [Įvadą](./01-introduction/README.md) ir pradėkite!
+6. Tiesiogiai pereikite prie [Įvado](./01-introduction/README.md) ir pradėkite!
 
-Baigę modulius, išbandykite [Testavimo vadovą](docs/TESTING.md), kad pamatytumėte LangChain4j testavimo koncepcijas veiksmuose.
+Baigę modulius, peržiūrėkite [Testavimo vadovą](docs/TESTING.md), kad pamatytumėte LangChain4j testavimo koncepcijas veikiant.
 
-> **Pastaba:** Šis mokymas naudoja Azure OpenAI. Pradėkite su [NEMOKAMA Azure paskyra](https://aka.ms/azure-free-account), jei jos dar neturite.
+> **Pastaba:** Šis mokymas naudoja Azure OpenAI. Jei neturite, pradėkite su [NEMOKAMA Azure paskyra](https://aka.ms/azure-free-account).
 
 
 ## Mokymasis su GitHub Copilot
 
-Norėdami greitai pradėti programuoti, atidarykite šį projektą GitHub Codespace arba savo vietiniame IDE su pateiktu devcontainer. Šiame kurse naudojamas devcontainer jau iš anksto sukonfigūruotas su GitHub Copilot AI kartu programavimui.
+Norėdami greitai pradėti koduoti, atidarykite šį projektą GitHub Codespace arba savo vietiniame IDE su pateiktu devcontainer. Šiame kurse naudojamas devcontainer yra iš anksto sukonfigūruotas su GitHub Copilot AI partnerio programavimui.
 
-Kiekviename kodo pavyzdyje yra pateikti klausimai, kuriuos galite užduoti GitHub Copilot, kad gilintumėte supratimą. Ieškokite 💡/🤖 raginimų:
+Kiekviename kodo pavyzdyje yra pasiūlymų klausimų, kuriuos galite užduoti GitHub Copilot, kad gilintumėte supratimą. Ieškokite 💡/🤖 užrašų:
 
-- **Java failų antraštėse** – klausimai, skirti kiekvienam pavyzdžiui
-- **Modulių README** – tyrimo raginimai po kodo pavyzdžių
+- **Java failų antraštės** - klausimai, skirti kiekvienam pavyzdžiui
+- **Modulio README failai** - nagrinėjimo užuominos po kodo pavyzdžiais
 
-**Kaip naudoti:** Atidarykite bet kurį kodo failą ir užduokite Copilot pateiktus klausimus. Jis pilnai supranta kodo bazę, gali paaiškinti, pratęsti ir pasiūlyti alternatyvas.
+**Kaip naudoti:** Atidarykite bet kurį kodo failą ir užduokite Copilot siūlomus klausimus. Jis turi pilną kodo bazės kontekstą ir gali paaiškinti, papildyti bei pasiūlyti alternatyvas.
 
-Norite sužinoti daugiau? Pažiūrėkite [Copilot AI kartu programavimui](https://aka.ms/GitHubCopilotAI).
+Norite sužinoti daugiau? Peržiūrėkite [Copilot for AI Paired Programming](https://aka.ms/GitHubCopilotAI).
 
 
 ## Papildomi ištekliai
@@ -102,45 +102,44 @@ Norite sužinoti daugiau? Pažiūrėkite [Copilot AI kartu programavimui](https:
 
 ---
  
-### Generatyvioji AI serija
-[![Generatyvioji AI pradedantiesiems](https://img.shields.io/badge/Generative%20AI%20for%20Beginners-8B5CF6?style=for-the-badge&labelColor=E5E7EB&color=8B5CF6)](https://github.com/microsoft/generative-ai-for-beginners?WT.mc_id=academic-105485-koreyst)
-[![Generatyvioji AI (.NET)](https://img.shields.io/badge/Generative%20AI%20(.NET)-9333EA?style=for-the-badge&labelColor=E5E7EB&color=9333EA)](https://github.com/microsoft/Generative-AI-for-beginners-dotnet?WT.mc_id=academic-105485-koreyst)
-[![Generatyvioji AI (Java)](https://img.shields.io/badge/Generative%20AI%20(Java)-C084FC?style=for-the-badge&labelColor=E5E7EB&color=C084FC)](https://github.com/microsoft/generative-ai-for-beginners-java?WT.mc_id=academic-105485-koreyst)
-[![Generatyvioji AI (JavaScript)](https://img.shields.io/badge/Generative%20AI%20(JavaScript)-E879F9?style=for-the-badge&labelColor=E5E7EB&color=E879F9)](https://github.com/microsoft/generative-ai-with-javascript?WT.mc_id=academic-105485-koreyst)
+### Generatyvinio AI serija
+[![Generatyvinis AI pradedantiesiems](https://img.shields.io/badge/Generative%20AI%20for%20Beginners-8B5CF6?style=for-the-badge&labelColor=E5E7EB&color=8B5CF6)](https://github.com/microsoft/generative-ai-for-beginners?WT.mc_id=academic-105485-koreyst)
+[![Generatyvinis AI (.NET)](https://img.shields.io/badge/Generative%20AI%20(.NET)-9333EA?style=for-the-badge&labelColor=E5E7EB&color=9333EA)](https://github.com/microsoft/Generative-AI-for-beginners-dotnet?WT.mc_id=academic-105485-koreyst)
+[![Generatyvinis AI (Java)](https://img.shields.io/badge/Generative%20AI%20(Java)-C084FC?style=for-the-badge&labelColor=E5E7EB&color=C084FC)](https://github.com/microsoft/generative-ai-for-beginners-java?WT.mc_id=academic-105485-koreyst)
+[![Generatyvinis AI (JavaScript)](https://img.shields.io/badge/Generative%20AI%20(JavaScript)-E879F9?style=for-the-badge&labelColor=E5E7EB&color=E879F9)](https://github.com/microsoft/generative-ai-with-javascript?WT.mc_id=academic-105485-koreyst)
 
 ---
  
 ### Pagrindinis mokymasis
 [![ML pradedantiesiems](https://img.shields.io/badge/ML%20for%20Beginners-22C55E?style=for-the-badge&labelColor=E5E7EB&color=22C55E)](https://aka.ms/ml-beginners?WT.mc_id=academic-105485-koreyst)
-[![Duomenų mokslas pradedantiesiems](https://img.shields.io/badge/Data%20Science%20for%20Beginners-84CC16?style=for-the-badge&labelColor=E5E7EB&color=84CC16)](https://aka.ms/datascience-beginners?WT.mc_id=academic-105485-koreyst)
+[![Duomenų mokslo pradedantiesiems](https://img.shields.io/badge/Data%20Science%20for%20Beginners-84CC16?style=for-the-badge&labelColor=E5E7EB&color=84CC16)](https://aka.ms/datascience-beginners?WT.mc_id=academic-105485-koreyst)
 [![AI pradedantiesiems](https://img.shields.io/badge/AI%20for%20Beginners-A3E635?style=for-the-badge&labelColor=E5E7EB&color=A3E635)](https://aka.ms/ai-beginners?WT.mc_id=academic-105485-koreyst)
-[![Kibernetinis saugumas pradedantiesiems](https://img.shields.io/badge/Cybersecurity%20for%20Beginners-F97316?style=for-the-badge&labelColor=E5E7EB&color=F97316)](https://github.com/microsoft/Security-101?WT.mc_id=academic-96948-sayoung)
-
-[![Web Dev for Beginners](https://img.shields.io/badge/Web%20Dev%20for%20Beginners-EC4899?style=for-the-badge&labelColor=E5E7EB&color=EC4899)](https://aka.ms/webdev-beginners?WT.mc_id=academic-105485-koreyst)
-[![IoT for Beginners](https://img.shields.io/badge/IoT%20for%20Beginners-14B8A6?style=for-the-badge&labelColor=E5E7EB&color=14B8A6)](https://aka.ms/iot-beginners?WT.mc_id=academic-105485-koreyst)
-[![XR Development for Beginners](https://img.shields.io/badge/XR%20Development%20for%20Beginners-38BDF8?style=for-the-badge&labelColor=E5E7EB&color=38BDF8)](https://github.com/microsoft/xr-development-for-beginners?WT.mc_id=academic-105485-koreyst)
+[![Kibernetinio saugumo pradedantiesiems](https://img.shields.io/badge/Cybersecurity%20for%20Beginners-F97316?style=for-the-badge&labelColor=E5E7EB&color=F97316)](https://github.com/microsoft/Security-101?WT.mc_id=academic-96948-sayoung)
+[![Tinklalapių kūrimo pradedantiesiems](https://img.shields.io/badge/Web%20Dev%20for%20Beginners-EC4899?style=for-the-badge&labelColor=E5E7EB&color=EC4899)](https://aka.ms/webdev-beginners?WT.mc_id=academic-105485-koreyst)
+[![IoT pradedantiesiems](https://img.shields.io/badge/IoT%20for%20Beginners-14B8A6?style=for-the-badge&labelColor=E5E7EB&color=14B8A6)](https://aka.ms/iot-beginners?WT.mc_id=academic-105485-koreyst)
+[![XR kūrimo pradedantiesiems](https://img.shields.io/badge/XR%20Development%20for%20Beginners-38BDF8?style=for-the-badge&labelColor=E5E7EB&color=38BDF8)](https://github.com/microsoft/xr-development-for-beginners?WT.mc_id=academic-105485-koreyst)
 
 ---
  
 ### Copilot serija
-[![Copilot for AI Paired Programming](https://img.shields.io/badge/Copilot%20for%20AI%20Paired%20Programming-FACC15?style=for-the-badge&labelColor=E5E7EB&color=FACC15)](https://aka.ms/GitHubCopilotAI?WT.mc_id=academic-105485-koreyst)
-[![Copilot for C#/.NET](https://img.shields.io/badge/Copilot%20for%20C%23/.NET-FBBF24?style=for-the-badge&labelColor=E5E7EB&color=FBBF24)](https://github.com/microsoft/mastering-github-copilot-for-dotnet-csharp-developers?WT.mc_id=academic-105485-koreyst)
-[![Copilot Adventure](https://img.shields.io/badge/Copilot%20Adventure-FDE68A?style=for-the-badge&labelColor=E5E7EB&color=FDE68A)](https://github.com/microsoft/CopilotAdventures?WT.mc_id=academic-105485-koreyst)
+[![Copilot AI partnerystės programavimui](https://img.shields.io/badge/Copilot%20for%20AI%20Paired%20Programming-FACC15?style=for-the-badge&labelColor=E5E7EB&color=FACC15)](https://aka.ms/GitHubCopilotAI?WT.mc_id=academic-105485-koreyst)
+[![Copilot C#/.NET](https://img.shields.io/badge/Copilot%20for%20C%23/.NET-FBBF24?style=for-the-badge&labelColor=E5E7EB&color=FBBF24)](https://github.com/microsoft/mastering-github-copilot-for-dotnet-csharp-developers?WT.mc_id=academic-105485-koreyst)
+[![Copilot nuotykis](https://img.shields.io/badge/Copilot%20Adventure-FDE68A?style=for-the-badge&labelColor=E5E7EB&color=FDE68A)](https://github.com/microsoft/CopilotAdventures?WT.mc_id=academic-105485-koreyst)
 <!-- CO-OP TRANSLATOR OTHER COURSES END -->
 
-## Pagalbos gavimas
+## Pagalba
 
-Jei užstrigsite arba turėsite klausimų apie AI programėlių kūrimą, prisijunkite prie:
+Jei užstrigote arba turite klausimų apie AI programėlių kūrimą, prisijunkite prie:
 
 [![Microsoft Foundry Discord](https://img.shields.io/badge/Discord-Microsoft_Foundry_Community_Discord-blue?style=for-the-badge&logo=discord&color=5865f2&logoColor=fff)](https://aka.ms/foundry/discord)
 
-Jei turite produktų atsiliepimų arba gaunate klaidų kūrimo metu, apsilankykite:
+Jei turite atsiliepimų apie produktą ar klaidų kuriant, apsilankykite:
 
 [![Microsoft Foundry Developer Forum](https://img.shields.io/badge/GitHub-Microsoft_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=000000&logoColor=fff)](https://aka.ms/foundry/forum)
 
 ## Licencija
 
-MIT Licencija - žiūrėkite [LICENSE](../../LICENSE) failą detaliau.
+MIT Licencija - Daugiau informacijos žr. [LICENSE](../../LICENSE) faile.
 
 ---
 
