@@ -71,6 +71,19 @@
     "source_file": "SUPPORT.md",
     "language_code": "hi"
   },
+  "__translation_failures__": {
+    "README.md": {
+      "original_hash": "08d981e9fd8f143dc2d6b37c92512d7e",
+      "source_file": "README.md",
+      "language_code": "hi",
+      "failure_date": "2026-11-19T11:19:51+00:00",
+      "status": "failed",
+      "error_type": "TranslationIncompleteError",
+      "error_message": "Markdown translation remained incomplete for chunk 1.2.1.1.1 of 'README.md', and the chunk could not be split further.",
+      "translator_version": "0.24.0",
+      "failure_policy_version": 1
+    }
+  },
   "docs/GLOSSARY.md": {
     "original_hash": "d7b72d50668bfc542725e8fa4053eb58",
     "translation_date": "2026-07-03T07:50:01+00:00",
