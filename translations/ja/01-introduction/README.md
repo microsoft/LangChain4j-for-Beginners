@@ -1,4 +1,4 @@
-# Module 01: LangChain4j のはじめ方
+# モジュール01: LangChain4j のはじめ方
 
 ## 目次
 
@@ -312,7 +312,7 @@ cd ..; .\stop-all.ps1  # すべてのモジュール
 
 ---
 
-**ナビゲーション:** [← メインへ戻る](../README.md) | [次へ: Module 02 - Prompt Engineering →](../02-prompt-engineering/README.md)
+**ナビゲーション:** [← メインへ戻る](../README.md) | [次へ: モジュール02 - Prompt Engineering →](../02-prompt-engineering/README.md)
 
 ---
 
