@@ -1,38 +1,38 @@
-# Module 03: RAG (Retrieval-Augmented Generation)
+# モジュール03: RAG (検索拡張生成)
 
-## Table of Contents
+## 目次
 
-- [Video Walkthrough](#video-walkthrough)
-- [What You'll Learn](#what-youll-learn)
-- [Prerequisites](#prerequisites)
-- [Understanding RAG](#understanding-rag)
-  - [Which RAG Approach Does This Tutorial Use?](#which-rag-approach-does-this-tutorial-use)
-- [How It Works](#how-it-works)
-  - [Document Processing](#document-processing)
-  - [Creating Embeddings](#creating-embeddings)
-  - [Semantic Search](#semantic-search)
-  - [Answer Generation](#答えの生成)
-- [Run the Application](#アプリケーションを実行する)
-- [Using the Application](#アプリケーションの使用方法)
-  - [Upload a Document](#ドキュメントをアップロードする)
-  - [Ask Questions](#質問をする)
-  - [Check Source References](#ソース参照を確認する)
-  - [Experiment with Questions](#質問を変えて試す)
-- [Key Concepts](#主要な概念)
-  - [Chunking Strategy](#チャンク化戦略)
-  - [Similarity Scores](#類似度スコア)
-  - [In-Memory Storage](#インメモリストレージ)
-  - [Context Window Management](#コンテキストウィンドウ管理)
-- [When RAG Matters](#rag-が重要な場合)
-- [Next Steps](#次のステップ)
+- [動画による解説](#動画による解説)
+- [学習内容](#学習内容)
+- [前提条件](#前提条件)
+- [RAGの理解](#rag-の理解)
+  - [このチュートリアルではどのRAGアプローチを使用するか](#このチュートリアルではどの-rag-アプローチを使用するか)
+- [仕組み](#仕組み)
+  - [ドキュメント処理](#ドキュメント処理)
+  - [埋め込みの作成](#埋め込みの作成)
+  - [セマンティック検索](#セマンティック検索)
+  - [答えの生成](#答えの生成)
+- [アプリケーションの実行](#アプリケーションを実行)
+- [アプリケーションの使用方法](#アプリケーションの使用方法)
+  - [ドキュメントをアップロード](#ドキュメントをアップロード)
+  - [質問をする](#質問をする)
+  - [ソース参照を確認](#ソース参照を確認)
+  - [さまざまな質問を試す](#さまざまな質問を試す)
+- [K主要な概念](#主要な概念)
+  - [チャンク化戦略](#チャンク化戦略)
+  - [類似度スコア](#類似度スコア)
+  - [インメモリストレージ](#インメモリストレージ)
+  - [コンテキストウィンドウ管理](#コンテキストウィンドウ管理)
+- [RAGが重要となる場面](#rag-が重要な場合)
+- [次のステップ](#次のステップ)
 
-## Video Walkthrough
+## 動画による解説
 
 このモジュールの開始方法を説明するライブセッションをご覧ください：
 
 <a href="https://www.youtube.com/watch?v=_olq75ZH_eY"><img src="https://img.youtube.com/vi/_olq75ZH_eY/maxresdefault.jpg" alt="RAG with LangChain4j - Live Session" width="800"/></a>
 
-## What You'll Learn
+## 学習内容
 
 前のモジュールでは、AIとの会話方法や効果的なプロンプトの構造化方法を学びました。しかし、根本的な制約があります。言語モデルはトレーニング時に学んだことしか知りません。会社の方針、プロジェクトのドキュメント、あるいはトレーニングされていない情報に関する質問には答えられないのです。
 
@@ -48,14 +48,14 @@ RAGはモデルに参考図書館を与えるようなものです。質問を�
 
 これにより、モデルの回答がトレーニング知識に依存したり、架空の回答をするのではなく、実際のデータに根ざしたものになります。
 
-## Prerequisites
+## 前提条件
 
-- [Module 01 - Introduction](../01-introduction/README.md) の完了（Azure OpenAI リソース展開済み、`text-embedding-3-small` 埋め込みモデル含む）
+- [モジュール01 - はじめに](../01-introduction/README.md) の完了（Azure OpenAI リソース展開済み、`text-embedding-3-small` 埋め込みモデル含む）
 - ルートディレクトリに Azure 資格情報が記載された `.env` ファイル（Module 01 の `azd up` コマンドで作成）
 
-> **Note:** Module 01 を完了していなければ、まずそこで展開手順を実行してください。`azd up` コマンドは GPT チャットモデルとこのモジュールで使う埋め込みモデルの両方を展開します。
+> **注記:** Module 01 を完了していなければ、まずそこで展開手順を実行してください。`azd up` コマンドは GPT チャットモデルとこのモジュールで使う埋め込みモデルの両方を展開します。
 
-## Understanding RAG
+## RAG の理解
 
 以下の図はコアコンセプトを示しています：モデルのトレーニングデータのみに頼るのではなく、RAGは回答を生成する前に参照できるドキュメントのライブラリをモデルに与えます。
 
@@ -71,7 +71,7 @@ RAGはモデルに参考図書館を与えるようなものです。質問を�
 
 このモジュールの残りの部分で各段階を詳細にコードと共に説明します。
 
-### Which RAG Approach Does This Tutorial Use?
+### このチュートリアルではどの RAG アプローチを使用するか
 
 LangChain4jは3つのRAG実装方法を提供しており、それぞれ抽象化のレベルが異なります。以下の図はそれらを比較しています：
 
@@ -95,11 +95,11 @@ LangChain4jは3つのRAG実装方法を提供しており、それぞれ抽象�
 
 *この図は Easy RAG のパイプラインを示しています。モジュールで使う Native アプローチは埋め込み、検索、コンテキスト組み立てを自分で呼び出せるように分解し、完全に見える化と制御を可能にします。*
 
-## How It Works
+## 仕組み
 
 このモジュールのRAGパイプラインは、ユーザーが質問するたびに順番に実行される4つの段階に分かれています。まずアップロードされた文書が<strong>解析・分割</strong>されて扱いやすい断片になります。これらの断片は<strong>ベクトル埋め込み</strong>に変換され保存され、数学的に比較可能になります。クエリが来ると、<strong>意味検索</strong>で最も関連性のある断片を探し、最後にそれらをコンテキストとしてLLMに渡し<strong>回答生成</strong>します。以下に実際のコードと図で各段階を解説します。まず最初の段階から見ていきましょう。
 
-### Document Processing
+### ドキュメント処理
 
 [DocumentService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/DocumentService.java)
 
@@ -127,7 +127,7 @@ List<TextSegment> segments = splitter.split(document);
 > - 「異なる文書タイプに最適なチャンクサイズは何でその理由は？」
 > - 「多言語または特殊書式の文書はどう扱う？」
 
-### Creating Embeddings
+### 埋め込みの作成
 
 [LangChainRagConfig.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/config/LangChainRagConfig.java)
 
@@ -171,7 +171,7 @@ EmbeddingStore<TextSegment> embeddingStore =
 
 *この図は文書の埋め込み、クエリの埋め込み、コサイン類似度によるベクトル比較、トップK件の返却という4ステップの埋め込み検索プロセスを示しています。*
 
-### Semantic Search
+### セマンティック検索
 
 [RagService.java](../../../03-rag/src/main/java/com/example/langchain4j/rag/service/RagService.java)
 
@@ -242,7 +242,7 @@ String answer = chatModel.chat(prompt);
 
 *この図は、上位スコアのチャンクが構造化されたプロンプトに組み込まれ、モデルがあなたのデータから根拠のある回答を生成できる様子を示しています。*
 
-## アプリケーションを実行する
+## アプリケーションを実行
 
 **デプロイを確認する:**
 
@@ -350,7 +350,7 @@ cd ..; .\stop-all.ps1  # すべてのモジュール
 
 *このスクリーンショットは、ドキュメントをアップロードして質問を行うRAGアプリケーションのインターフェースを示しています。*
 
-### ドキュメントをアップロードする
+### ドキュメントをアップロード
 
 まずドキュメントをアップロードしてください — テストにはTXTファイルが最適です。このディレクトリには LangChain4j の機能、RAG 実装、ベストプラクティスに関する情報を含む `sample-document.txt` が用意されており、システムのテストに最適です。
 
@@ -360,7 +360,7 @@ cd ..; .\stop-all.ps1  # すべてのモジュール
 
 次に、ドキュメントの内容に関して具体的な質問をしてください。ドキュメントに明確に記載された事実を尋ねてみましょう。システムは関連性の高いチャンクを検索し、それをプロンプトに含めて回答を生成します。
 
-### ソース参照を確認する
+### ソース参照を確認
 
 各回答には類似度スコア付きのソース参照が含まれていることに注意してください。これらのスコア（0から1）は、どれだけそのチャンクが質問に関連しているかを示します。高いスコアはよりマッチしていることを意味し、回答の根拠をソースで確認できます。
 
@@ -368,7 +368,7 @@ cd ..; .\stop-all.ps1  # すべてのモジュール
 
 *このスクリーンショットは、生成された回答、ソースの参照、および取得された各チャンクの関連度スコアを示したクエリ結果です。*
 
-### 質問を変えて試す
+### さまざまな質問を試す
 
 様々なタイプの質問を試してみてください:
 - 具体的な事実: 「主なトピックは何ですか？」
@@ -422,7 +422,7 @@ RAGは常に最適なアプローチではありません。下の意思決定�
 
 ## 次のステップ
 
-**次のモジュール:** [04-tools - AI Agents with Tools](../04-tools/README.md)
+**次のモジュール:** [04-ツール - ツールを使用したAIエージェント](../04-tools/README.md)
 
 ---
 
